@@ -1,8 +1,11 @@
 import Link from 'next/link';
 
-export interface MainNavItem {
-  readonly name: string;
+export interface Href {
   readonly href: '/' | '/features' | '/pricing' | '/about';
+}
+
+export interface MainNavItem extends Href {
+  readonly name: string;
 }
 
 export const mainNavItems: Array<MainNavItem> = [
