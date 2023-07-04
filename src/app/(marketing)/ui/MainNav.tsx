@@ -2,11 +2,11 @@ import Link from 'next/link';
 
 export interface MainNavItem {
   readonly name: string;
-  readonly href: '/';
+  readonly href: '/' | '/features';
 }
 
 export const mainNavItems: Array<MainNavItem> = [
-  { name: 'Features', href: '/' },
+  { name: 'Features', href: '/features' },
   { name: 'Pricing', href: '/' },
   { name: 'About', href: '/' },
 ];
