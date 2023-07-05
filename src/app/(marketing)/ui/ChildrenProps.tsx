@@ -1,7 +1,7 @@
 export interface ChildrenProps {
-  children: React.ReactNode;
+  readonly children: React.ReactNode;
 }
 
 export interface ChildrenPropsOptional {
-  children?: React.ReactNode;
+  readonly children?: React.ReactNode;
 }
