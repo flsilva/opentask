@@ -19,7 +19,7 @@ export default function Header() {
         </div>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           <Link
-            href="/"
+            href="/auth/sign-in"
             className="text-sm font-medium leading-6 text-gray-900 hover:text-green-700"
           >
             Log in <span aria-hidden="true">&rarr;</span>

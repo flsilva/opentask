@@ -42,7 +42,7 @@ export default function MobileMainNav() {
               </div>
               <div className="py-6">
                 <Link
-                  href="/"
+                  href="/auth/sign-in"
                   className="-mx-3 block px-3 py-2.5 text-base font-medium leading-7 text-gray-900"
                 >
                   Log in
