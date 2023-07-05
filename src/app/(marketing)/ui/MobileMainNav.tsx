@@ -38,7 +38,7 @@ export default function MobileMainNav() {
           <div className="mt-6 flow-root">
             <div className="-my-6 divide-y divide-gray-500/10">
               <div className="space-y-2 py-6">
-                <MainNav />
+                <MainNav callback={() => setMobileMenuOpen(false)} />
               </div>
               <div className="py-6">
                 <Link

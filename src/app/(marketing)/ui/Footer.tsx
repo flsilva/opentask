@@ -8,7 +8,7 @@ export default function Footer() {
       <div className="mb-6 items-center px-6 md:flex md:justify-between lg:px-8">
         <p className="text-center md:text-left">
           <Link href="/" className=" hover:text-green-500">
-            © 2023 OpenTask Developers
+            © 2023 OpenTask Team
           </Link>
         </p>
         <div className="mt-6 flex justify-center md:mt-0">

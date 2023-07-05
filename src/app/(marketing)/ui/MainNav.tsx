@@ -4,6 +4,10 @@ import 'client-only';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
+interface MainNavProps {
+  readonly callback: () => void;
+}
+
 export interface Href {
   readonly href: '/' | '/features' | '/pricing' | '/about' | '/auth/sign-in';
 }
@@ -18,8 +22,9 @@ export const mainNavItems: Array<MainNavItem> = [
   { name: 'About', href: '/about' },
 ];
 
-export default function MainNav() {
+export default function MainNav({ callback }: MainNavProps) {
   const pathname = usePathname();
+  const dynamicProps = callback ? { onClick: callback } : {};
 
   return (
     <>
@@ -29,7 +34,7 @@ export default function MainNav() {
           '-mx-3 block px-3 py-2 text-base font-medium leading-7 text-gray-900 lg:mx-0 lg:px-0 lg:py-0 lg:text-sm lg:leading-6 lg:hover:text-green-700';
         if (isActive) className += ' text-green-700';
         return (
-          <Link href={item.href} key={item.name} className={className}>
+          <Link href={item.href} key={item.name} className={className} {...dynamicProps}>
             {item.name}
           </Link>
         );
