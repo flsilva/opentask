@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 export interface Href {
-  readonly href: '/' | '/features' | '/pricing' | '/about';
+  readonly href: '/' | '/features' | '/pricing' | '/about' | '/auth/sign-in';
 }
 
 export interface MainNavItem extends Href {

@@ -26,7 +26,7 @@ export default function Pricing() {
         page for more information.
       </HeroCopy>
       <div className="mt-10 flex items-center justify-center">
-        <Button href="/">Get Started</Button>
+        <Button href="/auth/sign-in">Get Started</Button>
       </div>
     </HeroShell>
   );

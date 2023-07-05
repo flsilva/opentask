@@ -15,7 +15,7 @@ export default function Home() {
         Get focused by organizing your plans and goals with simple projects and tasks.
       </HeroCopy>
       <div className="mt-10 flex items-center justify-center">
-        <Button href="/">Get Started</Button>
+        <Button href="/auth/sign-in">Get Started</Button>
       </div>
     </HeroShell>
   );

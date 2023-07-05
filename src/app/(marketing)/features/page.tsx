@@ -15,7 +15,7 @@ export default function Features() {
         Plan and structure everything, from chores to great ideas, as manageable projects and tasks.
       </HeroCopy>
       <div className="mt-10 flex items-center justify-center">
-        <Button href="/">Get Started</Button>
+        <Button href="/auth/sign-in">Get Started</Button>
       </div>
     </HeroShell>
   );
