@@ -6,7 +6,7 @@ export default function Header() {
   return (
     <header className="flex w-full bg-green-700">
       <nav
-        className="relative flex w-full items-center justify-between px-4 py-2"
+        className="relative flex w-full items-center justify-between px-6 py-2"
         aria-label="Global"
       >
         <div className="flex items-center justify-between">

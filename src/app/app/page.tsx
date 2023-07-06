@@ -40,7 +40,7 @@ export default function App() {
       </div>
       <p className="mb-8 block text-sm">Project description...</p>
       {tasks.map((item) => (
-        <div key={item.id} className="items-top mb-4 flex">
+        <div key={item.id} className="items-top mb-6 flex last:pb-8">
           <div className="mt-0.5 h-4 w-4 shrink-0 rounded-full border border-gray-500"></div>
           <div className="ml-2 block">
             <p className="text-sm text-gray-800">{item.name}</p>
