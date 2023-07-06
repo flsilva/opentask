@@ -20,7 +20,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     <div className="flex h-screen flex-col bg-white">
       <Header />
       <div className="flex h-full overflow-hidden">
-        <div className="h-full min-w-[16rem] max-w-[16rem] overflow-y-auto overflow-x-hidden bg-gray-100 px-6 py-5">
+        <div className="h-full w-0 overflow-y-auto overflow-x-hidden bg-gray-100 py-5 md:w-full md:min-w-[16rem] md:max-w-[16rem] md:px-6">
           <p className="font-medium text-gray-500">Projects</p>
           <nav className="mt-2 pl-2">
             {projects.map((item) => (
@@ -30,9 +30,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             ))}
           </nav>
         </div>
-        <div className="h-full w-full overflow-y-auto overflow-x-hidden">
-          <div className="max-w-3xl">{children}</div>
-        </div>
+        <div className="h-full w-full overflow-y-auto overflow-x-hidden md:flex">{children}</div>
       </div>
     </div>
   );
