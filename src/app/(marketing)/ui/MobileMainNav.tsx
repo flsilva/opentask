@@ -3,10 +3,11 @@
 import 'client-only';
 import { useState } from 'react';
 import { Dialog } from '@headlessui/react';
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Logo } from '@/shared/ui/Logo';
 import MainNav from './MainNav';
+import { HamburgerMenuSvg } from '@/shared/ui/HamburgerMenuSvg';
+import { XIconSvg } from '@/shared/ui/XIconSvg';
 
 export default function MobileMainNav() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -19,7 +20,7 @@ export default function MobileMainNav() {
         onClick={() => setMobileMenuOpen(true)}
       >
         <span className="sr-only">Open main menu</span>
-        <Bars3Icon className="h-6 w-6" aria-hidden="true" />
+        <HamburgerMenuSvg aria-hidden="true" />
       </button>
       <Dialog as="div" className="lg:hidden" open={mobileMenuOpen} onClose={setMobileMenuOpen}>
         <div className="fixed inset-0 z-50" />
@@ -32,7 +33,7 @@ export default function MobileMainNav() {
               onClick={() => setMobileMenuOpen(false)}
             >
               <span className="sr-only">Close menu</span>
-              <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+              <XIconSvg aria-hidden="true" />
             </button>
           </div>
           <div className="mt-6 flow-root">

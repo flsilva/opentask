@@ -5,7 +5,7 @@ import { TwitterLogoSvg } from '@/shared/ui/TwitterLogoSvg';
 export default function Footer() {
   return (
     <footer className="mt-auto">
-      <div className="mb-6 items-center px-6 md:flex md:justify-between lg:px-8">
+      <div className="mt-20 items-center bg-gray-100 px-6 py-6 md:flex md:justify-between lg:px-8">
         <p className="text-center md:text-left">
           <Link href="/" className=" hover:text-green-500">
             © 2023 OpenTask Team

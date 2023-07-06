@@ -1,5 +1,6 @@
 import 'server-only';
 import { HamburgerMenuSvg } from '@/shared/ui/HamburgerMenuSvg';
+import { SettingsSvg } from '@/shared/ui/SettingsSvg';
 
 export default function Header() {
   return (
@@ -11,9 +12,7 @@ export default function Header() {
         <div className="flex items-center justify-between">
           <HamburgerMenuSvg className="fill-white" />
         </div>
-        <a className="text-sm font-normal text-white" href="#" aria-current="page">
-          Sign Out
-        </a>
+        <SettingsSvg className="fill-white" />
       </nav>
     </header>
   );

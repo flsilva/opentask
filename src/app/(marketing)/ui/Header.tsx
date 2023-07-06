@@ -22,7 +22,7 @@ export default function Header() {
             href="/auth/sign-in"
             className="text-sm font-medium leading-6 text-gray-900 hover:text-green-700"
           >
-            Log in <span aria-hidden="true">&rarr;</span>
+            Log in &nbsp;<span aria-hidden="true">&rarr;</span>
           </Link>
         </div>
       </nav>

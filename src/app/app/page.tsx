@@ -1,5 +1,5 @@
 import 'server-only';
-import { EllipsisHorizontalSvg } from '@/shared/ui/EllipsisHorizontalSvg';
+import { MoreHorizontalSvg } from '@/shared/ui/MoreHorizontalSvg';
 
 interface Task {
   readonly description: string;
@@ -36,7 +36,7 @@ export default function App() {
     <div className="flex h-full w-full max-w-[24rem] flex-col px-4 md:max-w-[38rem] md:pl-8 lg:max-w-[60rem] xl:pl-36 2xl:pl-60">
       <div className="sticky top-0 flex w-full justify-between bg-white py-8">
         <h1 className="text-lg font-semibold text-gray-800">Awesome Project</h1>
-        <EllipsisHorizontalSvg />
+        <MoreHorizontalSvg />
       </div>
       <p className="mb-8 block text-sm">Project description...</p>
       {tasks.map((item) => (

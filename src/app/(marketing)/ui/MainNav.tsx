@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 interface MainNavProps {
-  readonly callback: () => void;
+  readonly callback?: () => void;
 }
 
 export interface Href {
