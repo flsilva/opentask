@@ -1,14 +1,11 @@
 import 'server-only';
 import { MoreHorizontalSvg } from '@/shared/ui/MoreHorizontalSvg';
+import { TaskData } from '../project/task/TaskData';
+import Project from '../project/Project';
+import { ProjectData } from '../project/ProjectData';
+import TaskList from '../project/task/TaskList';
 
-interface Task {
-  readonly description: string;
-  readonly id: string;
-  readonly name: string;
-}
-
-const tasks: Array<Task> = [];
-
+const tasks: Array<TaskData> = [];
 /*
 for (let x = 0; x < 30; x++) {
   tasks.push({
@@ -31,25 +28,13 @@ for (let x = 0; x < 30; x++) {
   });
 }
 
-export default function App() {
+export default function TodayPage() {
   return (
     <div className="flex h-full w-full max-w-[24rem] flex-col px-4 md:max-w-[38rem] md:pl-8 lg:max-w-[60rem] xl:pl-36 2xl:pl-60">
       <div className="sticky top-0 flex w-full justify-between bg-white py-8">
-        <h1 className="text-lg font-semibold text-gray-800">Awesome Project</h1>
-        <MoreHorizontalSvg />
+        <h1 className="text-lg font-semibold text-gray-800">Today</h1>
       </div>
-      <p className="mb-8 block text-sm">Project description...</p>
-      {tasks.map((item) => (
-        <div key={item.id} className="items-top mb-6 flex last:pb-8">
-          <div className="mt-0.5 h-4 w-4 shrink-0 rounded-full border border-gray-500"></div>
-          <div className="ml-2 block">
-            <p className="text-sm text-gray-800">{item.name}</p>
-            <p className="mt-1 block w-[20rem] overflow-hidden text-ellipsis whitespace-nowrap text-xs text-gray-400 md:w-[26rem] lg:w-[40rem]">
-              {item.description}
-            </p>
-          </div>
-        </div>
-      ))}
+      <TaskList tasks={tasks} />
     </div>
   );
 }
