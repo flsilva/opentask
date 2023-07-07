@@ -1,16 +1,31 @@
-import 'server-only';
+import 'client-only';
+import { useLayoutEffect, useState } from 'react';
 import { CalendarTodaySvg } from '@/shared/ui/CalendarTodaySvg';
 import { PlusSignalSvg } from '@/shared/ui/PlusSignalSvg';
 import { ProjectsSvg } from '@/shared/ui/ProjectsSvg';
-import { Project } from '../projects/Project';
+import { ProjectData } from '../../project/ProjectData';
 
 interface AppNavProps {
-  readonly projects: Array<Project>;
+  readonly isOpen: boolean | null;
+  readonly projects: Array<ProjectData>;
 }
 
-export default function AppNav({ projects }: AppNavProps) {
+export default function AppNav({ isOpen, projects }: AppNavProps) {
+  const [navClasses, setNavClasses] = useState(
+    'h-full w-0 overflow-y-auto overflow-x-hidden bg-gray-50 py-8 md:w-full md:min-w-[16rem] md:max-w-[16rem] md:px-6',
+  );
+
+  useLayoutEffect(() => {
+    if (isOpen === null) return;
+    let navClasses = 'h-full overflow-y-auto overflow-x-hidden bg-gray-50';
+    navClasses += isOpen
+      ? ' py-8 w-full min-w-[16rem] max-w-[16rem] px-6'
+      : ' !w-0 !min-w-0 !max-w-0 !px-0';
+    setNavClasses(navClasses);
+  }, [isOpen]);
+
   return (
-    <nav className="h-full w-0 overflow-y-auto overflow-x-hidden bg-gray-50 py-8 md:w-full md:min-w-[16rem] md:max-w-[16rem] md:px-6">
+    <nav className={navClasses}>
       <div className="mb-6 flex">
         <CalendarTodaySvg className="fill-gray-600" />
         <div className="ml-2 flex grow items-center justify-between">

@@ -1,8 +1,18 @@
 import 'server-only';
-import { MoreHorizontalSvg } from '@/shared/ui/MoreHorizontalSvg';
-import { TaskData } from '../task/TaskData';
 import Project from '../Project';
 import { ProjectData } from '../ProjectData';
+import { TaskData } from '../task/TaskData';
+import AppShell from '../../AppShell';
+
+const projects: Array<ProjectData> = [];
+
+for (let x = 0; x < 60; x++) {
+  projects.push({
+    id: String(x + 1),
+    name: `My Project ${x + 1}`,
+    description: `My Project ${x + 1} description.`,
+  });
+}
 
 const tasks: Array<TaskData> = [];
 /*
@@ -34,9 +44,5 @@ const project: ProjectData = {
 };
 
 export default function ProjectsPage() {
-  return (
-    <div className="flex h-full w-full max-w-[24rem] flex-col px-4 md:max-w-[38rem] md:pl-8 lg:max-w-[60rem] xl:pl-36 2xl:pl-60">
-      <Project project={project} tasks={tasks} />
-    </div>
-  );
+  return <AppShell mainContent={<Project project={project} tasks={tasks} />} projects={projects} />;
 }
