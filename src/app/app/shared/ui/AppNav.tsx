@@ -11,16 +11,19 @@ interface AppNavProps {
 }
 
 export default function AppNav({ isOpen, projects }: AppNavProps) {
-  const [navClasses, setNavClasses] = useState(
-    'h-full w-0 overflow-y-auto overflow-x-hidden bg-gray-50 py-8 md:w-full md:min-w-[16rem] md:max-w-[16rem] md:px-6',
-  );
+  const navClassesCommon =
+    'flex flex-col transition-all duration-1000 h-full overflow-y-auto overflow-x-hidden bg-gray-50 py-8 px-6 w-[16rem]';
+  const [navClasses, setNavClasses] = useState(`${navClassesCommon} md:ml-0 -ml-[16rem]`);
 
   useLayoutEffect(() => {
     if (isOpen === null) return;
-    let navClasses = 'h-full overflow-y-auto overflow-x-hidden bg-gray-50';
+    let navClasses = navClassesCommon;
+    /*
     navClasses += isOpen
       ? ' py-8 w-full min-w-[16rem] max-w-[16rem] px-6'
       : ' !w-0 !min-w-0 !max-w-0 !px-0';
+      */
+    navClasses += isOpen ? ' ml-0' : ' -ml-[16rem]';
     setNavClasses(navClasses);
   }, [isOpen]);
 
