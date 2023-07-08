@@ -15,10 +15,8 @@ export default function CreateProjectModal({
   open,
   title,
 }: CreateProjectModalProps) {
-  console.log('CreateProjectModal() - open: ', open);
-
-  const onCreateProjectClick = (showModal: boolean) => {
-    console.log('CreateProjectModal() - onCreateProjectClick()');
+  const saveProjectHandler = (showModal: boolean) => {
+    console.log('CreateProjectModal().saveProjectHandler()');
   };
 
   return (
@@ -55,7 +53,7 @@ export default function CreateProjectModal({
               <Button color="white" onClick={() => onCloseHandler(false)}>
                 Cancel
               </Button>
-              <Button onClick={() => console.log('CreateProjectModal().save()')}>Save</Button>
+              <Button onClick={saveProjectHandler}>Save</Button>
             </div>
           </form>
         </Dialog.Panel>
