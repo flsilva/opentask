@@ -8,11 +8,8 @@ interface MainNavProps {
   readonly callback?: () => void;
 }
 
-export interface Href {
-  readonly href: '/' | '/features' | '/pricing' | '/about' | '/auth/sign-in';
-}
-
-export interface MainNavItem extends Href {
+export interface MainNavItem {
+  readonly href: string;
   readonly name: string;
 }
 

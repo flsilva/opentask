@@ -7,12 +7,13 @@ import { ProjectData } from '../../project/ProjectData';
 
 interface AppNavProps {
   readonly isOpen: boolean | null;
+  readonly onNewProjectClick: () => void;
   readonly projects: Array<ProjectData>;
 }
 
-export default function AppNav({ isOpen, projects }: AppNavProps) {
+export default function AppNav({ isOpen, onNewProjectClick, projects }: AppNavProps) {
   const navClassesCommon =
-    'flex flex-col transition-all duration-1000 h-full overflow-y-auto overflow-x-hidden bg-gray-50 py-8 px-6 w-[16rem]';
+    'flex flex-col transition-all duration-500 h-full overflow-y-auto overflow-x-hidden bg-gray-50 py-8 px-6 w-[16rem]';
   const [navClasses, setNavClasses] = useState(`${navClassesCommon} md:ml-0 -ml-[16rem]`);
 
   useLayoutEffect(() => {
@@ -40,7 +41,14 @@ export default function AppNav({ isOpen, projects }: AppNavProps) {
         <ProjectsSvg className="fill-gray-600" />
         <div className="ml-2 flex grow items-center justify-between">
           <p className="text-sm font-medium text-gray-600">Projects</p>
-          <PlusSignalSvg className="fill-gray-600" />
+          <button
+            type="button"
+            className="-m-2.5 rounded-md p-2.5 text-gray-700"
+            onClick={onNewProjectClick}
+          >
+            <span className="sr-only">Open menu</span>
+            <PlusSignalSvg className="fill-gray-600" />
+          </button>
         </div>
       </div>
       <nav className="pl-2">
