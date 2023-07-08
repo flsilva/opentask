@@ -1,5 +1,3 @@
-import 'server-only';
-import { MoreHorizontalSvg } from '@/shared/ui/MoreHorizontalSvg';
 import { TaskData } from './TaskData';
 import Task from './Task';
 
