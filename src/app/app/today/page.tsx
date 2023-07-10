@@ -1,9 +1,19 @@
 import 'server-only';
-import { MoreHorizontalSvg } from '@/shared/ui/MoreHorizontalSvg';
 import { TaskData } from '../project/task/TaskData';
-import Project from '../project/Project';
+import AppShell from '../AppShell';
+import TaskListAndNewTask from '../project/task/TaskListAndNewTask';
+import TodayHeader from './TodayHeader';
 import { ProjectData } from '../project/ProjectData';
-import TaskList from '../project/task/TaskList';
+
+const projects: Array<ProjectData> = [];
+
+for (let x = 0; x < 60; x++) {
+  projects.push({
+    id: String(x + 1),
+    name: `My Project ${x + 1}`,
+    description: `My Project ${x + 1} description.`,
+  });
+}
 
 const tasks: Array<TaskData> = [];
 /*
@@ -29,17 +39,17 @@ for (let x = 0; x < 30; x++) {
   });
 }
 
-export default function TodayPage() {
-  const taskClickHandler = () => {
-    console.log('TodayPage().taskClickHandler()');
-  };
+const project: ProjectData = {
+  id: '1',
+  name: 'Awesome Project',
+  description: 'This project is awesome...',
+};
 
+export default function TodayPage() {
   return (
-    <div className="flex h-full w-full max-w-[24rem] flex-col px-4 md:max-w-[38rem] md:pl-8 lg:max-w-[60rem] xl:pl-36 2xl:pl-60">
-      <div className="sticky top-0 flex w-full justify-between bg-white py-8">
-        <h1 className="text-lg font-semibold text-gray-800">Today</h1>
-      </div>
-      <TaskList onTaskClick={taskClickHandler} tasks={tasks} />
-    </div>
+    <AppShell projects={projects}>
+      <TodayHeader />
+      <TaskListAndNewTask project={project} tasks={tasks} />
+    </AppShell>
   );
 }
