@@ -1,11 +1,11 @@
 import { TaskData } from './TaskData';
 
-interface TaskProps {
+interface TaskListItemProps {
   readonly onTaskClick: (task: TaskData) => void;
   readonly task: TaskData;
 }
 
-export default function Task({ onTaskClick, task }: TaskProps) {
+export default function TaskListItem({ onTaskClick, task }: TaskListItemProps) {
   return (
     <button type="button" className="cursor flex text-left" onClick={() => onTaskClick(task)}>
       <div className="mt-0.25 h-5 w-5 shrink-0 rounded-full border border-gray-500"></div>

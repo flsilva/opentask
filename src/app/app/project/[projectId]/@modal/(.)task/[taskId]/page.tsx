@@ -1,10 +1,7 @@
 import 'server-only';
-import AppShell from '@/app/app/AppShell';
-import Project from '@/app/app/project/Project';
 import { ProjectData } from '@/app/app/project/ProjectData';
 import { TaskData } from '@/app/app/project/task//TaskData';
-import TaskListAndNewTask from '@/app/app/project/task/TaskListAndNewTask';
-import TaskModal from '../../@modal/(.)task/[taskId]/TaskModal';
+import TaskModal from './TaskModal';
 
 const projects: Array<ProjectData> = [];
 
@@ -54,11 +51,5 @@ for (let x = 0; x < 30; x++) {
 }
 
 export default function TaskPage() {
-  return (
-    <AppShell projects={projects}>
-      <Project project={project} />
-      <TaskListAndNewTask project={project} tasks={tasks} />
-      <TaskModal project={project} projects={projects} task={task} />
-    </AppShell>
-  );
+  return <TaskModal project={project} projects={projects} task={task} />;
 }

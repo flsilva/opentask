@@ -34,8 +34,8 @@ export default function AppShell({ children, projects }: AppShellProps) {
           onNewProjectClick={() => setShowNewProjectModal(true)}
         />
         <div className="h-full w-full overflow-y-auto overflow-x-hidden md:flex">
-          <div className="flex h-full w-full max-w-[24rem] flex-col px-4 md:max-w-[38rem] md:pl-8 lg:max-w-[60rem] xl:pl-36 2xl:pl-60">
-            {children}
+          <div className="flex h-full w-full max-w-[24rem] flex-col px-4 md:max-w-[38rem] md:pl-8 lg:max-w-[60rem] xl:pl-36  2xl:pl-60">
+            <div className="pb-56">{children}</div>
           </div>
         </div>
       </div>

@@ -1,5 +1,5 @@
 import { TaskData } from './TaskData';
-import Task from './Task';
+import TaskListItem from './TaskListItem';
 
 interface TaskListProps {
   readonly onTaskClick: (task: TaskData) => void;
@@ -11,7 +11,7 @@ export default function TaskList({ onTaskClick, tasks }: TaskListProps) {
     <>
       {tasks.map((task) => (
         <div key={task.id} className="mb-6 flex last:pb-8">
-          <Task onTaskClick={onTaskClick} task={task} />
+          <TaskListItem onTaskClick={onTaskClick} task={task} />
         </div>
       ))}
     </>
