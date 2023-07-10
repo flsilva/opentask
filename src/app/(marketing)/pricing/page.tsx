@@ -1,9 +1,9 @@
 import 'server-only';
 import Link from 'next/link';
-import Button from '../ui/Button';
-import HeroShell from '../ui/HeroShell';
-import HeroHeading from '../ui/HeroHeading';
-import HeroCopy from '../ui/HeroCopy';
+import Button from '@/app/shared/ui//button/Button';
+import HeroShell from '../shared/ui/HeroShell';
+import HeroHeading from '../shared/ui/HeroHeading';
+import HeroCopy from '../shared/ui/HeroCopy';
 
 export default function Pricing() {
   return (

@@ -1,8 +1,8 @@
 import 'client-only';
 import { useLayoutEffect, useState } from 'react';
-import { CalendarTodaySvg } from '@/shared/ui/CalendarTodaySvg';
-import { PlusSignalSvg } from '@/shared/ui/PlusSignalSvg';
-import { ProjectsSvg } from '@/shared/ui/ProjectsSvg';
+import { CalendarTodayIcon } from '@/app/shared/ui/icon/CalendarTodayIcon';
+import { PlusSignalIcon } from '@/app/shared/ui/icon/PlusSignalIcon';
+import { ProjectsIcon } from '@/app/shared/ui/icon/ProjectsIcon';
 import { ProjectData } from '../../project/ProjectData';
 
 interface AppNavProps {
@@ -31,14 +31,14 @@ export default function AppNav({ isOpen, onNewProjectClick, projects }: AppNavPr
   return (
     <nav className={navClasses}>
       <div className="mb-6 flex">
-        <CalendarTodaySvg className="fill-gray-600" />
+        <CalendarTodayIcon className="fill-gray-600" />
         <div className="ml-2 flex grow items-center justify-between">
           <p className="text-sm font-medium text-gray-600">Today</p>
           <p className="mr-1.5 text-sm font-medium text-gray-400">7</p>
         </div>
       </div>
       <div className="mb-4 flex">
-        <ProjectsSvg className="fill-gray-600" />
+        <ProjectsIcon className="fill-gray-600" />
         <div className="ml-2 flex grow items-center justify-between">
           <p className="text-sm font-medium text-gray-600">Projects</p>
           <button
@@ -47,7 +47,7 @@ export default function AppNav({ isOpen, onNewProjectClick, projects }: AppNavPr
             onClick={onNewProjectClick}
           >
             <span className="sr-only">Open menu</span>
-            <PlusSignalSvg className="fill-gray-600" />
+            <PlusSignalIcon className="fill-gray-600" />
           </button>
         </div>
       </div>

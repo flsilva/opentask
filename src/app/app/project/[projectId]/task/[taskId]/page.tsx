@@ -1,10 +1,10 @@
 import 'server-only';
-import AppShell from '@/app/app/AppShell';
-import Project from '@/app/app/project/Project';
-import { ProjectData } from '@/app/app/project/ProjectData';
-import { TaskData } from '@/app/app/project/task//TaskData';
-import TaskListAndNewTask from '@/app/app/project/task/TaskListAndNewTask';
-import TaskModal from '../../@modal/(.)task/[taskId]/TaskModal';
+import AppShell from '@/app/app/shared/ui/AppShell';
+import Project from '@/app/app/shared/project/Project';
+import { ProjectData } from '@/app/app/shared/project/ProjectData';
+import { TaskData } from '@/app/app/shared/task/TaskData';
+import TaskListAndNewTask from '@/app/app/shared/task/TaskListAndNewTask';
+import TaskModal from '@/app/app/shared/task/TaskModal';
 
 const projects: Array<ProjectData> = [];
 

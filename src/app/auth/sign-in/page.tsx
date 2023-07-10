@@ -1,11 +1,11 @@
-import { Logo } from '@/shared/ui/Logo';
-import { AppleLogoSvg } from '@/shared/ui/AppleLogoSvg';
-import { FacebookLogoSvg } from '@/shared/ui/FacebookLogoSvg';
-import { GitHubLogoSvg } from '@/shared/ui/GitHubLogoSvg';
-import { GoogleLogoSvg } from '@/shared/ui/GoogleLogoSvg';
-import { TwitterLogoSvg } from '@/shared/ui/TwitterLogoSvg';
-import Button from '@/app/(marketing)/ui/Button';
-import Footer from '@/app/(marketing)/ui/Footer';
+import { Logo } from '@/app/shared/ui/logo/Logo';
+import { AppleLogoIcon } from '@/app/shared/ui/icon/AppleLogoIcon';
+import { FacebookLogoIcon } from '@/app/shared/ui/icon/FacebookLogoIcon';
+import { GitHubLogoIcon } from '@/app/shared/ui/icon/GitHubLogoIcon';
+import { GoogleLogoIcon } from '@/app/shared/ui/icon/GoogleLogoIcon';
+import { TwitterLogoIcon } from '@/app/shared/ui/icon/TwitterLogoIcon';
+import Button from '@/app/shared/ui/button/Button';
+import Footer from '../../(marketing)/shared/ui/Footer';
 
 export default function SignIn() {
   return (
@@ -19,23 +19,23 @@ export default function SignIn() {
         </div>
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <Button href="/" color="white" className="mt-8 gap-2">
-            <GoogleLogoSvg />
+            <GoogleLogoIcon />
             Continue with Google
           </Button>
           <Button href="/" color="white" className="mt-4 gap-2">
-            <AppleLogoSvg />
+            <AppleLogoIcon />
             Continue with Apple
           </Button>
           <Button href="/" color="white" className="mt-4 gap-2">
-            <FacebookLogoSvg />
+            <FacebookLogoIcon />
             Continue with Facebook
           </Button>
           <Button href="/" color="white" className="mt-4 gap-2">
-            <TwitterLogoSvg width="1rem" height="1rem" className="fill-[#1e9cf1]" />
+            <TwitterLogoIcon width="1rem" height="1rem" className="fill-[#1e9cf1]" />
             Continue with Twitter
           </Button>
           <Button href="/" color="white" className="mt-4 gap-2">
-            <GitHubLogoSvg width="1rem" height="1rem" className="fill-black" />
+            <GitHubLogoIcon width="1rem" height="1rem" className="fill-black" />
             Continue with GitHub
           </Button>
           <div className="relative flex items-center py-6">

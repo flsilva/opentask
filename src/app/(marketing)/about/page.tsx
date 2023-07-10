@@ -1,7 +1,7 @@
 import 'server-only';
-import HeroShell from '../ui/HeroShell';
-import HeroHeading from '../ui/HeroHeading';
-import HeroCopy from '../ui/HeroCopy';
+import HeroShell from '../shared/ui/HeroShell';
+import HeroHeading from '../shared/ui/HeroHeading';
+import HeroCopy from '../shared/ui/HeroCopy';
 
 export default function About() {
   return (

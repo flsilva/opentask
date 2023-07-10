@@ -6,9 +6,11 @@ import { useEffect, useState } from 'react';
 
 export default function TodayHeader() {
   const [todayStr, setTodayStr] = useState('');
+
   useEffect(() => {
     setTodayStr(format(new Date(), 'iii MMM d'));
   }, []);
+
   return (
     <div className="flex flex-col pb-8">
       <div className="sticky top-0 flex w-full items-center bg-white py-8">

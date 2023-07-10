@@ -1,6 +1,6 @@
 import '../globals.css';
-import Header from './ui/Header';
-import Footer from './ui/Footer';
+import Header from './shared/ui/Header';
+import Footer from './shared/ui/Footer';
 
 export default function MarketingLayout({ children }: { children: React.ReactNode }) {
   return (

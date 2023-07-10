@@ -1,7 +1,9 @@
+'use client';
+
 import 'client-only';
 import { forwardRef } from 'react';
-import { HamburgerMenuSvg } from '@/shared/ui/HamburgerMenuSvg';
-import { SettingsSvg } from '@/shared/ui/SettingsSvg';
+import { HamburgerMenuIcon } from '@/app/shared/ui/icon/HamburgerMenuIcon';
+import { SettingsIcon } from '@/app/shared/ui/icon/SettingsIcon';
 
 interface AppHeaderProps {
   readonly onMenuClick: () => void;
@@ -21,9 +23,9 @@ const AppHeader = forwardRef<HTMLElement, AppHeaderProps>(
             onClick={onMenuClick}
           >
             <span className="sr-only">Open menu</span>
-            <HamburgerMenuSvg className="fill-white" />
+            <HamburgerMenuIcon className="fill-white" />
           </button>
-          <SettingsSvg className="fill-white" />
+          <SettingsIcon className="fill-white" />
         </nav>
       </header>
     );

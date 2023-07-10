@@ -1,7 +1,7 @@
 import 'server-only';
-import { ProjectData } from '@/app/app/project/ProjectData';
-import { TaskData } from '@/app/app/project/task//TaskData';
-import TaskModal from './TaskModal';
+import { ProjectData } from '@/app/app/shared/project/ProjectData';
+import { TaskData } from '@/app/app/shared/task/TaskData';
+import TaskModal from '@/app/app/shared/task/TaskModal';
 
 const projects: Array<ProjectData> = [];
 

@@ -1,9 +1,9 @@
 import 'server-only';
-import { TaskData } from '../project/task/TaskData';
-import AppShell from '../AppShell';
-import TaskListAndNewTask from '../project/task/TaskListAndNewTask';
 import TodayHeader from './TodayHeader';
-import { ProjectData } from '../project/ProjectData';
+import AppShell from '../shared/ui/AppShell';
+import { ProjectData } from '../shared/project/ProjectData';
+import { TaskData } from '../shared/task/TaskData';
+import TaskListAndNewTask from '../shared/task/TaskListAndNewTask';
 
 const projects: Array<ProjectData> = [];
 
