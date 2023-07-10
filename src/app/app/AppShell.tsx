@@ -5,13 +5,13 @@ import AppHeader from '@/app/app/shared/ui/AppHeader';
 import AppNav from '@/app/app/shared/ui/AppNav';
 import { ProjectData } from './project/ProjectData';
 import CreateProjectModal from './project/CreateProjectModal';
+import { ChildrenProps } from '../(marketing)/ui/ChildrenProps';
 
-interface AppShellProps {
+interface AppShellProps extends ChildrenProps {
   readonly projects: Array<ProjectData>;
-  readonly mainContent: React.ReactNode;
 }
 
-export default function AppShell({ mainContent, projects }: AppShellProps) {
+export default function AppShell({ children, projects }: AppShellProps) {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean | null>(null);
   const [showNewProjectModal, setShowNewProjectModal] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
@@ -35,7 +35,7 @@ export default function AppShell({ mainContent, projects }: AppShellProps) {
         />
         <div className="h-full w-full overflow-y-auto overflow-x-hidden md:flex">
           <div className="flex h-full w-full max-w-[24rem] flex-col px-4 md:max-w-[38rem] md:pl-8 lg:max-w-[60rem] xl:pl-36 2xl:pl-60">
-            {mainContent}
+            {children}
           </div>
         </div>
       </div>

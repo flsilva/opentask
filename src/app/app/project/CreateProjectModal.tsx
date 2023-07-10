@@ -15,14 +15,14 @@ export default function CreateProjectModal({
   open,
   title,
 }: CreateProjectModalProps) {
-  const saveProjectHandler = (showModal: boolean) => {
+  const saveProjectHandler = () => {
     console.log('CreateProjectModal().saveProjectHandler()');
   };
 
   return (
     <Dialog as="div" open={open} className="relative z-50" onClose={() => onCloseHandler(false)}>
       <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
-      <div className="fixed inset-0 flex items-center p-4">
+      <div className="fixed inset-0 flex items-center">
         <Dialog.Panel className="mx-auto w-full rounded-lg bg-white p-4 md:w-[40rem]">
           <div className="flex items-center justify-between">
             <h1 className="text-lg font-semibold text-gray-800">{title}</h1>
@@ -35,7 +35,7 @@ export default function CreateProjectModal({
               <XIconSvg aria-hidden="true" />
             </button>
           </div>
-          <form className="mt-6">
+          <form className="mt-6 flex flex-col">
             <input
               name="name"
               type="text"
@@ -47,7 +47,7 @@ export default function CreateProjectModal({
               name="description"
               placeholder="Project description"
               rows={5}
-              className="mb-6 block w-full rounded-md border border-gray-400 py-1.5 text-gray-900 ring-0 placeholder:text-gray-400 focus:border-gray-900 focus:outline-0 focus:ring-0"
+              className="mb-6 block w-full resize-none rounded-md border border-gray-400 py-1.5 text-gray-900 ring-0 placeholder:text-gray-400 focus:border-gray-900 focus:outline-0 focus:ring-0"
             ></textarea>
             <div className="flex justify-end gap-4">
               <Button color="white" onClick={() => onCloseHandler(false)}>
