@@ -3,7 +3,7 @@ import AppShell from '@/app/app/shared/ui/AppShell';
 import Project from '@/app/app/shared/project/Project';
 import { ProjectData } from '@/app/app/shared/project/ProjectData';
 import { TaskData } from '@/app/app/shared//task/TaskData';
-import TaskListAndNewTask from '@/app/app/shared//task/TaskListAndNewTask';
+import TaskListAndTaskForm from '@/app/app/shared//task/TaskListAndTaskForm';
 
 const projects: Array<ProjectData> = [];
 
@@ -49,7 +49,7 @@ export default function ProjectPage() {
   return (
     <AppShell projects={projects}>
       <Project project={project} />
-      <TaskListAndNewTask project={project} tasks={tasks} />
+      <TaskListAndTaskForm project={project} projects={projects} tasks={tasks} />
     </AppShell>
   );
 }

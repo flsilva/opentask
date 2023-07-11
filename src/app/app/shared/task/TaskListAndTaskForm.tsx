@@ -6,15 +6,16 @@ import { useRouter } from 'next/navigation';
 import Button from '@/app/shared/ui/button/Button';
 import { ProjectData } from '../project/ProjectData';
 import { TaskData } from './TaskData';
-import NewTask from './NewTask';
+import TaskForm from './TaskForm';
 import TaskList from './TaskList';
 
 interface TaskListAndNewTaskProps {
   readonly project: ProjectData;
+  readonly projects: Array<ProjectData>;
   readonly tasks: Array<TaskData>;
 }
 
-export default function TaskListAndNewTask({ project, tasks }: TaskListAndNewTaskProps) {
+export default function TaskListAndTaskForm({ project, projects, tasks }: TaskListAndNewTaskProps) {
   const [isAddingTask, setIsAddingTask] = useState(false);
   const router = useRouter();
 
@@ -44,7 +45,14 @@ export default function TaskListAndNewTask({ project, tasks }: TaskListAndNewTas
         </Button>
       )}
       {isAddingTask && (
-        <NewTask onCancelClick={cancelNewTaskHandler} onSaveClick={saveNewTaskHandler} />
+        <TaskForm
+          className="rounded-md bg-gray-100 px-2 py-6 sm:px-6"
+          onCancelClick={cancelNewTaskHandler}
+          onSaveClick={saveNewTaskHandler}
+          project={project}
+          projects={projects}
+          shouldStartAtEditingMode
+        />
       )}
     </>
   );
