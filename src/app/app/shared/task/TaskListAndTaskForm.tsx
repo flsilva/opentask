@@ -2,7 +2,7 @@
 
 import 'client-only';
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import Button from '@/app/shared/ui/button/Button';
 import { ProjectData } from '../project/ProjectData';
 import { TaskData } from './TaskData';
@@ -18,6 +18,7 @@ interface TaskListAndNewTaskProps {
 export default function TaskListAndTaskForm({ project, projects, tasks }: TaskListAndNewTaskProps) {
   const [isAddingTask, setIsAddingTask] = useState(false);
   const router = useRouter();
+  const pathname = usePathname();
 
   const newTaskHandler = () => {
     setIsAddingTask(true);
@@ -33,7 +34,9 @@ export default function TaskListAndTaskForm({ project, projects, tasks }: TaskLi
 
   const taskClickHandler = (task: TaskData) => {
     console.log('TaskListAndNewTask().taskClickHandler() - task: ', task);
-    router.push(`${project.id}/task/${task.id}`);
+    console.log('TaskListAndNewTask().taskClickHandler() - pathname: ', pathname);
+    const navToPath = pathname.indexOf('today') !== -1 ? 'today' : `${project.id}`;
+    router.push(`${navToPath}/task/${task.id}`);
   };
 
   return (
