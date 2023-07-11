@@ -27,11 +27,11 @@ export default function TaskListAndNewTask({ project, tasks }: TaskListAndNewTas
   };
 
   const saveNewTaskHandler = () => {
-    console.log('Project().saveNewTaskHandler()');
+    console.log('TaskListAndNewTask().saveNewTaskHandler()');
   };
 
   const taskClickHandler = (task: TaskData) => {
-    console.log('Project().taskClickHandler() - task: ', task);
+    console.log('TaskListAndNewTask().taskClickHandler() - task: ', task);
     router.push(`${project.id}/task/${task.id}`);
   };
 
