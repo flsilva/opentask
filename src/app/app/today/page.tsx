@@ -3,7 +3,7 @@ import TodayHeader from './TodayHeader';
 import AppShell from '../shared/ui/AppShell';
 import { ProjectData } from '../shared/project/ProjectData';
 import { TaskData } from '../shared/task/TaskData';
-import TaskListAndNewTask from '../shared/task/TaskListAndNewTask';
+import TaskListAndTaskForm from '../shared/task/TaskListAndTaskForm';
 
 const projects: Array<ProjectData> = [];
 
@@ -49,7 +49,7 @@ export default function TodayPage() {
   return (
     <AppShell projects={projects}>
       <TodayHeader />
-      <TaskListAndNewTask project={project} tasks={tasks} />
+      <TaskListAndTaskForm project={project} projects={projects} tasks={tasks} />
     </AppShell>
   );
 }

@@ -1,11 +1,13 @@
 'use client';
 
 import 'client-only';
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import ContentEditable from 'react-contenteditable';
+import { Menu } from '@headlessui/react';
 import { ClassNamePropsOptional } from '@/app/shared/ui/ClassNameProps';
 import Button from '@/app/shared/ui/button/Button';
-import DropdownMenu, { DropdownMenuItemData } from '@/app/shared/ui/dropdown/DropdownMenu';
+import { ExpandMoreIcon } from '@/app/shared/ui/icon/ExpandMoreIcon';
+import DropdownMenu from '@/app/shared/ui/dropdown/DropdownMenu';
 import { ProjectData } from '../project/ProjectData';
 import { TaskData } from './TaskData';
 import TaskDueDatePicker from './TaskDueDatePicker';
@@ -76,14 +78,33 @@ export default function TaskForm({
     setDescription(event.target.value);
   };
 
-  const dropdownMenuItemClickHandler = (item: DropdownMenuItemData) => {
-    console.log('TaskForm().dropdownMenuItemClickHandler() - item: ', item);
-    const project = getProjectById(item.id);
+  const dropdownMenuItemClickHandler = (selectedProject: ProjectData) => {
+    console.log('TaskForm().dropdownMenuItemClickHandler() - selectedProject: ', selectedProject);
+    const project = getProjectById(selectedProject.id);
     if (project) setMoveToProject(project);
   };
 
   const getProjectById = (id: string): ProjectData | undefined =>
     projects.find((project) => project.id === id);
+
+  const getItemsForProjectsDropdown = () =>
+    projects.map((project) => (
+      <Menu.Item key={project.id} as={Fragment}>
+        {({ active }: { active: boolean }) => (
+          <button
+            type="button"
+            onClick={() => dropdownMenuItemClickHandler(project)}
+            className={`${
+              active || moveToProject.name === project.name
+                ? 'bg-green-500 text-white'
+                : 'text-gray-900'
+            } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+          >
+            {project.name}
+          </button>
+        )}
+      </Menu.Item>
+    ));
 
   const defaultNameAndDescriptionClassName =
     'mb-3 block w-full rounded-md bg-white px-3 py-1.5 ring-0 focus:border-gray-900 focus:outline-0 focus:ring-0';
@@ -118,10 +139,15 @@ export default function TaskForm({
         <TaskDueDatePicker className="z-50" />
         <div className="relative ml-0 mt-4 h-12 md:ml-16 md:mt-0">
           <DropdownMenu
-            buttonText={moveToProject.name}
             className="absolute w-56"
-            items={projects.map((project) => ({ id: project.id, label: project.name }))}
-            onDropdownMenuItemClick={dropdownMenuItemClickHandler}
+            items={getItemsForProjectsDropdown()}
+            itemsClassName="absolute bottom-14 left-0 max-h-80 w-56"
+            menuButton={
+              <Menu.Button className="flex items-center justify-center rounded-md bg-green-600 px-3.5 py-2.5 text-sm font-medium text-white shadow-sm hover:bg-green-500 focus-visible:outline  focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600">
+                {moveToProject.name}
+                <ExpandMoreIcon className="ml-2 fill-white" />
+              </Menu.Button>
+            }
           />
         </div>
       </div>
