@@ -13,31 +13,6 @@ import { EditIcon } from '@/app/shared/ui/icon/EditIcon';
 interface ProjectProps {
   readonly project: ProjectData;
 }
-/*
-const getMenuItemClassName = (active: boolean) => (
-  `${
-    active
-      ? 'bg-green-500 text-white'
-      : 'text-gray-900'
-  } group flex w-full items-center rounded-md px-2 py-2 text-sm`
-);
-
-const getMenuItems = (onItemClick: (itemLabel: string) => void) => (
-  [
-    <Menu.Item key="edit" as={Fragment}>
-      {({ active }: { active: boolean }) => (
-        <button
-          type="button"
-          onClick={() => onItemClick('edit')}
-          className={getMenuItemClassName(active)}
-        >
-          Edit project
-        </button>
-      )}
-    </Menu.Item>
-  ]
-);
-*/
 
 interface MenuItem {
   readonly icon: React.ReactNode;
