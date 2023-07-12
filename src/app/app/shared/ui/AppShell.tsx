@@ -9,6 +9,7 @@ import { ProjectData } from '../project/ProjectData';
 import ProjectModal from '../project/ProjectModal';
 import TodayHeader from '../../today/TodayHeader';
 import ProjectHeader, { ProjectAction } from '../project/ProjectHeader';
+import ProjectsHeader from '../project/ProjectsHeader';
 
 interface AppShellProps extends ChildrenProps {
   readonly project?: ProjectData;
@@ -55,6 +56,8 @@ export default function AppShell({ children, project, projects }: AppShellProps)
   let headerComponent;
   if (pathname.indexOf('app/today') !== -1) {
     headerComponent = <TodayHeader />;
+  } else if (pathname.indexOf('app/projects') !== -1) {
+    headerComponent = <ProjectsHeader />;
   } else if (pathname.indexOf('app/project') !== -1) {
     if (project === null || project === undefined)
       throw new Error(
@@ -71,8 +74,6 @@ export default function AppShell({ children, project, projects }: AppShellProps)
     const headerWidth = headerRef.current.getBoundingClientRect().width;
     setIsMenuOpen(headerWidth >= 768);
   }, []);
-
-  // const newProjecthandler = () => {};
 
   return (
     <>
