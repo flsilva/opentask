@@ -10,46 +10,49 @@ import { ArchiveIcon } from '@/app/shared/ui/icon/ArchiveIcon';
 import { DeleteIcon } from '@/app/shared/ui/icon/DeleteIcon';
 import { EditIcon } from '@/app/shared/ui/icon/EditIcon';
 
-interface ProjectProps {
+export enum ProjectAction {
+  Archive = 'Archive',
+  Edit = 'Edit',
+  Delete = 'Delete',
+}
+
+interface ProjectHeaderProps {
+  readonly onProjectActionClick: (action: ProjectAction, projectId: string) => void;
   readonly project: ProjectData;
 }
 
 interface MenuItem {
+  readonly action: ProjectAction;
   readonly icon: React.ReactNode;
-  readonly id: string;
   readonly label: string;
 }
 
 const menuItems: Array<MenuItem> = [
   {
-    id: 'edit',
+    action: ProjectAction.Edit,
     label: 'Edit project',
     icon: <EditIcon className="mr-3 group-hover:fill-white" />,
   },
   {
-    id: 'archive',
+    action: ProjectAction.Archive,
     label: 'Archive project',
     icon: <ArchiveIcon className="mr-3 group-hover:fill-white" />,
   },
   {
-    id: 'delete',
+    action: ProjectAction.Delete,
     label: 'Delete project',
     icon: <DeleteIcon className="mr-3 group-hover:fill-white" />,
   },
 ];
 
-export default function Project({ project }: ProjectProps) {
-  const dropdownMenuItemClickHandler = (item: MenuItem) => {
-    console.log('Project().dropdownMenuItemClickHandler() - item: ', item);
-  };
-
+export default function ProjectHeader({ onProjectActionClick, project }: ProjectHeaderProps) {
   const getDropdownItems = () =>
     menuItems.map((item) => (
-      <Menu.Item key={item.id} as={Fragment}>
+      <Menu.Item key={item.action} as={Fragment}>
         {({ active }: { active: boolean }) => (
           <button
             type="button"
-            onClick={() => dropdownMenuItemClickHandler(item)}
+            onClick={() => onProjectActionClick(item.action, project.id)}
             className={`${
               active ? 'group bg-green-500 text-white' : 'text-gray-900'
             } group flex w-full items-center rounded-md px-2 py-3 text-sm`}

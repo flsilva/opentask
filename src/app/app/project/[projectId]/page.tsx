@@ -1,6 +1,5 @@
 import 'server-only';
 import AppShell from '@/app/app/shared/ui/AppShell';
-import Project from '@/app/app/shared/project/Project';
 import { ProjectData } from '@/app/app/shared/project/ProjectData';
 import { TaskData } from '@/app/app/shared//task/TaskData';
 import TaskListAndTaskForm from '@/app/app/shared//task/TaskListAndTaskForm';
@@ -47,8 +46,7 @@ const project: ProjectData = {
 
 export default function ProjectPage() {
   return (
-    <AppShell projects={projects}>
-      <Project project={project} />
+    <AppShell project={project} projects={projects}>
       <TaskListAndTaskForm project={project} projects={projects} tasks={tasks} />
     </AppShell>
   );

@@ -4,7 +4,6 @@ import { ProjectData } from '@/app/app/shared/project/ProjectData';
 import { TaskData } from '@/app/app/shared/task/TaskData';
 import TaskListAndTaskForm from '@/app/app/shared/task/TaskListAndTaskForm';
 import TaskModal from '@/app/app/shared/task/TaskModal';
-import TodayHeader from '../../TodayHeader';
 
 const projects: Array<ProjectData> = [];
 
@@ -56,7 +55,6 @@ for (let x = 0; x < 30; x++) {
 export default function TaskPage() {
   return (
     <AppShell projects={projects}>
-      <TodayHeader />
       <TaskListAndTaskForm project={project} projects={projects} tasks={tasks} />
       <TaskModal project={project} projects={projects} task={task} />
     </AppShell>

@@ -1,5 +1,4 @@
 import 'server-only';
-import TodayHeader from './TodayHeader';
 import AppShell from '../shared/ui/AppShell';
 import { ProjectData } from '../shared/project/ProjectData';
 import { TaskData } from '../shared/task/TaskData';
@@ -48,7 +47,6 @@ const project: ProjectData = {
 export default function TodayPage() {
   return (
     <AppShell projects={projects}>
-      <TodayHeader />
       <TaskListAndTaskForm project={project} projects={projects} tasks={tasks} />
     </AppShell>
   );
