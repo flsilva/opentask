@@ -4,10 +4,12 @@ import Footer from './shared/ui/Footer';
 
 export default function MarketingLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex h-screen flex-col bg-white">
-      <Header />
-      {children}
+    <>
+      <div className="mb-20 flex flex-1 flex-col bg-white">
+        <Header />
+        {children}
+      </div>
       <Footer />
-    </div>
+    </>
   );
 }

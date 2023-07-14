@@ -4,8 +4,8 @@ import { TwitterLogoIcon } from '@/app/shared/ui/icon/TwitterLogoIcon';
 
 export default function Footer() {
   return (
-    <footer className="mt-auto">
-      <div className="mt-20 items-center bg-gray-100 px-6 py-6 md:flex md:justify-between lg:px-8">
+    <footer>
+      <div className="items-center bg-gray-100 px-6 py-6 md:flex md:justify-between lg:px-8">
         <p className="text-center md:text-left">
           <Link href="/" className=" hover:text-green-500">
             © 2023 OpenTask Team

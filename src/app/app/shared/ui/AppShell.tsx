@@ -77,7 +77,7 @@ export default function AppShell({ children, project, projects }: AppShellProps)
 
   return (
     <>
-      <AppHeader onMenuClick={() => setIsMenuOpen(!isMenuOpen)} ref={headerRef} />
+      <AppHeader onMenuButtonClick={() => setIsMenuOpen(!isMenuOpen)} ref={headerRef} />
       <div className="flex h-full overflow-hidden">
         <AppNav
           isOpen={isMenuOpen}
