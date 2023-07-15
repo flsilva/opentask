@@ -52,16 +52,38 @@ export default function SignIn() {
     }
   };
 
+  const signInWithGitHubHandler = async () => {
+    'use server';
+    console.log('signInWithGitHubHandler()');
+    const supabase = createServerActionClient<Database>({ cookies });
+
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: 'github',
+      options: {
+        redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`,
+      },
+    });
+
+    console.log('signInWithGitHubHandler() - data: ', data);
+    console.log('signInWithGitHubHandler() - error: ', error);
+
+    if (error || typeof data.url !== 'string') {
+      throw new Error('There was an error trying to sign you in.');
+    } else {
+      redirect(data.url);
+    }
+  };
+
   return (
     <div>
-      <h2 className="mt-12 text-center text-xl font-semibold text-gray-900">Sign in</h2>
+      <h2 className="mb-9 mt-12 text-center text-xl font-semibold text-gray-900">Sign in</h2>
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <form>
           <Button
             type="submit"
             formAction={signInWithGoogleHandler}
             color="white"
-            className="mt-8 w-full gap-2"
+            className="mt-4 w-full gap-2"
           >
             <GoogleLogoIcon />
             Continue with Google
@@ -79,10 +101,17 @@ export default function SignIn() {
           <TwitterLogoIcon width="1rem" height="1rem" className="fill-[#1e9cf1]" />
           Continue with Twitter
         </Button>
-        <Button href="/" color="white" className="mt-4 gap-2">
-          <GitHubLogoIcon width="1rem" height="1rem" className="fill-black" />
-          Continue with GitHub
-        </Button>
+        <form>
+          <Button
+            type="submit"
+            formAction={signInWithGitHubHandler}
+            color="white"
+            className="mt-4 w-full gap-2"
+          >
+            <GitHubLogoIcon width="1rem" height="1rem" className="fill-black" />
+            Continue with GitHub
+          </Button>
+        </form>
         <div className="relative flex items-center py-6">
           <div className="flex-grow border-t border-gray-200"></div>
           <p className="mx-4 flex-shrink text-gray-400">Or</p>
