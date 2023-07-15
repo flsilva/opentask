@@ -5,6 +5,7 @@ interface ButtonProps
     React.ButtonHTMLAttributes<HTMLButtonElement>,
     HTMLButtonElement
   > {
+  readonly formAction?: (formData: FormData) => void;
   readonly href?: string;
   readonly onClick?: () => void;
 }
@@ -20,11 +21,17 @@ export default function Button({
   children,
   className,
   color = 'green',
+  formAction,
   href,
   onClick,
+  type,
 }: ButtonProps) {
-  if (typeof href !== 'string' && (onClick === undefined || onClick === null)) {
-    throw new Error("<Button>: Either 'href' or 'onClick' must be provided.");
+  if (
+    typeof href !== 'string' &&
+    (onClick === undefined || onClick === null) &&
+    (formAction === undefined || formAction === null)
+  ) {
+    throw new Error("<Button>: Either 'href', 'onClick' or 'formAction' must be provided.");
   }
 
   let buttonClassName = color === 'white' ? buttonClassNameWhite : buttonClassNameGreen;
@@ -40,7 +47,12 @@ export default function Button({
   }
 
   return (
-    <button type="button" className={buttonClassName} onClick={onClick}>
+    <button
+      type={type ?? 'button'}
+      className={buttonClassName}
+      formAction={formAction}
+      onClick={onClick}
+    >
       {children}
     </button>
   );

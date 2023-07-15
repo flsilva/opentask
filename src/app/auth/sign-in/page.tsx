@@ -7,7 +7,6 @@ import { GitHubLogoIcon } from '@/app/shared/ui/icon/GitHubLogoIcon';
 import { GoogleLogoIcon } from '@/app/shared/ui/icon/GoogleLogoIcon';
 import { TwitterLogoIcon } from '@/app/shared/ui/icon/TwitterLogoIcon';
 import Button from '@/app/shared/ui/button/Button';
-import { buttonClassNameGreen } from '@/app/shared/ui/button/Button';
 import { redirect } from 'next/navigation';
 
 export default function SignIn() {
@@ -31,14 +30,43 @@ export default function SignIn() {
     }
   };
 
+  const signInWithGoogleHandler = async () => {
+    'use server';
+    console.log('signInWithGoogleHandler()');
+    const supabase = createServerActionClient<Database>({ cookies });
+
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`,
+      },
+    });
+
+    console.log('signInWithGoogleHandler() - data: ', data);
+    console.log('signInWithGoogleHandler() - error: ', error);
+
+    if (error || typeof data.url !== 'string') {
+      throw new Error('There was an error trying to sign you in.');
+    } else {
+      redirect(data.url);
+    }
+  };
+
   return (
     <div>
       <h2 className="mt-12 text-center text-xl font-semibold text-gray-900">Sign in</h2>
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <Button href="/" color="white" className="mt-8 gap-2">
-          <GoogleLogoIcon />
-          Continue with Google
-        </Button>
+        <form>
+          <Button
+            type="submit"
+            formAction={signInWithGoogleHandler}
+            color="white"
+            className="mt-8 w-full gap-2"
+          >
+            <GoogleLogoIcon />
+            Continue with Google
+          </Button>
+        </form>
         <Button href="/" color="white" className="mt-4 gap-2">
           <AppleLogoIcon />
           Continue with Apple
@@ -71,13 +99,13 @@ export default function SignIn() {
             required
             data-lpignore="true"
           />
-          <button
+          <Button
             type="submit"
             formAction={signInWithEmailHandler}
-            className={`${buttonClassNameGreen} flex w-full justify-center`}
+            className="flex w-full justify-center"
           >
             Continue with Email
-          </button>
+          </Button>
         </form>
       </div>
     </div>
