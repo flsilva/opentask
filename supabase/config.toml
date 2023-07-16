@@ -115,6 +115,12 @@ client_id = "env(SUPABASE_AUTH_EXTERNAL_GOOGLE_CLIENT_ID)"
 secret = "env(SUPABASE_AUTH_EXTERNAL_GOOGLE_SECRET)"
 redirect_uri = "http://localhost:54321/auth/v1/callback"
 
+[auth.external.linkedin]
+enabled = true
+client_id = "env(SUPABASE_AUTH_EXTERNAL_LINKEDIN_CLIENT_ID)"
+secret = "env(SUPABASE_AUTH_EXTERNAL_LINKEDIN_SECRET)"
+redirect_uri = "http://localhost:54321/auth/v1/callback"
+
 [auth.external.twitter]
 enabled = true
 client_id = "env(SUPABASE_AUTH_EXTERNAL_TWITTER_CLIENT_ID)"

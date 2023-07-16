@@ -6,14 +6,14 @@ import {
   buttonClassNameWhite,
 } from '@/app/shared/ui//button/buttonClassName';
 import { ChildrenProps } from '@/app/shared/ui/ChildrenProps';
-import { AppleLogoIcon } from '@/app/shared/ui/icon/AppleLogoIcon';
 import { FacebookLogoIcon } from '@/app/shared/ui/icon/FacebookLogoIcon';
 import { GitHubLogoIcon } from '@/app/shared/ui/icon/GitHubLogoIcon';
 import { GoogleLogoIcon } from '@/app/shared/ui/icon/GoogleLogoIcon';
+import { LinkedInInLogoIcon } from '@/app/shared/ui/icon/LinkedInInLogoIcon';
 import { TwitterLogoIcon } from '@/app/shared/ui/icon/TwitterLogoIcon';
 import { redirect } from 'next/navigation';
 
-export type Provider = 'apple' | 'facebook' | 'github' | 'google' | 'linkedin' | 'twitter';
+export type Provider = 'facebook' | 'github' | 'google' | 'linkedin' | 'twitter';
 
 interface OAuthProviderButtonProps extends ChildrenProps {
   readonly provider: Provider;
@@ -81,10 +81,6 @@ export default function SignIn() {
           <GoogleLogoIcon />
           Continue with Google
         </OAuthProviderButton>
-        <OAuthProviderButton provider="apple">
-          <AppleLogoIcon />
-          Continue with Apple
-        </OAuthProviderButton>
         <OAuthProviderButton provider="facebook">
           <FacebookLogoIcon />
           Continue with Facebook
@@ -96,6 +92,10 @@ export default function SignIn() {
         <OAuthProviderButton provider="github">
           <GitHubLogoIcon width="1rem" height="1rem" className="fill-black" />
           Continue with GitHub
+        </OAuthProviderButton>
+        <OAuthProviderButton provider="linkedin">
+          <LinkedInInLogoIcon />
+          Continue with LinkedIn
         </OAuthProviderButton>
         <div className="relative flex items-center py-6">
           <div className="flex-grow border-t border-gray-200"></div>
