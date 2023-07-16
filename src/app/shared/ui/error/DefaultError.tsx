@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import Button from '../button/Button';
+import { buttonClassNameGreen } from '@/app/shared/ui//button/buttonClassName';
 
 export default function DefaultError({ error, reset }: { error: Error; reset: () => void }) {
   useEffect(() => {
@@ -14,14 +14,15 @@ export default function DefaultError({ error, reset }: { error: Error; reset: ()
       <div className="flex max-w-xs flex-col items-center">
         <h3 className="mb-6 text-lg font-semibold">Something went wrong!</h3>
         <p className="mb-8">{error.message}</p>
-        <Button
+        <button
+          className={buttonClassNameGreen}
           onClick={
             // Attempt to recover by trying to re-render the segment
             () => reset()
           }
         >
           Please try again
-        </Button>
+        </button>
       </div>
     </div>
   );

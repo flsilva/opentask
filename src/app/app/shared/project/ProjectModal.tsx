@@ -2,7 +2,10 @@
 
 import { Dialog } from '@headlessui/react';
 import { XIcon } from '@/app/shared/ui/icon/XIcon';
-import Button from '@/app/shared/ui/button/Button';
+import {
+  buttonClassNameGreen,
+  buttonClassNameWhite,
+} from '@/app/shared/ui//button/buttonClassName';
 import { ProjectData } from './ProjectData';
 import { useEffect, useState } from 'react';
 
@@ -93,10 +96,12 @@ export default function ProjectModal({ onCloseHandler, open, project }: ProjectM
               className="mb-6 block w-full resize-none rounded-md border border-gray-400 py-1.5 text-gray-900 ring-0 placeholder:text-gray-400 focus:border-gray-900 focus:outline-0 focus:ring-0"
             ></textarea>
             <div className="flex justify-end gap-4">
-              <Button color="white" onClick={onCloseHandlerInternal}>
+              <button className={buttonClassNameWhite} onClick={onCloseHandlerInternal}>
                 Cancel
-              </Button>
-              <Button onClick={saveProjectHandler}>Save</Button>
+              </button>
+              <button className={buttonClassNameGreen} onClick={saveProjectHandler}>
+                Save
+              </button>
             </div>
           </form>
         </Dialog.Panel>

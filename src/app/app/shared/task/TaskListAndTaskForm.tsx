@@ -3,7 +3,7 @@
 import 'client-only';
 import { useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import Button from '@/app/shared/ui/button/Button';
+import { buttonClassNameGreen } from '@/app/shared/ui//button/buttonClassName';
 import { ProjectData } from '../project/ProjectData';
 import { TaskData } from './TaskData';
 import TaskForm from './TaskForm';
@@ -43,9 +43,12 @@ export default function TaskListAndTaskForm({ project, projects, tasks }: TaskLi
     <>
       <TaskList onTaskClick={taskClickHandler} tasks={tasks} />
       {!isAddingTask && (
-        <Button onClick={newTaskHandler} className="mt-6 flex-row self-start">
+        <button
+          onClick={newTaskHandler}
+          className={`${buttonClassNameGreen} mt-6 flex-row self-start`}
+        >
           Add task
-        </Button>
+        </button>
       )}
       {isAddingTask && (
         <TaskForm

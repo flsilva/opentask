@@ -1,6 +1,6 @@
 import 'server-only';
 import Link from 'next/link';
-import Button from '@/app/shared/ui//button/Button';
+import { buttonClassNameGreen } from '@/app/shared/ui//button/buttonClassName';
 import HeroShell from '../shared/ui/HeroShell';
 import HeroHeading from '../shared/ui/HeroHeading';
 import HeroCopy from '../shared/ui/HeroCopy';
@@ -26,7 +26,9 @@ export default function Pricing() {
         page for more information.
       </HeroCopy>
       <div className="mt-10 flex items-center justify-center">
-        <Button href="/auth/sign-in">Get Started</Button>
+        <Link href="/auth/sign-in" className={buttonClassNameGreen}>
+          Get Started
+        </Link>
       </div>
     </HeroShell>
   );

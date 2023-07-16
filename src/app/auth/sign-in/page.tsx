@@ -1,13 +1,23 @@
 import { cookies } from 'next/headers';
 import { createServerActionClient } from '@supabase/auth-helpers-nextjs';
 import { Database } from '@/lib/database.types';
+import {
+  buttonClassNameGreen,
+  buttonClassNameWhite,
+} from '@/app/shared/ui//button/buttonClassName';
+import { ChildrenProps } from '@/app/shared/ui/ChildrenProps';
 import { AppleLogoIcon } from '@/app/shared/ui/icon/AppleLogoIcon';
 import { FacebookLogoIcon } from '@/app/shared/ui/icon/FacebookLogoIcon';
 import { GitHubLogoIcon } from '@/app/shared/ui/icon/GitHubLogoIcon';
 import { GoogleLogoIcon } from '@/app/shared/ui/icon/GoogleLogoIcon';
 import { TwitterLogoIcon } from '@/app/shared/ui/icon/TwitterLogoIcon';
-import Button from '@/app/shared/ui/button/Button';
 import { redirect } from 'next/navigation';
+
+export type Provider = 'apple' | 'facebook' | 'github' | 'google' | 'linkedin' | 'twitter';
+
+interface OAuthProviderButtonProps extends ChildrenProps {
+  readonly provider: Provider;
+}
 
 export default function SignIn() {
   const signInWithEmailHandler = async (formData: FormData) => {
@@ -30,20 +40,22 @@ export default function SignIn() {
     }
   };
 
-  const signInWithGoogleHandler = async () => {
+  const signInWithOAuth = async (formData: FormData) => {
     'use server';
-    console.log('signInWithGoogleHandler()');
+    const provider = String(formData.get('provider')) as Provider;
     const supabase = createServerActionClient<Database>({ cookies });
 
+    console.log('signInWithOAuth() - provider: ', provider);
+
     const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
+      provider,
       options: {
         redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`,
       },
     });
 
-    console.log('signInWithGoogleHandler() - data: ', data);
-    console.log('signInWithGoogleHandler() - error: ', error);
+    console.log('signInWithOAuth() - data: ', data);
+    console.log('signInWithOAuth() - error: ', error);
 
     if (error || typeof data.url !== 'string') {
       throw new Error('There was an error trying to sign you in.');
@@ -52,72 +64,45 @@ export default function SignIn() {
     }
   };
 
-  const signInWithGitHubHandler = async () => {
-    'use server';
-    console.log('signInWithGitHubHandler()');
-    const supabase = createServerActionClient<Database>({ cookies });
-
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: 'github',
-      options: {
-        redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`,
-      },
-    });
-
-    console.log('signInWithGitHubHandler() - data: ', data);
-    console.log('signInWithGitHubHandler() - error: ', error);
-
-    if (error || typeof data.url !== 'string') {
-      throw new Error('There was an error trying to sign you in.');
-    } else {
-      redirect(data.url);
-    }
-  };
+  const OAuthProviderButton = ({ children, provider }: OAuthProviderButtonProps) => (
+    <form action={signInWithOAuth}>
+      <input type="hidden" name="provider" value={provider} />
+      <button type="submit" className={`${buttonClassNameWhite} mt-4 w-full gap-2`}>
+        {children}
+      </button>
+    </form>
+  );
 
   return (
     <div>
       <h2 className="mb-9 mt-12 text-center text-xl font-semibold text-gray-900">Sign in</h2>
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <form>
-          <Button
-            type="submit"
-            formAction={signInWithGoogleHandler}
-            color="white"
-            className="mt-4 w-full gap-2"
-          >
-            <GoogleLogoIcon />
-            Continue with Google
-          </Button>
-        </form>
-        <Button href="/" color="white" className="mt-4 gap-2">
+        <OAuthProviderButton provider="google">
+          <GoogleLogoIcon />
+          Continue with Google
+        </OAuthProviderButton>
+        <OAuthProviderButton provider="apple">
           <AppleLogoIcon />
           Continue with Apple
-        </Button>
-        <Button href="/" color="white" className="mt-4 gap-2">
+        </OAuthProviderButton>
+        <OAuthProviderButton provider="facebook">
           <FacebookLogoIcon />
           Continue with Facebook
-        </Button>
-        <Button href="/" color="white" className="mt-4 gap-2">
+        </OAuthProviderButton>
+        <OAuthProviderButton provider="twitter">
           <TwitterLogoIcon width="1rem" height="1rem" className="fill-[#1e9cf1]" />
           Continue with Twitter
-        </Button>
-        <form>
-          <Button
-            type="submit"
-            formAction={signInWithGitHubHandler}
-            color="white"
-            className="mt-4 w-full gap-2"
-          >
-            <GitHubLogoIcon width="1rem" height="1rem" className="fill-black" />
-            Continue with GitHub
-          </Button>
-        </form>
+        </OAuthProviderButton>
+        <OAuthProviderButton provider="github">
+          <GitHubLogoIcon width="1rem" height="1rem" className="fill-black" />
+          Continue with GitHub
+        </OAuthProviderButton>
         <div className="relative flex items-center py-6">
           <div className="flex-grow border-t border-gray-200"></div>
           <p className="mx-4 flex-shrink text-gray-400">Or</p>
           <div className="flex-grow border-t border-gray-200"></div>
         </div>
-        <form>
+        <form action={signInWithEmailHandler}>
           <input
             id="email"
             name="email"
@@ -128,13 +113,9 @@ export default function SignIn() {
             required
             data-lpignore="true"
           />
-          <Button
-            type="submit"
-            formAction={signInWithEmailHandler}
-            className="flex w-full justify-center"
-          >
+          <button type="submit" className={`${buttonClassNameGreen} flex w-full justify-center`}>
             Continue with Email
-          </Button>
+          </button>
         </form>
       </div>
     </div>

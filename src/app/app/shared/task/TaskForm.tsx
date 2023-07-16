@@ -5,7 +5,10 @@ import { Fragment, useState } from 'react';
 import ContentEditable from 'react-contenteditable';
 import { Menu } from '@headlessui/react';
 import { ClassNamePropsOptional } from '@/app/shared/ui/ClassNameProps';
-import Button from '@/app/shared/ui/button/Button';
+import {
+  buttonClassNameGreen,
+  buttonClassNameWhite,
+} from '@/app/shared/ui//button/buttonClassName';
 import { ExpandMoreIcon } from '@/app/shared/ui/icon/ExpandMoreIcon';
 import DropdownMenu from '@/app/shared/ui/dropdown/DropdownMenu';
 import { ProjectData } from '../project/ProjectData';
@@ -153,10 +156,12 @@ export default function TaskForm({
       </div>
       {isEditing && (
         <div className="mt-6 flex justify-end gap-2 sm:gap-4">
-          <Button color="white" onClick={onCancelClick}>
+          <button className={buttonClassNameWhite} onClick={onCancelClick}>
             Cancel
-          </Button>
-          <Button onClick={onSaveClick}>Add task</Button>
+          </button>
+          <button className={buttonClassNameGreen} onClick={onSaveClick}>
+            Add task
+          </button>
         </div>
       )}
     </form>
