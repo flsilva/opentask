@@ -97,16 +97,22 @@ redirect_uri = ""
 # or any other third-party OIDC providers.
 url = ""
 
-[auth.external.google]
+[auth.external.facebook]
 enabled = true
-client_id = "env(SUPABASE_AUTH_EXTERNAL_GOOGLE_CLIENT_ID)"
-secret = "env(SUPABASE_AUTH_EXTERNAL_GOOGLE_SECRET)"
+client_id = "env(SUPABASE_AUTH_EXTERNAL_FACEBOOK_CLIENT_ID)"
+secret = "env(SUPABASE_AUTH_EXTERNAL_FACEBOOK_SECRET)"
 redirect_uri = "http://localhost:54321/auth/v1/callback"
 
 [auth.external.github]
 enabled = true
 client_id = "env(SUPABASE_AUTH_EXTERNAL_GITHUB_CLIENT_ID)"
 secret = "env(SUPABASE_AUTH_EXTERNAL_GITHUB_SECRET)"
+redirect_uri = "http://localhost:54321/auth/v1/callback"
+
+[auth.external.google]
+enabled = true
+client_id = "env(SUPABASE_AUTH_EXTERNAL_GOOGLE_CLIENT_ID)"
+secret = "env(SUPABASE_AUTH_EXTERNAL_GOOGLE_SECRET)"
 redirect_uri = "http://localhost:54321/auth/v1/callback"
 
 [auth.external.twitter]
