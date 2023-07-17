@@ -19,7 +19,7 @@ const taskDueDatePickerOptions = {
   theme: {
     background: 'bg-green-700 dark:bg-green-700',
     disabledText:
-      'text-gray-300 hover:bg-transparent dark:text-gray-300 dark:hover:bg-transparent cursor-default',
+      '!text-gray-400 hover:bg-transparent !dark:text-gray-400 dark:hover:bg-transparent cursor-default hover:cursor-default',
     icons: 'bg-green-700 hover:bg-green-500 dark:bg-green-700 dark:hover:bg-green-500',
     text: 'bg-green-700 hover:bg-green-500 dark:bg-green-700 dark:hover:bg-green-500',
     selected: 'bg-green-500 dark:bg-green-500',
