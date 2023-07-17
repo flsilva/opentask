@@ -1,4 +1,5 @@
 import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 import { createServerActionClient } from '@supabase/auth-helpers-nextjs';
 import { Database } from '@/lib/database.types';
 import {
@@ -11,7 +12,6 @@ import { GitHubLogoIcon } from '@/app/shared/ui/icon/GitHubLogoIcon';
 import { GoogleLogoIcon } from '@/app/shared/ui/icon/GoogleLogoIcon';
 import { LinkedInInLogoIcon } from '@/app/shared/ui/icon/LinkedInInLogoIcon';
 import { TwitterLogoIcon } from '@/app/shared/ui/icon/TwitterLogoIcon';
-import { redirect } from 'next/navigation';
 
 export type Provider = 'facebook' | 'github' | 'google' | 'linkedin' | 'twitter';
 

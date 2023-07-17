@@ -7,6 +7,7 @@ import { Menu } from '@headlessui/react';
 import DropdownMenu from '@/app/shared/ui/dropdown/DropdownMenu';
 import { HamburgerMenuIcon } from '@/app/shared/ui/icon/HamburgerMenuIcon';
 import { LogoutIcon } from '@/app/shared/ui/icon/LogoutIcon';
+import { PersonIcon } from '@/app/shared/ui/icon/PersonIcon';
 import { SettingsIcon } from '@/app/shared/ui/icon/SettingsIcon';
 import { UserSessionContext } from '../user/UserSessionProvider';
 import { useRouter } from 'next/navigation';
@@ -41,7 +42,7 @@ const settingsItems: Array<SettingsItem> = [
 
 const AppHeader = forwardRef<HTMLElement, AppHeaderProps>(
   ({ onMenuButtonClick }: AppHeaderProps, ref) => {
-    const userSession = useContext(UserSessionContext);
+    const wrappedUserSession = useContext(UserSessionContext);
     const router = useRouter();
     const supabase = createClientComponentClient();
 
@@ -51,7 +52,7 @@ const AppHeader = forwardRef<HTMLElement, AppHeaderProps>(
       switch (action) {
         case SettingsAction.Logout:
           console.log('AppShell().onProjectActionHandler() - Log out');
-          userSession.logout();
+          wrappedUserSession.logout();
           await supabase.auth.signOut();
           router.push('/');
           break;
@@ -87,7 +88,7 @@ const AppHeader = forwardRef<HTMLElement, AppHeaderProps>(
       ));
       items.unshift(
         <p key="user" className="truncate p-2 text-sm">
-          Hello, {userSession.user?.email}
+          Hello, {wrappedUserSession.getUserName()}
         </p>,
       );
       return items;
@@ -113,7 +114,7 @@ const AppHeader = forwardRef<HTMLElement, AppHeaderProps>(
               itemsClassName="absolute top-8 right-0 max-h-80 w-56"
               menuButton={
                 <Menu.Button className="flex items-center justify-center focus-visible:outline  focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600">
-                  <SettingsIcon className="fill-white hover:fill-green-500" />
+                  <PersonIcon className="fill-white hover:fill-green-500" />
                 </Menu.Button>
               }
             />
