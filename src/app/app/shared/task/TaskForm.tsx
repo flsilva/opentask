@@ -31,10 +31,11 @@ export default function TaskForm({
   onSaveClick,
   project,
   projects,
-  shouldStartAtEditingMode,
+  shouldStartAtEditingMode = false,
   task,
   taskNameClassName,
 }: TaskFormProps) {
+  console.log('TaskForm() - shouldStartAtEditingMode: ', shouldStartAtEditingMode);
   const NAME_PLACEHOLDER = 'Task name';
   const DESCRIPTION_PLACEHOLDER = 'Task description';
 
@@ -43,8 +44,38 @@ export default function TaskForm({
   const [moveToProject, setMoveToProject] = useState(project);
   const [isEditing, setIsEditing] = useState(shouldStartAtEditingMode);
 
+  console.log('TaskForm() - isEditing: ', isEditing);
+
   const onNameFocusHandler = (event: React.FocusEvent<HTMLInputElement>) => {
-    console.log('TaskForm().onNameFocusHandler()');
+    console.log('TaskForm().onNameFocusHandler() - event: ', event);
+
+    /*
+     * Flavio Silva on Jul. 17, 2023:
+     * Context: This TaskForm component is used by the TaskModal component, which in turn uses
+     * the HeadlessUI Dialog component.
+     * Fact: This focus event is being automatically trigged right after render.
+     * I believe it's being trigged by the HeadlessUI's Dialog component, even though it shouldn't
+     * as there's a <button> component on the modal that is first rendered and ends up with the
+     * focus in the end.
+     * From their docs on https://headlessui.com/react/dialog:
+     * "By default, the Dialog component will focus the first focusable element (by DOM order) once
+     * it is rendered"
+     * I should try to created a minimum reproducible repo to confirm this issue, and in that case
+     * open an issue in their repo.
+     * Fix: a temporary fix is verifying this relatedTarget object and its
+     * 'data-headlessui-focus-guard' attribute, that existis in this first auto focus trigger.
+     * Using initialFocus on Dialog to manually point to the <button> using a ref
+     * works to keep the focus on the <button> but doesn't prevent triggering this focus event.
+     */
+    const relatedTarget = event.relatedTarget;
+    if (
+      relatedTarget !== undefined &&
+      relatedTarget !== null &&
+      relatedTarget.attributes.getNamedItem('data-headlessui-focus-guard') !== undefined &&
+      relatedTarget.attributes.getNamedItem('data-headlessui-focus-guard') !== null
+    )
+      return;
+    /**/
     setIsEditing(true);
     if (event.target === null || event.target === undefined) return;
     if (event.target.innerHTML !== '' && event.target.innerHTML !== NAME_PLACEHOLDER) return;
@@ -155,7 +186,7 @@ export default function TaskForm({
         </div>
       </div>
       {isEditing && (
-        <div className="mt-6 flex justify-end gap-2 sm:gap-4">
+        <div className="mt-12 flex justify-end gap-2 sm:gap-4">
           <button className={buttonClassNameWhite} onClick={onCancelClick}>
             Cancel
           </button>

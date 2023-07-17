@@ -22,7 +22,6 @@ export default function AppShell({ children, project, projects }: AppShellProps)
   const [editProject, setEditProject] = useState<ProjectData | undefined>(undefined);
   const headerRef = useRef<HTMLElement>(null);
   const pathname = usePathname();
-  console.log('AppShell() - pathname: ', pathname);
 
   const onProjectActionHandler = (action: ProjectAction, projectId: string) => {
     console.log(
