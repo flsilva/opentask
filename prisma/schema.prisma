@@ -1,0 +1,21 @@
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DATABASE_DIRECT_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// We use Supabase's authentication solution, which create users in a private "auth" schema.
+// So we create this User table in our "public" schema and add users to it after
+// they're created by Supabase's auth solution, using the same "id".
+model User {
+  id        String    @id @db.Uuid
+  email     String    @unique @db.VarChar(254)
+  name      String?   @db.VarChar(500)
+  provider  String    @unique @db.VarChar(100)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+}
