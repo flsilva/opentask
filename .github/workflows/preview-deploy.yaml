@@ -1,0 +1,22 @@
+name: staging-deploy
+run-name: Deploy database changes to Supabase's Staging database.
+on:
+  push:
+    branches-ignore:
+      - 'main'
+jobs:
+  prisma-migrate-deploy:
+    name: Run prisma migrations
+    runs-on: ubuntu-latest
+    environment:
+      name: staging
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      DATABASE_DIRECT_URL: ${{ secrets.DATABASE_DIRECT_URL }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          cache: 'npm'
+          node-version-file: '.nvmrc'
+      - run: npx prisma@5.0.0 migrate deploy

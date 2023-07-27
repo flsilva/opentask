@@ -34,7 +34,66 @@ export interface Database {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      _prisma_migrations: {
+        Row: {
+          applied_steps_count: number
+          checksum: string
+          finished_at: string | null
+          id: string
+          logs: string | null
+          migration_name: string
+          rolled_back_at: string | null
+          started_at: string
+        }
+        Insert: {
+          applied_steps_count?: number
+          checksum: string
+          finished_at?: string | null
+          id: string
+          logs?: string | null
+          migration_name: string
+          rolled_back_at?: string | null
+          started_at?: string
+        }
+        Update: {
+          applied_steps_count?: number
+          checksum?: string
+          finished_at?: string | null
+          id?: string
+          logs?: string | null
+          migration_name?: string
+          rolled_back_at?: string | null
+          started_at?: string
+        }
+        Relationships: []
+      }
+      User: {
+        Row: {
+          createdAt: string
+          email: string
+          id: string
+          name: string | null
+          provider: string
+          updatedAt: string | null
+        }
+        Insert: {
+          createdAt?: string
+          email: string
+          id: string
+          name?: string | null
+          provider: string
+          updatedAt?: string | null
+        }
+        Update: {
+          createdAt?: string
+          email?: string
+          id?: string
+          name?: string | null
+          provider?: string
+          updatedAt?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

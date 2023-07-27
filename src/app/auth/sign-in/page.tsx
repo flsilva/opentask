@@ -20,6 +20,8 @@ interface OAuthProviderButtonProps extends ChildrenProps {
 }
 
 export default function SignIn() {
+  const redirectTo = `${process.env.NEXT_PUBLIC_VERCEL_URL}/auth/callback`;
+
   const signInWithEmailHandler = async (formData: FormData) => {
     'use server';
     const email = String(formData.get('email'));
@@ -29,7 +31,7 @@ export default function SignIn() {
     const { data, error } = await supabase.auth.signInWithOtp({
       email,
       options: {
-        emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`,
+        emailRedirectTo: redirectTo,
       },
     });
 
@@ -50,7 +52,7 @@ export default function SignIn() {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider,
       options: {
-        redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`,
+        redirectTo,
       },
     });
 
