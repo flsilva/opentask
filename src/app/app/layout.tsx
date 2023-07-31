@@ -1,9 +1,9 @@
 import { redirect } from 'next/navigation';
 import UserSessionProvider from './shared/user/UserSessionProvider';
-import { getSession } from './shared/utils/session-utils';
+import { getSessionOrThrow } from './shared/utils/session-utils';
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
-  const session = await getSession();
+  const session = await getSessionOrThrow();
   if (!session) redirect('/auth/sign-in');
 
   return (
