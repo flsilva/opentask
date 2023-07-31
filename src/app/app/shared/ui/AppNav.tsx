@@ -37,20 +37,6 @@ export default function AppNav({ isOpen, onNewProjectClick, projects }: AppNavPr
     router.push(`/app/project/${project.id}`);
   };
 
-  const noProjectsMessage = () => (
-    <p className="mt-4 text-sm font-medium text-gray-600">
-      You don&#39;t have any projects yet.{' '}
-      <button
-        type="button"
-        className="text-blue-600 hover:text-blue-500"
-        onClick={onNewProjectClick}
-      >
-        Click here
-      </button>{' '}
-      to create your first.
-    </p>
-  );
-
   useLayoutEffect(() => {
     if (isOpen === null) return;
     let navClasses = navClassesCommon;
@@ -109,7 +95,10 @@ export default function AppNav({ isOpen, onNewProjectClick, projects }: AppNavPr
               <p className="mr-1.5 text-sm font-medium text-gray-400">3</p>
             </button>
           ))}
-        {!projects || (projects.length === 0 && noProjectsMessage())}
+
+        {(!projects || projects.length === 0) && (
+          <p className="mt-4 text-sm font-medium text-gray-600">No projects</p>
+        )}
       </nav>
     </nav>
   );

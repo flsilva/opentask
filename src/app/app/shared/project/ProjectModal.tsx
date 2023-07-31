@@ -12,7 +12,7 @@ import { CreateProjectData, UpdateProjectData } from './ProjectData';
 
 interface ProjectModalProps {
   readonly open: boolean;
-  readonly onCloseHandler: (showModal: boolean) => void;
+  readonly onCloseHandler: () => void;
   readonly onCreateProject: (data: CreateProjectData) => void;
   readonly onUpdateProject: (data: UpdateProjectData) => void;
   readonly project?: ProjectData;
@@ -73,7 +73,7 @@ export default function ProjectModal({
     setNameAccordingToProject(project);
     setDescriptionAccordingToProject(project);
     /**/
-    onCloseHandler(false);
+    onCloseHandler();
   };
 
   const onChangeNameHandler = (event: React.ChangeEvent<HTMLInputElement>) => {

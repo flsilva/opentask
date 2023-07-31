@@ -55,6 +55,7 @@ export default function AppShell({ children, project, projects }: AppShellProps)
   };
 
   const onCloseProjectModalHandler = () => {
+    console.log('AppShell().onCloseProjectModalHandler()');
     setEditProject(undefined);
     setShowProjectModal(false);
   };
@@ -63,6 +64,7 @@ export default function AppShell({ children, project, projects }: AppShellProps)
     console.log('AppShell().onCreateProject() - data: ', data);
 
     const project = await createProject(data);
+    onCloseProjectModalHandler();
     router.push(`/app/project/${project.id}`);
   };
 
@@ -70,12 +72,12 @@ export default function AppShell({ children, project, projects }: AppShellProps)
     console.log('AppShell().onUpdateProject() - data: ', data);
 
     const project = await updateProject(data);
+    onCloseProjectModalHandler();
     /*
      * This is necessary to refetch and rerender the updated data.
      */
     router.refresh();
     /**/
-    setShowProjectModal(false);
   };
 
   let headerComponent;
@@ -95,6 +97,20 @@ export default function AppShell({ children, project, projects }: AppShellProps)
     throw new Error(`AppShell() - Unhandled route: ${pathname}`);
   }
 
+  const noProjectsMessage = () => (
+    <p className="mt-4 text-sm font-medium text-gray-600">
+      You don&#39;t have any projects yet.{' '}
+      <button
+        type="button"
+        className="text-blue-600 hover:text-blue-500"
+        onClick={() => setShowProjectModal(true)}
+      >
+        Click here
+      </button>{' '}
+      to create your first.
+    </p>
+  );
+
   useLayoutEffect(() => {
     if (headerRef.current === undefined || headerRef.current === null) return;
     const headerWidth = headerRef.current.getBoundingClientRect().width;
@@ -108,16 +124,14 @@ export default function AppShell({ children, project, projects }: AppShellProps)
         <AppNav
           isOpen={isMenuOpen}
           projects={projects}
-          onNewProjectClick={() => {
-            console.log('AppShell().onNewProjectClick()X');
-            setShowProjectModal(true);
-          }}
+          onNewProjectClick={() => setShowProjectModal(true)}
         />
         <div className="h-full w-full overflow-y-auto overflow-x-hidden md:flex">
           <div className="flex h-full w-full max-w-[24rem] flex-col px-4 md:max-w-[38rem] md:pl-8 lg:max-w-[60rem] xl:pl-36  2xl:pl-60">
             <div className="pb-56">
               {headerComponent}
               {children}
+              {(!projects || projects.length === 0) && noProjectsMessage()}
             </div>
           </div>
         </div>
