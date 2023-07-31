@@ -13,6 +13,7 @@ export const CreateProjectSchema = z.object({
    */
   description: z.string().max(500).optional().nullable(),
   /**/
+  isArchived: z.boolean().optional(),
 });
 
 export type CreateProjectData = z.infer<typeof CreateProjectSchema>;

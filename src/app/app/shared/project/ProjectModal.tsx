@@ -115,7 +115,7 @@ export default function ProjectModal({
               className="-m-2.5 rounded-md p-2.5 text-gray-700"
               onClick={onCloseHandlerInternal}
             >
-              <span className="sr-only">Close menu</span>
+              <span className="sr-only">Close modal</span>
               <XIcon aria-hidden="true" />
             </button>
           </div>

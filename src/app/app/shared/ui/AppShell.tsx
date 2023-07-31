@@ -14,6 +14,7 @@ import TodayHeader from '../../today/TodayHeader';
 import ProjectModal from '../project/ProjectModal';
 import { CreateProjectData, UpdateProjectData } from '../project/ProjectData';
 import { createProject, updateProject } from '../project/project-model';
+import { ConfirmationModal, ConfirmationModalProps } from './ConfirmationModal';
 
 interface AppShellProps extends ChildrenProps {
   readonly project?: ProjectData | null;
@@ -24,11 +25,28 @@ export default function AppShell({ children, project, projects }: AppShellProps)
   const [isMenuOpen, setIsMenuOpen] = useState<boolean | null>(null);
   const [showProjectModal, setShowProjectModal] = useState(false);
   const [editProject, setEditProject] = useState<ProjectData | undefined>(undefined);
+  const [confirmationModalProps, setConfirmationModalProps] =
+    useState<ConfirmationModalProps | null>(null);
   const headerRef = useRef<HTMLElement>(null);
   const router = useRouter();
   const pathname = usePathname();
   console.log('AppShell() - showProjectModal: ', showProjectModal);
   console.log('AppShell() - projects: ', projects);
+
+  const findProjectById = (id: string): ProjectData | undefined =>
+    projects.find((project) => project.id === id);
+
+  const confirmationModalCancelHandler = () => {
+    console.log('AppShell().confirmationModalCancelHandler()');
+    setConfirmationModalProps(null);
+  };
+
+  const confirmationModalConfirmHandler = async (project: ProjectData) => {
+    console.log('AppShell().confirmationModalConfirmHandler()');
+    await updateProject({ id: project.id, name: project.name, isArchived: true });
+    router.push('/app/today');
+    setConfirmationModalProps(null);
+  };
 
   const onProjectActionHandler = (action: ProjectAction, projectId: string) => {
     console.log(
@@ -37,13 +55,28 @@ export default function AppShell({ children, project, projects }: AppShellProps)
     switch (action) {
       case ProjectAction.Archive:
         console.log('AppShell().onProjectActionHandler() - Archive project');
+        const project = findProjectById(projectId);
+        if (project === null || project === undefined) return;
+        setConfirmationModalProps({
+          confirmButtonLabel: 'Archive',
+          modalCopy: (
+            <span>
+              Are you sure you want to archive <span className="font-semibold">{project.name}</span>
+              ?
+            </span>
+          ),
+          modalTitle: 'Archive Project',
+          onCancelHandler: confirmationModalCancelHandler,
+          onConfirmHandler: () => confirmationModalConfirmHandler(project),
+          open: true,
+        });
         break;
       case ProjectAction.Delete:
         console.log('AppShell().onProjectActionHandler() - Delete project');
         break;
       case ProjectAction.Edit:
         console.log('AppShell().onProjectActionHandler() - Edit project');
-        setEditProject(projects.find((project) => project.id === projectId));
+        setEditProject(findProjectById(projectId));
         setShowProjectModal(true);
         break;
       default:
@@ -143,6 +176,7 @@ export default function AppShell({ children, project, projects }: AppShellProps)
         onUpdateProject={onUpdateProject}
         project={editProject}
       />
+      {confirmationModalProps && <ConfirmationModal {...confirmationModalProps} />}
     </>
   );
 }

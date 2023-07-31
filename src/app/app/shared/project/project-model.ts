@@ -54,12 +54,11 @@ export const updateProject = async (data: UpdateProjectData) => {
 
   console.log('updateProject() - userId: ', userId);
 
+  const { id: projectId, ...rest } = data;
+
   const project = await prisma.project.update({
-    where: { id: data.id, authorId: userId },
-    data: {
-      description: data.description,
-      name: data.name,
-    },
+    where: { id: projectId, authorId: userId },
+    data: rest,
   });
 
   console.log('updateProject() - project: ', project);
