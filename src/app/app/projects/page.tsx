@@ -13,15 +13,9 @@ for (let x = 0; x < 60; x++) {
   });
 }
 
-const project: ProjectData = {
-  id: '1',
-  name: 'Awesome Project',
-  description: 'This project is awesome...',
-};
-
 export default function ProjectPage() {
   return (
-    <AppShell project={project} projects={projects}>
+    <AppShell projects={projects}>
       <ProjectList projects={projects} />
     </AppShell>
   );

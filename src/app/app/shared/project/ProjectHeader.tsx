@@ -82,7 +82,7 @@ export default function ProjectHeader({ onProjectActionClick, project }: Project
           />
         </div>
       </div>
-      <p className="mb-8 block text-sm">{project.description}</p>
+      <p className="mb-8 block whitespace-pre-line text-sm">{project.description}</p>
     </div>
   );
 }

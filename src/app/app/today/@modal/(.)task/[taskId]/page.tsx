@@ -50,6 +50,6 @@ for (let x = 0; x < 30; x++) {
   });
 }
 
-export default function TaskPage() {
+export default function TodayTaskModalPage() {
   return <TaskModal project={project} projects={projects} task={task} />;
 }

@@ -1,3 +1,5 @@
+'use client';
+
 import 'client-only';
 import { useLayoutEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
@@ -34,6 +36,20 @@ export default function AppNav({ isOpen, onNewProjectClick, projects }: AppNavPr
   const onProjectClick = (project: ProjectData) => {
     router.push(`/app/project/${project.id}`);
   };
+
+  const noProjectsMessage = () => (
+    <p className="mt-4 text-sm font-medium text-gray-600">
+      You don&#39;t have any projects yet.{' '}
+      <button
+        type="button"
+        className="text-blue-600 hover:text-blue-500"
+        onClick={onNewProjectClick}
+      >
+        Click here
+      </button>{' '}
+      to create your first.
+    </p>
+  );
 
   useLayoutEffect(() => {
     if (isOpen === null) return;
@@ -78,19 +94,22 @@ export default function AppNav({ isOpen, onNewProjectClick, projects }: AppNavPr
         </button>
       </div>
       <nav className="flex flex-col pl-2">
-        {projects.map((project) => (
-          <button
-            key={project.id}
-            type="button"
-            className={`flex grow items-center justify-between rounded-md p-2.5 text-sm font-medium text-gray-600 hover:bg-gray-200 ${
-              isActive(`project/${project.id}`) ? activeClassName : ''
-            }`}
-            onClick={() => onProjectClick(project)}
-          >
-            <p>{project.name}</p>
-            <p className="mr-1.5 text-sm font-medium text-gray-400">3</p>
-          </button>
-        ))}
+        {projects &&
+          projects.length > 0 &&
+          projects.map((project) => (
+            <button
+              key={project.id}
+              type="button"
+              className={`flex grow items-center justify-between rounded-md p-2.5 text-sm font-medium text-gray-600 hover:bg-gray-200 ${
+                isActive(`project/${project.id}`) ? activeClassName : ''
+              }`}
+              onClick={() => onProjectClick(project)}
+            >
+              <p>{project.name}</p>
+              <p className="mr-1.5 text-sm font-medium text-gray-400">3</p>
+            </button>
+          ))}
+        {!projects || (projects.length === 0 && noProjectsMessage())}
       </nav>
     </nav>
   );

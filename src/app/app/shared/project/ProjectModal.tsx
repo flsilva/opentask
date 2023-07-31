@@ -8,20 +8,27 @@ import {
 } from '@/app/shared/ui//button/buttonClassName';
 import { ProjectData } from './ProjectData';
 import { useEffect, useState } from 'react';
+import { CreateProjectData, UpdateProjectData } from './ProjectData';
 
 interface ProjectModalProps {
   readonly open: boolean;
   readonly onCloseHandler: (showModal: boolean) => void;
-  readonly project?: ProjectData | undefined;
+  readonly onCreateProject: (data: CreateProjectData) => void;
+  readonly onUpdateProject: (data: UpdateProjectData) => void;
+  readonly project?: ProjectData;
 }
 
-const hasProject = (project: ProjectData | undefined) => project !== undefined && project !== null;
-
-export default function ProjectModal({ onCloseHandler, open, project }: ProjectModalProps) {
+export default function ProjectModal({
+  onCloseHandler,
+  onCreateProject,
+  onUpdateProject,
+  open,
+  project,
+}: ProjectModalProps) {
   /*
    * We can't set these initial states as this Modal is first rendered hidden with no project.
    * And we can only initiate a state in the first render, after that it's ignored.
-   * So we set this state in the use effect below.
+   * So we set this state in the useEffect() below.
    */
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
@@ -32,17 +39,40 @@ export default function ProjectModal({ onCloseHandler, open, project }: ProjectM
   }, [project]);
   /**/
 
-  const setNameAccordingToProject = (project: ProjectData | undefined) => {
-    setName(hasProject(project) ? (project as ProjectData).name : '');
+  const setNameAccordingToProject = (project?: ProjectData) => {
+    if (
+      project !== undefined &&
+      project !== null &&
+      project.name !== undefined &&
+      project.name !== null
+    ) {
+      console.log(project.name);
+      setName(project.name);
+      return;
+    }
+    setName('');
   };
 
   const setDescriptionAccordingToProject = (project: ProjectData | undefined) => {
-    setDescription(hasProject(project) ? (project as ProjectData).description : '');
+    if (
+      project !== undefined &&
+      project !== null &&
+      project.description !== undefined &&
+      project.description !== null
+    ) {
+      setDescription(project.description);
+      return;
+    }
+    setDescription('');
   };
 
   const onCloseHandlerInternal = () => {
+    /*
+     * Reset form changes before closing.
+     */
     setNameAccordingToProject(project);
     setDescriptionAccordingToProject(project);
+    /**/
     onCloseHandler(false);
   };
 
@@ -54,8 +84,21 @@ export default function ProjectModal({ onCloseHandler, open, project }: ProjectM
     setDescription(event.target.value);
   };
 
-  const saveProjectHandler = () => {
-    console.log('CreateProjectModal().saveProjectHandler()');
+  const onSaveProject = async (formData: FormData) => {
+    const data = {
+      name: String(formData.get('name')),
+      description: String(formData.get('description')),
+    };
+
+    console.log('ProjectModal().onSaveProject() - data: ', data);
+
+    project !== undefined &&
+    project !== null &&
+    project.id !== undefined &&
+    project.id !== null &&
+    project.id !== ''
+      ? onUpdateProject({ ...data, id: project.id })
+      : onCreateProject(data);
   };
 
   return (
@@ -65,7 +108,7 @@ export default function ProjectModal({ onCloseHandler, open, project }: ProjectM
         <Dialog.Panel className="mx-auto w-full rounded-lg bg-white p-4 md:w-[40rem]">
           <div className="flex items-center justify-between">
             <h1 className="text-lg font-semibold text-gray-800">
-              {hasProject(project) ? 'Edit project' : 'Create project'}
+              {project !== undefined && project !== null ? 'Edit project' : 'Create project'}
             </h1>
             <button
               type="button"
@@ -76,7 +119,7 @@ export default function ProjectModal({ onCloseHandler, open, project }: ProjectM
               <XIcon aria-hidden="true" />
             </button>
           </div>
-          <form className="mt-6 flex flex-col">
+          <form action={onSaveProject} className="mt-6 flex flex-col">
             <input
               value={name}
               onChange={onChangeNameHandler}
@@ -99,7 +142,7 @@ export default function ProjectModal({ onCloseHandler, open, project }: ProjectM
               <button className={buttonClassNameWhite} onClick={onCloseHandlerInternal}>
                 Cancel
               </button>
-              <button className={buttonClassNameGreen} onClick={saveProjectHandler}>
+              <button type="submit" className={buttonClassNameGreen}>
                 Save
               </button>
             </div>
