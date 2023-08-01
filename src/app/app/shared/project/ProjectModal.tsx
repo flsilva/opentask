@@ -15,7 +15,7 @@ interface ProjectModalProps {
   readonly onCloseHandler: () => void;
   readonly onCreateProject: (data: CreateProjectData) => void;
   readonly onUpdateProject: (data: UpdateProjectData) => void;
-  readonly project?: ProjectData;
+  readonly project?: ProjectData | null;
 }
 
 export default function ProjectModal({
@@ -39,7 +39,7 @@ export default function ProjectModal({
   }, [project]);
   /**/
 
-  const setNameAccordingToProject = (project?: ProjectData) => {
+  const setNameAccordingToProject = (project?: ProjectData | null) => {
     if (
       project !== undefined &&
       project !== null &&
@@ -53,7 +53,7 @@ export default function ProjectModal({
     setName('');
   };
 
-  const setDescriptionAccordingToProject = (project: ProjectData | undefined) => {
+  const setDescriptionAccordingToProject = (project?: ProjectData | null) => {
     if (
       project !== undefined &&
       project !== null &&

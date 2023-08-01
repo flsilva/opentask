@@ -13,12 +13,6 @@ for (let x = 0; x < 60; x++) {
   });
 }
 
-const project: ProjectData = {
-  id: '1',
-  name: 'Awesome Project',
-  description: 'This project is awesome...',
-};
-
 const task: TaskData = {
   id: '1',
   name: 'My simple task lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet.',
@@ -50,6 +44,6 @@ for (let x = 0; x < 30; x++) {
   });
 }
 
-export default function TodayTaskModalPage() {
-  return <TaskModal project={project} projects={projects} task={task} />;
+export default function TodayTaskInterceptingPage() {
+  return <TaskModal projects={projects} task={task} />;
 }

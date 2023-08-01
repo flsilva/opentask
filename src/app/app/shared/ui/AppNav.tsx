@@ -30,7 +30,7 @@ export default function AppNav({ isOpen, onNewProjectClick, projects }: AppNavPr
   };
 
   const onProjectsClick = () => {
-    router.push('/app/projects');
+    router.push('/app/projects/active');
   };
 
   const onProjectClick = (project: ProjectData) => {

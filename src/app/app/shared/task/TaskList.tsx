@@ -11,7 +11,11 @@ export default function TaskList({ onTaskClick, tasks }: TaskListProps) {
     <>
       {tasks.map((task) => (
         <div key={task.id} className="mb-6 flex last:pb-8">
-          <TaskListItem onTaskClick={onTaskClick} task={task} />
+          <TaskListItem
+            description={task.description}
+            name={task.name}
+            onTaskClick={() => onTaskClick(task)}
+          />
         </div>
       ))}
     </>

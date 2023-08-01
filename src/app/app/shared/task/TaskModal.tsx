@@ -9,7 +9,7 @@ import TaskForm from './/TaskForm';
 import { TaskData } from './TaskData';
 
 interface TaskModalModalProps {
-  readonly project: ProjectData;
+  readonly project?: ProjectData;
   readonly projects: Array<ProjectData>;
   readonly task: TaskData;
 }
@@ -37,11 +37,12 @@ export default function TaskModal({ project, projects, task }: TaskModalModalPro
 
     let navToPath;
 
-    if (pathname.indexOf('today') !== -1) {
-      navToPath = '/app/today';
-    } else {
+    if (project) {
       navToPath = `/app/project/${project.id}`;
+    } else {
+      navToPath = '/app/today';
     }
+
     router.push(navToPath);
     setIsOpen(false);
     /**/

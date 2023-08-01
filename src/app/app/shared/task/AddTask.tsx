@@ -2,25 +2,19 @@
 
 import 'client-only';
 import { useState } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
 import { buttonClassNameGreen } from '@/app/shared/ui//button/buttonClassName';
 import { ProjectData } from '../project/ProjectData';
-import { TaskData } from './TaskData';
 import TaskForm from './TaskForm';
-import TaskList from './TaskList';
 
-interface TaskListAndNewTaskProps {
-  readonly project: ProjectData;
+interface AddTaskProps {
+  readonly project?: ProjectData;
   readonly projects: Array<ProjectData>;
-  readonly tasks: Array<TaskData>;
 }
 
-export default function TaskListAndTaskForm({ project, projects, tasks }: TaskListAndNewTaskProps) {
+export default function AddTask({ project, projects }: AddTaskProps) {
   const [isAddingTask, setIsAddingTask] = useState(false);
-  const router = useRouter();
-  const pathname = usePathname();
 
-  const newTaskHandler = () => {
+  const addTaskHandler = () => {
     setIsAddingTask(true);
   };
 
@@ -32,19 +26,11 @@ export default function TaskListAndTaskForm({ project, projects, tasks }: TaskLi
     console.log('TaskListAndNewTask().saveNewTaskHandler()');
   };
 
-  const taskClickHandler = (task: TaskData) => {
-    console.log('TaskListAndNewTask().taskClickHandler() - task: ', task);
-    console.log('TaskListAndNewTask().taskClickHandler() - pathname: ', pathname);
-    const navToPath = pathname.indexOf('today') !== -1 ? 'today' : `${project.id}`;
-    router.push(`${navToPath}/task/${task.id}`);
-  };
-
   return (
     <>
-      <TaskList onTaskClick={taskClickHandler} tasks={tasks} />
       {!isAddingTask && (
         <button
-          onClick={newTaskHandler}
+          onClick={addTaskHandler}
           className={`${buttonClassNameGreen} mt-6 flex-row self-start`}
         >
           Add task
