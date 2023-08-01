@@ -9,6 +9,7 @@ import { MoreHorizontalIcon } from '@/app/shared/ui/icon/MoreHorizontalIcon';
 import { ArchiveIcon } from '@/app/shared/ui/icon/ArchiveIcon';
 import { DeleteIcon } from '@/app/shared/ui/icon/DeleteIcon';
 import { EditIcon } from '@/app/shared/ui/icon/EditIcon';
+import { UnarchiveIcon } from '@/app/shared/ui/icon/UnarchiveIcon';
 import { ConfirmationModal, ConfirmationModalProps } from '@/app/app/shared/ui/ConfirmationModal';
 import { deleteProject, updateProject } from '@/app/app/shared/project/project-model';
 import { CreateProjectData, UpdateProjectData } from '@/app/app/shared/project/ProjectData';
@@ -19,6 +20,7 @@ export enum ProjectAction {
   Archive = 'Archive',
   Edit = 'Edit',
   Delete = 'Delete',
+  Unarchive = 'Unarchive',
 }
 
 interface ProjectHeaderProps {
@@ -41,6 +43,11 @@ const menuItems: Array<MenuItem> = [
     action: ProjectAction.Archive,
     label: 'Archive project',
     icon: <ArchiveIcon className="mr-3 group-hover:fill-white" />,
+  },
+  {
+    action: ProjectAction.Unarchive,
+    label: 'Unarchive project',
+    icon: <UnarchiveIcon className="mr-3 group-hover:fill-white" />,
   },
   {
     action: ProjectAction.Delete,
@@ -83,21 +90,24 @@ export default function ProjectHeader({ project }: ProjectHeaderProps) {
     /**/
   };
 
-  const archiveProjectHandler = async (project: ProjectData) => {
+  const archiveUnarchiveProjectHandler = (project: ProjectData, archive: boolean) => {
     console.log('ProjectHeader().updateProjectHandler()');
-    await updateProject({ id: project.id, name: project.name, isArchived: true });
-    router.push('/app/today');
-    setConfirmationModalProps(null);
+    return updateProject({ id: project.id, name: project.name, isArchived: archive });
   };
 
   const deleteProjectHandler = async (project: ProjectData) => {
     console.log('ProjectHeader().deleteProjectHandler()');
     await deleteProject(project.id);
-    router.push('/app/today');
     setConfirmationModalProps(null);
+    router.push('/app/today');
+    /*
+     * This is necessary to refetch and rerender the updated data.
+     */
+    router.refresh();
+    /**/
   };
 
-  const onProjectActionClick = (action: ProjectAction) => {
+  const onProjectActionClick = async (action: ProjectAction) => {
     console.log(`ProjectHeader().onProjectActionHandler() - action: ${action}`);
     switch (action) {
       /*
@@ -116,7 +126,16 @@ export default function ProjectHeader({ project }: ProjectHeaderProps) {
           ),
           modalTitle: 'Archive Project',
           onCancelHandler: onCloseConfirmationModal,
-          onConfirmHandler: () => archiveProjectHandler(project),
+          onConfirmHandler: async () => {
+            await archiveUnarchiveProjectHandler(project, true);
+            setConfirmationModalProps(null);
+            router.push('/app/today');
+            /*
+             * This is necessary to refetch and rerender the updated data.
+             */
+            router.refresh();
+            /**/
+          },
           open: true,
         });
         break;
@@ -147,35 +166,55 @@ export default function ProjectHeader({ project }: ProjectHeaderProps) {
         setShowProjectModal(true);
         break;
       /*
+       * Unarchive Project
+       */
+      case ProjectAction.Unarchive:
+        console.log('ProjectHeader().onProjectActionHandler() - Unarchive project');
+        if (project === null || project === undefined) return;
+        await archiveUnarchiveProjectHandler(project, false);
+        /*
+         * This is necessary to refetch and rerender the updated data.
+         */
+        router.refresh();
+        /**/
+        break;
+      /*
        * Unhandled action error
        */
       default:
         throw new Error(
-          'ProjectHeader().onProjectActionHandler() - ProjectAction not handled: ',
-          action,
+          `ProjectHeader().onProjectActionHandler() - Unhandled ProjectAction: ${action}`,
         );
     }
   };
 
   const getDropdownItems = () =>
-    menuItems.map((item) => (
-      <Menu.Item key={item.action} as={Fragment}>
-        {({ active }: { active: boolean }) => (
-          <button
-            type="button"
-            onClick={() => onProjectActionClick(item.action)}
-            className={`${
-              active ? 'group bg-green-500 text-white' : 'text-gray-900'
-            } group flex w-full items-center rounded-md px-2 py-3 text-sm`}
-          >
-            <div className="flex items-center">
-              {item.icon}
-              {item.label}
-            </div>
-          </button>
-        )}
-      </Menu.Item>
-    ));
+    menuItems
+      .filter(
+        (item) =>
+          project &&
+          (item.action !== ProjectAction.Archive || !project.isArchived) &&
+          (item.action !== ProjectAction.Edit || !project.isArchived) &&
+          (item.action !== ProjectAction.Unarchive || project.isArchived),
+      )
+      .map((item) => (
+        <Menu.Item key={item.action} as={Fragment}>
+          {({ active }: { active: boolean }) => (
+            <button
+              type="button"
+              onClick={() => onProjectActionClick(item.action)}
+              className={`${
+                active ? 'group bg-green-500 text-white' : 'text-gray-900'
+              } group flex w-full items-center rounded-md px-2 py-3 text-sm`}
+            >
+              <div className="flex items-center">
+                {item.icon}
+                {item.label}
+              </div>
+            </button>
+          )}
+        </Menu.Item>
+      ));
 
   return (
     <>
@@ -194,7 +233,11 @@ export default function ProjectHeader({ project }: ProjectHeaderProps) {
             />
           </div>
         </div>
-        <p className="mb-8 block whitespace-pre-line text-sm">{project?.description || ''}</p>
+        <p className="block whitespace-pre-line text-sm">{project?.description || ''}</p>
+        {project && project.isArchived && (
+          <p className="mt-2 block whitespace-pre-line text-sm">This project is archived.</p>
+        )}
+        <div className="mb-8" />
       </div>
       <ProjectModal
         open={showProjectModal}

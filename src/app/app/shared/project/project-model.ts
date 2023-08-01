@@ -65,7 +65,10 @@ export const findManyProjects = (isArchived = false) => {
     const userId = session.user.id;
 
     const prisma = new PrismaClient();
-    return prisma.project.findMany({ where: { authorId: userId, isArchived } });
+    return prisma.project.findMany({
+      where: { authorId: userId, isArchived },
+      orderBy: { createdAt: 'asc' },
+    });
   });
 };
 
