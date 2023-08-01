@@ -1,57 +1,50 @@
 'use client';
 
+import 'client-only';
 import { useLayoutEffect, useRef, useState } from 'react';
-import { usePathname } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+
 import { ChildrenProps } from '@/app/shared/ui//ChildrenProps';
 import AppHeader from '@/app/app/shared/ui/AppHeader';
 import AppNav from '@/app/app/shared/ui/AppNav';
-import { ProjectData } from '../project/ProjectData';
-import ProjectModal from '../project/ProjectModal';
-import TodayHeader from '../../today/TodayHeader';
-import ProjectHeader, { ProjectAction } from '../project/ProjectHeader';
-import ProjectsHeader from '../project/ProjectsHeader';
+import { ProjectData } from '@/app/app/shared/project/ProjectData';
+import ProjectModal from '@/app/app/shared/project/ProjectModal';
+import { CreateProjectData, UpdateProjectData } from '@/app/app/shared/project/ProjectData';
+import { createProject } from '@/app/app/shared/project/project-model';
 
 interface AppShellProps extends ChildrenProps {
-  readonly project?: ProjectData;
+  readonly project?: ProjectData | null;
   readonly projects: Array<ProjectData>;
 }
 
 export default function AppShell({ children, project, projects }: AppShellProps) {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean | null>(null);
   const [showProjectModal, setShowProjectModal] = useState(false);
-  const [editProject, setEditProject] = useState<ProjectData | undefined>(undefined);
+
   const headerRef = useRef<HTMLElement>(null);
-  const pathname = usePathname();
+  const router = useRouter();
 
-  const onProjectActionHandler = (action: ProjectAction, projectId: string) => {
-    console.log(
-      `AppShell().onProjectActionHandler() - action: ${action} | projectId: ${projectId}`,
-    );
-    switch (action) {
-      case ProjectAction.Archive:
-        console.log('AppShell().onProjectActionHandler() - Archive project');
-        break;
-      case ProjectAction.Delete:
-        console.log('AppShell().onProjectActionHandler() - Delete project');
-        break;
-      case ProjectAction.Edit:
-        console.log('AppShell().onProjectActionHandler() - Edit project');
-        setEditProject(projects.find((project) => project.id === projectId));
-        setShowProjectModal(true);
-        break;
-      default:
-        throw new Error(
-          'AppShell().onProjectActionHandler() - ProjectAction not handled: ',
-          action,
-        );
-    }
-  };
+  console.log('AppShell() - showProjectModal: ', showProjectModal);
+  console.log('AppShell() - projects: ', projects);
 
-  const onCloseProjectModalHandler = () => {
-    setEditProject(undefined);
+  const onCloseProjectModal = () => {
+    console.log('AppShell().onCloseProjectModal()');
     setShowProjectModal(false);
   };
 
+  const onCreateProject = async (data: CreateProjectData) => {
+    console.log('AppShell().onCreateProject() - data: ', data);
+
+    const project = await createProject(data);
+    onCloseProjectModal();
+    router.push(`/app/project/${project.id}`);
+  };
+
+  const onUpdateProject = async (data: UpdateProjectData) => {
+    throw new Error('This operation should be handler by a different component.');
+  };
+
+  /*
   let headerComponent;
   if (pathname.indexOf('app/today') !== -1) {
     headerComponent = <TodayHeader />;
@@ -60,13 +53,29 @@ export default function AppShell({ children, project, projects }: AppShellProps)
   } else if (pathname.indexOf('app/project') !== -1) {
     if (project === null || project === undefined)
       throw new Error(
-        "AppShell() - property 'project' must be provided when on /app/project routes. Received: ",
-        project,
+        "AppShell() - property 'project' cannot be null or undefined on /app/project routes",
       );
     headerComponent = (
       <ProjectHeader onProjectActionClick={onProjectActionHandler} project={project} />
     );
+  } else {
+    throw new Error(`AppShell() - Unhandled route: ${pathname}`);
   }
+  */
+
+  const noProjectsMessage = () => (
+    <p className="mt-4 text-sm font-medium text-gray-600">
+      You don&#39;t have any projects yet.{' '}
+      <button
+        type="button"
+        className="text-blue-600 hover:text-blue-500"
+        onClick={() => setShowProjectModal(true)}
+      >
+        Click here
+      </button>{' '}
+      to create your first.
+    </p>
+  );
 
   useLayoutEffect(() => {
     if (headerRef.current === undefined || headerRef.current === null) return;
@@ -86,16 +95,17 @@ export default function AppShell({ children, project, projects }: AppShellProps)
         <div className="h-full w-full overflow-y-auto overflow-x-hidden md:flex">
           <div className="flex h-full w-full max-w-[24rem] flex-col px-4 md:max-w-[38rem] md:pl-8 lg:max-w-[60rem] xl:pl-36  2xl:pl-60">
             <div className="pb-56">
-              {headerComponent}
               {children}
+              {(!projects || projects.length === 0) && noProjectsMessage()}
             </div>
           </div>
         </div>
       </div>
       <ProjectModal
         open={showProjectModal}
-        onCloseHandler={onCloseProjectModalHandler}
-        project={editProject}
+        onCloseHandler={onCloseProjectModal}
+        onCreateProject={onCreateProject}
+        onUpdateProject={onUpdateProject}
       />
     </>
   );

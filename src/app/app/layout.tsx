@@ -1,15 +1,9 @@
-import { cookies } from 'next/headers';
-
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { redirect } from 'next/navigation';
 import UserSessionProvider from './shared/user/UserSessionProvider';
+import { getSessionOrThrow } from './shared/utils/session-utils';
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
-  const supabase = createServerComponentClient({ cookies });
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-
+  const session = await getSessionOrThrow();
   if (!session) redirect('/auth/sign-in');
 
   return (

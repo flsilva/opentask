@@ -1,30 +1,12 @@
 import 'server-only';
-import AppShell from '../shared/ui/AppShell';
-import { ProjectData } from '../shared/project/ProjectData';
-import { TaskData } from '../shared/task/TaskData';
-import TaskListAndTaskForm from '../shared/task/TaskListAndTaskForm';
-
-const projects: Array<ProjectData> = [];
-
-for (let x = 0; x < 60; x++) {
-  projects.push({
-    id: String(x + 1),
-    name: `My Project ${x + 1}`,
-    description: `My Project ${x + 1} description.`,
-  });
-}
+import AppShell from '@/app/app/shared/ui/AppShell';
+import { findManyProjects } from '@/app/app/shared/project/project-model';
+import TodayHeader from '@/app/app/shared/today/TodayHeader';
+import AddTask from '@/app/app/shared/task/AddTask';
+import { TaskData } from '@/app/app/shared/task/TaskData';
+import { TodayPageTaskList } from '@/app/app/shared/today/TodayPageTaskList';
 
 const tasks: Array<TaskData> = [];
-/*
-for (let x = 0; x < 30; x++) {
-  tasks.push({
-    id: String(x + 1),
-    name: `My task #${x + 1}: this one is pretty simple, just tick it!`,
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-  });
-}
-*/
 
 for (let x = 0; x < 30; x++) {
   tasks.push({
@@ -38,16 +20,13 @@ for (let x = 0; x < 30; x++) {
   });
 }
 
-const project: ProjectData = {
-  id: '1',
-  name: 'Awesome Project',
-  description: 'This project is awesome...',
-};
-
-export default function TodayPage() {
+export default async function TodayPage() {
+  const projects = await findManyProjects();
   return (
     <AppShell projects={projects}>
-      <TaskListAndTaskForm project={project} projects={projects} tasks={tasks} />
+      <TodayHeader />
+      <TodayPageTaskList tasks={tasks} />
+      <AddTask projects={projects} />
     </AppShell>
   );
 }

@@ -47,17 +47,14 @@ const AppHeader = forwardRef<HTMLElement, AppHeaderProps>(
     const supabase = createClientComponentClient();
 
     const onSettingsActionClick = async (action: SettingsAction) => {
-      console.log('AppHeader().onSettingsActionClick() - action: ', action);
-
       switch (action) {
         case SettingsAction.Logout:
-          console.log('AppShell().onProjectActionHandler() - Log out');
           wrappedUserSession.logout();
           await supabase.auth.signOut();
           router.push('/');
           break;
         case SettingsAction.Settings:
-          console.log('AppShell().onProjectActionHandler() - Nav to settings modal');
+          console.log('AppHeader().onProjectActionHandler() - Nav to settings modal');
           break;
         default:
           throw new Error(

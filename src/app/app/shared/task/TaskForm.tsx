@@ -18,7 +18,7 @@ import TaskDueDatePicker from './TaskDueDatePicker';
 interface TaskFormProps extends ClassNamePropsOptional {
   readonly onCancelClick: () => void;
   readonly onSaveClick: () => void;
-  readonly project: ProjectData;
+  readonly project?: ProjectData;
   readonly projects: Array<ProjectData>;
   readonly shouldStartAtEditingMode?: boolean;
   readonly task?: TaskData;
@@ -129,7 +129,7 @@ export default function TaskForm({
             type="button"
             onClick={() => dropdownMenuItemClickHandler(project)}
             className={`${
-              active || moveToProject.name === project.name
+              active || (moveToProject && moveToProject.name === project.name)
                 ? 'bg-green-500 text-white'
                 : 'text-gray-900'
             } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
@@ -178,7 +178,7 @@ export default function TaskForm({
             itemsClassName="absolute bottom-14 left-0 max-h-80 w-56"
             menuButton={
               <Menu.Button className="flex items-center justify-center rounded-md bg-green-600 px-3.5 py-2.5 text-sm font-medium text-white shadow-sm hover:bg-green-500 focus-visible:outline  focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600">
-                {moveToProject.name}
+                {(moveToProject && moveToProject.name) || projects[0].name}
                 <ExpandMoreIcon className="ml-2 fill-white" />
               </Menu.Button>
             }
