@@ -7,7 +7,7 @@ import { ProjectData } from '../project/ProjectData';
 import TaskForm from './TaskForm';
 
 interface AddTaskProps {
-  readonly project?: ProjectData;
+  readonly project: ProjectData | null;
   readonly projects: Array<ProjectData>;
 }
 
@@ -26,6 +26,11 @@ export default function AddTask({ project, projects }: AddTaskProps) {
     console.log('TaskListAndNewTask().saveNewTaskHandler()');
   };
 
+  if (!project)
+    throw new Error(
+      `AddTask() - Object "project" must not be null nor undefined. Received: ${project}`,
+    );
+
   return (
     <>
       {!isAddingTask && (
@@ -43,7 +48,7 @@ export default function AddTask({ project, projects }: AddTaskProps) {
           onSaveClick={saveNewTaskHandler}
           project={project}
           projects={projects}
-          shouldStartAtEditingMode
+          shouldStartEditingNameOrDescription
         />
       )}
     </>

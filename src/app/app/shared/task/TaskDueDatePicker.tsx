@@ -29,14 +29,17 @@ const taskDueDatePickerOptions = {
   language: 'en',
 };
 
-interface TaskDueDatePickerProps extends ClassNamePropsOptional {}
+interface TaskDueDatePickerProps extends ClassNamePropsOptional {
+  readonly onChange: (date: Date) => void;
+}
 
-export default function TaskDueDatePicker({ className }: TaskDueDatePickerProps) {
+export default function TaskDueDatePicker({ className, onChange }: TaskDueDatePickerProps) {
   const [isShowing, setIsShowing] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
   const handleChange = (date: Date) => {
     setSelectedDate(date);
+    onChange(date);
   };
 
   const handleClose = (state: boolean) => {

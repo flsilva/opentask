@@ -16,7 +16,7 @@ export const ProjectPageTaskList = ({ project, tasks }: ProjectPageTaskListProps
 
   const onTaskClick = (task: TaskData) => {
     if (!project) throw new Error('Property project must not be null.');
-    router.push(`${project.id}/task/${task.id}`);
+    router.push(`/app/project/${project.id}/task/${task.id}`);
   };
 
   return <TaskList onTaskClick={onTaskClick} tasks={tasks} />;

@@ -9,9 +9,9 @@ import TaskForm from './/TaskForm';
 import { TaskData } from './TaskData';
 
 interface TaskModalModalProps {
-  readonly project?: ProjectData;
+  readonly project: ProjectData;
   readonly projects: Array<ProjectData>;
-  readonly task: TaskData;
+  readonly task: TaskData | null;
 }
 
 export default function TaskModal({ project, projects, task }: TaskModalModalProps) {
@@ -63,7 +63,15 @@ export default function TaskModal({ project, projects, task }: TaskModalModalPro
       <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
       <div className="fixed inset-0 flex items-center">
         <Dialog.Panel className="mx-auto flex w-full flex-col rounded-lg bg-white p-4 md:w-[40rem]">
-          <div className="flex justify-end">
+          <div className="flex items-start justify-between">
+            <TaskForm
+              onCancelClick={onCloseModal}
+              onSaveClick={saveNewTaskHandler}
+              project={project}
+              projects={projects}
+              task={task}
+              taskNameClassName="text-2xl"
+            />
             <button
               type="button"
               className="-mt-1 rounded-md p-2.5 text-gray-700"
@@ -74,14 +82,6 @@ export default function TaskModal({ project, projects, task }: TaskModalModalPro
               <XIcon aria-hidden="true" />
             </button>
           </div>
-          <TaskForm
-            onCancelClick={onCloseModal}
-            onSaveClick={saveNewTaskHandler}
-            project={project}
-            projects={projects}
-            task={task}
-            taskNameClassName="text-2xl"
-          />
         </Dialog.Panel>
       </div>
     </Dialog>

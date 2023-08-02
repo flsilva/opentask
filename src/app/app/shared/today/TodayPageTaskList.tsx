@@ -13,7 +13,7 @@ export const TodayPageTaskList = ({ tasks }: TodayPageTaskListProps) => {
   const router = useRouter();
 
   const onTaskClick = (task: TaskData) => {
-    router.push(`today/task/${task.id}`);
+    router.push(`/app/today/task/${task.id}`);
   };
 
   return <TaskList onTaskClick={onTaskClick} tasks={tasks} />;

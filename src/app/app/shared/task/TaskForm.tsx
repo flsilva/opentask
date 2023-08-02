@@ -1,7 +1,8 @@
 'use client';
 
 import 'client-only';
-import { Fragment, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { Fragment, useEffect, useState } from 'react';
 import ContentEditable from 'react-contenteditable';
 import { Menu } from '@headlessui/react';
 import { ClassNamePropsOptional } from '@/app/shared/ui/ClassNameProps';
@@ -12,16 +13,23 @@ import {
 import { ExpandMoreIcon } from '@/app/shared/ui/icon/ExpandMoreIcon';
 import DropdownMenu from '@/app/shared/ui/dropdown/DropdownMenu';
 import { ProjectData } from '../project/ProjectData';
-import { TaskData } from './TaskData';
+import {
+  CreateTaskData,
+  CreateTaskSchema,
+  TaskData,
+  UpdateTaskData,
+  UpdateTaskSchema,
+} from './TaskData';
 import TaskDueDatePicker from './TaskDueDatePicker';
+import { createTask, updateTask } from './task-model';
 
 interface TaskFormProps extends ClassNamePropsOptional {
   readonly onCancelClick: () => void;
   readonly onSaveClick: () => void;
-  readonly project?: ProjectData;
+  readonly project: ProjectData | null;
   readonly projects: Array<ProjectData>;
-  readonly shouldStartAtEditingMode?: boolean;
-  readonly task?: TaskData;
+  readonly shouldStartEditingNameOrDescription?: boolean;
+  readonly task?: TaskData | null;
   readonly taskNameClassName?: string;
 }
 
@@ -31,20 +39,62 @@ export default function TaskForm({
   onSaveClick,
   project,
   projects,
-  shouldStartAtEditingMode = false,
+  shouldStartEditingNameOrDescription = false,
   task,
   taskNameClassName,
 }: TaskFormProps) {
-  console.log('TaskForm() - shouldStartAtEditingMode: ', shouldStartAtEditingMode);
+  console.log(
+    'TaskForm() - shouldStartEditingNameOrDescription: ',
+    shouldStartEditingNameOrDescription,
+  );
   const NAME_PLACEHOLDER = 'Task name';
   const DESCRIPTION_PLACEHOLDER = 'Task description';
 
+  const router = useRouter();
   const [name, setName] = useState(task ? task.name : NAME_PLACEHOLDER);
   const [description, setDescription] = useState(task ? task.description : DESCRIPTION_PLACEHOLDER);
-  const [moveToProject, setMoveToProject] = useState(project);
-  const [isEditing, setIsEditing] = useState(shouldStartAtEditingMode);
+  const [dueDate, setDueData] = useState<Date | undefined>();
+  const [taskProject, setTaskProject] = useState(project ?? projects[0]);
+  const [isEditingNameOrDescription, setIsEditingNameOrDescription] = useState(
+    shouldStartEditingNameOrDescription,
+  );
 
-  console.log('TaskForm() - isEditing: ', isEditing);
+  console.log('TaskForm() - isEditingNameOrDescription: ', isEditingNameOrDescription);
+
+  const generateTaskData = (): CreateTaskData => ({
+    name: (name !== NAME_PLACEHOLDER && name) || '',
+    description: (description !== DESCRIPTION_PLACEHOLDER && description) || '',
+    dueDate,
+    projectId: taskProject.id,
+  });
+
+  const isDataValid = CreateTaskSchema.safeParse(generateTaskData()).success;
+
+  const resetForm = () => {
+    setName(NAME_PLACEHOLDER);
+    setDescription(DESCRIPTION_PLACEHOLDER);
+    setDueData(undefined);
+  };
+
+  const _onSaveClick = async () => {
+    console.log('TaskListAndNewTask().saveNewTaskHandler()');
+    let data: CreateTaskData | UpdateTaskData = generateTaskData();
+
+    console.log('ProjectModal().onSaveProject() - data: ', data);
+
+    if (!task) {
+      CreateTaskSchema.parse(data);
+      await createTask(data);
+      resetForm();
+      router.refresh();
+      return;
+    }
+
+    data = { ...data, id: task.id };
+    UpdateTaskSchema.parse(data);
+    setIsEditingNameOrDescription(false);
+    await updateTask(data);
+  };
 
   const onNameFocusHandler = (event: React.FocusEvent<HTMLInputElement>) => {
     console.log('TaskForm().onNameFocusHandler() - event: ', event);
@@ -76,7 +126,7 @@ export default function TaskForm({
     )
       return;
     /**/
-    setIsEditing(true);
+    setIsEditingNameOrDescription(true);
     if (event.target === null || event.target === undefined) return;
     if (event.target.innerHTML !== '' && event.target.innerHTML !== NAME_PLACEHOLDER) return;
     setName('');
@@ -95,7 +145,7 @@ export default function TaskForm({
 
   const onDescriptionFocusHandler = (event: React.FocusEvent<HTMLInputElement>) => {
     console.log('TaskForm().onDescriptionFocusHandler()');
-    setIsEditing(true);
+    setIsEditingNameOrDescription(true);
     if (event.target === null || event.target === undefined) return;
     if (event.target.innerHTML !== '' && event.target.innerHTML !== DESCRIPTION_PLACEHOLDER) return;
     setDescription('');
@@ -115,7 +165,7 @@ export default function TaskForm({
   const dropdownMenuItemClickHandler = (selectedProject: ProjectData) => {
     console.log('TaskForm().dropdownMenuItemClickHandler() - selectedProject: ', selectedProject);
     const project = getProjectById(selectedProject.id);
-    if (project) setMoveToProject(project);
+    if (project) setTaskProject(project);
   };
 
   const getProjectById = (id: string): ProjectData | undefined =>
@@ -129,7 +179,7 @@ export default function TaskForm({
             type="button"
             onClick={() => dropdownMenuItemClickHandler(project)}
             className={`${
-              active || (moveToProject && moveToProject.name === project.name)
+              active || (taskProject && taskProject.name === project.name)
                 ? 'bg-green-500 text-white'
                 : 'text-gray-900'
             } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
@@ -146,12 +196,21 @@ export default function TaskForm({
   const isEditingNameAndDescriptionClassName = `${defaultNameAndDescriptionClassName} border border-gray-400 bg-white`;
 
   const nameClassName = `${
-    isEditing ? isEditingNameAndDescriptionClassName : defaultNameAndDescriptionClassName
+    isEditingNameOrDescription
+      ? isEditingNameAndDescriptionClassName
+      : defaultNameAndDescriptionClassName
   } ${name === NAME_PLACEHOLDER ? 'text-gray-400' : 'text-gray-900'} ${taskNameClassName}`;
 
   const descriptionClassName = `${
-    isEditing ? isEditingNameAndDescriptionClassName : defaultNameAndDescriptionClassName
+    isEditingNameOrDescription
+      ? isEditingNameAndDescriptionClassName
+      : defaultNameAndDescriptionClassName
   } ${description === DESCRIPTION_PLACEHOLDER ? 'text-gray-400' : 'text-gray-900'}`;
+
+  if (!project)
+    throw new Error(
+      `TaskForm() - Object "project" must not be null nor undefined. Received: ${project}`,
+    );
 
   return (
     <form className={`flex w-full flex-col ${className}`}>
@@ -164,13 +223,13 @@ export default function TaskForm({
       />
       <ContentEditable
         className={descriptionClassName}
-        html={description}
+        html={description ?? ''}
         onBlur={onDescriptionBlurHandler}
         onFocus={onDescriptionFocusHandler}
         onChange={onDescriptionChangeHandler}
       />
       <div className="mt-8 flex flex-col md:flex-row md:items-start">
-        <TaskDueDatePicker className="z-50" />
+        <TaskDueDatePicker className="z-50" onChange={setDueData} />
         <div className="relative ml-0 mt-4 h-12 md:ml-16 md:mt-0">
           <DropdownMenu
             className="absolute w-56"
@@ -178,20 +237,25 @@ export default function TaskForm({
             itemsClassName="absolute bottom-14 left-0 max-h-80 w-56"
             menuButton={
               <Menu.Button className="flex items-center justify-center rounded-md bg-green-600 px-3.5 py-2.5 text-sm font-medium text-white shadow-sm hover:bg-green-500 focus-visible:outline  focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600">
-                {(moveToProject && moveToProject.name) || projects[0].name}
+                {taskProject.name}
                 <ExpandMoreIcon className="ml-2 fill-white" />
               </Menu.Button>
             }
           />
         </div>
       </div>
-      {isEditing && (
+      {isEditingNameOrDescription && (
         <div className="mt-12 flex justify-end gap-2 sm:gap-4">
-          <button className={buttonClassNameWhite} onClick={onCancelClick}>
+          <button type="button" className={buttonClassNameWhite} onClick={onCancelClick}>
             Cancel
           </button>
-          <button className={buttonClassNameGreen} onClick={onSaveClick}>
-            Add task
+          <button
+            type="button"
+            disabled={!isDataValid}
+            className={buttonClassNameGreen}
+            onClick={_onSaveClick}
+          >
+            {task ? 'Save' : 'Add task'}
           </button>
         </div>
       )}
