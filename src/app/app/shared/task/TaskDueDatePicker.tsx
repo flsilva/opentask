@@ -30,12 +30,17 @@ const taskDueDatePickerOptions = {
 };
 
 interface TaskDueDatePickerProps extends ClassNamePropsOptional {
+  readonly defaultDate: Date | null;
   readonly onChange: (date: Date) => void;
 }
 
-export default function TaskDueDatePicker({ className, onChange }: TaskDueDatePickerProps) {
+export default function TaskDueDatePicker({
+  className,
+  defaultDate,
+  onChange,
+}: TaskDueDatePickerProps) {
   const [isShowing, setIsShowing] = useState(false);
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(defaultDate);
 
   const handleChange = (date: Date) => {
     setSelectedDate(date);
@@ -66,7 +71,7 @@ export default function TaskDueDatePicker({ className, onChange }: TaskDueDatePi
         onClick={() => setIsShowing(false)}
       />
       <Datepicker
-        options={taskDueDatePickerOptions}
+        options={{ ...taskDueDatePickerOptions, defaultDate }}
         onChange={handleChange}
         show={isShowing}
         setShow={handleClose}

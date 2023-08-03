@@ -4,18 +4,18 @@ import { findTaskById, findTasksDueUntilToday } from '@/app/app/shared/task/task
 import TaskModal from '@/app/app/shared/task/TaskModal';
 
 interface TodayTaskInterceptingPageProps {
-  readonly params: { readonly projectId: string; readonly taskId: string };
+  readonly params: { readonly taskId: string };
 }
 
 export default async function TodayTaskInterceptingPage({
-  params: { projectId, taskId },
+  params: { taskId },
 }: TodayTaskInterceptingPageProps) {
-  const [projects, project, task] = await Promise.all([
+  const [projects, tasks, task] = await Promise.all([
     findManyProjects(),
-    findProjectById({ id: projectId }),
+    findTasksDueUntilToday(),
     findTaskById(taskId),
   ]);
 
-  if (!project) return null;
-  return <TaskModal project={project} projects={projects} task={task} />;
+  if (!projects || projects.length < 1) return null;
+  return <TaskModal project={projects[0]} projects={projects} task={task} />;
 }

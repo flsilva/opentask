@@ -8,6 +8,7 @@ import {
   UpdateProjectData,
   UpdateProjectSchema,
 } from './ProjectData';
+import { TaskData } from '../task/TaskData';
 
 export const createProject = async (data: CreateProjectData) => {
   console.log('createProject() - data: ', data);
@@ -65,7 +66,7 @@ export const findManyProjects = async ({
   const userId = session.user.id;
   const prisma = new PrismaClient();
 
-  return prisma.project.findMany({
+  return await prisma.project.findMany({
     where: { authorId: userId, isArchived },
     orderBy: { createdAt: 'asc' },
     include: {
@@ -84,10 +85,27 @@ export const findProjectById = async ({
   const session = await getSessionOrThrow();
   const userId = session.user.id;
   const prisma = new PrismaClient();
-  return prisma.project.findUnique({
+  const project = prisma.project.findUnique({
     where: { authorId: userId, id },
-    include: { tasks: includeTasks },
+    ...(includeTasks
+      ? {
+          include: { tasks: { orderBy: { createdAt: 'asc' } } },
+        }
+      : {}),
   });
+
+  /*
+  if (project && project.tasks && project.tasks.length > 0) {
+    const tasks: Array<TaskData> = project.tasks;
+
+    tasks.sort((a, b) => {
+      if (!a.createdAt || !b.createdAt) return 1;
+      return a.createdAt > b.createdAt ? 1 : -1;
+    });
+  }
+  */
+
+  return project;
 };
 
 export const updateProject = async (data: UpdateProjectData) => {

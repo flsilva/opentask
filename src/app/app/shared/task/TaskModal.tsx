@@ -37,10 +37,10 @@ export default function TaskModal({ project, projects, task }: TaskModalModalPro
 
     let navToPath;
 
-    if (project) {
-      navToPath = `/app/project/${project.id}`;
-    } else {
+    if (pathname.indexOf('today') !== -1 || !project) {
       navToPath = '/app/today';
+    } else {
+      navToPath = `/app/project/${project.id}`;
     }
 
     router.push(navToPath);

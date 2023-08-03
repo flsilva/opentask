@@ -53,7 +53,7 @@ export default function TaskForm({
   const router = useRouter();
   const [name, setName] = useState(task ? task.name : NAME_PLACEHOLDER);
   const [description, setDescription] = useState(task ? task.description : DESCRIPTION_PLACEHOLDER);
-  const [dueDate, setDueData] = useState<Date | undefined>();
+  const [dueDate, setDueDate] = useState<Date | null>((task && task.dueDate) || null);
   const [taskProject, setTaskProject] = useState(project ?? projects[0]);
   const [isEditingNameOrDescription, setIsEditingNameOrDescription] = useState(
     shouldStartEditingNameOrDescription,
@@ -73,10 +73,10 @@ export default function TaskForm({
   const resetForm = () => {
     setName(NAME_PLACEHOLDER);
     setDescription(DESCRIPTION_PLACEHOLDER);
-    setDueData(undefined);
+    setDueDate(null);
   };
 
-  const _onSaveClick = async () => {
+  const _onSaveClick = async (dueDate: Date | null = null) => {
     console.log('TaskListAndNewTask().saveNewTaskHandler()');
     let data: CreateTaskData | UpdateTaskData = generateTaskData();
 
@@ -90,10 +90,18 @@ export default function TaskForm({
       return;
     }
 
-    data = { ...data, id: task.id };
+    data = { ...data, id: task.id, ...(typeof task === 'object' ? { dueDate } : {}) };
     UpdateTaskSchema.parse(data);
     setIsEditingNameOrDescription(false);
     await updateTask(data);
+  };
+
+  const onDueDateChange = async (date: Date) => {
+    setDueDate(date);
+    if (task) {
+      await _onSaveClick(date);
+      router.refresh();
+    }
   };
 
   const onNameFocusHandler = (event: React.FocusEvent<HTMLInputElement>) => {
@@ -229,7 +237,7 @@ export default function TaskForm({
         onChange={onDescriptionChangeHandler}
       />
       <div className="mt-8 flex flex-col md:flex-row md:items-start">
-        <TaskDueDatePicker className="z-50" onChange={setDueData} />
+        <TaskDueDatePicker className="z-50" defaultDate={dueDate} onChange={onDueDateChange} />
         <div className="relative ml-0 mt-4 h-12 md:ml-16 md:mt-0">
           <DropdownMenu
             className="absolute w-56"
@@ -253,7 +261,7 @@ export default function TaskForm({
             type="button"
             disabled={!isDataValid}
             className={buttonClassNameGreen}
-            onClick={_onSaveClick}
+            onClick={() => _onSaveClick()}
           >
             {task ? 'Save' : 'Add task'}
           </button>

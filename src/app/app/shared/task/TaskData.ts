@@ -4,6 +4,7 @@ export const CreateTaskSchema = z.object({
   /*
    * Nullable fields for ease of compatibility with prisma results.
    */
+  createdAt: z.date().optional(),
   description: z.string().max(500).optional().nullable(),
   dueDate: z.date().optional().nullable(),
   isArchived: z.boolean().optional(),

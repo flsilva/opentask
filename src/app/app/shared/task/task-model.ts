@@ -89,17 +89,12 @@ export const updateTask = async (data: UpdateTaskData) => {
 
   const userId = session.user.id;
   const prisma = new PrismaClient();
+  const { id: taskId, ...rest } = data;
 
   console.log('updateTask() - userId: ', userId);
 
-  const { id: taskId, ...rest } = data;
-
-  const task = await prisma.task.update({
+  return await prisma.task.update({
     where: { id: taskId, authorId: userId },
     data: rest,
   });
-
-  console.log('updateTask() - task: ', task);
-
-  return task;
 };
