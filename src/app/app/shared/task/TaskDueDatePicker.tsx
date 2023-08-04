@@ -31,7 +31,7 @@ const taskDueDatePickerOptions = {
 
 interface TaskDueDatePickerProps extends ClassNamePropsOptional {
   readonly defaultDate: Date | null;
-  readonly onChange: (date: Date) => void;
+  readonly onChange: (date: Date | null) => void;
 }
 
 export default function TaskDueDatePicker({
@@ -42,7 +42,7 @@ export default function TaskDueDatePicker({
   const [isShowing, setIsShowing] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | null>(defaultDate);
 
-  const handleChange = (date: Date) => {
+  const handleChange = (date: Date | null) => {
     setSelectedDate(date);
     onChange(date);
   };
@@ -90,7 +90,7 @@ export default function TaskDueDatePicker({
             <button
               type="button"
               className="flex rounded-md py-2 hover:bg-gray-300 sm:px-2"
-              onClick={() => setSelectedDate(null)}
+              onClick={() => handleChange(null)}
             >
               <span className="sr-only">Remove due date</span>
               <XIcon aria-hidden="true" />

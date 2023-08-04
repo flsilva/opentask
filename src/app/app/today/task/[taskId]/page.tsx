@@ -31,8 +31,8 @@ export default async function TodayTaskPage({ params: { taskId } }: TodayTaskPag
       <TodayHeader />
       <TodayPageTaskList tasks={tasks} />
       {projects && projects.length > 0 && <AddTask project={projects[0]} projects={projects} />}
-      {projects && projects.length > 0 && (
-        <TaskModal project={projects[0]} projects={projects} task={task} />
+      {task && (
+        <TaskModal project={task.project} projects={projects} task={task} />
       )}
     </AppShell>
   );

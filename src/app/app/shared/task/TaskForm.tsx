@@ -21,11 +21,10 @@ import {
   UpdateTaskSchema,
 } from './TaskData';
 import TaskDueDatePicker from './TaskDueDatePicker';
-import { createTask, updateTask } from './task-model';
+import { createTask, updateTask, updateTaskDueDate } from './task-model';
 
 interface TaskFormProps extends ClassNamePropsOptional {
-  readonly onCancelClick: () => void;
-  readonly onSaveClick: () => void;
+  readonly onCancelClick?: () => void;
   readonly project: ProjectData | null;
   readonly projects: Array<ProjectData>;
   readonly shouldStartEditingNameOrDescription?: boolean;
@@ -36,30 +35,24 @@ interface TaskFormProps extends ClassNamePropsOptional {
 export default function TaskForm({
   className,
   onCancelClick,
-  onSaveClick,
   project,
   projects,
   shouldStartEditingNameOrDescription = false,
   task,
   taskNameClassName,
 }: TaskFormProps) {
-  console.log(
-    'TaskForm() - shouldStartEditingNameOrDescription: ',
-    shouldStartEditingNameOrDescription,
-  );
+  console.log('TaskForm() - task: ', task);
   const NAME_PLACEHOLDER = 'Task name';
   const DESCRIPTION_PLACEHOLDER = 'Task description';
 
   const router = useRouter();
   const [name, setName] = useState(task ? task.name : NAME_PLACEHOLDER);
   const [description, setDescription] = useState(task ? task.description : DESCRIPTION_PLACEHOLDER);
-  const [dueDate, setDueDate] = useState<Date | null>((task && task.dueDate) || null);
+  const [dueDate, setDueDate] = useState<Date | null>(task && task.dueDate ? task.dueDate : null);
   const [taskProject, setTaskProject] = useState(project ?? projects[0]);
   const [isEditingNameOrDescription, setIsEditingNameOrDescription] = useState(
     shouldStartEditingNameOrDescription,
   );
-
-  console.log('TaskForm() - isEditingNameOrDescription: ', isEditingNameOrDescription);
 
   const generateTaskData = (): CreateTaskData => ({
     name: (name !== NAME_PLACEHOLDER && name) || '',
@@ -76,32 +69,32 @@ export default function TaskForm({
     setDueDate(null);
   };
 
-  const _onSaveClick = async (dueDate: Date | null = null) => {
-    console.log('TaskListAndNewTask().saveNewTaskHandler()');
+  const onSaveClick = async () => {
     let data: CreateTaskData | UpdateTaskData = generateTaskData();
+    console.log('TaskForm().onSaveClick() - data: ', data);
 
-    console.log('ProjectModal().onSaveProject() - data: ', data);
-
-    if (!task) {
-      CreateTaskSchema.parse(data);
-      await createTask(data);
-      resetForm();
-      router.refresh();
-      return;
+    if (task) {
+      data = { ...data, id: task.id };
+      UpdateTaskSchema.parse(data);
+      setIsEditingNameOrDescription(false);
+      await updateTask(data);
     }
 
-    data = { ...data, id: task.id, ...(typeof task === 'object' ? { dueDate } : {}) };
-    UpdateTaskSchema.parse(data);
-    setIsEditingNameOrDescription(false);
-    await updateTask(data);
+    CreateTaskSchema.parse(data);
+    await createTask(data);
+    resetForm();
+    /*
+     * This is necessary to refetch data and rerender the UI.
+     * Otherwise, data changes do not display in the UI.
+     */
+    router.refresh();
+    /**/
   };
 
-  const onDueDateChange = async (date: Date) => {
+  const onDueDateChange = async (date: Date | null) => {
     setDueDate(date);
-    if (task) {
-      await _onSaveClick(date);
-      router.refresh();
-    }
+    if (!task) return;
+    updateTaskDueDate(task.id, date);
   };
 
   const onNameFocusHandler = (event: React.FocusEvent<HTMLInputElement>) => {
@@ -254,14 +247,21 @@ export default function TaskForm({
       </div>
       {isEditingNameOrDescription && (
         <div className="mt-12 flex justify-end gap-2 sm:gap-4">
-          <button type="button" className={buttonClassNameWhite} onClick={onCancelClick}>
+          <button
+            type="button"
+            className={buttonClassNameWhite}
+            onClick={() => {
+              setIsEditingNameOrDescription(false);
+              if (onCancelClick) onCancelClick();
+            }}
+          >
             Cancel
           </button>
           <button
             type="button"
             disabled={!isDataValid}
             className={buttonClassNameGreen}
-            onClick={() => _onSaveClick()}
+            onClick={onSaveClick}
           >
             {task ? 'Save' : 'Add task'}
           </button>

@@ -29,10 +29,12 @@ export default async function ProjectPage({ params: { projectId } }: ProjectPage
 
   const [projects, project] = await Promise.all([
     findManyProjects(),
-    findProjectById({ id: projectId, includeTasks: true }),
+    findProjectById({ id: projectId }),
   ]);
 
   console.log('ProjectPage() - RENDER - project: ', project);
+
+  if (!project || !projects) return;
 
   return (
     <AppShell projects={projects}>

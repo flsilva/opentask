@@ -58,6 +58,14 @@ export const findTasks = async (isCompleted = false) => {
   return prisma.task.findMany({
     where: { authorId: userId, isCompleted },
     orderBy: { createdAt: 'asc' },
+    include: {
+      project: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+    },
   });
 };
 
@@ -70,6 +78,14 @@ export const findTasksDueUntilToday = async (isCompleted = false) => {
   return prisma.task.findMany({
     where: { authorId: userId, dueDate: { lte: new Date() }, isCompleted },
     orderBy: { createdAt: 'asc' },
+    include: {
+      project: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+    },
   });
 };
 
@@ -77,7 +93,17 @@ export const findTaskById = async (id: string) => {
   const session = await getSessionOrThrow();
   const userId = session.user.id;
   const prisma = new PrismaClient();
-  return prisma.task.findUnique({ where: { authorId: userId, id } });
+  return prisma.task.findUnique({
+    where: { authorId: userId, id },
+    include: {
+      project: {
+        select: {
+          id: true,
+          name: true,
+        },
+      },
+    },
+  });
 };
 
 export const updateTask = async (data: UpdateTaskData) => {
@@ -86,7 +112,6 @@ export const updateTask = async (data: UpdateTaskData) => {
   UpdateTaskSchema.parse(data);
 
   const session = await getSessionOrThrow();
-
   const userId = session.user.id;
   const prisma = new PrismaClient();
   const { id: taskId, ...rest } = data;
@@ -96,5 +121,20 @@ export const updateTask = async (data: UpdateTaskData) => {
   return await prisma.task.update({
     where: { id: taskId, authorId: userId },
     data: rest,
+  });
+};
+
+export const updateTaskDueDate = async (id: string, dueDate: Date | null) => {
+  console.log('updateTaskDueDate() - dueDate: ', dueDate);
+
+  const session = await getSessionOrThrow();
+  const userId = session.user.id;
+  const prisma = new PrismaClient();
+
+  console.log('updateTask() - userId: ', userId);
+
+  return await prisma.task.update({
+    where: { id, authorId: userId },
+    data: { dueDate },
   });
 };

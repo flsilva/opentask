@@ -22,10 +22,6 @@ export default function AddTask({ project, projects }: AddTaskProps) {
     setIsAddingTask(false);
   };
 
-  const saveNewTaskHandler = () => {
-    console.log('TaskListAndNewTask().saveNewTaskHandler()');
-  };
-
   if (!project)
     throw new Error(
       `AddTask() - Object "project" must not be null nor undefined. Received: ${project}`,
@@ -45,7 +41,6 @@ export default function AddTask({ project, projects }: AddTaskProps) {
         <TaskForm
           className="rounded-md bg-gray-100 px-2 py-6 sm:px-6"
           onCancelClick={cancelNewTaskHandler}
-          onSaveClick={saveNewTaskHandler}
           project={project}
           projects={projects}
           shouldStartEditingNameOrDescription

@@ -38,30 +38,17 @@ export default function AppShell({ children, project, projects }: AppShellProps)
     const project = await createProject(data);
     onCloseProjectModal();
     router.push(`/app/project/${project.id}`);
+    /*
+     * This is necessary to refetch data and rerender the UI.
+     * Otherwise, data changes do not display in the UI.
+     */
+    router.refresh();
+    /**/
   };
 
   const onUpdateProject = async (data: UpdateProjectData) => {
     throw new Error('This operation should be handler by a different component.');
   };
-
-  /*
-  let headerComponent;
-  if (pathname.indexOf('app/today') !== -1) {
-    headerComponent = <TodayHeader />;
-  } else if (pathname.indexOf('app/projects') !== -1) {
-    headerComponent = <ProjectsHeader />;
-  } else if (pathname.indexOf('app/project') !== -1) {
-    if (project === null || project === undefined)
-      throw new Error(
-        "AppShell() - property 'project' cannot be null or undefined on /app/project routes",
-      );
-    headerComponent = (
-      <ProjectHeader onProjectActionClick={onProjectActionHandler} project={project} />
-    );
-  } else {
-    throw new Error(`AppShell() - Unhandled route: ${pathname}`);
-  }
-  */
 
   const noProjectsMessage = () => (
     <p className="mt-4 text-sm font-medium text-gray-600">

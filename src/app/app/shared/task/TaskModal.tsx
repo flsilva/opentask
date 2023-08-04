@@ -1,7 +1,7 @@
 'use client';
 
-import { useRef, useState } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
+import { useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import { Dialog } from '@headlessui/react';
 import { XIcon } from '@/app/shared/ui/icon/XIcon';
 import { ProjectData } from '../project/ProjectData';
@@ -16,46 +16,50 @@ interface TaskModalModalProps {
 
 export default function TaskModal({ project, projects, task }: TaskModalModalProps) {
   const closeButtonRef = useRef(null);
-  const [isOpen, setIsOpen] = useState(true);
   const router = useRouter();
-  const pathname = usePathname();
 
   const onCloseModal = () => {
     /*
-     * Flavio Silva on Jul 17, 2023:
-     * There seems to be a bug with router.back() when we hit "cancel" in TaskForm, which
-     * calls this function. Only when called by that button there's a hard refresh in the browser
-     * and a redirect back to the URL we were in before hitting the "cancel" button.
-     * So we can't use router.back() here.
-     * But when we try to manually navigate back, we have another bug: the modal is not closed.
-     * So if we're in /app/today/task/1, for example, and manually navigate to /app/today, the modal
-     * is not closed. Not sure if that's really a bug the router.push() or an edge case.
-     * Fix: In either case, I'm manually closing the modal here too to fix the latter issue.
+     * Flavio Silva on Aug 4, 2023:
+     * There's an issue calling router.back() after calling router.refresh().
+     * Steps to reproduce:
+     * 1) Reload the app at "/app/project/[projectId]".
+     * 2) Click on any task.
+     * The URL is updated to "/app/project/[projectId]/task/[taskId]" and <TaskModal> is rendered
+     * as expected.
+     * 3) If you close the modal it works as expected, i.e., the URL changes back to
+     * "/app/project/[projectId]" and <TaskModal> is closed.
+     * But if you click on the task name, change it, click "Save" (which calls router.refresh()
+     * after data is saved), and then close the modal (which calls router.back()), the URL will be updated to
+     * "/app/project/[projectId]" as expected, but <TaskModal> is not closed.
+     *
+     * That probably means that we're still in the "/app/project/[projectId]/task/[taskId]" route.
+     * The "/app/today/task/[taskId]" route is implemented as described in Next.js App Router docs, especifically
+     * in the Parallel Routes and Intercepting Routes pages:
+     *
+     * https://nextjs.org/docs/app/building-your-application/routing/parallel-routes
+     * https://nextjs.org/docs/app/building-your-application/routing/intercepting-routes
+     *
+     * Fix: Call router.refresh() after router.back().
+     * That's far from ideal beacuse that causes a full refetch and rerender every time the modal is closed.
+     * But it's the only way to fix the issue, at least while keeping everything as simple as possible
+     * and following this is server / client paradigm, i.e., implementing data fetching on the server only, etc.
+     *
+     * But, calling router.refresh() here is also fixing another issue, which I don't think is a Next.js bug,
+     * but rather an application issue: data is not refetched and so not rerendered after we make changes
+     * to tasks in the <TaskModal>. And calling router.refresh() right after making changes to tasks,
+     * from within "/app/project/[projectId]/task/[taskId]" route doesn't rereftch and rerender the routes
+     * under it, i.e., it doesn't update data and UI that's outside the modal.
      */
-
-    // router.back();
-
-    let navToPath;
-
-    if (pathname.indexOf('today') !== -1 || !project) {
-      navToPath = '/app/today';
-    } else {
-      navToPath = `/app/project/${project.id}`;
-    }
-
-    router.push(navToPath);
-    setIsOpen(false);
+    router.back();
+    router.refresh();
     /**/
-  };
-
-  const saveNewTaskHandler = () => {
-    console.log('TaskListAndNewTask().saveNewTaskHandler()');
   };
 
   return (
     <Dialog
       as="div"
-      open={isOpen}
+      open={true}
       className="relative z-50"
       onClose={onCloseModal}
       initialFocus={closeButtonRef}
@@ -65,8 +69,6 @@ export default function TaskModal({ project, projects, task }: TaskModalModalPro
         <Dialog.Panel className="mx-auto flex w-full flex-col rounded-lg bg-white p-4 md:w-[40rem]">
           <div className="flex items-start justify-between">
             <TaskForm
-              onCancelClick={onCloseModal}
-              onSaveClick={saveNewTaskHandler}
               project={project}
               projects={projects}
               task={task}

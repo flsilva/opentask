@@ -18,18 +18,20 @@ export default async function ProjectTaskPage({
 
   const [projects, project, task] = await Promise.all([
     findManyProjects(),
-    findProjectById({ id: projectId, includeTasks: true }),
+    findProjectById({ id: projectId }),
     findTaskById(taskId),
   ]);
+
+  if (!project || !projects || projects.length === 0) return;
 
   console.log('ProjectTaskPage() - RENDER - project: ', project);
 
   return (
     <AppShell projects={projects}>
       <ProjectHeader project={project} />
-      <ProjectPageTaskList project={project} tasks={(project && project.tasks) || []} />
-      {projects && projects.length > 0 && <AddTask project={projects[0]} projects={projects} />}
-      {project && <TaskModal project={project} projects={projects} task={task} />}
+      <ProjectPageTaskList project={project} tasks={project.tasks || []} />
+      <AddTask project={project} projects={projects} />
+      <TaskModal project={project} projects={projects} task={task} />
     </AppShell>
   );
 }

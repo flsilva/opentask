@@ -75,37 +75,15 @@ export const findManyProjects = async ({
   });
 };
 
-export const findProjectById = async ({
-  id,
-  includeTasks = false,
-}: {
-  id: string;
-  includeTasks?: boolean;
-}) => {
+export const findProjectById = async ({ id }: { id: string; }) => {
   const session = await getSessionOrThrow();
   const userId = session.user.id;
   const prisma = new PrismaClient();
-  const project = prisma.project.findUnique({
+ 
+  return prisma.project.findUnique({
     where: { authorId: userId, id },
-    ...(includeTasks
-      ? {
-          include: { tasks: { orderBy: { createdAt: 'asc' } } },
-        }
-      : {}),
+    include: { tasks: { orderBy: { createdAt: 'asc' } } },
   });
-
-  /*
-  if (project && project.tasks && project.tasks.length > 0) {
-    const tasks: Array<TaskData> = project.tasks;
-
-    tasks.sort((a, b) => {
-      if (!a.createdAt || !b.createdAt) return 1;
-      return a.createdAt > b.createdAt ? 1 : -1;
-    });
-  }
-  */
-
-  return project;
 };
 
 export const updateProject = async (data: UpdateProjectData) => {

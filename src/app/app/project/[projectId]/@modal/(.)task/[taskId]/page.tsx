@@ -12,10 +12,11 @@ export default async function ProjectTaskInterceptingPage({
 }: ProjectTaskInterceptingPageProps) {
   const [projects, project, task] = await Promise.all([
     findManyProjects(),
-    findProjectById({ id: projectId, includeTasks: true }),
+    findProjectById({ id: projectId }),
     findTaskById(taskId),
   ]);
 
-  if (!project) return;
+  if (!project || !projects || projects.length === 0) return;
+
   return <TaskModal project={project} projects={projects} task={task} />;
 }

@@ -1,5 +1,5 @@
 import 'server-only';
-import { findManyProjects, findProjectById } from '@/app/app/shared/project/project-model';
+import { findManyProjects } from '@/app/app/shared/project/project-model';
 import { findTaskById, findTasksDueUntilToday } from '@/app/app/shared/task/task-model';
 import TaskModal from '@/app/app/shared/task/TaskModal';
 
@@ -16,6 +16,6 @@ export default async function TodayTaskInterceptingPage({
     findTaskById(taskId),
   ]);
 
-  if (!projects || projects.length < 1) return null;
-  return <TaskModal project={projects[0]} projects={projects} task={task} />;
+  if (!projects || projects.length < 1 || !task) return null;
+  return <TaskModal project={task.project} projects={projects} task={task} />;
 }
