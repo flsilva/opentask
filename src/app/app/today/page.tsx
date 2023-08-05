@@ -18,7 +18,7 @@ export default async function TodayPage() {
           No tasks due today. Enjoy your day!
         </p>
       )}
-      {projects && projects.length > 0 && <AddTask project={projects[0]} projects={projects} />}
+      {projects && projects.length > 0 && <AddTask defaultDueDate={new Date()} project={projects[0]} projects={projects} />}
     </AppShell>
   );
 }

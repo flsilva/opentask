@@ -24,6 +24,7 @@ import TaskDueDatePicker from './TaskDueDatePicker';
 import { createTask, updateTask, updateTaskDueDate, updateTaskProject } from './task-model';
 
 interface TaskFormProps extends ClassNamePropsOptional {
+  readonly defaultDueDate?: Date | null;
   readonly onCancelClick?: () => void;
   readonly project: ProjectData | null;
   readonly projects: Array<ProjectData>;
@@ -34,6 +35,7 @@ interface TaskFormProps extends ClassNamePropsOptional {
 
 export default function TaskForm({
   className,
+  defaultDueDate,
   onCancelClick,
   project,
   projects,
@@ -48,7 +50,7 @@ export default function TaskForm({
   const router = useRouter();
   const [name, setName] = useState(task ? task.name : NAME_PLACEHOLDER);
   const [description, setDescription] = useState(task ? task.description : DESCRIPTION_PLACEHOLDER);
-  const [dueDate, setDueDate] = useState<Date | null>(task && task.dueDate ? task.dueDate : null);
+  const [dueDate, setDueDate] = useState<Date | null | undefined>(task && task.dueDate ? task.dueDate : defaultDueDate);
   const [taskProject, setTaskProject] = useState(project ?? projects[0]);
   const [isEditingNameOrDescription, setIsEditingNameOrDescription] = useState(
     shouldStartEditingNameOrDescription,
@@ -231,7 +233,7 @@ export default function TaskForm({
         onChange={onDescriptionChangeHandler}
       />
       <div className="mt-8 flex flex-col md:flex-row md:items-start">
-        <TaskDueDatePicker className="z-50" defaultDate={dueDate} onChange={onDueDateChange} />
+        <TaskDueDatePicker defaultDate={dueDate} onChange={onDueDateChange} />
         <div className="relative ml-0 mt-4 h-12 md:ml-16 md:mt-0">
           <DropdownMenu
             className="absolute w-56"

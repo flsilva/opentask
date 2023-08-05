@@ -29,18 +29,17 @@ const taskDueDatePickerOptions = {
   language: 'en',
 };
 
-interface TaskDueDatePickerProps extends ClassNamePropsOptional {
-  readonly defaultDate: Date | null;
+interface TaskDueDatePickerProps {
+  readonly defaultDate?: Date | null | undefined;
   readonly onChange: (date: Date | null) => void;
 }
 
 export default function TaskDueDatePicker({
-  className,
   defaultDate,
   onChange,
 }: TaskDueDatePickerProps) {
   const [isShowing, setIsShowing] = useState(false);
-  const [selectedDate, setSelectedDate] = useState<Date | null>(defaultDate);
+  const [selectedDate, setSelectedDate] = useState<Date | null | undefined>(defaultDate);
 
   const handleChange = (date: Date | null) => {
     setSelectedDate(date);
@@ -52,7 +51,7 @@ export default function TaskDueDatePicker({
   };
 
   const displayDateText = () => {
-    if (selectedDate === null) return 'Due date';
+    if (!selectedDate) return 'Due date';
     const diffDays = differenceInCalendarDays(new Date(), selectedDate);
 
     if (diffDays >= -6) {
