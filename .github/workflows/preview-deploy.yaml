@@ -19,4 +19,4 @@ jobs:
         with:
           cache: 'npm'
           node-version-file: '.nvmrc'
-      - run: npx prisma@5.0.0 migrate deploy
+      - run: npx prisma@5.1.1 migrate deploy
