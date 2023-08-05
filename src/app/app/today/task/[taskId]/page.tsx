@@ -5,7 +5,7 @@ import { findManyProjects } from '@/app/app/shared/project/project-model';
 import AddTask from '@/app/app/shared/task/AddTask';
 import { TaskData } from '@/app/app/shared/task/TaskData';
 import TaskModal from '@/app/app/shared/task/TaskModal';
-import { TodayPageTaskList } from '@/app/app/shared/today/TodayPageTaskList';
+import { TaskListController } from '@/app/app/shared/task/TaskListController';
 import { findTaskById, findTasksDueUntilToday } from '@/app/app/shared/task/task-model';
 
 interface TodayTaskPageProps {
@@ -29,11 +29,11 @@ export default async function TodayTaskPage({ params: { taskId } }: TodayTaskPag
   return (
     <AppShell projects={projects}>
       <TodayHeader />
-      <TodayPageTaskList tasks={tasks} />
-      {projects && projects.length > 0 && <AddTask defaultDueDate={new Date()} project={projects[0]} projects={projects} />}
-      {task && (
-        <TaskModal project={task.project} projects={projects} task={task} />
+      <TaskListController tasks={tasks} />
+      {projects && projects.length > 0 && (
+        <AddTask defaultDueDate={new Date()} project={projects[0]} projects={projects} />
       )}
+      {task && <TaskModal project={task.project} projects={projects} task={task} />}
     </AppShell>
   );
 }

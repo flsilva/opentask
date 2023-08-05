@@ -7,7 +7,7 @@ export const CreateTaskSchema = z.object({
   createdAt: z.date().optional(),
   description: z.string().max(500).optional().nullable(),
   dueDate: z.date().optional().nullable(),
-  isArchived: z.boolean().optional(),
+  isCompleted: z.boolean().optional(),
   name: z
     .string({
       required_error: 'The task name is required.',

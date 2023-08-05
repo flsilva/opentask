@@ -21,7 +21,14 @@ import {
   UpdateTaskSchema,
 } from './TaskData';
 import TaskDueDatePicker from './TaskDueDatePicker';
-import { createTask, updateTask, updateTaskDueDate, updateTaskProject } from './task-model';
+import {
+  createTask,
+  updateTask,
+  updateTaskComplete,
+  updateTaskDueDate,
+  updateTaskProject,
+} from './task-model';
+import TaskCheck, { TaskCheckSize } from './TaskCheck';
 
 interface TaskFormProps extends ClassNamePropsOptional {
   readonly defaultDueDate?: Date | null;
@@ -50,8 +57,11 @@ export default function TaskForm({
   const router = useRouter();
   const [name, setName] = useState(task ? task.name : NAME_PLACEHOLDER);
   const [description, setDescription] = useState(task ? task.description : DESCRIPTION_PLACEHOLDER);
-  const [dueDate, setDueDate] = useState<Date | null | undefined>(task && task.dueDate ? task.dueDate : defaultDueDate);
+  const [dueDate, setDueDate] = useState<Date | null | undefined>(
+    task && task.dueDate ? task.dueDate : defaultDueDate,
+  );
   const [taskProject, setTaskProject] = useState(project ?? projects[0]);
+  const [isCompleted, setIsCompleted] = useState(task && task.isCompleted);
   const [isEditingNameOrDescription, setIsEditingNameOrDescription] = useState(
     shouldStartEditingNameOrDescription,
   );
@@ -107,6 +117,13 @@ export default function TaskForm({
     setTaskProject(selectedProject);
     if (!task) return;
     updateTaskProject(task.id, selectedProject.id);
+  };
+
+  const onTaskCheckClick = async () => {
+    console.log('TaskForm().onTaskCheckClick()');
+    if (!task) return;
+    setIsCompleted(!isCompleted);
+    await updateTaskComplete(task.id, !isCompleted);
   };
 
   const onNameFocusHandler = (event: React.FocusEvent<HTMLInputElement>) => {
@@ -203,7 +220,9 @@ export default function TaskForm({
     isEditingNameOrDescription
       ? isEditingNameAndDescriptionClassName
       : defaultNameAndDescriptionClassName
-  } ${name === NAME_PLACEHOLDER ? 'text-gray-400' : 'text-gray-900'} ${taskNameClassName}`;
+  } ${name === NAME_PLACEHOLDER ? 'text-gray-400' : 'text-gray-900'} ${taskNameClassName} ${
+    isCompleted ? 'line-through' : ''
+  }`;
 
   const descriptionClassName = `${
     isEditingNameOrDescription
@@ -218,20 +237,32 @@ export default function TaskForm({
 
   return (
     <form className={`flex w-full flex-col ${className}`}>
-      <ContentEditable
-        className={nameClassName}
-        html={name}
-        onBlur={onNameBlurHandler}
-        onFocus={onNameFocusHandler}
-        onChange={onNameChangeHandler}
-      />
-      <ContentEditable
-        className={descriptionClassName}
-        html={description ?? ''}
-        onBlur={onDescriptionBlurHandler}
-        onFocus={onDescriptionFocusHandler}
-        onChange={onDescriptionChangeHandler}
-      />
+      <div className="flex">
+        {task && (
+          <TaskCheck
+            className="mt-2"
+            isCompleted={isCompleted}
+            onTaskCheckClick={onTaskCheckClick}
+            size={TaskCheckSize.Large}
+          />
+        )}
+        <div className={`flex flex-col grow ${task ? 'ml-2' : ''}`}>
+          <ContentEditable
+            className={nameClassName}
+            html={name}
+            onBlur={onNameBlurHandler}
+            onFocus={onNameFocusHandler}
+            onChange={onNameChangeHandler}
+          />
+          <ContentEditable
+            className={descriptionClassName}
+            html={description ?? ''}
+            onBlur={onDescriptionBlurHandler}
+            onFocus={onDescriptionFocusHandler}
+            onChange={onDescriptionChangeHandler}
+          />
+        </div>
+      </div>
       <div className="mt-8 flex flex-col md:flex-row md:items-start">
         <TaskDueDatePicker defaultDate={dueDate} onChange={onDueDateChange} />
         <div className="relative ml-0 mt-4 h-12 md:ml-16 md:mt-0">

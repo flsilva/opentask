@@ -4,7 +4,7 @@ import AppShell from '@/app/app/shared/ui/AppShell';
 import { findManyProjects, findProjectById } from '@/app/app/shared/project/project-model';
 import AddTask from '@/app/app/shared/task/AddTask';
 import { TaskData } from '@/app/app/shared/task/TaskData';
-import { ProjectPageTaskList } from '@/app/app/shared/project/ProjectPageTaskList';
+import { TaskListController } from '@/app/app/shared/task/TaskListController';
 
 interface ProjectPageProps {
   readonly params: { readonly projectId: string };
@@ -39,7 +39,7 @@ export default async function ProjectPage({ params: { projectId } }: ProjectPage
   return (
     <AppShell projects={projects}>
       <ProjectHeader project={project} />
-      <ProjectPageTaskList project={project} tasks={(project && project.tasks) || []} />
+      <TaskListController project={project} tasks={(project && project.tasks) || []} />
       {project && <AddTask project={project} projects={projects} />}
     </AppShell>
   );

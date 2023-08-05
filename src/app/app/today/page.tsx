@@ -3,7 +3,7 @@ import AppShell from '@/app/app/shared/ui/AppShell';
 import { findManyProjects } from '@/app/app/shared/project/project-model';
 import TodayHeader from '@/app/app/shared/today/TodayHeader';
 import AddTask from '@/app/app/shared/task/AddTask';
-import { TodayPageTaskList } from '@/app/app/shared/today/TodayPageTaskList';
+import { TaskListController } from '@/app/app/shared/task/TaskListController';
 import { findTasksDueUntilToday } from '../shared/task/task-model';
 
 export default async function TodayPage() {
@@ -12,13 +12,15 @@ export default async function TodayPage() {
   return (
     <AppShell projects={projects}>
       <TodayHeader />
-      <TodayPageTaskList tasks={tasks} />
+      <TaskListController tasks={tasks} />
       {projects && projects.length > 0 && tasks.length < 1 && (
         <p className="mb-16 text-sm font-medium text-gray-600">
           No tasks due today. Enjoy your day!
         </p>
       )}
-      {projects && projects.length > 0 && <AddTask defaultDueDate={new Date()} project={projects[0]} projects={projects} />}
+      {projects && projects.length > 0 && (
+        <AddTask defaultDueDate={new Date()} project={projects[0]} projects={projects} />
+      )}
     </AppShell>
   );
 }

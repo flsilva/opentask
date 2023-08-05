@@ -49,26 +49,6 @@ export const deleteTask = async (id: string) => {
   return task;
 };
 
-export const findTasks = async (isCompleted = false) => {
-  console.log('findTasks() - isCompleted: ', isCompleted);
-  const session = await getSessionOrThrow();
-  const userId = session.user.id;
-  const prisma = new PrismaClient();
-
-  return prisma.task.findMany({
-    where: { authorId: userId, isCompleted },
-    orderBy: { createdAt: 'asc' },
-    include: {
-      project: {
-        select: {
-          id: true,
-          name: true,
-        },
-      },
-    },
-  });
-};
-
 export const findTasksDueUntilToday = async (isCompleted = false) => {
   console.log('findTasks() - isCompleted: ', isCompleted);
   const session = await getSessionOrThrow();
@@ -151,5 +131,18 @@ export const updateTaskProject = async (id: string, projectId: string) => {
   return await prisma.task.update({
     where: { id, authorId: userId },
     data: { project: { connect: { id: projectId } } },
+  });
+};
+
+export const updateTaskComplete = async (id: string, isCompleted: boolean) => {
+  console.log('updateTaskComplete() - isCompleted: ', isCompleted);
+
+  const session = await getSessionOrThrow();
+  const userId = session.user.id;
+  const prisma = new PrismaClient();
+
+  return await prisma.task.update({
+    where: { id, authorId: userId },
+    data: { isCompleted },
   });
 };
