@@ -138,3 +138,18 @@ export const updateTaskDueDate = async (id: string, dueDate: Date | null) => {
     data: { dueDate },
   });
 };
+
+export const updateTaskProject = async (id: string, projectId: string) => {
+  console.log('updateTaskProject() - projectId: ', projectId);
+
+  const session = await getSessionOrThrow();
+  const userId = session.user.id;
+  const prisma = new PrismaClient();
+
+  console.log('updateTask() - userId: ', userId);
+
+  return await prisma.task.update({
+    where: { id, authorId: userId },
+    data: { project: { connect: { id: projectId } } },
+  });
+};

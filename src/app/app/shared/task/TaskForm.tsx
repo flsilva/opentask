@@ -21,7 +21,7 @@ import {
   UpdateTaskSchema,
 } from './TaskData';
 import TaskDueDatePicker from './TaskDueDatePicker';
-import { createTask, updateTask, updateTaskDueDate } from './task-model';
+import { createTask, updateTask, updateTaskDueDate, updateTaskProject } from './task-model';
 
 interface TaskFormProps extends ClassNamePropsOptional {
   readonly onCancelClick?: () => void;
@@ -74,12 +74,15 @@ export default function TaskForm({
     console.log('TaskForm().onSaveClick() - data: ', data);
 
     if (task) {
+      console.log('TaskForm().onSaveClick() - call updateTask()');
       data = { ...data, id: task.id };
       UpdateTaskSchema.parse(data);
       setIsEditingNameOrDescription(false);
       await updateTask(data);
+      return;
     }
 
+    console.log('TaskForm().onSaveClick() - call createTask()');
     CreateTaskSchema.parse(data);
     await createTask(data);
     resetForm();
@@ -95,6 +98,13 @@ export default function TaskForm({
     setDueDate(date);
     if (!task) return;
     updateTaskDueDate(task.id, date);
+  };
+
+  const onTaskProjectChange = (selectedProject: ProjectData) => {
+    console.log('TaskForm().dropdownMenuItemClickHandler() - selectedProject: ', selectedProject);
+    setTaskProject(selectedProject);
+    if (!task) return;
+    updateTaskProject(task.id, selectedProject.id);
   };
 
   const onNameFocusHandler = (event: React.FocusEvent<HTMLInputElement>) => {
@@ -163,22 +173,13 @@ export default function TaskForm({
     setDescription(event.target.value);
   };
 
-  const dropdownMenuItemClickHandler = (selectedProject: ProjectData) => {
-    console.log('TaskForm().dropdownMenuItemClickHandler() - selectedProject: ', selectedProject);
-    const project = getProjectById(selectedProject.id);
-    if (project) setTaskProject(project);
-  };
-
-  const getProjectById = (id: string): ProjectData | undefined =>
-    projects.find((project) => project.id === id);
-
   const getItemsForProjectsDropdown = () =>
     projects.map((project) => (
       <Menu.Item key={project.id} as={Fragment}>
         {({ active }: { active: boolean }) => (
           <button
             type="button"
-            onClick={() => dropdownMenuItemClickHandler(project)}
+            onClick={() => onTaskProjectChange(project)}
             className={`${
               active || (taskProject && taskProject.name === project.name)
                 ? 'bg-green-500 text-white'
