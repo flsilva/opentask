@@ -7,11 +7,12 @@ import { ProjectData } from '../project/ProjectData';
 import TaskForm from './TaskForm';
 
 interface AddTaskProps {
-  readonly project?: ProjectData;
+  readonly defaultDueDate?: Date | null;
+  readonly project: ProjectData | null;
   readonly projects: Array<ProjectData>;
 }
 
-export default function AddTask({ project, projects }: AddTaskProps) {
+export default function AddTask({ defaultDueDate, project, projects }: AddTaskProps) {
   const [isAddingTask, setIsAddingTask] = useState(false);
 
   const addTaskHandler = () => {
@@ -22,9 +23,10 @@ export default function AddTask({ project, projects }: AddTaskProps) {
     setIsAddingTask(false);
   };
 
-  const saveNewTaskHandler = () => {
-    console.log('TaskListAndNewTask().saveNewTaskHandler()');
-  };
+  if (!project)
+    throw new Error(
+      `AddTask() - Object "project" must not be null nor undefined. Received: ${project}`,
+    );
 
   return (
     <>
@@ -39,11 +41,11 @@ export default function AddTask({ project, projects }: AddTaskProps) {
       {isAddingTask && (
         <TaskForm
           className="rounded-md bg-gray-100 px-2 py-6 sm:px-6"
+          defaultDueDate={defaultDueDate}
           onCancelClick={cancelNewTaskHandler}
-          onSaveClick={saveNewTaskHandler}
           project={project}
           projects={projects}
-          shouldStartAtEditingMode
+          shouldStartEditingNameOrDescription
         />
       )}
     </>

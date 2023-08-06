@@ -4,8 +4,11 @@ import AppShell from '@/app/app/shared/ui/AppShell';
 import { findManyProjects, findProjectById } from '@/app/app/shared/project/project-model';
 import AddTask from '@/app/app/shared/task/AddTask';
 import { TaskData } from '@/app/app/shared/task/TaskData';
-import { ProjectPageTaskList } from '@/app/app/shared/project/ProjectPageTaskList';
-import { ProjectData } from '@/app/app/shared/project/ProjectData';
+import { TaskListController } from '@/app/app/shared/task/TaskListController';
+
+interface ProjectPageProps {
+  readonly params: { readonly projectId: string };
+}
 
 const tasks: Array<TaskData> = [];
 
@@ -21,38 +24,23 @@ for (let x = 0; x < 30; x++) {
   });
 }
 
-export default async function ProjectPage({
-  params: { projectId },
-}: {
-  params: { projectId: string };
-}) {
+export default async function ProjectPage({ params: { projectId } }: ProjectPageProps) {
   console.log('ProjectPage() - projectId: ', projectId);
-  const promises: Array<Promise<any>> = [];
-  let project: ProjectData | null = null;
-  let projects: Array<ProjectData> = [];
-  const projectsPromise = findManyProjects().then((res) => {
-    console.log('ProjectPage().findManyProjects().then() - res: ', res);
-    projects = res;
-    return projects;
-  });
-  promises.push(projectsPromise);
 
-  const projectPromise = findProjectById(projectId).then((res) => {
-    console.log('ProjectPage().findProjectById().then() - res: ', res);
-    project = res;
-    return project;
-  });
-  promises.push(projectPromise);
-
-  await Promise.all(promises);
+  const [projects, project] = await Promise.all([
+    findManyProjects(),
+    findProjectById({ id: projectId }),
+  ]);
 
   console.log('ProjectPage() - RENDER - project: ', project);
+
+  if (!project || !projects) return;
 
   return (
     <AppShell projects={projects}>
       <ProjectHeader project={project} />
-      <ProjectPageTaskList project={project} tasks={tasks} />
-      <AddTask projects={projects} />
+      <TaskListController project={project} tasks={(project && project.tasks) || []} />
+      {project && <AddTask project={project} projects={projects} />}
     </AppShell>
   );
 }

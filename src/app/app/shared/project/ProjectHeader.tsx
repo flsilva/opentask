@@ -84,7 +84,8 @@ export default function ProjectHeader({ project }: ProjectHeaderProps) {
     const project = await updateProject(data);
     onCloseProjectModal();
     /*
-     * This is necessary to refetch and rerender the updated data.
+     * This is necessary to refetch data and rerender the UI.
+     * Otherwise, data changes do not display in the UI.
      */
     router.refresh();
     /**/
@@ -101,7 +102,8 @@ export default function ProjectHeader({ project }: ProjectHeaderProps) {
     setConfirmationModalProps(null);
     router.push('/app/today');
     /*
-     * This is necessary to refetch and rerender the updated data.
+     * This is necessary to refetch data and rerender the UI.
+     * Otherwise, data changes do not display in the UI.
      */
     router.refresh();
     /**/
@@ -131,7 +133,8 @@ export default function ProjectHeader({ project }: ProjectHeaderProps) {
             setConfirmationModalProps(null);
             router.push('/app/today');
             /*
-             * This is necessary to refetch and rerender the updated data.
+             * This is necessary to refetch data and rerender the UI.
+             * Otherwise, data changes do not display in the UI.
              */
             router.refresh();
             /**/
@@ -173,7 +176,8 @@ export default function ProjectHeader({ project }: ProjectHeaderProps) {
         if (project === null || project === undefined) return;
         await archiveUnarchiveProjectHandler(project, false);
         /*
-         * This is necessary to refetch and rerender the updated data.
+         * This is necessary to refetch data and rerender the UI.
+         * Otherwise, data changes do not display in the UI.
          */
         router.refresh();
         /**/

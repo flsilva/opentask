@@ -29,14 +29,21 @@ const taskDueDatePickerOptions = {
   language: 'en',
 };
 
-interface TaskDueDatePickerProps extends ClassNamePropsOptional {}
+interface TaskDueDatePickerProps {
+  readonly defaultDate?: Date | null | undefined;
+  readonly onChange: (date: Date | null) => void;
+}
 
-export default function TaskDueDatePicker({ className }: TaskDueDatePickerProps) {
+export default function TaskDueDatePicker({
+  defaultDate,
+  onChange,
+}: TaskDueDatePickerProps) {
   const [isShowing, setIsShowing] = useState(false);
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [selectedDate, setSelectedDate] = useState<Date | null | undefined>(defaultDate);
 
-  const handleChange = (date: Date) => {
+  const handleChange = (date: Date | null) => {
     setSelectedDate(date);
+    onChange(date);
   };
 
   const handleClose = (state: boolean) => {
@@ -44,7 +51,7 @@ export default function TaskDueDatePicker({ className }: TaskDueDatePickerProps)
   };
 
   const displayDateText = () => {
-    if (selectedDate === null) return 'Due date';
+    if (!selectedDate) return 'Due date';
     const diffDays = differenceInCalendarDays(new Date(), selectedDate);
 
     if (diffDays >= -6) {
@@ -63,7 +70,7 @@ export default function TaskDueDatePicker({ className }: TaskDueDatePickerProps)
         onClick={() => setIsShowing(false)}
       />
       <Datepicker
-        options={taskDueDatePickerOptions}
+        options={{ ...taskDueDatePickerOptions, defaultDate }}
         onChange={handleChange}
         show={isShowing}
         setShow={handleClose}
@@ -82,7 +89,7 @@ export default function TaskDueDatePicker({ className }: TaskDueDatePickerProps)
             <button
               type="button"
               className="flex rounded-md py-2 hover:bg-gray-300 sm:px-2"
-              onClick={() => setSelectedDate(null)}
+              onClick={() => handleChange(null)}
             >
               <span className="sr-only">Remove due date</span>
               <XIcon aria-hidden="true" />

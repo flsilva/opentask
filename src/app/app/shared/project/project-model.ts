@@ -8,6 +8,7 @@ import {
   UpdateProjectData,
   UpdateProjectSchema,
 } from './ProjectData';
+import { TaskData } from '../task/TaskData';
 
 export const createProject = async (data: CreateProjectData) => {
   console.log('createProject() - data: ', data);
@@ -56,25 +57,33 @@ export const deleteProject = async (id: string) => {
   return project;
 };
 
-export const findManyProjects = (isArchived = false) => {
+export const findManyProjects = async ({
+  isArchived,
+  includeTasks,
+}: { isArchived?: boolean; includeTasks?: boolean } = {}) => {
   console.log('findManyProjects()');
-  return getSessionOrThrow().then((session) => {
-    if (session === null || session === undefined)
-      throw new Error('Your session has expired. Please sign in again.');
+  const session = await getSessionOrThrow();
+  const userId = session.user.id;
+  const prisma = new PrismaClient();
 
-    const userId = session.user.id;
-
-    const prisma = new PrismaClient();
-    return prisma.project.findMany({
-      where: { authorId: userId, isArchived },
-      orderBy: { createdAt: 'asc' },
-    });
+  return await prisma.project.findMany({
+    where: { authorId: userId, isArchived },
+    orderBy: { createdAt: 'asc' },
+    include: {
+      tasks: includeTasks,
+    },
   });
 };
 
-export const findProjectById = (id: string) => {
+export const findProjectById = async ({ id }: { id: string; }) => {
+  const session = await getSessionOrThrow();
+  const userId = session.user.id;
   const prisma = new PrismaClient();
-  return prisma.project.findUnique({ where: { id } });
+ 
+  return prisma.project.findUnique({
+    where: { authorId: userId, id },
+    include: { tasks: { orderBy: { createdAt: 'asc' } } },
+  });
 };
 
 export const updateProject = async (data: UpdateProjectData) => {

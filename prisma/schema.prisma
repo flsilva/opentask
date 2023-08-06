@@ -18,6 +18,7 @@ model User {
   name      String?   @db.VarChar(500)
   projects  Project[]
   provider  String    @unique @db.VarChar(100)
+  tasks     Task[]
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
 }
@@ -29,8 +30,25 @@ model Project {
   isArchived  Boolean   @default(false)
   author      User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId    String    @db.Uuid
+  tasks       Task[]
   createdAt   DateTime  @default(now())
   updatedAt   DateTime? @updatedAt
 
   @@index([isArchived, authorId])
+}
+
+model Task {
+  id          String    @id @db.VarChar(32)
+  name        String    @db.VarChar(500)
+  description String?   @db.VarChar(2000)
+  dueDate     DateTime?
+  isCompleted Boolean   @default(false)
+  project     Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId   String    @db.VarChar(32)
+  author      User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId    String    @db.Uuid
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime? @updatedAt
+
+  @@index([dueDate, isCompleted, authorId, projectId])
 }
