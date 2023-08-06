@@ -1,12 +1,15 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Dialog } from '@headlessui/react';
 import { XIcon } from '@/app/shared/ui/icon/XIcon';
 import { ProjectData } from '../project/ProjectData';
 import TaskForm from './/TaskForm';
 import { TaskData } from './TaskData';
+import { DeleteIcon } from '@/app/shared/ui/icon/DeleteIcon';
+import { ConfirmationModal, ConfirmationModalProps } from '../ui/ConfirmationModal';
+import { deleteTask } from './task-model';
 
 interface TaskModalModalProps {
   readonly project: ProjectData;
@@ -15,10 +18,14 @@ interface TaskModalModalProps {
 }
 
 export default function TaskModal({ project, projects, task }: TaskModalModalProps) {
+  const [confirmationModalProps, setConfirmationModalProps] =
+    useState<ConfirmationModalProps | null>(null);
   const closeButtonRef = useRef(null);
   const router = useRouter();
 
   const onCloseModal = () => {
+    console.log('TaskModal().onCloseModal()');
+    if (confirmationModalProps) return;
     /*
      * Flavio Silva on Aug 4, 2023:
      * There's an issue calling router.back() after calling router.refresh().
@@ -56,36 +63,76 @@ export default function TaskModal({ project, projects, task }: TaskModalModalPro
     /**/
   };
 
+  const onCloseConfirmationModal = () => {
+    console.log('TaskModal().onCloseConfirmationModal()');
+    setConfirmationModalProps(null);
+  };
+
+  const onDeleteTask = () => {
+    setConfirmationModalProps({
+      confirmButtonLabel: 'Delete',
+      modalCopy: (
+        <span>
+          Are you sure you want to delete <span className="font-semibold">{task && task.name}</span>
+          ?
+        </span>
+      ),
+      modalTitle: 'Delete Task',
+      onCancelHandler: onCloseConfirmationModal,
+      onConfirmHandler: async () => {
+        if (!task) return;
+        await deleteTask(task.id);
+        setConfirmationModalProps(null);
+        onCloseModal();
+      },
+      open: true,
+    });
+  };
+
   return (
-    <Dialog
-      as="div"
-      open={true}
-      className="relative z-50"
-      onClose={onCloseModal}
-      initialFocus={closeButtonRef}
-    >
-      <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
-      <div className="fixed inset-0 flex items-center">
-        <Dialog.Panel className="mx-auto flex w-full flex-col rounded-lg bg-white p-4 md:w-[40rem]">
-          <div className="flex items-start justify-between">
-            <TaskForm
-              project={project}
-              projects={projects}
-              task={task}
-              taskNameClassName="text-2xl"
-            />
-            <button
-              type="button"
-              className="-mt-1 rounded-md p-2.5 text-gray-700"
-              onClick={onCloseModal}
-              ref={closeButtonRef}
-            >
-              <span className="sr-only">Close menu</span>
-              <XIcon aria-hidden="true" />
-            </button>
-          </div>
-        </Dialog.Panel>
-      </div>
-    </Dialog>
+    <>
+      <Dialog
+        as="div"
+        open={true}
+        className="relative z-50"
+        onClose={onCloseModal}
+        initialFocus={closeButtonRef}
+      >
+        <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
+        <div className="fixed inset-0 flex items-center">
+          <Dialog.Panel className="mx-auto flex w-full flex-col rounded-lg bg-white p-4 md:w-[40rem]">
+            <div className="flex items-start justify-between">
+              <TaskForm
+                project={project}
+                projects={projects}
+                task={task}
+                taskNameClassName="text-2xl"
+              />
+              <div className="flex">
+                <button
+                  type="button"
+                  className="-mt-1 rounded-md p-2.5 text-gray-700"
+                  onClick={onDeleteTask}
+                  ref={closeButtonRef}
+                >
+                  <span className="sr-only">Delete task</span>
+                  <DeleteIcon aria-hidden="true" />
+                </button>
+                <button
+                  type="button"
+                  className="-mt-1 rounded-md p-2.5 text-gray-700"
+                  onClick={onCloseModal}
+                  ref={closeButtonRef}
+                >
+                  <span className="sr-only">Close modal</span>
+                  <XIcon aria-hidden="true" />
+                </button>
+              </div>
+            </div>
+          </Dialog.Panel>
+        </div>
+      </Dialog>
+      {confirmationModalProps && <ConfirmationModal {...confirmationModalProps} />}
+    </>
   );
 }
