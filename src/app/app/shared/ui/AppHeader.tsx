@@ -14,6 +14,7 @@ import { useRouter } from 'next/navigation';
 
 interface AppHeaderProps {
   readonly onMenuButtonClick: () => void;
+  readonly onSettingsButtonClick: () => void;
 }
 
 export enum SettingsAction {
@@ -41,7 +42,7 @@ const settingsItems: Array<SettingsItem> = [
 ];
 
 const AppHeader = forwardRef<HTMLElement, AppHeaderProps>(
-  ({ onMenuButtonClick }: AppHeaderProps, ref) => {
+  ({ onMenuButtonClick, onSettingsButtonClick }: AppHeaderProps, ref) => {
     const wrappedUserSession = useContext(UserSessionContext);
     const router = useRouter();
     const supabase = createClientComponentClient();
@@ -55,6 +56,7 @@ const AppHeader = forwardRef<HTMLElement, AppHeaderProps>(
           break;
         case SettingsAction.Settings:
           console.log('AppHeader().onProjectActionHandler() - Nav to settings modal');
+          onSettingsButtonClick();
           break;
         default:
           throw new Error(
