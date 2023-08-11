@@ -1,5 +1,6 @@
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
+import Link from 'next/link';
 import { createServerActionClient } from '@supabase/auth-helpers-nextjs';
 import { Database } from '@/lib/database.types';
 import {
@@ -119,6 +120,17 @@ export default function SignIn() {
             Continue with Email
           </button>
         </form>
+        <p className="mt-6 text-xs text-gray-600">
+          You agree to our{' '}
+          <Link href="/terms" className=" hover:text-green-500 underline">
+            Terms of Service
+          </Link>{' '}
+          and{' '}
+          <Link href="/privacy" className=" hover:text-green-500 underline">
+            Privacy Policy
+          </Link>{' '}
+          by continuing with any option above.
+        </p>
       </div>
     </div>
   );
