@@ -11,6 +11,9 @@ export default function Footer() {
           <Link href="/privacy" className=" hover:text-green-500 ml-4">
             | Privacy
           </Link>
+          <Link href="/terms" className=" hover:text-green-500 ml-4">
+            | Terms
+          </Link>
         </p>
         <div className="mt-6 flex justify-center md:mt-0">
           <Link className="mr-6" href="/">
