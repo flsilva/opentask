@@ -1,9 +1,9 @@
 'use server';
-import { PrismaClient } from '@prisma/client';
 import { cookies } from 'next/headers';
-import { getSessionOrThrow } from '../utils/session-utils';
 import { createServerActionClient } from '@supabase/auth-helpers-nextjs';
 import { Database } from '@/lib/database.types';
+import { prisma } from '../utils/model-utils';
+import { getSessionOrThrow } from '../utils/session-utils';
 
 export interface CreateUserData {
   readonly email: string;
@@ -13,24 +13,18 @@ export interface CreateUserData {
 }
 
 export const createUser = async (data: CreateUserData) => {
-  const prisma = new PrismaClient();
   const user = await prisma.user.findUnique({ where: { id: data.id } });
-
   if (user) return user;
   return await prisma.user.create({ data });
 };
 
 export const deleteUserAccount = async () => {
-  console.log('deleteUserAccount()');
-  const session = await getSessionOrThrow();
-  const userId = session.user.id;
+  const {
+    user: { id },
+  } = await getSessionOrThrow();
 
-  console.log('deleteUserAccount() - userId: ', userId);
-
-  const prisma = new PrismaClient();
-  await prisma.user.delete({ where: { id: userId } });
+  await prisma.user.delete({ where: { id } });
 
   const supabase = createServerActionClient<Database>({ cookies });
-  const { error } = await supabase.auth.signOut();
-  console.log('deleteUserAccount() - error: ', error);
+  return await supabase.auth.signOut();
 };
