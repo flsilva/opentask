@@ -8,13 +8,12 @@ import {
   buttonClassNameWhite,
 } from '@/app/shared/ui//button/buttonClassName';
 import { ChildrenProps } from '@/app/shared/ui/ChildrenProps';
-import { FacebookLogoIcon } from '@/app/shared/ui/icon/FacebookLogoIcon';
 import { GitHubLogoIcon } from '@/app/shared/ui/icon/GitHubLogoIcon';
 import { GoogleLogoIcon } from '@/app/shared/ui/icon/GoogleLogoIcon';
 import { LinkedInInLogoIcon } from '@/app/shared/ui/icon/LinkedInInLogoIcon';
 import { TwitterLogoIcon } from '@/app/shared/ui/icon/TwitterLogoIcon';
 
-export type Provider = 'facebook' | 'github' | 'google' | 'linkedin' | 'twitter';
+export type Provider = 'github' | 'google' | 'linkedin' | 'twitter';
 
 interface OAuthProviderButtonProps extends ChildrenProps {
   readonly provider: Provider;
@@ -83,10 +82,6 @@ export default function SignIn() {
         <OAuthProviderButton provider="google">
           <GoogleLogoIcon />
           Continue with Google
-        </OAuthProviderButton>
-        <OAuthProviderButton provider="facebook">
-          <FacebookLogoIcon />
-          Continue with Facebook
         </OAuthProviderButton>
         <OAuthProviderButton provider="twitter">
           <TwitterLogoIcon width="1rem" height="1rem" className="fill-[#1e9cf1]" />
