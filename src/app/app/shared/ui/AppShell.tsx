@@ -1,7 +1,7 @@
 'use client';
 
 import { useLayoutEffect, useRef, useState } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 import { ChildrenProps } from '@/app/shared/ui//ChildrenProps';
 import AppHeader from '@/app/app/shared/ui/AppHeader';
@@ -28,19 +28,12 @@ export default function AppShell({ children, project, projects }: AppShellProps)
 
   const headerRef = useRef<HTMLElement>(null);
   const router = useRouter();
-  const pathname = usePathname();
-
-  console.log('AppShell() - isShowingProjectModal: ', isShowingProjectModal);
-  console.log('AppShell() - projects: ', projects);
 
   const onCloseProjectModal = () => {
-    console.log('AppShell().onCloseProjectModal()');
     setIsShowingProjectModal(false);
   };
 
   const onCreateProject = async (data: CreateProjectData) => {
-    console.log('AppShell().onCreateProject() - data: ', data);
-
     const project = await createProject(data);
     onCloseProjectModal();
     router.push(`/app/project/${project.id}`);
@@ -71,7 +64,6 @@ export default function AppShell({ children, project, projects }: AppShellProps)
   );
 
   const onCloseSettingsModal = () => {
-    console.log('AppShell().onCloseSettingsModal()');
     if (confirmationModalProps) return;
     setIsShowingSettingsModal(false);
   };
@@ -81,7 +73,6 @@ export default function AppShell({ children, project, projects }: AppShellProps)
   };
 
   const onCloseConfirmationModal = () => {
-    console.log('TaskModal().onCloseConfirmationModal()');
     setConfirmationModalProps(null);
   };
 

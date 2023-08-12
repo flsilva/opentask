@@ -55,7 +55,6 @@ const AppHeader = forwardRef<HTMLElement, AppHeaderProps>(
           router.push('/');
           break;
         case SettingsAction.Settings:
-          console.log('AppHeader().onProjectActionHandler() - Nav to settings modal');
           onSettingsButtonClick();
           break;
         default:

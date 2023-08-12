@@ -24,7 +24,6 @@ export default function TaskModal({ project, projects, task }: TaskModalModalPro
   const router = useRouter();
 
   const onCloseModal = () => {
-    console.log('TaskModal().onCloseModal()');
     if (confirmationModalProps) return;
     /*
      * Flavio Silva on Aug 4, 2023:
@@ -64,7 +63,6 @@ export default function TaskModal({ project, projects, task }: TaskModalModalPro
   };
 
   const onCloseConfirmationModal = () => {
-    console.log('TaskModal().onCloseConfirmationModal()');
     setConfirmationModalProps(null);
   };
 

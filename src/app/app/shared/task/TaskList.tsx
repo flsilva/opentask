@@ -8,7 +8,6 @@ interface TaskListProps {
 }
 
 export default function TaskList({ onCompleteTaskClick, onTaskClick, tasks }: TaskListProps) {
-  console.log('TaskList() - tasks: ', tasks);
   return (
     <>
       {tasks.map((task) => (

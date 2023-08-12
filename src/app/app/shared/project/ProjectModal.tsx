@@ -46,7 +46,6 @@ export default function ProjectModal({
       project.name !== undefined &&
       project.name !== null
     ) {
-      console.log(project.name);
       setName(project.name);
       return;
     }
@@ -89,8 +88,6 @@ export default function ProjectModal({
       name: String(formData.get('name')),
       description: String(formData.get('description')),
     };
-
-    console.log('ProjectModal().onSaveProject() - data: ', data);
 
     project !== undefined &&
     project !== null &&

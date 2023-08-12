@@ -11,7 +11,6 @@ interface ProjectsHeaderProps {
 export default function ProjectsHeader({ archived = false }: ProjectsHeaderProps) {
   const router = useRouter();
   const onSwitchClick = (enabled: boolean) => {
-    console.log('ProjectsHeader().onSwitchClick() - enabled: ', enabled);
     const path = enabled ? 'archived' : 'active';
     router.push(path);
   };

@@ -47,17 +47,12 @@ export default function SignIn() {
     const provider = String(formData.get('provider')) as Provider;
     const supabase = createServerActionClient<Database>({ cookies });
 
-    console.log('signInWithOAuth() - provider: ', provider);
-
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider,
       options: {
         redirectTo,
       },
     });
-
-    console.log('signInWithOAuth() - data: ', data);
-    console.log('signInWithOAuth() - error: ', error);
 
     if (error || typeof data.url !== 'string') {
       throw new Error('There was an error trying to sign you in.');

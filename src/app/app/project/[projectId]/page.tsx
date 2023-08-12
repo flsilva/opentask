@@ -25,14 +25,10 @@ for (let x = 0; x < 30; x++) {
 }
 
 export default async function ProjectPage({ params: { projectId } }: ProjectPageProps) {
-  console.log('ProjectPage() - projectId: ', projectId);
-
   const [projects, project] = await Promise.all([
     findManyProjects(),
     findProjectById({ id: projectId }),
   ]);
-
-  console.log('ProjectPage() - RENDER - project: ', project);
 
   if (!project || !projects) return;
 

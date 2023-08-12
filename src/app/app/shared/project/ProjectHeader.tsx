@@ -57,20 +57,16 @@ const menuItems: Array<MenuItem> = [
 ];
 
 export default function ProjectHeader({ project }: ProjectHeaderProps) {
-  console.log('ProjectHeader() - project: ', project);
-
   const router = useRouter();
   const [showProjectModal, setShowProjectModal] = useState(false);
   const [confirmationModalProps, setConfirmationModalProps] =
     useState<ConfirmationModalProps | null>(null);
 
   const onCloseProjectModal = () => {
-    console.log('ProjectHeader().onCloseProjectModal()');
     setShowProjectModal(false);
   };
 
   const onCloseConfirmationModal = () => {
-    console.log('ProjectHeader().confirmationModalCancelHandler()');
     setConfirmationModalProps(null);
   };
 
@@ -79,8 +75,6 @@ export default function ProjectHeader({ project }: ProjectHeaderProps) {
   };
 
   const onUpdateProject = async (data: UpdateProjectData) => {
-    console.log('ProjectHeader().onUpdateProject() - data: ', data);
-
     const project = await updateProject(data);
     onCloseProjectModal();
     /*
@@ -92,12 +86,10 @@ export default function ProjectHeader({ project }: ProjectHeaderProps) {
   };
 
   const archiveUnarchiveProjectHandler = (project: ProjectData, archive: boolean) => {
-    console.log('ProjectHeader().updateProjectHandler()');
     return updateProject({ id: project.id, name: project.name, isArchived: archive });
   };
 
   const deleteProjectHandler = async (project: ProjectData) => {
-    console.log('ProjectHeader().deleteProjectHandler()');
     await deleteProject(project.id);
     setConfirmationModalProps(null);
     router.push('/app/today');
@@ -110,13 +102,11 @@ export default function ProjectHeader({ project }: ProjectHeaderProps) {
   };
 
   const onProjectActionClick = async (action: ProjectAction) => {
-    console.log(`ProjectHeader().onProjectActionHandler() - action: ${action}`);
     switch (action) {
       /*
        * Archive Project
        */
       case ProjectAction.Archive:
-        console.log('ProjectHeader().onProjectActionHandler() - Archive project');
         if (project === null || project === undefined) return;
         setConfirmationModalProps({
           confirmButtonLabel: 'Archive',
@@ -146,7 +136,6 @@ export default function ProjectHeader({ project }: ProjectHeaderProps) {
        * Delete Project
        */
       case ProjectAction.Delete:
-        console.log('ProjectHeader().onProjectActionHandler() - Delete project');
         if (project === null || project === undefined) return;
         setConfirmationModalProps({
           confirmButtonLabel: 'Delete',
@@ -165,14 +154,12 @@ export default function ProjectHeader({ project }: ProjectHeaderProps) {
        * Edit Project
        */
       case ProjectAction.Edit:
-        console.log('ProjectHeader().onProjectActionHandler() - Edit project');
         setShowProjectModal(true);
         break;
       /*
        * Unarchive Project
        */
       case ProjectAction.Unarchive:
-        console.log('ProjectHeader().onProjectActionHandler() - Unarchive project');
         if (project === null || project === undefined) return;
         await archiveUnarchiveProjectHandler(project, false);
         /*

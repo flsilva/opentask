@@ -12,8 +12,6 @@ interface SettingsModalProps {
 }
 
 export default function SettingsModal({ onCloseModal, onDeleteAccount, open }: SettingsModalProps) {
-  console.log('SettingsModal()');
-
   return (
     <Dialog as="div" open={open} className="relative z-50" onClose={onCloseModal}>
       <div className="fixed inset-0 bg-black/30" aria-hidden="true" />

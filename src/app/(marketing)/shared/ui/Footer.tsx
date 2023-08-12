@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { GitHubLogoIcon } from '@/app/shared/ui/icon/GitHubLogoIcon';
-import { TwitterLogoIcon } from '@/app/shared/ui/icon/TwitterLogoIcon';
 
 export default function Footer() {
   return (

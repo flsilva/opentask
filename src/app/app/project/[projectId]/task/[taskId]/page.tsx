@@ -14,8 +14,6 @@ interface ProjectTaskPageProps {
 export default async function ProjectTaskPage({
   params: { projectId, taskId },
 }: ProjectTaskPageProps) {
-  console.log('ProjectTaskPage() - RENDER - projectId: ', projectId);
-
   const [projects, project, task] = await Promise.all([
     findManyProjects(),
     findProjectById({ id: projectId }),
@@ -23,8 +21,6 @@ export default async function ProjectTaskPage({
   ]);
 
   if (!project || !projects || projects.length === 0) return;
-
-  console.log('ProjectTaskPage() - RENDER - project: ', project);
 
   return (
     <AppShell projects={projects}>

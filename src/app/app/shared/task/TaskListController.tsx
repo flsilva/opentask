@@ -20,13 +20,11 @@ export const TaskListController = ({ project, tasks }: TodayPageTaskListProps) =
   const notCompletedTasks = tasks.filter((task) => !task.isCompleted);
 
   const onCompleteTaskClick = async (task: TaskData) => {
-    console.log('onCompleteTaskClick');
     await updateTaskComplete(task.id, true);
     router.refresh();
   };
 
   const onUncompleteTaskClick = async (task: TaskData) => {
-    console.log('onUncompleteTaskClick');
     await updateTaskComplete(task.id, false);
     router.refresh();
   };

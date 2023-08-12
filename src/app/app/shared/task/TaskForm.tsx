@@ -50,7 +50,6 @@ export default function TaskForm({
   task,
   taskNameClassName,
 }: TaskFormProps) {
-  console.log('TaskForm() - task: ', task);
   const NAME_PLACEHOLDER = 'Task name';
   const DESCRIPTION_PLACEHOLDER = 'Task description';
 
@@ -83,10 +82,8 @@ export default function TaskForm({
 
   const onSaveClick = async () => {
     let data: CreateTaskData | UpdateTaskData = generateTaskData();
-    console.log('TaskForm().onSaveClick() - data: ', data);
 
     if (task) {
-      console.log('TaskForm().onSaveClick() - call updateTask()');
       data = { ...data, id: task.id };
       UpdateTaskSchema.parse(data);
       setIsEditingNameOrDescription(false);
@@ -94,7 +91,6 @@ export default function TaskForm({
       return;
     }
 
-    console.log('TaskForm().onSaveClick() - call createTask()');
     CreateTaskSchema.parse(data);
     await createTask(data);
     resetForm();
@@ -113,22 +109,18 @@ export default function TaskForm({
   };
 
   const onTaskProjectChange = (selectedProject: ProjectData) => {
-    console.log('TaskForm().dropdownMenuItemClickHandler() - selectedProject: ', selectedProject);
     setTaskProject(selectedProject);
     if (!task) return;
     updateTaskProject(task.id, selectedProject.id);
   };
 
   const onTaskCheckClick = async () => {
-    console.log('TaskForm().onTaskCheckClick()');
     if (!task) return;
     setIsCompleted(!isCompleted);
     await updateTaskComplete(task.id, !isCompleted);
   };
 
   const onNameFocusHandler = (event: React.FocusEvent<HTMLInputElement>) => {
-    console.log('TaskForm().onNameFocusHandler() - event: ', event);
-
     /*
      * Flavio Silva on Jul. 17, 2023:
      * Context: This TaskForm component is used by the TaskModal component, which in turn uses
@@ -174,7 +166,6 @@ export default function TaskForm({
   };
 
   const onDescriptionFocusHandler = (event: React.FocusEvent<HTMLInputElement>) => {
-    console.log('TaskForm().onDescriptionFocusHandler()');
     setIsEditingNameOrDescription(true);
     if (event.target === null || event.target === undefined) return;
     if (event.target.innerHTML !== '' && event.target.innerHTML !== DESCRIPTION_PLACEHOLDER) return;
