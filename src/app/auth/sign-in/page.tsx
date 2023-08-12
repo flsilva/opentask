@@ -20,7 +20,7 @@ interface OAuthProviderButtonProps extends ChildrenProps {
 }
 
 export default function SignIn() {
-  const redirectTo = `${process.env.NEXT_PUBLIC_VERCEL_URL}/auth/callback`;
+  const redirectTo = `${process.env.NEXT_PUBLIC_URL}/auth/callback`;
 
   const signInWithEmailHandler = async (formData: FormData) => {
     'use server';
