@@ -12,13 +12,6 @@ interface TodayTaskPageProps {
   readonly params: { readonly taskId: string };
 }
 
-const task: TaskData = {
-  id: '1',
-  name: 'My simple task lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet.',
-  description: 'This task is pretty simple indeed.',
-  projectId: '1',
-};
-
 export default async function TodayTaskPage({ params: { taskId } }: TodayTaskPageProps) {
   const [projects, tasks, task] = await Promise.all([
     findManyProjects(),
@@ -29,6 +22,12 @@ export default async function TodayTaskPage({ params: { taskId } }: TodayTaskPag
   return (
     <AppShell projects={projects}>
       <TodayHeader />
+      {tasks.length > 0 && <TaskListController tasks={tasks} />}
+      {tasks.length < 1 && projects && projects.length > 0 && (
+        <p className="mb-12 text-sm font-medium text-gray-600">
+          No tasks due today. Enjoy your day!
+        </p>
+      )}
       <TaskListController tasks={tasks} />
       {projects && projects.length > 0 && (
         <AddTask defaultDueDate={new Date()} project={projects[0]} projects={projects} />

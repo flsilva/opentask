@@ -12,7 +12,7 @@ export default function TodayHeader() {
   }, []);
 
   return (
-    <div className="flex flex-col pb-8">
+    <div className="flex flex-col">
       <div className="sticky top-0 flex w-full items-center bg-white py-8">
         <h1 className="text-lg font-semibold text-gray-800">Today</h1>
         <p className="ml-2 mt-1 text-xs text-gray-400">{todayStr}</p>

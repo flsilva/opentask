@@ -20,12 +20,15 @@ export default async function ProjectTaskPage({
     findTaskById(taskId),
   ]);
 
-  if (!project || !projects || projects.length === 0) return;
+  if (!project || !projects || projects.length < 1) return;
 
   return (
     <AppShell projects={projects}>
       <ProjectHeader project={project} />
-      <TaskListController project={project} tasks={project.tasks || []} />
+      {project.tasks.length > 0 && <TaskListController project={project} tasks={project.tasks} />}
+      {project.tasks.length < 1 && (
+        <p className="mb-12 text-sm font-medium text-gray-600">No tasks in this project.</p>
+      )}
       <AddTask project={project} projects={projects} />
       <TaskModal project={project} projects={projects} task={task} />
     </AppShell>

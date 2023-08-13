@@ -38,18 +38,21 @@ export const TaskListController = ({ project, tasks }: TodayPageTaskListProps) =
   };
 
   return (
-    <>
-      <TaskList
-        onCompleteTaskClick={onCompleteTaskClick}
-        onTaskClick={onTaskClick}
-        tasks={notCompletedTasks}
-      />
-      <div className="mt-12" />
-      <TaskList
-        onCompleteTaskClick={onUncompleteTaskClick}
-        onTaskClick={onTaskClick}
-        tasks={completedTasks}
-      />
-    </>
+    <div className="flex flex-col">
+      <div className="flex flex-col pb-8">
+        <TaskList
+          onCompleteTaskClick={onCompleteTaskClick}
+          onTaskClick={onTaskClick}
+          tasks={notCompletedTasks}
+        />
+      </div>
+      <div className="flex flex-col">
+        <TaskList
+          onCompleteTaskClick={onUncompleteTaskClick}
+          onTaskClick={onTaskClick}
+          tasks={completedTasks}
+        />
+      </div>
+    </div>
   );
 };

@@ -54,10 +54,7 @@ export default function AppNav({ isOpen, onNewProjectClick, projects }: AppNavPr
         onClick={onTodayClick}
       >
         <CalendarTodayIcon className="fill-gray-600" />
-        <div className="ml-2 flex grow items-center justify-between">
-          Today
-          <p className="mr-1.5 text-sm font-medium text-gray-400">7</p>
-        </div>
+        <div className="ml-2 flex grow items-center">Today</div>
       </button>
       <div className="mt-4 flex justify-between">
         <button
@@ -86,13 +83,12 @@ export default function AppNav({ isOpen, onNewProjectClick, projects }: AppNavPr
             <button
               key={project.id}
               type="button"
-              className={`flex grow items-center justify-between rounded-md p-2.5 text-sm font-medium text-gray-600 hover:bg-gray-200 ${
+              className={`flex grow items-center rounded-md p-2.5 text-sm font-medium text-gray-600 hover:bg-gray-200 ${
                 isActive(`project/${project.id}`) ? activeClassName : ''
               }`}
               onClick={() => onProjectClick(project)}
             >
               <p>{project.name}</p>
-              <p className="mr-1.5 text-sm font-medium text-gray-400">3</p>
             </button>
           ))}
 

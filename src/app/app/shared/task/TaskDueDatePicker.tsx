@@ -1,12 +1,11 @@
 'use client';
 
 import 'client-only';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Datepicker from 'tailwind-datepicker-react';
 import { differenceInCalendarDays, format, isToday, isTomorrow, startOfDay } from 'date-fns';
 import { CalendarMonthIcon } from '@/app/shared/ui/icon/CalendarMonthIcon';
 import { XIcon } from '@/app/shared/ui/icon/XIcon';
-import { ClassNamePropsOptional } from '@/app/shared/ui/ClassNameProps';
 
 /* Docs
  * https://github.com/OMikkel/tailwind-datepicker-react
@@ -34,12 +33,11 @@ interface TaskDueDatePickerProps {
   readonly onChange: (date: Date | null) => void;
 }
 
-export default function TaskDueDatePicker({
-  defaultDate,
-  onChange,
-}: TaskDueDatePickerProps) {
+export default function TaskDueDatePicker({ defaultDate, onChange }: TaskDueDatePickerProps) {
   const [isShowing, setIsShowing] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | null | undefined>(defaultDate);
+
+  useEffect(() => setSelectedDate(defaultDate), [defaultDate]);
 
   const handleChange = (date: Date | null) => {
     setSelectedDate(date);

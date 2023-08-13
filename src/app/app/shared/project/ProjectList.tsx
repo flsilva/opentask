@@ -23,11 +23,10 @@ export default function ProjectList({ projects }: ProjectListProps) {
           <button
             key={project.id}
             type="button"
-            className="flex grow items-center justify-between rounded-md p-2.5 text-sm font-medium text-gray-600 hover:bg-gray-200"
+            className="flex grow items-center rounded-md p-2.5 text-sm font-medium text-gray-600 hover:bg-gray-200"
             onClick={() => onProjectClick(project)}
           >
             <p>{project.name}</p>
-            <p className="mr-1.5 text-sm font-medium text-gray-400">3</p>
           </button>
         ))}
       {!projects ||

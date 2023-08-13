@@ -11,10 +11,11 @@ export default function TaskList({ onCompleteTaskClick, onTaskClick, tasks }: Ta
   return (
     <>
       {tasks.map((task) => (
-        <div key={task.id} className="mb-6 flex last:pb-8">
+        <div key={task.id} className="mb-6 flex">
           <TaskListItem
             description={task.description || ''}
             isCompleted={task.isCompleted}
+            key={task.id}
             name={task.name}
             onCompleteTaskClick={() => onCompleteTaskClick(task)}
             onTaskClick={() => onTaskClick(task)}

@@ -209,10 +209,10 @@ export default function ProjectHeader({ project }: ProjectHeaderProps) {
 
   return (
     <>
-      <div className="flex flex-col pb-8">
+      <div className="flex flex-col">
         <div className="sticky top-0 flex w-full justify-between bg-white py-8">
           <h1 className="text-lg font-semibold text-gray-800">{project?.name ?? ''}</h1>
-          <div className="relative ml-0 h-12">
+          <div className="relative [&>div]:flex">
             <DropdownMenu
               items={getDropdownItems()}
               itemsClassName="absolute top-10 right-0 max-h-80 w-56"
@@ -224,11 +224,12 @@ export default function ProjectHeader({ project }: ProjectHeaderProps) {
             />
           </div>
         </div>
-        <p className="block whitespace-pre-line text-sm">{project?.description || ''}</p>
-        {project && project.isArchived && (
-          <p className="mt-2 block whitespace-pre-line text-sm">This project is archived.</p>
+        {project && project.description && (
+          <p className="block whitespace-pre-line text-sm mb-8">{project?.description || ''}</p>
         )}
-        <div className="mb-8" />
+        {project && project.isArchived && (
+          <p className="mt-2 block whitespace-pre-line text-sm mb-8">This project is archived.</p>
+        )}
       </div>
       <ProjectModal
         open={showProjectModal}

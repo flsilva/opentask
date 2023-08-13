@@ -12,9 +12,9 @@ export default async function TodayPage() {
   return (
     <AppShell projects={projects}>
       <TodayHeader />
-      <TaskListController tasks={tasks} />
-      {projects && projects.length > 0 && tasks.length < 1 && (
-        <p className="mb-16 text-sm font-medium text-gray-600">
+      {tasks.length > 0 && <TaskListController tasks={tasks} />}
+      {tasks.length < 1 && projects && projects.length > 0 && (
+        <p className="mb-12 text-sm font-medium text-gray-600">
           No tasks due today. Enjoy your day!
         </p>
       )}
