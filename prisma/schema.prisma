@@ -17,7 +17,7 @@ model User {
   email     String    @unique @db.VarChar(254)
   name      String?   @db.VarChar(500)
   projects  Project[]
-  provider  String    @unique @db.VarChar(100)
+  provider  String    @db.VarChar(100)
   tasks     Task[]
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
