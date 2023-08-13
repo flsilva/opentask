@@ -76,7 +76,7 @@ export default function TaskDueDatePicker({ defaultDate, onChange }: TaskDueDate
         <div className="flex flex-row">
           <button
             type="button"
-            className="flex rounded-md p-2 hover:bg-gray-300"
+            className="flex rounded-md p-1.5 hover:bg-gray-200"
             onClick={() => setIsShowing(!isShowing)}
           >
             <span className="sr-only">Add due date</span>
@@ -86,7 +86,7 @@ export default function TaskDueDatePicker({ defaultDate, onChange }: TaskDueDate
           {selectedDate && (
             <button
               type="button"
-              className="flex rounded-md py-2 hover:bg-gray-300 sm:px-2"
+              className="flex rounded-md p-1.5 hover:bg-gray-200"
               onClick={() => handleChange(null)}
             >
               <span className="sr-only">Remove due date</span>

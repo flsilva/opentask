@@ -7,6 +7,9 @@ module.exports = {
     './src/shared/**/*.{js,ts,jsx,tsx,mdx}',
     "./node_modules/tailwind-datepicker-react/dist/**/*.js",
   ],
+  future: {
+    hoverOnlyWhenSupported: true,
+  },
   plugins: [
     require('@tailwindcss/forms'),
     require('@tailwindcss/typography'),

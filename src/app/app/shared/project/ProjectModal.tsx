@@ -1,13 +1,13 @@
 'use client';
 
+import { useEffect, useRef, useState } from 'react';
 import { Dialog } from '@headlessui/react';
 import { XIcon } from '@/app/shared/ui/icon/XIcon';
 import {
   buttonClassNameGreen,
   buttonClassNameWhite,
 } from '@/app/shared/ui//button/buttonClassName';
-import { ProjectData } from './ProjectData';
-import { useEffect, useState } from 'react';
+import { CreateProjectSchema, ProjectData, UpdateProjectSchema } from './ProjectData';
 import { CreateProjectData, UpdateProjectData } from './ProjectData';
 
 interface ProjectModalProps {
@@ -38,6 +38,14 @@ export default function ProjectModal({
     setDescriptionAccordingToProject(project);
   }, [project]);
   /**/
+
+  const generateProjectData = (): CreateProjectData => ({
+    name,
+    description,
+  });
+
+  const inputNameRef = useRef(null);
+  const isValidData = CreateProjectSchema.safeParse(generateProjectData()).success;
 
   const setNameAccordingToProject = (project?: ProjectData | null) => {
     if (
@@ -83,25 +91,37 @@ export default function ProjectModal({
     setDescription(event.target.value);
   };
 
-  const onSaveProject = async (formData: FormData) => {
-    const data = {
-      name: String(formData.get('name')),
-      description: String(formData.get('description')),
-    };
+  const onSaveProject = async () => {
+    let data: CreateProjectData | UpdateProjectData = generateProjectData();
 
-    project !== undefined &&
-    project !== null &&
-    project.id !== undefined &&
-    project.id !== null &&
-    project.id !== ''
-      ? onUpdateProject({ ...data, id: project.id })
-      : onCreateProject(data);
+    if (project) {
+      data = { ...data, id: project.id };
+      UpdateProjectSchema.parse(data);
+      onUpdateProject(data);
+      return;
+    }
+
+    CreateProjectSchema.parse(data);
+    onCreateProject(data);
+  };
+
+  const onKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key !== 'Enter') return;
+    event.preventDefault();
+    if (!CreateProjectSchema.safeParse(generateProjectData()).success) return;
+    onSaveProject();
   };
 
   return (
-    <Dialog as="div" open={open} className="relative z-50" onClose={onCloseHandlerInternal}>
+    <Dialog
+      as="div"
+      open={open}
+      className="relative z-50"
+      initialFocus={inputNameRef}
+      onClose={onCloseHandlerInternal}
+    >
       <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
-      <div className="fixed inset-0 flex items-center">
+      <div className="fixed inset-0 flex md:items-center">
         <Dialog.Panel className="mx-auto w-full rounded-lg bg-white p-4 md:w-[40rem]">
           <div className="flex items-center justify-between">
             <h1 className="text-lg font-semibold text-gray-800">
@@ -109,23 +129,25 @@ export default function ProjectModal({
             </h1>
             <button
               type="button"
-              className="-m-2.5 rounded-md p-2.5 text-gray-700"
+              className="-m-2.5 rounded-md p-1.5 text-gray-700 hover:bg-gray-200"
               onClick={onCloseHandlerInternal}
             >
               <span className="sr-only">Close modal</span>
               <XIcon aria-hidden="true" />
             </button>
           </div>
-          <form action={onSaveProject} className="mt-6 flex flex-col">
+          <form className="mt-6 flex flex-col">
             <input
               value={name}
               onChange={onChangeNameHandler}
+              onKeyDown={onKeyDown}
               name="name"
               type="text"
               placeholder="Project name"
               className="mb-6 block w-full rounded-md border border-gray-400 py-1.5 text-gray-900 ring-0 placeholder:text-gray-400 focus:border-gray-900 focus:outline-0 focus:ring-0"
               required
               autoComplete="off"
+              ref={inputNameRef}
             />
             <textarea
               value={description}
@@ -139,7 +161,12 @@ export default function ProjectModal({
               <button className={buttonClassNameWhite} onClick={onCloseHandlerInternal}>
                 Cancel
               </button>
-              <button type="submit" className={buttonClassNameGreen}>
+              <button
+                type="button"
+                disabled={!isValidData}
+                className={buttonClassNameGreen}
+                onClick={onSaveProject}
+              >
                 Save
               </button>
             </div>

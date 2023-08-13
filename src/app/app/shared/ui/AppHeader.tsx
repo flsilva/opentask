@@ -109,9 +109,9 @@ const AppHeader = forwardRef<HTMLElement, AppHeaderProps>(
           <div className="relative">
             <DropdownMenu
               items={getDropdownItems()}
-              itemsClassName="absolute top-8 right-0 max-h-80 w-56"
+              itemsClassName="absolute top-8 right-0 max-h-80 w-56 z-10"
               menuButton={
-                <Menu.Button className="flex items-center justify-center focus-visible:outline  focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600">
+                <Menu.Button className="flex items-center justify-center outline-none">
                   <PersonIcon className="fill-white hover:fill-green-500" />
                 </Menu.Button>
               }

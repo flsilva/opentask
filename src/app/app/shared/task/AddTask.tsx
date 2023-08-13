@@ -45,7 +45,7 @@ export default function AddTask({ defaultDueDate, project, projects }: AddTaskPr
           onCancelClick={cancelNewTaskHandler}
           project={project}
           projects={projects}
-          shouldStartEditingNameOrDescription
+          shouldStartOnEditingMode
         />
       )}
     </>

@@ -109,7 +109,7 @@ export default function TaskModal({ project, projects, task }: TaskModalModalPro
               <div className="flex">
                 <button
                   type="button"
-                  className="-mt-1 rounded-md p-2.5 text-gray-700"
+                  className="rounded-md p-1.5 text-gray-700 hover:bg-gray-200"
                   onClick={onDeleteTask}
                   ref={closeButtonRef}
                 >
@@ -118,7 +118,7 @@ export default function TaskModal({ project, projects, task }: TaskModalModalPro
                 </button>
                 <button
                   type="button"
-                  className="-mt-1 rounded-md p-2.5 text-gray-700"
+                  className="rounded-md ml-2 p-1.5 text-gray-700 hover:bg-gray-200"
                   onClick={onCloseModal}
                   ref={closeButtonRef}
                 >

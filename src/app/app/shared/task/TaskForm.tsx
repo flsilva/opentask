@@ -2,7 +2,7 @@
 
 import 'client-only';
 import { useRouter } from 'next/navigation';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useCallback, useState } from 'react';
 import ContentEditable from 'react-contenteditable';
 import { Menu } from '@headlessui/react';
 import { ClassNamePropsOptional } from '@/app/shared/ui/ClassNameProps';
@@ -29,13 +29,15 @@ import {
   updateTaskProject,
 } from './task-model';
 import TaskCheck, { TaskCheckSize } from './TaskCheck';
+import { useAutoFocus } from '@/app/shared/useAutoFocus';
+import { useKeyboardEvent } from '@/app/shared/useKeyboardEvent';
 
 interface TaskFormProps extends ClassNamePropsOptional {
   readonly defaultDueDate?: Date | null;
   readonly onCancelClick?: () => void;
   readonly project: ProjectData | null;
   readonly projects: Array<ProjectData>;
-  readonly shouldStartEditingNameOrDescription?: boolean;
+  readonly shouldStartOnEditingMode?: boolean;
   readonly task?: TaskData | null;
   readonly taskNameClassName?: string;
 }
@@ -46,7 +48,7 @@ export default function TaskForm({
   onCancelClick,
   project,
   projects,
-  shouldStartEditingNameOrDescription = false,
+  shouldStartOnEditingMode = false,
   task,
   taskNameClassName,
 }: TaskFormProps) {
@@ -55,52 +57,88 @@ export default function TaskForm({
 
   const router = useRouter();
   const [name, setName] = useState(task ? task.name : NAME_PLACEHOLDER);
-  const [description, setDescription] = useState(task ? task.description : DESCRIPTION_PLACEHOLDER);
+  const [description, setDescription] = useState(
+    task && task.description ? task.description : DESCRIPTION_PLACEHOLDER,
+  );
   const [dueDate, setDueDate] = useState<Date | null | undefined>(
     task && task.dueDate ? task.dueDate : defaultDueDate,
   );
   const [taskProject, setTaskProject] = useState(project ?? projects[0]);
   const [isCompleted, setIsCompleted] = useState(task && task.isCompleted);
-  const [isEditingNameOrDescription, setIsEditingNameOrDescription] = useState(
-    shouldStartEditingNameOrDescription,
+  const [isEditingName, setIsEditingName] = useState(false);
+  const [isOnEditingMode, setIsOnEditingMode] = useState(shouldStartOnEditingMode);
+
+  const generateTaskData = useCallback(
+    (): CreateTaskData => ({
+      name: (name !== NAME_PLACEHOLDER && name) || '',
+      description: (description !== DESCRIPTION_PLACEHOLDER && description) || '',
+      dueDate,
+      projectId: taskProject.id,
+    }),
+    [description, dueDate, name, taskProject.id],
   );
 
-  const generateTaskData = (): CreateTaskData => ({
-    name: (name !== NAME_PLACEHOLDER && name) || '',
-    description: (description !== DESCRIPTION_PLACEHOLDER && description) || '',
-    dueDate,
-    projectId: taskProject.id,
-  });
-
-  const isDataValid = CreateTaskSchema.safeParse(generateTaskData()).success;
+  const isValidData = CreateTaskSchema.safeParse(generateTaskData()).success;
+  const inputNameRef = useAutoFocus();
 
   const resetForm = () => {
-    setName(NAME_PLACEHOLDER);
+    setName('');
     setDescription(DESCRIPTION_PLACEHOLDER);
     setDueDate(null);
   };
 
-  const onSaveClick = async () => {
+  const onSaveClick = useCallback(async () => {
     let data: CreateTaskData | UpdateTaskData = generateTaskData();
 
     if (task) {
       data = { ...data, id: task.id };
       UpdateTaskSchema.parse(data);
-      setIsEditingNameOrDescription(false);
+      setIsOnEditingMode(false);
       await updateTask(data);
+      inputNameRef.current?.blur();
       return;
     }
 
     CreateTaskSchema.parse(data);
+
+    /*
+     * Set focus must come here, before await, otherwise the virtual keyboard
+     * is not shown on the iPhone, even though focus is set (default focus outlined is drawn).
+     */
+    inputNameRef.current?.focus();
+    /**/
+
     await createTask(data);
     resetForm();
+
     /*
      * This is necessary to refetch data and rerender the UI.
      * Otherwise, data changes do not display in the UI.
      */
     router.refresh();
     /**/
-  };
+  }, [generateTaskData, inputNameRef, router, task]);
+
+  /*
+   * Flavio Silva on Aug. 14th, 2023:
+   * It seems ContentEditable's shouldComponentUpdate() logic ignores event listeners
+   * (like onKeydown), preventing it from being used in this case, where the listener
+   * depends on reactive values and needs to be updated on rerender.
+   *
+   * So for now I'll use my custom useKeyboardEvent() hook below.
+   */
+  const onKeyDown = useCallback(
+    (event: KeyboardEvent) => {
+      if (event.key !== 'Enter' || !isEditingName) return;
+      event.preventDefault();
+      if (!CreateTaskSchema.safeParse(generateTaskData()).success) return;
+      onSaveClick();
+    },
+    [generateTaskData, isEditingName, onSaveClick],
+  );
+
+  useKeyboardEvent('keydown', [{ key: 'Enter', listener: onKeyDown }]);
+  /**/
 
   const onDueDateChange = async (date: Date | null) => {
     setDueDate(date);
@@ -140,21 +178,25 @@ export default function TaskForm({
      * works to keep the focus on the <button> but doesn't prevent triggering this focus event.
      */
     const relatedTarget = event.relatedTarget;
+
     if (
       relatedTarget !== undefined &&
       relatedTarget !== null &&
       relatedTarget.attributes.getNamedItem('data-headlessui-focus-guard') !== undefined &&
       relatedTarget.attributes.getNamedItem('data-headlessui-focus-guard') !== null
-    )
+    ) {
       return;
+    }
     /**/
-    setIsEditingNameOrDescription(true);
+    setIsEditingName(true);
+    setIsOnEditingMode(true);
     if (event.target === null || event.target === undefined) return;
     if (event.target.innerHTML !== '' && event.target.innerHTML !== NAME_PLACEHOLDER) return;
     setName('');
   };
 
   const onNameBlurHandler = (event: React.FocusEvent<HTMLInputElement>) => {
+    setIsEditingName(false);
     if (event.target === null || event.target === undefined) return;
     if (event.target.innerHTML !== '') return;
     setName(NAME_PLACEHOLDER);
@@ -166,7 +208,7 @@ export default function TaskForm({
   };
 
   const onDescriptionFocusHandler = (event: React.FocusEvent<HTMLInputElement>) => {
-    setIsEditingNameOrDescription(true);
+    setIsOnEditingMode(true);
     if (event.target === null || event.target === undefined) return;
     if (event.target.innerHTML !== '' && event.target.innerHTML !== DESCRIPTION_PLACEHOLDER) return;
     setDescription('');
@@ -208,17 +250,13 @@ export default function TaskForm({
   const isEditingNameAndDescriptionClassName = `${defaultNameAndDescriptionClassName} border border-gray-400 bg-white`;
 
   const nameClassName = `${
-    isEditingNameOrDescription
-      ? isEditingNameAndDescriptionClassName
-      : defaultNameAndDescriptionClassName
+    isOnEditingMode ? isEditingNameAndDescriptionClassName : defaultNameAndDescriptionClassName
   } ${name === NAME_PLACEHOLDER ? 'text-gray-400' : 'text-gray-900'} ${taskNameClassName} ${
     isCompleted ? 'line-through' : ''
   }`;
 
   const descriptionClassName = `${
-    isEditingNameOrDescription
-      ? isEditingNameAndDescriptionClassName
-      : defaultNameAndDescriptionClassName
+    isOnEditingMode ? isEditingNameAndDescriptionClassName : defaultNameAndDescriptionClassName
   } ${description === DESCRIPTION_PLACEHOLDER ? 'text-gray-400' : 'text-gray-900'}`;
 
   if (!project)
@@ -241,6 +279,7 @@ export default function TaskForm({
           <ContentEditable
             className={nameClassName}
             html={name}
+            innerRef={inputNameRef}
             onBlur={onNameBlurHandler}
             onFocus={onNameFocusHandler}
             onChange={onNameChangeHandler}
@@ -262,7 +301,7 @@ export default function TaskForm({
             items={getItemsForProjectsDropdown()}
             itemsClassName="absolute bottom-14 left-0 max-h-80 w-56"
             menuButton={
-              <Menu.Button className="flex items-center justify-center rounded-md bg-green-600 px-3.5 py-2.5 text-sm font-medium text-white shadow-sm hover:bg-green-500 focus-visible:outline  focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600">
+              <Menu.Button className="flex items-center justify-center rounded-md bg-green-600 px-3.5 py-1.5 text-sm font-medium text-white shadow-sm hover:bg-green-500 focus-visible:outline  focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600">
                 {taskProject.name}
                 <ExpandMoreIcon className="ml-2 fill-white" />
               </Menu.Button>
@@ -270,13 +309,13 @@ export default function TaskForm({
           />
         </div>
       </div>
-      {isEditingNameOrDescription && (
+      {isOnEditingMode && (
         <div className="mt-12 flex justify-end gap-2 sm:gap-4">
           <button
             type="button"
             className={buttonClassNameWhite}
             onClick={() => {
-              setIsEditingNameOrDescription(false);
+              setIsOnEditingMode(false);
               if (onCancelClick) onCancelClick();
             }}
           >
@@ -284,7 +323,7 @@ export default function TaskForm({
           </button>
           <button
             type="button"
-            disabled={!isDataValid}
+            disabled={!isValidData}
             className={buttonClassNameGreen}
             onClick={onSaveClick}
           >
