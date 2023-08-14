@@ -2,12 +2,15 @@ import { differenceInCalendarDays, format, isToday, isTomorrow, startOfDay } fro
 
 export const formatTaskDueDate = (date: Date | null | undefined) => {
   if (!date) return 'Due date';
-  const diffDays = differenceInCalendarDays(new Date(), date);
+  const diffDays = differenceInCalendarDays(date, new Date());
 
-  if (diffDays >= -6) {
-    if (isToday(date)) return 'Today';
-    if (isTomorrow(date)) return 'Tomorrow';
+  if (isToday(date)) return 'Today';
+  if (isTomorrow(date)) return 'Tomorrow';
+
+  if (diffDays >= 0 && diffDays < 7) {
     return format(date, 'EEEE');
+  } else if (diffDays === -1) {
+    return 'Yesterday';
   }
   return format(date, 'MMM dd');
 };
