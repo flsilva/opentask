@@ -3,9 +3,10 @@
 import 'client-only';
 import { useEffect, useState } from 'react';
 import Datepicker from 'tailwind-datepicker-react';
-import { differenceInCalendarDays, format, isToday, isTomorrow, startOfDay } from 'date-fns';
+import { startOfDay } from 'date-fns';
 import { CalendarMonthIcon } from '@/app/shared/ui/icon/CalendarMonthIcon';
 import { XIcon } from '@/app/shared/ui/icon/XIcon';
+import { formatTaskDueDate } from './task-utils';
 
 /* Docs
  * https://github.com/OMikkel/tailwind-datepicker-react
@@ -48,18 +49,6 @@ export default function TaskDueDatePicker({ defaultDate, onChange }: TaskDueDate
     setIsShowing(state);
   };
 
-  const displayDateText = () => {
-    if (!selectedDate) return 'Due date';
-    const diffDays = differenceInCalendarDays(new Date(), selectedDate);
-
-    if (diffDays >= -6) {
-      if (isToday(selectedDate)) return 'Today';
-      if (isTomorrow(selectedDate)) return 'Tomorrow';
-      return format(selectedDate, 'EEEE');
-    }
-    return format(selectedDate, 'MMM dd');
-  };
-
   return (
     <div className={`relative`}>
       <div
@@ -81,7 +70,7 @@ export default function TaskDueDatePicker({ defaultDate, onChange }: TaskDueDate
           >
             <span className="sr-only">Add due date</span>
             <CalendarMonthIcon aria-hidden="true" />
-            <span className="ml-2 ">{displayDateText()}</span>
+            <span className="ml-2 ">{formatTaskDueDate(selectedDate)}</span>
           </button>
           {selectedDate && (
             <button
