@@ -6,10 +6,10 @@ import { ProjectData } from '@/app/app/shared/project/ProjectData';
 import { findManyProjects } from '@/app/app/shared/project/project-model';
 
 export default async function ArchivedProjectsPage() {
-  const promises: Array<Promise<any>> = [];
-  promises.push(findManyProjects());
-  promises.push(findManyProjects({ isArchived: true }));
-  const [activeProjects, archivedProjects] = await Promise.all(promises);
+  const [activeProjects, archivedProjects] = await Promise.all([
+    findManyProjects(),
+    findManyProjects({ isArchived: true }),
+  ]);
 
   return (
     <AppShell projects={activeProjects}>

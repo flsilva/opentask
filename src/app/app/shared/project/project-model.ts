@@ -41,7 +41,7 @@ export const deleteProject = async (id: string) => {
 };
 
 export const findManyProjects = async ({
-  isArchived,
+  isArchived = false,
   includeTasks,
 }: { isArchived?: boolean; includeTasks?: boolean } = {}) => {
   const {
