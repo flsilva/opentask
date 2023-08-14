@@ -17,6 +17,12 @@ export default async function TodayTaskPage({ params: { taskId } }: TodayTaskPag
     findTasksDueUntilToday(),
     findTaskById(taskId),
   ]);
+  const tasksDueToday = tasks.filter(
+    (task) => task.dueDate && task.dueDate.getDate() === new Date().getDate(),
+  );
+  const tasksOverdue = tasks.filter(
+    (task) => task.dueDate && task.dueDate.getDate() !== new Date().getDate(),
+  );
 
   return (
     <AppShell projects={projects}>
@@ -27,12 +33,23 @@ export default async function TodayTaskPage({ params: { taskId } }: TodayTaskPag
         </p>
       )}
       {projects.length > 0 && (
-        <TaskListController
-          addTask={
-            <AddTask defaultDueDate={new Date()} project={projects[0]} projects={projects} />
-          }
-          tasks={tasks}
-        />
+        <>
+          {tasksOverdue.length > 0 && (
+            <>
+              <p className="text-xs font-semibold mb-4">Overdue</p>
+              <TaskListController tasks={tasksOverdue} />
+            </>
+          )}
+          {tasksOverdue.length > 0 && tasksDueToday.length > 0 && (
+            <p className="text-xs font-semibold mb-4">Today</p>
+          )}
+          <TaskListController
+            addTask={
+              <AddTask defaultDueDate={new Date()} project={projects[0]} projects={projects} />
+            }
+            tasks={tasksDueToday}
+          />
+        </>
       )}
       {task && <TaskModal project={task.project} projects={projects} task={task} />}
     </AppShell>
