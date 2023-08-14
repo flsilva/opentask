@@ -97,7 +97,7 @@ export default function TaskModal({ project, projects, task }: TaskModalModalPro
         initialFocus={closeButtonRef}
       >
         <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
-        <div className="fixed inset-0 flex items-center">
+        <div className="fixed inset-0 flex md:items-center">
           <Dialog.Panel className="mx-auto flex w-full flex-col rounded-lg bg-white p-4 md:w-[40rem]">
             <div className="flex items-start justify-between">
               <TaskForm
