@@ -12,14 +12,18 @@ export default async function TodayPage() {
   return (
     <AppShell projects={projects}>
       <TodayHeader />
-      {tasks.length > 0 && <TaskListController tasks={tasks} />}
-      {tasks.length < 1 && projects && projects.length > 0 && (
+      {projects.length > 0 && tasks.length < 1 && (
         <p className="mb-12 text-sm font-medium text-gray-600">
           No tasks due today. Enjoy your day!
         </p>
       )}
-      {projects && projects.length > 0 && (
-        <AddTask defaultDueDate={new Date()} project={projects[0]} projects={projects} />
+      {projects.length > 0 && (
+        <TaskListController
+          addTask={
+            <AddTask defaultDueDate={new Date()} project={projects[0]} projects={projects} />
+          }
+          tasks={tasks}
+        />
       )}
     </AppShell>
   );

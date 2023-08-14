@@ -25,11 +25,14 @@ export default async function ProjectTaskPage({
   return (
     <AppShell projects={projects}>
       <ProjectHeader project={project} />
-      {project.tasks.length > 0 && <TaskListController project={project} tasks={project.tasks} />}
       {project.tasks.length < 1 && (
         <p className="mb-12 text-sm font-medium text-gray-600">No tasks in this project.</p>
       )}
-      <AddTask project={project} projects={projects} />
+      <TaskListController
+        addTask={<AddTask project={project} projects={projects} />}
+        project={project}
+        tasks={project.tasks}
+      />
       <TaskModal project={project} projects={projects} task={task} />
     </AppShell>
   );

@@ -2,9 +2,10 @@
 
 import 'client-only';
 import { useState } from 'react';
-import { buttonClassNameGreen } from '@/app/shared/ui//button/buttonClassName';
+import { buttonClassNameLink } from '@/app/shared/ui//button/buttonClassName';
 import { ProjectData } from '../project/ProjectData';
 import TaskForm from './TaskForm';
+import { PlusSignalIcon } from '@/app/shared/ui/icon/PlusSignalIcon';
 
 interface AddTaskProps {
   readonly defaultDueDate?: Date | null;
@@ -33,8 +34,13 @@ export default function AddTask({ defaultDueDate, project, projects }: AddTaskPr
       {!isAddingTask && (
         <button
           onClick={addTaskHandler}
-          className={`${buttonClassNameGreen} mt-6 flex-row self-start`}
+          className={`${buttonClassNameLink} group flex-row self-start`}
         >
+          <PlusSignalIcon
+            width="1.25rem"
+            height="1.25rem"
+            className="fill-gray-600 mr-1 group-hover:fill-green-600"
+          />
           Add task
         </button>
       )}

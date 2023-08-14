@@ -8,11 +8,12 @@ import { updateTaskComplete } from '../task/task-model';
 import { ProjectData } from '../project/ProjectData';
 
 interface TodayPageTaskListProps {
+  readonly addTask?: React.ReactNode;
   readonly project?: ProjectData | null;
   readonly tasks: Array<TaskData>;
 }
 
-export const TaskListController = ({ project, tasks }: TodayPageTaskListProps) => {
+export const TaskListController = ({ addTask, project, tasks }: TodayPageTaskListProps) => {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -39,20 +40,25 @@ export const TaskListController = ({ project, tasks }: TodayPageTaskListProps) =
 
   return (
     <div className="flex flex-col">
-      <div className="flex flex-col pb-8">
-        <TaskList
-          onCompleteTaskClick={onCompleteTaskClick}
-          onTaskClick={onTaskClick}
-          tasks={notCompletedTasks}
-        />
-      </div>
-      <div className="flex flex-col">
-        <TaskList
-          onCompleteTaskClick={onUncompleteTaskClick}
-          onTaskClick={onTaskClick}
-          tasks={completedTasks}
-        />
-      </div>
+      {notCompletedTasks.length > 0 && (
+        <div className="flex flex-col pb-8">
+          <TaskList
+            onCompleteTaskClick={onCompleteTaskClick}
+            onTaskClick={onTaskClick}
+            tasks={notCompletedTasks}
+          />
+        </div>
+      )}
+      {addTask}
+      {completedTasks.length > 0 && (
+        <div className="flex flex-col py-8">
+          <TaskList
+            onCompleteTaskClick={onUncompleteTaskClick}
+            onTaskClick={onTaskClick}
+            tasks={completedTasks}
+          />
+        </div>
+      )}
     </div>
   );
 };

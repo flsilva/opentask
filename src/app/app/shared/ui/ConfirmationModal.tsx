@@ -36,7 +36,7 @@ export const ConfirmationModal = ({
             <h1 className="text-lg font-semibold text-gray-800">{modalTitle}</h1>
             <button
               type="button"
-              className="-m-2.5 rounded-md p-2.5 text-gray-700"
+              className="-m-2.5 rounded-md p-2.5 text-gray-700 focus:outline-none"
               onClick={onCancelHandler}
             >
               <span className="sr-only">Close modal</span>

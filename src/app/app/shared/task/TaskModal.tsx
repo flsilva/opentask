@@ -118,7 +118,7 @@ export default function TaskModal({ project, projects, task }: TaskModalModalPro
                 </button>
                 <button
                   type="button"
-                  className="rounded-md ml-2 p-1.5 text-gray-700 hover:bg-gray-200"
+                  className="rounded-md ml-2 p-1.5 text-gray-700 hover:bg-gray-200 focus:outline-none"
                   onClick={onCloseModal}
                   ref={closeButtonRef}
                 >
