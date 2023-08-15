@@ -8,7 +8,8 @@ import { CalendarMonthIcon } from '@/app/shared/ui/icon/CalendarMonthIcon';
 import { XIcon } from '@/app/shared/ui/icon/XIcon';
 import { formatTaskDueDate } from './task-utils';
 
-/* Docs
+/*
+ * Docs
  * https://github.com/OMikkel/tailwind-datepicker-react
  */
 const taskDueDatePickerOptions = {
@@ -24,7 +25,7 @@ const taskDueDatePickerOptions = {
     text: 'bg-green-700 hover:bg-green-500 dark:bg-green-700 dark:hover:bg-green-500',
     selected: 'bg-green-500 dark:bg-green-500',
   },
-  datepickerClassNames: 'top-auto bottom-10',
+  datepickerClassNames: '-top-40 md:top-auto bottom-10',
   defaultDate: startOfDay(new Date()),
   language: 'en',
 };
