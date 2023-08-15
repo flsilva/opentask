@@ -13,7 +13,7 @@ import { GoogleLogoIcon } from '@/app/shared/ui/icon/GoogleLogoIcon';
 import { LinkedInInLogoIcon } from '@/app/shared/ui/icon/LinkedInInLogoIcon';
 import { TwitterLogoIcon } from '@/app/shared/ui/icon/TwitterLogoIcon';
 
-export type Provider = 'github' | 'google' | 'linkedin' | 'twitter';
+export type Provider = 'github' | 'linkedin' | 'twitter';
 
 interface OAuthProviderButtonProps extends ChildrenProps {
   readonly provider: Provider;
@@ -85,10 +85,6 @@ export default async function SignIn() {
     <div className="pb-24">
       <h2 className="mb-9 mt-12 text-center text-xl font-semibold text-gray-900">Sign in</h2>
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <OAuthProviderButton provider="google">
-          <GoogleLogoIcon />
-          Continue with Google
-        </OAuthProviderButton>
         <OAuthProviderButton provider="twitter">
           <TwitterLogoIcon width="1rem" height="1rem" className="fill-[#1e9cf1]" />
           Continue with Twitter
