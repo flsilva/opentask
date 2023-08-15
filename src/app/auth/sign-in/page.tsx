@@ -19,7 +19,18 @@ interface OAuthProviderButtonProps extends ChildrenProps {
   readonly provider: Provider;
 }
 
-export default function SignIn() {
+export default async function SignIn() {
+  /*
+   * Redirect users to the app if they're signed in.
+   */
+  const supabase = createServerActionClient<Database>({ cookies });
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  if (session) redirect('/app/today');
+  /**/
+
   const redirectTo = `${process.env.NEXT_PUBLIC_URL}/auth/callback`;
 
   const signInWithEmailHandler = async (formData: FormData) => {
