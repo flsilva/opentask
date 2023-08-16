@@ -140,7 +140,7 @@ export default function TaskForm({
   useKeyboardEvent('keydown', [{ key: 'Enter', listener: onKeyDown }]);
   /**/
 
-  const onDueDateChange = async (date: Date | null) => {
+  const onDueDateChange = async (date: Date | undefined) => {
     setDueDate(date);
     if (!task) return;
     updateTaskDueDate(task.id, date);
@@ -293,9 +293,9 @@ export default function TaskForm({
           />
         </div>
       </div>
-      <div className="mt-8 flex flex-col md:flex-row md:items-start relative">
+      <div className="mt-8 flex flex-row md:items-start">
         <TaskDueDatePicker defaultDate={dueDate} onChange={onDueDateChange} />
-        <div className="relative ml-0 mt-4 h-12 md:ml-16 md:mt-0">
+        <div className="relative h-12 ml-4 md:ml-16">
           <DropdownMenu
             className="absolute w-56"
             items={getItemsForProjectsDropdown()}

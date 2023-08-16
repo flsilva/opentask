@@ -146,7 +146,6 @@ export default function TaskModal({ project, projects, task }: TaskModalModalPro
                     type="button"
                     className="rounded-md p-1.5 text-gray-700 hover:bg-gray-200"
                     onClick={onDeleteTask}
-                    ref={closeButtonRef}
                   >
                     <span className="sr-only">Delete task</span>
                     <DeleteIcon aria-hidden="true" />

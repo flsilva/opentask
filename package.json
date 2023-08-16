@@ -23,9 +23,9 @@
     "next": "13.4.13",
     "react": "18.2.0",
     "react-contenteditable": "3.3.7",
+    "react-day-picker": "8.8.0",
     "react-dom": "18.2.0",
     "server-only": "0.0.1",
-    "tailwind-datepicker-react": "1.4.0",
     "zod": "3.21.4"
   },
   "devDependencies": {

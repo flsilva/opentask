@@ -5,7 +5,6 @@ module.exports = {
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
     './src/shared/**/*.{js,ts,jsx,tsx,mdx}',
-    "./node_modules/tailwind-datepicker-react/dist/**/*.js",
   ],
   future: {
     hoverOnlyWhenSupported: true,

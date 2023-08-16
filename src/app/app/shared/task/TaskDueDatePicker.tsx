@@ -1,48 +1,31 @@
 'use client';
 
 import 'client-only';
-import { useEffect, useState } from 'react';
-import Datepicker from 'tailwind-datepicker-react';
-import { startOfDay } from 'date-fns';
+import { Fragment, useEffect, useRef, useState } from 'react';
+import { Dialog, Transition } from '@headlessui/react';
+import { DayPicker, DayPickerSingleProps } from 'react-day-picker';
+import 'react-day-picker/dist/style.css';
 import { CalendarMonthIcon } from '@/app/shared/ui/icon/CalendarMonthIcon';
 import { XIcon } from '@/app/shared/ui/icon/XIcon';
 import { formatTaskDueDate } from './task-utils';
 
-/*
- * Docs
- * https://github.com/OMikkel/tailwind-datepicker-react
- */
-const taskDueDatePickerOptions = {
-  autoHide: true,
-  todayBtn: false,
-  clearBtn: false,
-  minDate: startOfDay(new Date()),
-  theme: {
-    background: 'bg-green-700 dark:bg-green-700',
-    disabledText:
-      '!text-gray-400 hover:bg-transparent !dark:text-gray-400 dark:hover:bg-transparent cursor-default hover:cursor-default',
-    icons: 'bg-green-700 hover:bg-green-500 dark:bg-green-700 dark:hover:bg-green-500',
-    text: 'bg-green-700 hover:bg-green-500 dark:bg-green-700 dark:hover:bg-green-500',
-    selected: 'bg-green-500 dark:bg-green-500',
-  },
-  datepickerClassNames: '-top-40 md:top-auto bottom-10',
-  defaultDate: startOfDay(new Date()),
-  language: 'en',
-};
-
 interface TaskDueDatePickerProps {
   readonly defaultDate?: Date | null | undefined;
-  readonly onChange: (date: Date | null) => void;
+  readonly onChange: (date: Date | undefined) => void;
 }
 
 export default function TaskDueDatePicker({ defaultDate, onChange }: TaskDueDatePickerProps) {
   const [isShowing, setIsShowing] = useState(false);
-  const [selectedDate, setSelectedDate] = useState<Date | null | undefined>(defaultDate);
+  const [selectedDate, setSelectedDate] = useState<Date>();
+  const closeButtonRef = useRef(null);
 
-  useEffect(() => setSelectedDate(defaultDate), [defaultDate]);
+  useEffect(() => {
+    if (defaultDate) setSelectedDate(defaultDate);
+  }, [defaultDate]);
 
-  const handleChange = (date: Date | null) => {
+  const handleChange = (date: Date | undefined) => {
     setSelectedDate(date);
+    setIsShowing(false);
     onChange(date);
   };
 
@@ -50,41 +33,95 @@ export default function TaskDueDatePicker({ defaultDate, onChange }: TaskDueDate
     setIsShowing(state);
   };
 
+  const datePickerProps: DayPickerSingleProps = {
+    captionLayout: 'dropdown-buttons',
+    disabled: { before: new Date() },
+    fixedWeeks: true,
+    fromMonth: new Date(),
+    fromYear: new Date().getFullYear(),
+    ISOWeek: true,
+    mode: 'single',
+    modifiersClassNames: {
+      selected: '!bg-green-600 !text-white !opacity-100',
+      today: 'my-today',
+    },
+    onSelect: handleChange,
+    selected: selectedDate,
+    showOutsideDays: true,
+    toYear: new Date().getFullYear() + 2,
+  };
+
   return (
-    <div className="relative">
-      <div
-        className={`fixed inset-0 z-50 bg-black/30  ${isShowing ? '' : 'hidden'}`}
-        aria-hidden="true"
-        onClick={() => setIsShowing(false)}
-      />
-      <Datepicker
-        options={{ ...taskDueDatePickerOptions, defaultDate }}
-        onChange={handleChange}
-        show={isShowing}
-        setShow={handleClose}
-      >
-        <div className="flex flex-row">
+    <>
+      <div className="flex flex-row">
+        <button
+          type="button"
+          className="flex rounded-md p-1.5 hover:bg-gray-200"
+          onClick={() => setIsShowing(!isShowing)}
+        >
+          <span className="sr-only">Add due date</span>
+          <CalendarMonthIcon aria-hidden="true" />
+          <span className="ml-2 ">{formatTaskDueDate(selectedDate)}</span>
+        </button>
+        {selectedDate && (
           <button
             type="button"
             className="flex rounded-md p-1.5 hover:bg-gray-200"
-            onClick={() => setIsShowing(!isShowing)}
+            onClick={() => handleChange(undefined)}
           >
-            <span className="sr-only">Add due date</span>
-            <CalendarMonthIcon aria-hidden="true" />
-            <span className="ml-2 ">{formatTaskDueDate(selectedDate)}</span>
+            <span className="sr-only">Remove due date</span>
+            <XIcon aria-hidden="true" />
           </button>
-          {selectedDate && (
-            <button
-              type="button"
-              className="flex rounded-md p-1.5 hover:bg-gray-200"
-              onClick={() => handleChange(null)}
+        )}
+      </div>
+      <Transition show={isShowing} as={Fragment}>
+        <Dialog
+          as="div"
+          className="relative z-50"
+          initialFocus={closeButtonRef}
+          onClose={() => handleClose(false)}
+        >
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
+          </Transition.Child>
+          <div className="fixed inset-0 flex md:items-center">
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0 translate-y-[200px] md:translate-y-0 md:scale-95"
+              enterTo="opacity-100 translate-y-0 md:scale-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100 translate-y-0 md:scale-100"
+              leaveTo="opacity-0 translate-y-[200px] md:translate-y-0 md:scale-95"
             >
-              <span className="sr-only">Remove due date</span>
-              <XIcon aria-hidden="true" />
-            </button>
-          )}
-        </div>
-      </Datepicker>
-    </div>
+              <Dialog.Panel className="mx-auto w-full rounded-lg bg-white p-4 md:w-[28rem]">
+                <div className="flex items-start justify-between">
+                  <div className="flex items-start justify-center">
+                    <DayPicker {...datePickerProps} />
+                  </div>
+                  <button
+                    type="button"
+                    className="-m-2.5 rounded-md p-1.5 text-gray-700 hover:bg-gray-200"
+                    onClick={() => handleClose(false)}
+                    ref={closeButtonRef}
+                  >
+                    <span className="sr-only">Close modal</span>
+                    <XIcon aria-hidden="true" />
+                  </button>
+                </div>
+              </Dialog.Panel>
+            </Transition.Child>
+          </div>
+        </Dialog>
+      </Transition>
+    </>
   );
 }

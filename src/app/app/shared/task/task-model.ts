@@ -84,7 +84,7 @@ export const updateTask = async (data: UpdateTaskData) => {
   });
 };
 
-export const updateTaskDueDate = async (id: string, dueDate: Date | null) => {
+export const updateTaskDueDate = async (id: string, dueDate: Date | undefined) => {
   const {
     user: { id: authorId },
   } = await getSessionOrThrow();
