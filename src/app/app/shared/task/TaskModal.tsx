@@ -1,8 +1,8 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Dialog } from '@headlessui/react';
+import { Dialog, Transition } from '@headlessui/react';
 import { XIcon } from '@/app/shared/ui/icon/XIcon';
 import { ProjectData } from '../project/ProjectData';
 import TaskForm from './/TaskForm';
@@ -22,6 +22,15 @@ export default function TaskModal({ project, projects, task }: TaskModalModalPro
     useState<ConfirmationModalProps | null>(null);
   const closeButtonRef = useRef(null);
   const router = useRouter();
+  const [isOpen, setIsOpen] = useState(false);
+
+  /*
+   * Flavio Silva on Aug. 16th, 2023:
+   * This is necessary to have the on enter <Transition> animation.
+   * When I tried to set "show={true}" and "appear={true}" it didn't work.
+   */
+  useEffect(() => setIsOpen(true), []);
+  /**/
 
   const onCloseModal = () => {
     if (confirmationModalProps) return;
@@ -57,9 +66,17 @@ export default function TaskModal({ project, projects, task }: TaskModalModalPro
      * from within "/app/project/[projectId]/task/[taskId]" route doesn't rereftch and rerender the routes
      * under it, i.e., it doesn't update data and UI that's outside the modal.
      */
-    router.back();
-    router.refresh();
+
+    /*
+     * setTimout() used to wait for the leave transition.
+     */
+    setTimeout(() => {
+      router.back();
+      router.refresh();
+    }, 200);
     /**/
+
+    setIsOpen(false);
   };
 
   const onCloseConfirmationModal = () => {
@@ -88,49 +105,68 @@ export default function TaskModal({ project, projects, task }: TaskModalModalPro
   };
 
   return (
-    <>
+    <Transition show={isOpen} as="div">
       <Dialog
         as="div"
-        open={true}
         className="relative z-50"
         onClose={onCloseModal}
         initialFocus={closeButtonRef}
       >
-        <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
+        <Transition.Child
+          as={Fragment}
+          enter="ease-out duration-300"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="ease-in duration-200"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
+          <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
+        </Transition.Child>
         <div className="fixed inset-0 flex md:items-center">
-          <Dialog.Panel className="mx-auto flex w-full flex-col rounded-lg bg-white p-4 md:w-[40rem]">
-            <div className="flex items-start justify-between">
-              <TaskForm
-                project={project}
-                projects={projects}
-                task={task}
-                taskNameClassName="text-2xl"
-              />
-              <div className="flex">
-                <button
-                  type="button"
-                  className="rounded-md p-1.5 text-gray-700 hover:bg-gray-200"
-                  onClick={onDeleteTask}
-                  ref={closeButtonRef}
-                >
-                  <span className="sr-only">Delete task</span>
-                  <DeleteIcon aria-hidden="true" />
-                </button>
-                <button
-                  type="button"
-                  className="rounded-md ml-2 p-1.5 text-gray-700 hover:bg-gray-200 focus:outline-none"
-                  onClick={onCloseModal}
-                  ref={closeButtonRef}
-                >
-                  <span className="sr-only">Close modal</span>
-                  <XIcon aria-hidden="true" />
-                </button>
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0 translate-y-[200px] md:translate-y-0 md:scale-95"
+            enterTo="opacity-100 translate-y-0 md:scale-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100 translate-y-0 md:scale-100"
+            leaveTo="opacity-0 translate-y-[200px] md:translate-y-0 md:scale-95"
+          >
+            <Dialog.Panel className="mx-auto w-full rounded-lg bg-white p-4 md:w-[40rem]">
+              <div className="flex items-start justify-between">
+                <TaskForm
+                  project={project}
+                  projects={projects}
+                  task={task}
+                  taskNameClassName="text-2xl"
+                />
+                <div className="flex">
+                  <button
+                    type="button"
+                    className="rounded-md p-1.5 text-gray-700 hover:bg-gray-200"
+                    onClick={onDeleteTask}
+                    ref={closeButtonRef}
+                  >
+                    <span className="sr-only">Delete task</span>
+                    <DeleteIcon aria-hidden="true" />
+                  </button>
+                  <button
+                    type="button"
+                    className="rounded-md ml-2 p-1.5 text-gray-700 hover:bg-gray-200"
+                    onClick={onCloseModal}
+                    ref={closeButtonRef}
+                  >
+                    <span className="sr-only">Close modal</span>
+                    <XIcon aria-hidden="true" />
+                  </button>
+                </div>
               </div>
-            </div>
-          </Dialog.Panel>
+            </Dialog.Panel>
+          </Transition.Child>
         </div>
       </Dialog>
       {confirmationModalProps && <ConfirmationModal {...confirmationModalProps} />}
-    </>
+    </Transition>
   );
 }

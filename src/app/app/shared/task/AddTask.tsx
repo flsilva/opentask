@@ -1,11 +1,12 @@
 'use client';
 
 import 'client-only';
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import { buttonClassNameLink } from '@/app/shared/ui//button/buttonClassName';
 import { ProjectData } from '../project/ProjectData';
 import TaskForm from './TaskForm';
 import { PlusSignalIcon } from '@/app/shared/ui/icon/PlusSignalIcon';
+import { Transition } from '@headlessui/react';
 
 interface AddTaskProps {
   readonly defaultDueDate?: Date | null;
@@ -31,7 +32,16 @@ export default function AddTask({ defaultDueDate, project, projects }: AddTaskPr
 
   return (
     <>
-      {!isAddingTask && (
+      <Transition
+        show={!isAddingTask}
+        as="div"
+        enter="ease-out duration-300"
+        enterFrom="opacity-0 -translate-y-[50px]"
+        enterTo="opacity-100 translate-y-0"
+        leave="ease-in duration-200"
+        leaveFrom="opacity-100 translate-y-0"
+        leaveTo="opacity-0 -translate-y-[50px]"
+      >
         <button
           onClick={addTaskHandler}
           className={`${buttonClassNameLink} group flex-row self-start`}
@@ -43,8 +53,17 @@ export default function AddTask({ defaultDueDate, project, projects }: AddTaskPr
           />
           Add task
         </button>
-      )}
-      {isAddingTask && (
+      </Transition>
+      <Transition
+        show={isAddingTask}
+        as="div"
+        enter="ease-out duration-300"
+        enterFrom="opacity-0 translate-y-[50px]"
+        enterTo="opacity-100 translate-y-0"
+        leave="ease-in duration-200"
+        leaveFrom="opacity-100 translate-y-0"
+        leaveTo="opacity-0 translate-y-[50px]"
+      >
         <TaskForm
           className="rounded-md bg-gray-100 px-2 py-6 sm:px-6 mt-4"
           defaultDueDate={defaultDueDate}
@@ -53,7 +72,7 @@ export default function AddTask({ defaultDueDate, project, projects }: AddTaskPr
           projects={projects}
           shouldStartOnEditingMode
         />
-      )}
+      </Transition>
     </>
   );
 }

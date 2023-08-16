@@ -51,7 +51,7 @@ export default function TaskDueDatePicker({ defaultDate, onChange }: TaskDueDate
   };
 
   return (
-    <div className={`relative`}>
+    <div className="relative">
       <div
         className={`fixed inset-0 z-50 bg-black/30  ${isShowing ? '' : 'hidden'}`}
         aria-hidden="true"

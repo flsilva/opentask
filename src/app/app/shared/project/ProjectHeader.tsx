@@ -217,7 +217,7 @@ export default function ProjectHeader({ project }: ProjectHeaderProps) {
               items={getDropdownItems()}
               itemsClassName="absolute top-10 right-0 max-h-80 w-56"
               menuButton={
-                <Menu.Button className="flex items-center justify-center focus-visible:outline  focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600">
+                <Menu.Button className="flex items-center justify-center">
                   <MoreHorizontalIcon className=" hover:fill-green-500" />
                 </Menu.Button>
               }

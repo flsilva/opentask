@@ -20,12 +20,12 @@ export default function DropdownMenu({
         <div>{menuButton}</div>
         <Transition
           as={Fragment}
-          enter="transition ease-out duration-100"
-          enterFrom="transform opacity-0 scale-95"
+          enter="ease-out duration-300"
+          enterFrom="transform opacity-0 scale-90"
           enterTo="transform opacity-100 scale-100"
-          leave="transition ease-in duration-75"
+          leave="-in duration-200"
           leaveFrom="transform opacity-100 scale-100"
-          leaveTo="transform opacity-0 scale-95"
+          leaveTo="transform opacity-0 scale-90"
         >
           <Menu.Items
             className={`${itemsClassName} origin-top-right divide-y divide-gray-100 overflow-auto rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none`}
