@@ -20,7 +20,7 @@ export default async function MarketingLayout({ children }: { children: React.Re
 
   return (
     <>
-      <div className="mb-20 flex flex-1 flex-col bg-white">
+      <div className="flex flex-1 flex-col bg-white">
         <Header />
         {children}
       </div>
