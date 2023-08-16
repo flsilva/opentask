@@ -1,6 +1,6 @@
 {
-  "name": "OpenTask.app",
-  "short_name": "OpenTask.app",
+  "name": "OpenTask",
+  "short_name": "OpenTask",
   "theme_color": "#FFF",
   "background_color": "#FFF",
   "start_url": "/",

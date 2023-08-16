@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "postinstall": "prisma generate",
-    "pwa-asset-generator": "pwa-asset-generator ./public/logo-380x380.png public/pwa-images --background '#FFF' --padding '0%' --portrait-only --index ./src/app/layout.tsx --xhtml --manifest ./public/manifest.json"
+    "pwa-asset-generator": "pwa-asset-generator ./public/logo-text-512x512.png public/pwa-images --background '#FFF' --padding '0%' --portrait-only --index ./src/app/layout.tsx --xhtml --manifest ./public/manifest.json"
   },
   "dependencies": {
     "@headlessui/react": "1.7.16",
