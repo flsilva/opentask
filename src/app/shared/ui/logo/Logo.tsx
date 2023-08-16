@@ -8,7 +8,7 @@ interface LogoProps {
 
 export const Logo = ({ fillColor = 'fill-green-700', textColor = 'text-green-700' }: LogoProps) => (
   <div className="flex flex-row">
-    <Link href="/" className="-m-1.5 p-1.5 ">
+    <Link href="/" className="-m-1.5 p-1.5">
       <span className="sr-only">Open Task</span>
       <LogoIcon className={fillColor} />
     </Link>

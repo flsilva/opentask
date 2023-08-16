@@ -20,3 +20,7 @@ body {
   background-color: rgb(var(--background-rgb));
   color: rgb(var(--foreground-rgb));
 }
+
+button:focus, a:focus {
+  outline: 2px solid transparent;
+}
