@@ -7,7 +7,7 @@ import HeroCopy from '../shared/ui/HeroCopy';
 
 export default function Pricing() {
   return (
-    <HeroShell>
+    <HeroShell className="pt-16 sm:pt-32 lg:pt-38">
       <HeroHeading>
         Free & Open Source
         <br />

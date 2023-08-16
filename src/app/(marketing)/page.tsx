@@ -7,7 +7,7 @@ import HeroCopy from './shared/ui/HeroCopy';
 
 export default function Home() {
   return (
-    <HeroShell>
+    <HeroShell className="pt-24 sm:pt-36 lg:pt-42">
       <HeroHeading>
         Free and Open Source <br />
         <span className="text-green-700">Task Manager</span>

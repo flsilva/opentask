@@ -7,7 +7,7 @@ import HeroCopy from '../shared/ui/HeroCopy';
 
 export default function Features() {
   return (
-    <HeroShell>
+    <HeroShell className="pt-24 sm:pt-36 lg:pt-42">
       <HeroHeading>
         Capture Everything <br />
         <span className="text-green-700">Free Your Mind</span>

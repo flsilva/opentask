@@ -5,7 +5,7 @@ import HeroCopy from '../shared/ui/HeroCopy';
 
 export default function About() {
   return (
-    <HeroShell>
+    <HeroShell className="pt-12 sm:pt-20 lg:pt-20">
       <HeroHeading>
         Create a community
         <br />
