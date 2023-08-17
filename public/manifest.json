@@ -1,10 +1,11 @@
 {
   "name": "OpenTask",
   "short_name": "OpenTask",
+  "description": "Free and Open Source Task Manager.",
   "theme_color": "#FFF",
   "background_color": "#FFF",
   "start_url": "/",
-  "display": "standalone",
+  "display": "fullscreen",
   "orientation": "portrait",
   "icons": [
     {
