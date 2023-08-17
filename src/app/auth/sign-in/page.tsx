@@ -47,6 +47,7 @@ export default async function SignIn() {
     });
 
     if (error) {
+      console.log(error);
       throw new Error('There was an error trying to sign you in.');
     } else {
       redirect(`/auth/sign-in/check-email-link?email=${email}`);
