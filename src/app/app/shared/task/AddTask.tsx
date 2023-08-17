@@ -66,7 +66,7 @@ export default function AddTask({ defaultDueDate, project, projects }: AddTaskPr
       >
         <TaskForm
           className="rounded-md bg-gray-100 px-2 py-6 sm:px-6 mt-4"
-          defaultDueDate={defaultDueDate}
+          defaultDueDate={defaultDueDate ?? undefined}
           onCancelClick={cancelNewTaskHandler}
           project={project}
           projects={projects}

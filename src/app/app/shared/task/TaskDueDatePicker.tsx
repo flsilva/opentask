@@ -10,17 +10,17 @@ import { XIcon } from '@/app/shared/ui/icon/XIcon';
 import { formatTaskDueDate } from './task-utils';
 
 interface TaskDueDatePickerProps {
-  readonly defaultDate?: Date | null | undefined;
+  readonly defaultDate?: Date | undefined;
   readonly onChange: (date: Date | undefined) => void;
 }
 
 export default function TaskDueDatePicker({ defaultDate, onChange }: TaskDueDatePickerProps) {
   const [isShowing, setIsShowing] = useState(false);
-  const [selectedDate, setSelectedDate] = useState<Date>();
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>();
   const closeButtonRef = useRef(null);
 
   useEffect(() => {
-    if (defaultDate) setSelectedDate(defaultDate);
+    setSelectedDate(defaultDate);
   }, [defaultDate]);
 
   const handleChange = (date: Date | undefined) => {

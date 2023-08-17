@@ -33,7 +33,7 @@ import { useAutoFocus } from '@/app/shared/useAutoFocus';
 import { useKeyboardEvent } from '@/app/shared/useKeyboardEvent';
 
 interface TaskFormProps extends ClassNamePropsOptional {
-  readonly defaultDueDate?: Date | null;
+  readonly defaultDueDate?: Date | undefined;
   readonly onCancelClick?: () => void;
   readonly project: ProjectData | null;
   readonly projects: Array<ProjectData>;
@@ -60,7 +60,7 @@ export default function TaskForm({
   const [description, setDescription] = useState(
     task && task.description ? task.description : DESCRIPTION_PLACEHOLDER,
   );
-  const [dueDate, setDueDate] = useState<Date | null | undefined>(
+  const [dueDate, setDueDate] = useState<Date | undefined>(
     task && task.dueDate ? task.dueDate : defaultDueDate,
   );
   const [taskProject, setTaskProject] = useState(project ?? projects[0]);
@@ -84,7 +84,7 @@ export default function TaskForm({
   const resetForm = () => {
     setName('');
     setDescription(DESCRIPTION_PLACEHOLDER);
-    setDueDate(null);
+    setDueDate(undefined);
   };
 
   const onSaveClick = useCallback(async () => {
