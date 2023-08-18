@@ -98,7 +98,7 @@ export default function AppShell({ children, project, projects }: AppShellProps)
   }, []);
 
   return (
-    <>
+    <div className="flex flex-col h-full overflow-hidden">
       <AppHeader
         onMenuButtonClick={() => setIsMenuOpen(!isMenuOpen)}
         onSettingsButtonClick={navToSettingsPage}
@@ -110,8 +110,8 @@ export default function AppShell({ children, project, projects }: AppShellProps)
           projects={projects}
           onNewProjectClick={() => setIsShowingProjectModal(true)}
         />
-        <div className="h-full w-full overflow-y-auto overflow-x-hidden md:flex">
-          <div className="flex h-full w-full max-w-[24rem] flex-col px-4 md:max-w-[38rem] md:pl-8 lg:max-w-[60rem] xl:pl-36  2xl:pl-60">
+        <div className="w-full overflow-y-auto overflow-x-hidden md:flex">
+          <div className="flex w-full max-w-[24rem] flex-col px-4 md:max-w-[38rem] md:pl-8 lg:max-w-[60rem] xl:pl-36  2xl:pl-60">
             <div className="pb-56">
               {children}
               {(!projects || projects.length === 0) && noProjectsMessage()}
@@ -131,6 +131,6 @@ export default function AppShell({ children, project, projects }: AppShellProps)
         onDeleteAccount={onDeleteAccount}
       />
       {confirmationModalProps && <ConfirmationModal {...confirmationModalProps} />}
-    </>
+    </div>
   );
 }

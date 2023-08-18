@@ -14,7 +14,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
   }
 
   return (
-    <div className="flex h-screen flex-col bg-white">
+    <div className="flex flex-col h-full bg-white">
       <UserSessionProvider session={session}>{children}</UserSessionProvider>
     </div>
   );

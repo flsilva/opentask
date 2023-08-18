@@ -16,7 +16,7 @@ interface AppNavProps {
 
 export default function AppNav({ isOpen, onNewProjectClick, projects }: AppNavProps) {
   const navClassesCommon =
-    'flex flex-col transition-all duration-500 h-full overflow-y-auto overflow-x-hidden bg-gray-50 px-4 py-4 w-80';
+    'flex flex-col h-full transition-all duration-500 overflow-y-auto overflow-x-hidden bg-gray-50 px-4 py-4 w-80';
   const [navClasses, setNavClasses] = useState(`${navClassesCommon} md:ml-0 -ml-80`);
   const router = useRouter();
   const pathname = usePathname();
