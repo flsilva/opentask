@@ -15,11 +15,10 @@ import { ConfirmationModal, ConfirmationModalProps } from './ConfirmationModal';
 import { deleteUserAccount } from '../user/user-model';
 
 interface AppShellProps extends ChildrenProps {
-  readonly project?: ProjectData | null;
   readonly projects: Array<ProjectData>;
 }
 
-export default function AppShell({ children, project, projects }: AppShellProps) {
+export default function AppShell({ children, projects }: AppShellProps) {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean | null>(null);
   const [isShowingProjectModal, setIsShowingProjectModal] = useState(false);
   const [isShowingSettingsModal, setIsShowingSettingsModal] = useState(false);
