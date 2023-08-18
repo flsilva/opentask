@@ -15,7 +15,7 @@ export default async function ProjectPage({ params: { projectId } }: ProjectPage
     findProjectById({ id: projectId }),
   ]);
 
-  if (!project || !projects || projects.length < 1) return;
+  if (!project) return;
 
   return (
     <AppShell projects={projects}>

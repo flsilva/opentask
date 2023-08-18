@@ -16,7 +16,7 @@ export default async function ProjectTaskInterceptingPage({
     findTaskById(taskId),
   ]);
 
-  if (!project || !projects || projects.length === 0) return;
+  if (!project) return;
 
   return <TaskModal project={project} projects={projects} task={task} />;
 }

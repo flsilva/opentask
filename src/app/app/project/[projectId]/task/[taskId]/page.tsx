@@ -20,7 +20,7 @@ export default async function ProjectTaskPage({
     findTaskById(taskId),
   ]);
 
-  if (!project || !projects || projects.length < 1) return;
+  if (!project) return;
 
   return (
     <AppShell projects={projects}>
