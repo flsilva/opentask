@@ -79,13 +79,18 @@ export default function TaskForm({
   );
 
   const isValidData = CreateTaskSchema.safeParse(generateTaskData()).success;
-  const inputNameRef = useAutoFocus();
+  const inputNameRef = useAutoFocus(shouldStartOnEditingMode);
 
-  const resetForm = () => {
+  const resetForm = useCallback(() => {
     setName('');
     setDescription(DESCRIPTION_PLACEHOLDER);
-    setDueDate(undefined);
-  };
+    /*
+     * We want to reset dueDate when creating tasks from the Project page (defaultDueDate === undefined).
+     * But we want to keep dueDate when creating tasks from the Today page (defaultDueDate === today).
+     */
+    if (!defaultDueDate) setDueDate(undefined);
+    /**/
+  }, [defaultDueDate]);
 
   const onSaveClick = useCallback(async () => {
     let data: CreateTaskData | UpdateTaskData = generateTaskData();
@@ -117,7 +122,7 @@ export default function TaskForm({
      */
     router.refresh();
     /**/
-  }, [generateTaskData, inputNameRef, router, task]);
+  }, [generateTaskData, inputNameRef, resetForm, router, task]);
 
   /*
    * Flavio Silva on Aug. 14th, 2023:
@@ -187,6 +192,7 @@ export default function TaskForm({
     ) {
       return;
     }
+
     /**/
     setIsEditingName(true);
     setIsOnEditingMode(true);
