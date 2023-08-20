@@ -1,16 +1,17 @@
 'use client';
 
 import 'client-only';
-import { Fragment, useState } from 'react';
+import { useState } from 'react';
+import { Transition } from '@headlessui/react';
 import { buttonClassNameLink } from '@/app/shared/ui//button/buttonClassName';
 import { ProjectData } from '../project/ProjectData';
-import TaskForm from './TaskForm';
 import { PlusSignalIcon } from '@/app/shared/ui/icon/PlusSignalIcon';
-import { Transition } from '@headlessui/react';
+import TaskForm from './TaskForm';
+import TaskModal from './TaskModal';
 
 interface AddTaskProps {
   readonly defaultDueDate?: Date | null;
-  readonly project: ProjectData | null;
+  readonly project: ProjectData;
   readonly projects: Array<ProjectData>;
 }
 
@@ -23,6 +24,45 @@ export default function AddTask({ defaultDueDate, project, projects }: AddTaskPr
 
   const cancelNewTaskHandler = () => {
     setIsAddingTask(false);
+  };
+
+  const getNewTaskComponent = () => {
+    const viewportWidth = window.innerWidth;
+
+    if (viewportWidth >= 768) {
+      return (
+        <Transition
+          show={isAddingTask}
+          as="div"
+          enter="ease-out duration-300"
+          enterFrom="opacity-0 translate-y-[50px]"
+          enterTo="opacity-100 translate-y-0"
+          leave="ease-in duration-200"
+          leaveFrom="opacity-100 translate-y-0"
+          leaveTo="opacity-0 translate-y-[50px]"
+        >
+          <TaskForm
+            className="rounded-md bg-gray-100 px-2 py-6 sm:px-6 mt-4"
+            defaultDueDate={defaultDueDate ?? undefined}
+            onCancelClick={cancelNewTaskHandler}
+            project={project}
+            projects={projects}
+            shouldStartOnEditingMode={true}
+          />
+        </Transition>
+      );
+    } else {
+      return (
+        <TaskModal
+          isOpen={isAddingTask}
+          onCloseModal={() => setIsAddingTask(false)}
+          project={project}
+          projects={projects}
+          shouldGoBackOnClose={false}
+          shouldStartOnEditingMode={true}
+        />
+      );
+    }
   };
 
   if (!project)
@@ -54,25 +94,7 @@ export default function AddTask({ defaultDueDate, project, projects }: AddTaskPr
           Add task
         </button>
       </Transition>
-      <Transition
-        show={isAddingTask}
-        as="div"
-        enter="ease-out duration-300"
-        enterFrom="opacity-0 translate-y-[50px]"
-        enterTo="opacity-100 translate-y-0"
-        leave="ease-in duration-200"
-        leaveFrom="opacity-100 translate-y-0"
-        leaveTo="opacity-0 translate-y-[50px]"
-      >
-        <TaskForm
-          className="rounded-md bg-gray-100 px-2 py-6 sm:px-6 mt-4"
-          defaultDueDate={defaultDueDate ?? undefined}
-          onCancelClick={cancelNewTaskHandler}
-          project={project}
-          projects={projects}
-          shouldStartOnEditingMode
-        />
-      </Transition>
+      {getNewTaskComponent()}
     </>
   );
 }

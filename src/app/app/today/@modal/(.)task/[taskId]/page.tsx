@@ -13,5 +13,5 @@ export default async function TodayTaskInterceptingPage({
   const [projects, task] = await Promise.all([findManyProjects(), findTaskById(taskId)]);
 
   if (!projects || projects.length < 1 || !task) return null;
-  return <TaskModal project={task.project} projects={projects} task={task} />;
+  return <TaskModal isOpen={true} project={task.project} projects={projects} task={task} />;
 }

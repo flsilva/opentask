@@ -33,7 +33,7 @@ export default async function ProjectTaskPage({
         project={project}
         tasks={project.tasks}
       />
-      <TaskModal project={project} projects={projects} task={task} />
+      <TaskModal isOpen={true} project={project} projects={projects} task={task} />
     </AppShell>
   );
 }

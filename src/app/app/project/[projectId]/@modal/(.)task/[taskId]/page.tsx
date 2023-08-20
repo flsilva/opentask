@@ -18,5 +18,5 @@ export default async function ProjectTaskInterceptingPage({
 
   if (!project) return;
 
-  return <TaskModal project={project} projects={projects} task={task} />;
+  return <TaskModal isOpen={true} project={project} projects={projects} task={task} />;
 }

@@ -12,27 +12,39 @@ import { ConfirmationModal, ConfirmationModalProps } from '../ui/ConfirmationMod
 import { deleteTask } from './task-model';
 
 interface TaskModalModalProps {
+  readonly isOpen: boolean;
+  readonly onCloseModal?: () => void;
   readonly project: ProjectData;
   readonly projects: Array<ProjectData>;
-  readonly task: TaskData | null;
+  readonly shouldGoBackOnClose?: boolean;
+  readonly shouldStartOnEditingMode?: boolean;
+  readonly task?: TaskData | null;
 }
 
-export default function TaskModal({ project, projects, task }: TaskModalModalProps) {
+export default function TaskModal({
+  isOpen,
+  onCloseModal,
+  project,
+  projects,
+  shouldGoBackOnClose = true,
+  shouldStartOnEditingMode = false,
+  task,
+}: TaskModalModalProps) {
   const [confirmationModalProps, setConfirmationModalProps] =
     useState<ConfirmationModalProps | null>(null);
   const closeButtonRef = useRef(null);
   const router = useRouter();
-  const [isOpen, setIsOpen] = useState(false);
+  const [_isOpen, _setIsOpen] = useState(false);
 
   /*
    * Flavio Silva on Aug. 16th, 2023:
    * This is necessary to have the on enter <Transition> animation.
    * When I tried to set "show={true}" and "appear={true}" it didn't work.
    */
-  useEffect(() => setIsOpen(true), []);
+  useEffect(() => _setIsOpen(isOpen), [isOpen]);
   /**/
 
-  const onCloseModal = () => {
+  const onInternalCloseModal = () => {
     if (confirmationModalProps) return;
     /*
      * Flavio Silva on Aug 4, 2023:
@@ -71,12 +83,13 @@ export default function TaskModal({ project, projects, task }: TaskModalModalPro
      * setTimout() used to wait for the leave transition.
      */
     setTimeout(() => {
-      router.back();
+      if (onCloseModal) onCloseModal();
+      if (shouldGoBackOnClose) router.back();
       router.refresh();
     }, 200);
     /**/
 
-    setIsOpen(false);
+    _setIsOpen(false);
   };
 
   const onCloseConfirmationModal = () => {
@@ -98,18 +111,18 @@ export default function TaskModal({ project, projects, task }: TaskModalModalPro
         if (!task) return;
         await deleteTask(task.id);
         setConfirmationModalProps(null);
-        onCloseModal();
+        onInternalCloseModal();
       },
       open: true,
     });
   };
 
   return (
-    <Transition show={isOpen} as="div">
+    <Transition show={_isOpen} as="div">
       <Dialog
         as="div"
         className="relative z-50"
-        onClose={onCloseModal}
+        onClose={onInternalCloseModal}
         initialFocus={closeButtonRef}
       >
         <Transition.Child
@@ -138,22 +151,25 @@ export default function TaskModal({ project, projects, task }: TaskModalModalPro
                 <TaskForm
                   project={project}
                   projects={projects}
+                  shouldStartOnEditingMode={shouldStartOnEditingMode}
                   task={task}
                   taskNameClassName="text-2xl"
                 />
                 <div className="flex">
-                  <button
-                    type="button"
-                    className="rounded-md p-1.5 text-gray-700 hover:bg-gray-200"
-                    onClick={onDeleteTask}
-                  >
-                    <span className="sr-only">Delete task</span>
-                    <DeleteIcon aria-hidden="true" />
-                  </button>
+                  {task && (
+                    <button
+                      type="button"
+                      className="rounded-md p-1.5 text-gray-700 hover:bg-gray-200"
+                      onClick={onDeleteTask}
+                    >
+                      <span className="sr-only">Delete task</span>
+                      <DeleteIcon aria-hidden="true" />
+                    </button>
+                  )}
                   <button
                     type="button"
                     className="rounded-md ml-2 p-1.5 text-gray-700 hover:bg-gray-200"
-                    onClick={onCloseModal}
+                    onClick={onInternalCloseModal}
                     ref={closeButtonRef}
                   >
                     <span className="sr-only">Close modal</span>

@@ -51,7 +51,7 @@ export default async function TodayTaskPage({ params: { taskId } }: TodayTaskPag
           />
         </>
       )}
-      {task && <TaskModal project={task.project} projects={projects} task={task} />}
+      {task && <TaskModal isOpen={true} project={task.project} projects={projects} task={task} />}
     </AppShell>
   );
 }
