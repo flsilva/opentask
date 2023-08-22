@@ -26,6 +26,7 @@
     "react-day-picker": "8.8.0",
     "react-dom": "18.2.0",
     "server-only": "0.0.1",
+    "ua-parser-js": "1.0.35",
     "zod": "3.21.4"
   },
   "devDependencies": {
@@ -50,6 +51,7 @@
     "@types/node": "20.4.7",
     "@types/react": "18.2.18",
     "@types/react-dom": "18.2.7",
+    "@types/ua-parser-js": "0.7.36",
     "typescript": "5.1.6",
     "webpack": "5.88.2"
   }

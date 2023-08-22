@@ -13,6 +13,7 @@ import { createProject } from '@/app/app/shared/project/project-model';
 import SettingsModal from '@/app/app/shared/settings/SettingsModal';
 import { ConfirmationModal, ConfirmationModalProps } from './ConfirmationModal';
 import { deleteUserAccount } from '../user/user-model';
+import PwaPromptModal from '@/app/shared/PwaPromptModal';
 
 interface AppShellProps extends ChildrenProps {
   readonly projects: Array<ProjectData>;
@@ -129,6 +130,7 @@ export default function AppShell({ children, projects }: AppShellProps) {
         onCloseModal={onCloseSettingsModal}
         onDeleteAccount={onDeleteAccount}
       />
+      <PwaPromptModal />
       {confirmationModalProps && <ConfirmationModal {...confirmationModalProps} />}
     </div>
   );
