@@ -2,15 +2,15 @@
 
 import 'client-only';
 import { usePathname, useRouter } from 'next/navigation';
-import { ProjectData } from '../project/ProjectData';
-import { TaskData } from './TaskData';
+import { ProjectDTO } from '../project/project-model-dto';
+import { updateTaskComplete } from './task-model-db';
+import { TaskDTO } from './task-model-dto';
 import TaskList from './TaskList';
-import { updateTaskComplete } from './task-model';
 
 interface TodayPageTaskListProps {
   readonly addTask?: React.ReactNode;
-  readonly project?: ProjectData | null;
-  readonly tasks: Array<TaskData>;
+  readonly project?: ProjectDTO | null;
+  readonly tasks: Array<TaskDTO>;
 }
 
 export const TaskListController = ({ addTask, project, tasks }: TodayPageTaskListProps) => {
@@ -20,17 +20,17 @@ export const TaskListController = ({ addTask, project, tasks }: TodayPageTaskLis
   const completedTasks = tasks.filter((task) => task.isCompleted);
   const notCompletedTasks = tasks.filter((task) => !task.isCompleted);
 
-  const onCompleteTaskClick = async (task: TaskData) => {
+  const onCompleteTaskClick = async (task: TaskDTO) => {
     await updateTaskComplete(task.id, true);
     router.refresh();
   };
 
-  const onUncompleteTaskClick = async (task: TaskData) => {
+  const onUncompleteTaskClick = async (task: TaskDTO) => {
     await updateTaskComplete(task.id, false);
     router.refresh();
   };
 
-  const onTaskClick = (task: TaskData) => {
+  const onTaskClick = (task: TaskDTO) => {
     if (pathname.indexOf('today') !== -1 || !project) {
       router.push(`/app/today/task/${task.id}`);
     } else {

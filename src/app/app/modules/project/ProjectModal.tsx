@@ -7,15 +7,20 @@ import {
   buttonClassNameGreen,
   buttonClassNameWhite,
 } from '@/app/modules/common/button/buttonClassName';
-import { CreateProjectSchema, ProjectData, UpdateProjectSchema } from './ProjectData';
-import { CreateProjectData, UpdateProjectData } from './ProjectData';
+import {
+  CreateProjectDTO,
+  CreateProjectDTOSchema,
+  ProjectDTO,
+  UpdateProjectDTO,
+  UpdateProjectDTOSchema,
+} from './project-model-dto';
 
 interface ProjectModalProps {
   readonly open: boolean;
   readonly onCloseHandler: () => void;
-  readonly onCreateProject: (data: CreateProjectData) => void;
-  readonly onUpdateProject: (data: UpdateProjectData) => void;
-  readonly project?: ProjectData | null;
+  readonly onCreateProject: (data: CreateProjectDTO) => void;
+  readonly onUpdateProject: (data: UpdateProjectDTO) => void;
+  readonly project?: ProjectDTO | null;
 }
 
 export default function ProjectModal({
@@ -39,15 +44,15 @@ export default function ProjectModal({
   }, [project]);
   /**/
 
-  const generateProjectData = (): CreateProjectData => ({
+  const generateProjectDTO = (): CreateProjectDTO => ({
     name,
     description,
   });
 
   const inputNameRef = useRef<HTMLInputElement | null>(null);
-  const isValidData = CreateProjectSchema.safeParse(generateProjectData()).success;
+  const isValidData = CreateProjectDTOSchema.safeParse(generateProjectDTO()).success;
 
-  const setNameAccordingToProject = (project?: ProjectData | null) => {
+  const setNameAccordingToProject = (project?: ProjectDTO | null) => {
     if (
       project !== undefined &&
       project !== null &&
@@ -60,7 +65,7 @@ export default function ProjectModal({
     setName('');
   };
 
-  const setDescriptionAccordingToProject = (project?: ProjectData | null) => {
+  const setDescriptionAccordingToProject = (project?: ProjectDTO | null) => {
     if (
       project !== undefined &&
       project !== null &&
@@ -93,23 +98,23 @@ export default function ProjectModal({
   };
 
   const onSaveProject = async () => {
-    let data: CreateProjectData | UpdateProjectData = generateProjectData();
+    let data: CreateProjectDTO | UpdateProjectDTO = generateProjectDTO();
 
     if (project) {
       data = { ...data, id: project.id };
-      UpdateProjectSchema.parse(data);
+      UpdateProjectDTOSchema.parse(data);
       onUpdateProject(data);
       return;
     }
 
-    CreateProjectSchema.parse(data);
+    CreateProjectDTOSchema.parse(data);
     onCreateProject(data);
   };
 
   const onKeyDown = (event: React.KeyboardEvent) => {
     if (event.key !== 'Enter') return;
     event.preventDefault();
-    if (!CreateProjectSchema.safeParse(generateProjectData()).success) return;
+    if (!CreateProjectDTOSchema.safeParse(generateProjectDTO()).success) return;
     onSaveProject();
   };
 

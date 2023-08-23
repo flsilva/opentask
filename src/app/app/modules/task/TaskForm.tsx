@@ -14,14 +14,14 @@ import { ExpandMoreIcon } from '@/app/modules/common/icon/ExpandMoreIcon';
 import DropdownMenu from '@/app/modules/common/dropdown/DropdownMenu';
 import { useAutoFocus } from '@/app/modules/common/utils/useAutoFocus';
 import { useKeyboardEvent } from '@/app/modules/common/utils/useKeyboardEvent';
-import { ProjectData } from '../project/ProjectData';
+import { ProjectDTO } from '../project/project-model-dto';
 import {
-  CreateTaskData,
-  CreateTaskSchema,
-  TaskData,
-  UpdateTaskData,
-  UpdateTaskSchema,
-} from './TaskData';
+  CreateTaskDTO,
+  CreateTaskDTOSchema,
+  TaskDTO,
+  UpdateTaskDTO,
+  UpdateTaskDTOSchema,
+} from './task-model-dto';
 import TaskDueDatePicker from './TaskDueDatePicker';
 import {
   createTask,
@@ -29,16 +29,16 @@ import {
   updateTaskComplete,
   updateTaskDueDate,
   updateTaskProject,
-} from './task-model';
+} from './task-model-db';
 import TaskCheck, { TaskCheckSize } from './TaskCheck';
 
 interface TaskFormProps extends ClassNamePropsOptional {
   readonly defaultDueDate?: Date | undefined;
   readonly onCancelClick?: () => void;
-  readonly project: ProjectData | null;
-  readonly projects: Array<ProjectData>;
+  readonly project: ProjectDTO | null;
+  readonly projects: Array<ProjectDTO>;
   readonly shouldStartOnEditingMode?: boolean;
-  readonly task?: TaskData | null;
+  readonly task?: TaskDTO | null;
   readonly taskNameClassName?: string;
 }
 
@@ -68,8 +68,8 @@ export default function TaskForm({
   const [isEditingName, setIsEditingName] = useState(false);
   const [isOnEditingMode, setIsOnEditingMode] = useState(shouldStartOnEditingMode);
 
-  const generateTaskData = useCallback(
-    (): CreateTaskData => ({
+  const generateTaskDTO = useCallback(
+    (): CreateTaskDTO => ({
       name: (name !== NAME_PLACEHOLDER && name) || '',
       description: (description !== DESCRIPTION_PLACEHOLDER && description) || '',
       dueDate,
@@ -78,7 +78,7 @@ export default function TaskForm({
     [description, dueDate, name, taskProject.id],
   );
 
-  const isValidData = CreateTaskSchema.safeParse(generateTaskData()).success;
+  const isValidData = CreateTaskDTOSchema.safeParse(generateTaskDTO()).success;
   const inputNameRef = useAutoFocus(shouldStartOnEditingMode);
 
   const resetForm = useCallback(() => {
@@ -93,18 +93,18 @@ export default function TaskForm({
   }, [defaultDueDate]);
 
   const onSaveClick = useCallback(async () => {
-    let data: CreateTaskData | UpdateTaskData = generateTaskData();
+    let data: CreateTaskDTO | UpdateTaskDTO = generateTaskDTO();
 
     if (task) {
       data = { ...data, id: task.id };
-      UpdateTaskSchema.parse(data);
+      UpdateTaskDTOSchema.parse(data);
       setIsOnEditingMode(false);
       await updateTask(data);
       inputNameRef.current?.blur();
       return;
     }
 
-    CreateTaskSchema.parse(data);
+    CreateTaskDTOSchema.parse(data);
 
     /*
      * Set focus must come here, before await, otherwise the virtual keyboard
@@ -122,7 +122,7 @@ export default function TaskForm({
      */
     router.refresh();
     /**/
-  }, [generateTaskData, inputNameRef, resetForm, router, task]);
+  }, [generateTaskDTO, inputNameRef, resetForm, router, task]);
 
   /*
    * Flavio Silva on Aug. 14th, 2023:
@@ -136,10 +136,10 @@ export default function TaskForm({
     (event: KeyboardEvent) => {
       if (event.key !== 'Enter' || !isEditingName) return;
       event.preventDefault();
-      if (!CreateTaskSchema.safeParse(generateTaskData()).success) return;
+      if (!CreateTaskDTOSchema.safeParse(generateTaskDTO()).success) return;
       onSaveClick();
     },
-    [generateTaskData, isEditingName, onSaveClick],
+    [generateTaskDTO, isEditingName, onSaveClick],
   );
 
   useKeyboardEvent('keydown', [{ key: 'Enter', listener: onKeyDown }]);
@@ -151,7 +151,7 @@ export default function TaskForm({
     updateTaskDueDate(task.id, date);
   };
 
-  const onTaskProjectChange = (selectedProject: ProjectData) => {
+  const onTaskProjectChange = (selectedProject: ProjectDTO) => {
     setTaskProject(selectedProject);
     if (!task) return;
     updateTaskProject(task.id, selectedProject.id);

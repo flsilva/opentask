@@ -9,19 +9,19 @@ import {
   ConfirmationModal,
   ConfirmationModalProps,
 } from '@/app/app/modules/common/ConfirmationModal';
-import { ProjectData } from '../project/ProjectData';
+import { ProjectDTO } from '../project/project-model-dto';
 import TaskForm from './/TaskForm';
-import { TaskData } from './TaskData';
-import { deleteTask } from './task-model';
+import { TaskDTO } from './task-model-dto';
+import { deleteTask } from './task-model-db';
 
 interface TaskModalModalProps {
   readonly isOpen: boolean;
   readonly onCloseModal?: () => void;
-  readonly project: ProjectData;
-  readonly projects: Array<ProjectData>;
+  readonly project: ProjectDTO;
+  readonly projects: Array<ProjectDTO>;
   readonly shouldGoBackOnClose?: boolean;
   readonly shouldStartOnEditingMode?: boolean;
-  readonly task?: TaskData | null;
+  readonly task?: TaskDTO | null;
 }
 
 export default function TaskModal({

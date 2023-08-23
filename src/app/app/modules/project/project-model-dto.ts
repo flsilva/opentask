@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const CreateProjectSchema = z.object({
+export const CreateProjectDTOSchema = z.object({
   /*
    * Nullable fields for ease of compatibility with prisma results.
    */
@@ -16,9 +16,9 @@ export const CreateProjectSchema = z.object({
   isArchived: z.boolean().optional(),
 });
 
-export type CreateProjectData = z.infer<typeof CreateProjectSchema>;
+export type CreateProjectDTO = z.infer<typeof CreateProjectDTOSchema>;
 
-export const UpdateProjectSchema = CreateProjectSchema.extend({
+export const UpdateProjectDTOSchema = CreateProjectDTOSchema.extend({
   id: z
     .string({
       required_error: 'Cannot update a project without its id.',
@@ -27,6 +27,6 @@ export const UpdateProjectSchema = CreateProjectSchema.extend({
     .cuid2({ message: 'Invalid project ID.' }),
 });
 
-export type UpdateProjectData = z.infer<typeof UpdateProjectSchema>;
+export type UpdateProjectDTO = z.infer<typeof UpdateProjectDTOSchema>;
 
-export type ProjectData = UpdateProjectData;
+export type ProjectDTO = UpdateProjectDTO;

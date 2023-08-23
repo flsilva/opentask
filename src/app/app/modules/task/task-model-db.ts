@@ -1,10 +1,15 @@
 'use server';
 import { cuid2, prisma } from '../common/utils/model-utils';
 import { getSessionOrThrow } from '../common/utils/session-utils';
-import { CreateTaskData, CreateTaskSchema, UpdateTaskData, UpdateTaskSchema } from './TaskData';
+import {
+  CreateTaskDTO,
+  CreateTaskDTOSchema,
+  UpdateTaskDTO,
+  UpdateTaskDTOSchema,
+} from './task-model-dto';
 
-export const createTask = async (data: CreateTaskData) => {
-  CreateTaskSchema.parse(data);
+export const createTask = async (data: CreateTaskDTO) => {
+  CreateTaskDTOSchema.parse(data);
 
   const {
     user: { id: authorId },
@@ -70,8 +75,8 @@ export const findTaskById = async (id: string) => {
   });
 };
 
-export const updateTask = async (data: UpdateTaskData) => {
-  UpdateTaskSchema.parse(data);
+export const updateTask = async (data: UpdateTaskDTO) => {
+  UpdateTaskDTOSchema.parse(data);
 
   const {
     user: { id: authorId },

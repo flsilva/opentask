@@ -2,14 +2,14 @@
 import { cuid2, prisma } from '../common/utils/model-utils';
 import { getSessionOrThrow } from '../common/utils/session-utils';
 import {
-  CreateProjectData,
-  CreateProjectSchema,
-  UpdateProjectData,
-  UpdateProjectSchema,
-} from './ProjectData';
+  CreateProjectDTO,
+  CreateProjectDTOSchema,
+  UpdateProjectDTO,
+  UpdateProjectDTOSchema,
+} from './project-model-dto';
 
-export const createProject = async (data: CreateProjectData) => {
-  CreateProjectSchema.parse(data);
+export const createProject = async (data: CreateProjectDTO) => {
+  CreateProjectDTOSchema.parse(data);
 
   const {
     user: { id },
@@ -68,8 +68,8 @@ export const findProjectById = async ({ id }: { id: string }) => {
   });
 };
 
-export const updateProject = async (data: UpdateProjectData) => {
-  UpdateProjectSchema.parse(data);
+export const updateProject = async (data: UpdateProjectDTO) => {
+  UpdateProjectDTOSchema.parse(data);
 
   const {
     user: { id: authorId },

@@ -5,14 +5,14 @@ import { useState } from 'react';
 import { Transition } from '@headlessui/react';
 import { buttonClassNameLink } from '@/app/modules/common//button/buttonClassName';
 import { PlusSignalIcon } from '@/app/modules/common/icon/PlusSignalIcon';
-import { ProjectData } from '../project/ProjectData';
+import { ProjectDTO } from '../project/project-model-dto';
 import TaskForm from './TaskForm';
 import TaskModal from './TaskModal';
 
 interface AddTaskProps {
   readonly defaultDueDate?: Date | null;
-  readonly project: ProjectData;
-  readonly projects: Array<ProjectData>;
+  readonly project: ProjectDTO;
+  readonly projects: Array<ProjectDTO>;
 }
 
 export default function AddTask({ defaultDueDate, project, projects }: AddTaskProps) {

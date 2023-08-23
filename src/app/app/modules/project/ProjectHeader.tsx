@@ -14,9 +14,8 @@ import {
   ConfirmationModal,
   ConfirmationModalProps,
 } from '@/app/app/modules/common/ConfirmationModal';
-import { deleteProject, updateProject } from './project-model';
-import { CreateProjectData, UpdateProjectData } from './ProjectData';
-import { ProjectData } from './ProjectData';
+import { deleteProject, updateProject } from './project-model-db';
+import { CreateProjectDTO, UpdateProjectDTO, ProjectDTO } from './project-model-dto';
 import ProjectModal from './ProjectModal';
 
 export enum ProjectAction {
@@ -27,7 +26,7 @@ export enum ProjectAction {
 }
 
 interface ProjectHeaderProps {
-  readonly project: ProjectData | null;
+  readonly project: ProjectDTO | null;
 }
 
 interface MenuItem {
@@ -73,11 +72,11 @@ export default function ProjectHeader({ project }: ProjectHeaderProps) {
     setConfirmationModalProps(null);
   };
 
-  const onCreateProject = (data: CreateProjectData) => {
+  const onCreateProject = (data: CreateProjectDTO) => {
     throw new Error('This operation should be handler by a different component.');
   };
 
-  const onUpdateProject = async (data: UpdateProjectData) => {
+  const onUpdateProject = async (data: UpdateProjectDTO) => {
     const project = await updateProject(data);
     onCloseProjectModal();
     /*
@@ -88,11 +87,11 @@ export default function ProjectHeader({ project }: ProjectHeaderProps) {
     /**/
   };
 
-  const archiveUnarchiveProjectHandler = (project: ProjectData, archive: boolean) => {
+  const archiveUnarchiveProjectHandler = (project: ProjectDTO, archive: boolean) => {
     return updateProject({ id: project.id, name: project.name, isArchived: archive });
   };
 
-  const deleteProjectHandler = async (project: ProjectData) => {
+  const deleteProjectHandler = async (project: ProjectDTO) => {
     await deleteProject(project.id);
     setConfirmationModalProps(null);
     router.push('/app/today');

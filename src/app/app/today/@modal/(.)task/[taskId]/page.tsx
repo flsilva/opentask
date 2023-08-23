@@ -1,6 +1,6 @@
 import 'server-only';
-import { findManyProjects } from '@/app/app/modules/project/project-model';
-import { findTaskById } from '@/app/app/modules/task/task-model';
+import { findManyProjects } from '@/app/app/modules/project/project-model-db';
+import { findTaskById } from '@/app/app/modules/task/task-model-db';
 import TaskModal from '@/app/app/modules/task/TaskModal';
 
 interface TodayTaskInterceptingPageProps {

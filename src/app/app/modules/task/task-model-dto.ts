@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const CreateTaskSchema = z.object({
+export const CreateTaskDTOSchema = z.object({
   /*
    * Nullable fields for ease of compatibility with prisma results.
    */
@@ -23,9 +23,9 @@ export const CreateTaskSchema = z.object({
     .cuid2({ message: 'Invalid task projectId.' }),
 });
 
-export type CreateTaskData = z.infer<typeof CreateTaskSchema>;
+export type CreateTaskDTO = z.infer<typeof CreateTaskDTOSchema>;
 
-export const UpdateTaskSchema = CreateTaskSchema.extend({
+export const UpdateTaskDTOSchema = CreateTaskDTOSchema.extend({
   id: z
     .string({
       required_error: 'Cannot update a task without its id.',
@@ -34,6 +34,6 @@ export const UpdateTaskSchema = CreateTaskSchema.extend({
     .cuid2({ message: 'Invalid task ID.' }),
 });
 
-export type UpdateTaskData = z.infer<typeof UpdateTaskSchema>;
+export type UpdateTaskDTO = z.infer<typeof UpdateTaskDTOSchema>;
 
-export type TaskData = UpdateTaskData;
+export type TaskDTO = UpdateTaskDTO;
