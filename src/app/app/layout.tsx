@@ -1,7 +1,7 @@
 import { Session } from '@supabase/supabase-js';
 import { redirect } from 'next/navigation';
-import UserSessionProvider from './shared/user/UserSessionProvider';
-import { getSessionOrThrow } from './shared/utils/session-utils';
+import UserSessionProvider from './modules/user/UserSessionProvider';
+import { getSessionOrThrow } from './modules/common/utils/session-utils';
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   let session: Session | null;

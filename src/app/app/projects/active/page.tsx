@@ -1,8 +1,8 @@
 import 'server-only';
-import AppShell from '@/app/app/shared/ui/AppShell';
-import ProjectList from '@/app/app/shared/project/ProjectList';
-import ProjectsHeader from '@/app/app/shared/project/ProjectsHeader';
-import { findManyProjects } from '@/app/app/shared/project/project-model';
+import AppShell from '@/app/app/modules/common/AppShell';
+import ProjectList from '@/app/app/modules/project/ProjectList';
+import ProjectsHeader from '@/app/app/modules/project/ProjectsHeader';
+import { findManyProjects } from '@/app/app/modules/project/project-model';
 
 export default async function ActiveProjectsPage() {
   const projects = await findManyProjects();

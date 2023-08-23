@@ -1,4 +1,4 @@
-import { MailIcon } from '@/app/shared/ui/icon/MailIcon';
+import { MailIcon } from '@/app/modules/common/icon/MailIcon';
 
 export default function CheckEmailLink({ searchParams }: { searchParams: { email?: string } }) {
   const getEmailText = () =>

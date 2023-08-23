@@ -3,8 +3,8 @@ import { createServerActionClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { Database } from '@/lib/database.types';
-import Header from './shared/ui/Header';
-import Footer from './shared/ui/Footer';
+import Header from './modules/common/Header';
+import Footer from './modules/common/Footer';
 
 export default async function MarketingLayout({ children }: { children: React.ReactNode }) {
   /*

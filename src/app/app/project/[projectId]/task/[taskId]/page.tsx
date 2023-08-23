@@ -1,11 +1,11 @@
 import 'server-only';
-import ProjectHeader from '@/app/app/shared/project/ProjectHeader';
-import AppShell from '@/app/app/shared/ui/AppShell';
-import { findManyProjects, findProjectById } from '@/app/app/shared/project/project-model';
-import AddTask from '@/app/app/shared/task/AddTask';
-import { TaskListController } from '@/app/app/shared/task/TaskListController';
-import TaskModal from '@/app/app/shared/task/TaskModal';
-import { findTaskById } from '@/app/app/shared/task/task-model';
+import AppShell from '@/app/app/modules/common/AppShell';
+import ProjectHeader from '@/app/app/modules/project/ProjectHeader';
+import { findManyProjects, findProjectById } from '@/app/app/modules/project/project-model';
+import AddTask from '@/app/app/modules/task/AddTask';
+import { TaskListController } from '@/app/app/modules/task/TaskListController';
+import TaskModal from '@/app/app/modules/task/TaskModal';
+import { findTaskById } from '@/app/app/modules/task/task-model';
 
 interface ProjectTaskPageProps {
   readonly params: { readonly projectId: string; taskId: string };

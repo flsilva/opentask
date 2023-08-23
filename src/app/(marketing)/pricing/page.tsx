@@ -1,9 +1,9 @@
 import 'server-only';
 import Link from 'next/link';
-import { buttonClassNameGreen } from '@/app/shared/ui//button/buttonClassName';
-import HeroShell from '../shared/ui/HeroShell';
-import HeroHeading from '../shared/ui/HeroHeading';
-import HeroCopy from '../shared/ui/HeroCopy';
+import { buttonClassNameGreen } from '@/app/modules/common//button/buttonClassName';
+import HeroShell from '../modules/common/HeroShell';
+import HeroHeading from '../modules/common/HeroHeading';
+import HeroCopy from '../modules/common/HeroCopy';
 
 export default function Pricing() {
   return (

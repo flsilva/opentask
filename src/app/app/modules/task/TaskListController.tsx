@@ -1,0 +1,64 @@
+'use client';
+
+import 'client-only';
+import { usePathname, useRouter } from 'next/navigation';
+import { ProjectData } from '../project/ProjectData';
+import { TaskData } from './TaskData';
+import TaskList from './TaskList';
+import { updateTaskComplete } from './task-model';
+
+interface TodayPageTaskListProps {
+  readonly addTask?: React.ReactNode;
+  readonly project?: ProjectData | null;
+  readonly tasks: Array<TaskData>;
+}
+
+export const TaskListController = ({ addTask, project, tasks }: TodayPageTaskListProps) => {
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const completedTasks = tasks.filter((task) => task.isCompleted);
+  const notCompletedTasks = tasks.filter((task) => !task.isCompleted);
+
+  const onCompleteTaskClick = async (task: TaskData) => {
+    await updateTaskComplete(task.id, true);
+    router.refresh();
+  };
+
+  const onUncompleteTaskClick = async (task: TaskData) => {
+    await updateTaskComplete(task.id, false);
+    router.refresh();
+  };
+
+  const onTaskClick = (task: TaskData) => {
+    if (pathname.indexOf('today') !== -1 || !project) {
+      router.push(`/app/today/task/${task.id}`);
+    } else {
+      router.push(`/app/project/${project.id}/task/${task.id}`);
+    }
+  };
+
+  return (
+    <div className="flex flex-col">
+      {notCompletedTasks.length > 0 && (
+        <div className="flex flex-col pb-8">
+          <TaskList
+            onCompleteTaskClick={onCompleteTaskClick}
+            onTaskClick={onTaskClick}
+            tasks={notCompletedTasks}
+          />
+        </div>
+      )}
+      {addTask}
+      {completedTasks.length > 0 && (
+        <div className="flex flex-col py-8">
+          <TaskList
+            onCompleteTaskClick={onUncompleteTaskClick}
+            onTaskClick={onTaskClick}
+            tasks={completedTasks}
+          />
+        </div>
+      )}
+    </div>
+  );
+};

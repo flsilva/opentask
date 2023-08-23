@@ -1,11 +1,11 @@
 import 'server-only';
-import TodayHeader from '@/app/app/shared/today/TodayHeader';
-import AppShell from '@/app/app/shared/ui/AppShell';
-import { findManyProjects } from '@/app/app/shared/project/project-model';
-import AddTask from '@/app/app/shared/task/AddTask';
-import TaskModal from '@/app/app/shared/task/TaskModal';
-import { TaskListController } from '@/app/app/shared/task/TaskListController';
-import { findTaskById, findTasksDueUntilToday } from '@/app/app/shared/task/task-model';
+import AppShell from '@/app/app/modules/common/AppShell';
+import { findManyProjects } from '@/app/app/modules/project/project-model';
+import AddTask from '@/app/app/modules/task/AddTask';
+import TaskModal from '@/app/app/modules/task/TaskModal';
+import { TaskListController } from '@/app/app/modules/task/TaskListController';
+import { findTaskById, findTasksDueUntilToday } from '@/app/app/modules/task/task-model';
+import TodayHeader from '@/app/app/modules/today/TodayHeader';
 
 interface TodayTaskPageProps {
   readonly params: { readonly taskId: string };

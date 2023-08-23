@@ -3,11 +3,14 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { createServerActionClient } from '@supabase/auth-helpers-nextjs';
 import { Database } from '@/lib/database.types';
-import { buttonClassNameWhite } from '@/app/shared/ui//button/buttonClassName';
-import { ChildrenProps } from '@/app/shared/ui/ChildrenProps';
-import { GitHubLogoIcon } from '@/app/shared/ui/icon/GitHubLogoIcon';
-import { LinkedInInLogoIcon } from '@/app/shared/ui/icon/LinkedInInLogoIcon';
-import { TwitterLogoIcon } from '@/app/shared/ui/icon/TwitterLogoIcon';
+import {
+  buttonClassNameGreen,
+  buttonClassNameWhite,
+} from '@/app/modules/common//button/buttonClassName';
+import { ChildrenProps } from '@/app/modules/common/ChildrenProps';
+import { GitHubLogoIcon } from '@/app/modules/common/icon/GitHubLogoIcon';
+import { LinkedInInLogoIcon } from '@/app/modules/common/icon/LinkedInInLogoIcon';
+import { TwitterLogoIcon } from '@/app/modules/common/icon/TwitterLogoIcon';
 
 export type Provider = 'github' | 'linkedin' | 'twitter';
 

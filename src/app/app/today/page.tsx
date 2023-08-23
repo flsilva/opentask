@@ -1,10 +1,10 @@
 import 'server-only';
-import AppShell from '@/app/app/shared/ui/AppShell';
-import { findManyProjects } from '@/app/app/shared/project/project-model';
-import TodayHeader from '@/app/app/shared/today/TodayHeader';
-import AddTask from '@/app/app/shared/task/AddTask';
-import { TaskListController } from '@/app/app/shared/task/TaskListController';
-import { findTasksDueUntilToday } from '../shared/task/task-model';
+import AppShell from '@/app/app/modules/common/AppShell';
+import { findManyProjects } from '@/app/app/modules/project/project-model';
+import TodayHeader from '@/app/app/modules/today/TodayHeader';
+import AddTask from '@/app/app/modules/task/AddTask';
+import { TaskListController } from '@/app/app/modules/task/TaskListController';
+import { findTasksDueUntilToday } from '@/app/app/modules/task/task-model';
 
 export default async function TodayPage() {
   const [projects, tasks] = await Promise.all([findManyProjects(), findTasksDueUntilToday()]);
