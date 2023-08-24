@@ -9,14 +9,13 @@ export default function Pricing() {
   return (
     <HeroShell className="pt-16 sm:pt-32 lg:pt-38">
       <HeroHeading>
-        Free & Open Source
+        Free &
         <br />
-        <span className="text-green-700">Forever</span>
+        <span className="text-green-700">Open Source</span>
       </HeroHeading>
       <HeroCopy>
-        OpenTask will always be free and open source software. Our goal is not to make money with
-        the project but to build a community and learn together while having fun building a fully
-        functional web app on top of bleeding-edge technology.
+        OpenTask is free and open source software. We aim to build a community and learn together
+        while having fun building a fully functional web app on top of bleeding-edge technology.
         <br />
         <br />
         Check out our{' '}
