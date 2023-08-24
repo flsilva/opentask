@@ -95,7 +95,7 @@ const AppHeader = forwardRef<HTMLElement, AppHeaderProps>(
     return (
       <header className="flex w-full bg-green-700" ref={ref}>
         <nav
-          className="relative flex w-full items-center justify-between px-6 py-2"
+          className="relative flex w-full items-center justify-between px-3.5 py-2"
           aria-label="Global"
         >
           <button

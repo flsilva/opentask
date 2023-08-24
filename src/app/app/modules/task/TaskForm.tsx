@@ -299,15 +299,15 @@ export default function TaskForm({
           />
         </div>
       </div>
-      <div className="mt-8 flex flex-row md:items-start">
+      <div className="mt-8 flex flex-col sm:flex-row">
         <TaskDueDatePicker defaultDate={dueDate} onChange={onDueDateChange} />
-        <div className="relative h-12 ml-4 md:ml-16">
+        <div className="relative h-12 sm:ml-4 md:ml-16 mt-6 sm:mt-0">
           <DropdownMenu
             className="absolute w-56"
             items={getItemsForProjectsDropdown()}
             itemsClassName="absolute bottom-14 left-0 max-h-80 w-56"
             menuButton={
-              <Menu.Button className="flex items-center justify-center rounded-md bg-green-600 px-3.5 py-1.5 text-sm font-medium text-white shadow-sm hover:bg-green-500">
+              <Menu.Button className="flex items-center justify-center rounded-md bg-green-600 px-2 py-1.5 text-sm font-medium text-white shadow-sm hover:bg-green-500">
                 {taskProject.name}
                 <ExpandMoreIcon className="ml-2 fill-white" />
               </Menu.Button>
