@@ -6,11 +6,11 @@ import { Database } from '@/lib/database.types';
 import {
   buttonClassNameGreen,
   buttonClassNameWhite,
-} from '@/app/modules/common//button/buttonClassName';
-import { ChildrenProps } from '@/app/modules/common/ChildrenProps';
-import { GitHubLogoIcon } from '@/app/modules/common/icon/GitHubLogoIcon';
-import { LinkedInInLogoIcon } from '@/app/modules/common/icon/LinkedInInLogoIcon';
-import { TwitterLogoIcon } from '@/app/modules/common/icon/TwitterLogoIcon';
+} from '@/modules/shared//button/buttonClassName';
+import { ChildrenProps } from '@/modules/shared/ChildrenProps';
+import { GitHubLogoIcon } from '@/modules/shared/icon/GitHubLogoIcon';
+import { LinkedInInLogoIcon } from '@/modules/shared/icon/LinkedInInLogoIcon';
+import { TwitterLogoIcon } from '@/modules/shared/icon/TwitterLogoIcon';
 
 export type Provider = 'github' | 'linkedin' | 'twitter';
 

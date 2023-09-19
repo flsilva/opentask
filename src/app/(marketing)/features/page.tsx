@@ -1,10 +1,10 @@
 import 'server-only';
 import Image from 'next/image';
 import Link from 'next/link';
-import { buttonClassNameGreen } from '@/app/modules/common//button/buttonClassName';
-import HeroShell from '../modules/common/HeroShell';
-import HeroHeading from '../modules/common/HeroHeading';
-import HeroCopy from '../modules/common/HeroCopy';
+import { buttonClassNameGreen } from '@/modules/shared/button/buttonClassName';
+import HeroShell from '@/modules/marketing/shared/HeroShell';
+import HeroHeading from '@/modules/marketing/shared/HeroHeading';
+import HeroCopy from '@/modules/marketing/shared/HeroCopy';
 import imgFeatures01 from './features-img-01.png';
 import imgFeatures02 from './features-img-02.png';
 import imgFeatures03 from './features-img-03.png';

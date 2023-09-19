@@ -1,8 +1,8 @@
 import 'server-only';
-import AppShell from '@/app/app/modules/common/AppShell';
-import ProjectList from '@/app/app/modules/project/ProjectList';
-import ProjectsHeader from '@/app/app/modules/project/ProjectsHeader';
-import { findManyProjects } from '@/app/app/modules/project/project-model-db';
+import AppShell from '@/modules/app/shared/AppShell';
+import ProjectList from '@/modules/app/project/ProjectList';
+import ProjectsHeader from '@/modules/app/project/ProjectsHeader';
+import { findManyProjects } from '@/modules/app/project/project-model-db';
 
 export default async function ArchivedProjectsPage() {
   const [activeProjects, archivedProjects] = await Promise.all([

@@ -1,8 +1,8 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import { GaNextScriptNavigation } from './modules/common/utils/ga';
-import PwaPromptProvider from './modules/common/pwa/PwaPromptProvider';
+import { GaNextScriptNavigation } from '@/modules/shared/utils/ga';
+import PwaPromptProvider from '@/modules/shared/pwa/PwaPromptProvider';
 
 export const metadata: Metadata = {
   title: 'OpenTask',

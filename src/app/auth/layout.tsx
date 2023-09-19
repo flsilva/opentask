@@ -1,6 +1,6 @@
 import '../globals.css';
-import { Logo } from '@/app/modules/common/logo/Logo';
-import Footer from '../(marketing)/modules/common/Footer';
+import { Logo } from '@/modules/shared/logo/Logo';
+import Footer from '@/modules/marketing/shared/Footer';
 
 export default function MarketingLayout({ children }: { children: React.ReactNode }) {
   return (
