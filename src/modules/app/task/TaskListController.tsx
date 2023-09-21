@@ -18,7 +18,7 @@ export const TaskListController = ({ addTask, project, tasks }: TodayPageTaskLis
   const pathname = usePathname();
 
   const completedTasks = tasks.filter((task) => task.isCompleted);
-  const notCompletedTasks = tasks.filter((task) => !task.isCompleted);
+  const uncompletedTasks = tasks.filter((task) => !task.isCompleted);
 
   const onCompleteTaskClick = async (task: TaskDTO) => {
     await updateTaskComplete(task.id, true);
@@ -40,12 +40,12 @@ export const TaskListController = ({ addTask, project, tasks }: TodayPageTaskLis
 
   return (
     <div className="flex flex-col">
-      {notCompletedTasks.length > 0 && (
+      {uncompletedTasks.length > 0 && (
         <div className="flex flex-col pb-8">
           <TaskList
             onCompleteTaskClick={onCompleteTaskClick}
             onTaskClick={onTaskClick}
-            tasks={notCompletedTasks}
+            tasks={uncompletedTasks}
           />
         </div>
       )}
