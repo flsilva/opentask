@@ -14,31 +14,25 @@ import { ExpandMoreIcon } from '@/modules/shared/icon/ExpandMoreIcon';
 import DropdownMenu from '@/modules/shared/dropdown/DropdownMenu';
 import { useAutoFocus } from '@/modules/shared/utils/useAutoFocus';
 import { useKeyboardEvent } from '@/modules/shared/utils/useKeyboardEvent';
-import { ProjectDTO } from '@/modules/app/project/project-model-dto';
+import { ProjectDto } from '@/modules/app/project/ProjectDomain';
 import {
-  CreateTaskDTO,
-  CreateTaskDTOSchema,
-  TaskDTO,
-  UpdateTaskDTO,
-  UpdateTaskDTOSchema,
-} from './task-model-dto';
+  CreateTaskDto,
+  createTaskSchema,
+  TaskDto,
+  UpdateTaskDto,
+  updateTaskSchema,
+} from './TaskDomain';
 import TaskDueDatePicker from './TaskDueDatePicker';
-import {
-  createTask,
-  updateTask,
-  updateTaskComplete,
-  updateTaskDueDate,
-  updateTaskProject,
-} from './task-model-db';
+import { createTask, updateTask } from './TaskRepository';
 import TaskCheck, { TaskCheckSize } from './TaskCheck';
 
 interface TaskFormProps extends ClassNamePropsOptional {
   readonly defaultDueDate?: Date | undefined;
   readonly onCancelClick?: () => void;
-  readonly project: ProjectDTO | null;
-  readonly projects: Array<ProjectDTO>;
+  readonly project: ProjectDto | null;
+  readonly projects: Array<ProjectDto>;
   readonly shouldStartOnEditingMode?: boolean;
-  readonly task?: TaskDTO | null;
+  readonly task?: TaskDto | null;
   readonly taskNameClassName?: string;
 }
 
@@ -68,8 +62,8 @@ export default function TaskForm({
   const [isEditingName, setIsEditingName] = useState(false);
   const [isOnEditingMode, setIsOnEditingMode] = useState(shouldStartOnEditingMode);
 
-  const generateTaskDTO = useCallback(
-    (): CreateTaskDTO => ({
+  const generateTaskDto = useCallback(
+    (): CreateTaskDto => ({
       name: (name !== NAME_PLACEHOLDER && name) || '',
       description: (description !== DESCRIPTION_PLACEHOLDER && description) || '',
       dueDate,
@@ -78,7 +72,7 @@ export default function TaskForm({
     [description, dueDate, name, taskProject.id],
   );
 
-  const isValidData = CreateTaskDTOSchema.safeParse(generateTaskDTO()).success;
+  const isValidData = createTaskSchema.safeParse(generateTaskDto()).success;
   const inputNameRef = useAutoFocus(shouldStartOnEditingMode);
 
   const resetForm = useCallback(() => {
@@ -93,18 +87,18 @@ export default function TaskForm({
   }, [defaultDueDate]);
 
   const onSaveClick = useCallback(async () => {
-    let data: CreateTaskDTO | UpdateTaskDTO = generateTaskDTO();
+    let data: CreateTaskDto | UpdateTaskDto = generateTaskDto();
 
     if (task) {
       data = { ...data, id: task.id };
-      UpdateTaskDTOSchema.parse(data);
+      updateTaskSchema.parse(data);
       setIsOnEditingMode(false);
       await updateTask(data);
       inputNameRef.current?.blur();
       return;
     }
 
-    CreateTaskDTOSchema.parse(data);
+    createTaskSchema.parse(data);
 
     /*
      * Set focus must come here, before await, otherwise the virtual keyboard
@@ -122,7 +116,7 @@ export default function TaskForm({
      */
     router.refresh();
     /**/
-  }, [generateTaskDTO, inputNameRef, resetForm, router, task]);
+  }, [generateTaskDto, inputNameRef, resetForm, router, task]);
 
   /*
    * Flavio Silva on Aug. 14th, 2023:
@@ -136,10 +130,10 @@ export default function TaskForm({
     (event: KeyboardEvent) => {
       if (event.key !== 'Enter' || !isEditingName) return;
       event.preventDefault();
-      if (!CreateTaskDTOSchema.safeParse(generateTaskDTO()).success) return;
+      if (!createTaskSchema.safeParse(generateTaskDto()).success) return;
       onSaveClick();
     },
-    [generateTaskDTO, isEditingName, onSaveClick],
+    [generateTaskDto, isEditingName, onSaveClick],
   );
 
   useKeyboardEvent('keydown', [{ key: 'Enter', listener: onKeyDown }]);
@@ -148,19 +142,19 @@ export default function TaskForm({
   const onDueDateChange = async (date: Date | undefined) => {
     setDueDate(date);
     if (!task) return;
-    updateTaskDueDate(task.id, date);
+    updateTask({ id: task.id, dueDate: date || null });
   };
 
-  const onTaskProjectChange = (selectedProject: ProjectDTO) => {
+  const onTaskProjectChange = (selectedProject: ProjectDto) => {
     setTaskProject(selectedProject);
     if (!task) return;
-    updateTaskProject(task.id, selectedProject.id);
+    updateTask({ id: task.id, projectId: selectedProject.id });
   };
 
   const onTaskCheckClick = async () => {
     if (!task) return;
     setIsCompleted(!isCompleted);
-    await updateTaskComplete(task.id, !isCompleted);
+    await updateTask({ id: task.id, isCompleted: !isCompleted });
   };
 
   const onNameFocusHandler = (event: React.FocusEvent<HTMLInputElement>) => {

@@ -11,8 +11,8 @@ import { DeleteIcon } from '@/modules/shared/icon/DeleteIcon';
 import { EditIcon } from '@/modules/shared/icon/EditIcon';
 import { UnarchiveIcon } from '@/modules/shared/icon/UnarchiveIcon';
 import { ConfirmationModal, ConfirmationModalProps } from '@/modules/app/shared/ConfirmationModal';
-import { deleteProject, updateProject } from './project-model-db';
-import { CreateProjectDTO, UpdateProjectDTO, ProjectDTO } from './project-model-dto';
+import { deleteProject, updateProject } from './ProjectRepository';
+import { CreateProjectDto, UpdateProjectDto, ProjectDto } from './ProjectDomain';
 import ProjectModal from './ProjectModal';
 
 export enum ProjectAction {
@@ -23,7 +23,7 @@ export enum ProjectAction {
 }
 
 interface ProjectHeaderProps {
-  readonly project: ProjectDTO | null;
+  readonly project: ProjectDto | null;
 }
 
 interface MenuItem {
@@ -69,11 +69,11 @@ export default function ProjectHeader({ project }: ProjectHeaderProps) {
     setConfirmationModalProps(null);
   };
 
-  const onCreateProject = (data: CreateProjectDTO) => {
+  const onCreateProject = (data: CreateProjectDto) => {
     throw new Error('This operation should be handler by a different component.');
   };
 
-  const onUpdateProject = async (data: UpdateProjectDTO) => {
+  const onUpdateProject = async (data: UpdateProjectDto) => {
     const project = await updateProject(data);
     onCloseProjectModal();
     /*
@@ -84,11 +84,11 @@ export default function ProjectHeader({ project }: ProjectHeaderProps) {
     /**/
   };
 
-  const archiveUnarchiveProjectHandler = (project: ProjectDTO, archive: boolean) => {
+  const archiveUnarchiveProjectHandler = (project: ProjectDto, archive: boolean) => {
     return updateProject({ id: project.id, name: project.name, isArchived: archive });
   };
 
-  const deleteProjectHandler = async (project: ProjectDTO) => {
+  const deleteProjectHandler = async (project: ProjectDto) => {
     await deleteProject(project.id);
     setConfirmationModalProps(null);
     router.push('/app/today');

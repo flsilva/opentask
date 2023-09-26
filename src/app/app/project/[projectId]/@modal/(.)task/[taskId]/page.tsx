@@ -1,7 +1,7 @@
 import 'server-only';
-import { findManyProjects, findProjectById } from '@/modules/app/project/project-model-db';
+import { getAllProjects, getProjectById } from '@/modules/app/project/ProjectRepository';
 import TaskModal from '@/modules/app/task/TaskModal';
-import { findTaskById } from '@/modules/app/task/task-model-db';
+import { getTaskById } from '@/modules/app/task/TaskRepository';
 
 interface ProjectTaskInterceptingPageProps {
   readonly params: { readonly projectId: string; readonly taskId: string };
@@ -11,9 +11,9 @@ export default async function ProjectTaskInterceptingPage({
   params: { projectId, taskId },
 }: ProjectTaskInterceptingPageProps) {
   const [projects, project, task] = await Promise.all([
-    findManyProjects(),
-    findProjectById({ id: projectId }),
-    findTaskById(taskId),
+    getAllProjects(),
+    getProjectById({ id: projectId }),
+    getTaskById(taskId),
   ]);
 
   if (!project) return;

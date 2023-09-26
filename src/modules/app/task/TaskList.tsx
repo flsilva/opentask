@@ -1,10 +1,10 @@
-import { TaskDTO } from './task-model-dto';
+import { TaskDto } from './TaskDomain';
 import TaskListItem from './TaskListItem';
 
 interface TaskListProps {
-  readonly onCompleteTaskClick: (task: TaskDTO) => void;
-  readonly onTaskClick: (task: TaskDTO) => void;
-  readonly tasks: Array<TaskDTO>;
+  readonly onCompleteTaskClick: (task: TaskDto) => void;
+  readonly onTaskClick: (task: TaskDto) => void;
+  readonly tasks: Array<TaskDto>;
 }
 
 export default function TaskList({ onCompleteTaskClick, onTaskClick, tasks }: TaskListProps) {

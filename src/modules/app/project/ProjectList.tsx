@@ -4,10 +4,10 @@ import 'client-only';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Transition } from '@headlessui/react';
-import { ProjectDTO } from './project-model-dto';
+import { ProjectDto } from './ProjectDomain';
 
 interface ProjectListProps {
-  readonly projects: Array<ProjectDTO>;
+  readonly projects: Array<ProjectDto>;
 }
 
 export default function ProjectList({ projects }: ProjectListProps) {
@@ -16,7 +16,7 @@ export default function ProjectList({ projects }: ProjectListProps) {
 
   useEffect(() => setIsOpen(true), []);
 
-  const onProjectClick = (project: ProjectDTO) => {
+  const onProjectClick = (project: ProjectDto) => {
     router.push(`/app/project/${project.id}`);
   };
 

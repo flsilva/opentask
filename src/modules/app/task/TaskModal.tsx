@@ -6,19 +6,19 @@ import { Dialog, Transition } from '@headlessui/react';
 import { XIcon } from '@/modules/shared/icon/XIcon';
 import { DeleteIcon } from '@/modules/shared/icon/DeleteIcon';
 import { ConfirmationModal, ConfirmationModalProps } from '@/modules/app/shared/ConfirmationModal';
-import { ProjectDTO } from '@/modules/app/project/project-model-dto';
+import { ProjectDto } from '@/modules/app/project/ProjectDomain';
 import TaskForm from './TaskForm';
-import { TaskDTO } from './task-model-dto';
-import { deleteTask } from './task-model-db';
+import { TaskDto } from './TaskDomain';
+import { deleteTask } from './TaskRepository';
 
 interface TaskModalModalProps {
   readonly isOpen: boolean;
   readonly onCloseModal?: () => void;
-  readonly project: ProjectDTO;
-  readonly projects: Array<ProjectDTO>;
+  readonly project: ProjectDto;
+  readonly projects: Array<ProjectDto>;
   readonly shouldGoBackOnClose?: boolean;
   readonly shouldStartOnEditingMode?: boolean;
-  readonly task?: TaskDTO | null;
+  readonly task?: TaskDto | null;
 }
 
 export default function TaskModal({

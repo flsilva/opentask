@@ -6,12 +6,12 @@ import { usePathname, useRouter } from 'next/navigation';
 import { CalendarTodayIcon } from '@/modules/shared/icon/CalendarTodayIcon';
 import { PlusSignalIcon } from '@/modules/shared/icon/PlusSignalIcon';
 import { ProjectsIcon } from '@/modules/shared/icon/ProjectsIcon';
-import { ProjectDTO } from '@/modules/app/project/project-model-dto';
+import { ProjectDto } from '@/modules/app/project/ProjectDomain';
 
 interface AppNavProps {
   readonly isOpen: boolean | null;
   readonly onNewProjectClick: () => void;
-  readonly projects: Array<ProjectDTO>;
+  readonly projects: Array<ProjectDto>;
 }
 
 export default function AppNav({ isOpen, onNewProjectClick, projects }: AppNavProps) {
@@ -33,7 +33,7 @@ export default function AppNav({ isOpen, onNewProjectClick, projects }: AppNavPr
     router.push('/app/projects/active');
   };
 
-  const onProjectClick = (project: ProjectDTO) => {
+  const onProjectClick = (project: ProjectDto) => {
     router.push(`/app/project/${project.id}`);
   };
 

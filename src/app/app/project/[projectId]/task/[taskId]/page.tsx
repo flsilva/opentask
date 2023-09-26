@@ -1,11 +1,11 @@
 import 'server-only';
 import AppShell from '@/modules/app/shared/AppShell';
 import ProjectHeader from '@/modules/app/project/ProjectHeader';
-import { findManyProjects, findProjectById } from '@/modules/app/project/project-model-db';
+import { getAllProjects, getProjectById } from '@/modules/app/project/ProjectRepository';
 import AddTask from '@/modules/app/task/AddTask';
 import { TaskListController } from '@/modules/app/task/TaskListController';
 import TaskModal from '@/modules/app/task/TaskModal';
-import { findTaskById } from '@/modules/app/task/task-model-db';
+import { getTaskById } from '@/modules/app/task/TaskRepository';
 
 interface ProjectTaskPageProps {
   readonly params: { readonly projectId: string; taskId: string };
@@ -15,9 +15,9 @@ export default async function ProjectTaskPage({
   params: { projectId, taskId },
 }: ProjectTaskPageProps) {
   const [projects, project, task] = await Promise.all([
-    findManyProjects(),
-    findProjectById({ id: projectId }),
-    findTaskById(taskId),
+    getAllProjects(),
+    getProjectById({ id: projectId }),
+    getTaskById(taskId),
   ]);
 
   if (!project) return;

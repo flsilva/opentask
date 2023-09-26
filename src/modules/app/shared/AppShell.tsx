@@ -7,16 +7,19 @@ import { ChildrenProps } from '@/modules/shared/ChildrenProps';
 import PwaPromptModal from '@/modules/shared/pwa/PwaPromptModal';
 import AppHeader from '@/modules/app/shared/AppHeader';
 import AppNav from '@/modules/app/shared/AppNav';
-import { ProjectDTO } from '@/modules/app/project/project-model-dto';
+import {
+  CreateProjectDto,
+  ProjectDto,
+  UpdateProjectDto,
+} from '@/modules/app/project/ProjectDomain';
 import ProjectModal from '@/modules/app/project/ProjectModal';
-import { CreateProjectDTO, UpdateProjectDTO } from '@/modules/app/project/project-model-dto';
-import { createProject } from '@/modules/app/project/project-model-db';
+import { createProject } from '@/modules/app/project/ProjectRepository';
 import SettingsModal from '@/modules/app/settings/SettingsModal';
 import { ConfirmationModal, ConfirmationModalProps } from './ConfirmationModal';
 import { deleteUserAccount } from '@/modules/app/user/user-model';
 
 interface AppShellProps extends ChildrenProps {
-  readonly projects: Array<ProjectDTO>;
+  readonly projects: Array<ProjectDto>;
 }
 
 export default function AppShell({ children, projects }: AppShellProps) {
@@ -33,7 +36,7 @@ export default function AppShell({ children, projects }: AppShellProps) {
     setIsShowingProjectModal(false);
   };
 
-  const onCreateProject = async (data: CreateProjectDTO) => {
+  const onCreateProject = async (data: CreateProjectDto) => {
     const project = await createProject(data);
     onCloseProjectModal();
     router.push(`/app/project/${project.id}`);
@@ -45,7 +48,7 @@ export default function AppShell({ children, projects }: AppShellProps) {
     /**/
   };
 
-  const onUpdateProject = async (data: UpdateProjectDTO) => {
+  const onUpdateProject = async (data: UpdateProjectDto) => {
     throw new Error('This operation should be handler by a different component.');
   };
 

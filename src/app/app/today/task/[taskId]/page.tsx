@@ -1,10 +1,10 @@
 import 'server-only';
 import AppShell from '@/modules/app/shared/AppShell';
-import { findManyProjects } from '@/modules/app/project/project-model-db';
+import { getAllProjects } from '@/modules/app/project/ProjectRepository';
 import AddTask from '@/modules/app/task/AddTask';
 import TaskModal from '@/modules/app/task/TaskModal';
 import { TaskListController } from '@/modules/app/task/TaskListController';
-import { findTaskById, findTasksDueUntilToday } from '@/modules/app/task/task-model-db';
+import { getTaskById, getAllTasksDueUntilToday } from '@/modules/app/task/TaskRepository';
 import TodayHeader from '@/modules/app/today/TodayHeader';
 
 interface TodayTaskPageProps {
@@ -13,9 +13,9 @@ interface TodayTaskPageProps {
 
 export default async function TodayTaskPage({ params: { taskId } }: TodayTaskPageProps) {
   const [projects, tasks, task] = await Promise.all([
-    findManyProjects(),
-    findTasksDueUntilToday(),
-    findTaskById(taskId),
+    getAllProjects(),
+    getAllTasksDueUntilToday(),
+    getTaskById(taskId),
   ]);
   const tasksDueToday = tasks.filter(
     (task) => task.dueDate && task.dueDate.getDate() === new Date().getDate(),

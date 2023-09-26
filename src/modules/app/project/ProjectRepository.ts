@@ -3,14 +3,14 @@
 import { cuid2, prisma } from '@/modules/app/shared/utils/model-utils';
 import { getSessionOrThrow } from '@/modules/app/shared/utils/session-utils';
 import {
-  CreateProjectDTO,
-  CreateProjectDTOSchema,
-  UpdateProjectDTO,
-  UpdateProjectDTOSchema,
-} from './project-model-dto';
+  CreateProjectDto,
+  createProjectSchema,
+  UpdateProjectDto,
+  updateProjectSchema,
+} from './ProjectDomain';
 
-export const createProject = async (data: CreateProjectDTO) => {
-  CreateProjectDTOSchema.parse(data);
+export const createProject = async (data: CreateProjectDto) => {
+  createProjectSchema.parse(data);
 
   const {
     user: { id },
@@ -41,7 +41,7 @@ export const deleteProject = async (id: string) => {
   });
 };
 
-export const findManyProjects = async ({
+export const getAllProjects = async ({
   isArchived = false,
   includeTasks,
 }: { isArchived?: boolean; includeTasks?: boolean } = {}) => {
@@ -58,7 +58,7 @@ export const findManyProjects = async ({
   });
 };
 
-export const findProjectById = async ({ id }: { id: string }) => {
+export const getProjectById = async ({ id }: { id: string }) => {
   const {
     user: { id: authorId },
   } = await getSessionOrThrow();
@@ -69,8 +69,8 @@ export const findProjectById = async ({ id }: { id: string }) => {
   });
 };
 
-export const updateProject = async (data: UpdateProjectDTO) => {
-  UpdateProjectDTOSchema.parse(data);
+export const updateProject = async (data: UpdateProjectDto) => {
+  updateProjectSchema.parse(data);
 
   const {
     user: { id: authorId },
