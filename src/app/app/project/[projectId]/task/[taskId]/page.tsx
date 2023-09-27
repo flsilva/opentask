@@ -3,7 +3,7 @@ import AppShell from '@/modules/app/shared/AppShell';
 import ProjectHeader from '@/modules/app/project/ProjectHeader';
 import { getAllProjects, getProjectById } from '@/modules/app/project/ProjectRepository';
 import AddTask from '@/modules/app/task/AddTask';
-import { TaskListController } from '@/modules/app/task/TaskListController';
+import { TaskListApplication } from '@/modules/app/task/TaskListApplication';
 import TaskModal from '@/modules/app/task/TaskModal';
 import { getTaskById } from '@/modules/app/task/TaskRepository';
 
@@ -28,7 +28,7 @@ export default async function ProjectTaskPage({
       {project.tasks.length < 1 && (
         <p className="mb-12 text-sm font-medium text-gray-600">No tasks in this project.</p>
       )}
-      <TaskListController
+      <TaskListApplication
         addTask={<AddTask project={project} projects={projects} />}
         project={project}
         tasks={project.tasks}

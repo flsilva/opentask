@@ -13,7 +13,7 @@ interface TodayPageTaskListProps {
   readonly tasks: Array<TaskDto>;
 }
 
-export const TaskListController = ({ addTask, project, tasks }: TodayPageTaskListProps) => {
+export const TaskListApplication = ({ addTask, project, tasks }: TodayPageTaskListProps) => {
   const router = useRouter();
   const pathname = usePathname();
 

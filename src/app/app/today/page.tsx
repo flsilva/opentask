@@ -3,7 +3,7 @@ import AppShell from '@/modules/app/shared/AppShell';
 import { getAllProjects } from '@/modules/app/project/ProjectRepository';
 import TodayHeader from '@/modules/app/today/TodayHeader';
 import AddTask from '@/modules/app/task/AddTask';
-import { TaskListController } from '@/modules/app/task/TaskListController';
+import { TaskListApplication } from '@/modules/app/task/TaskListApplication';
 import { getAllTasksDueUntilToday } from '@/modules/app/task/TaskRepository';
 
 export default async function TodayPage() {
@@ -28,13 +28,13 @@ export default async function TodayPage() {
           {tasksOverdue.length > 0 && (
             <>
               <p className="text-xs font-semibold mb-4">Overdue</p>
-              <TaskListController tasks={tasksOverdue} />
+              <TaskListApplication tasks={tasksOverdue} />
             </>
           )}
           {tasksOverdue.length > 0 && tasksDueToday.length > 0 && (
             <p className="text-xs font-semibold mb-4">Today</p>
           )}
-          <TaskListController
+          <TaskListApplication
             addTask={
               <AddTask defaultDueDate={new Date()} project={projects[0]} projects={projects} />
             }
