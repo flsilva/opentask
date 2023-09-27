@@ -12,7 +12,7 @@ import {
   ProjectDto,
   UpdateProjectDto,
 } from '@/modules/app/project/ProjectDomain';
-import ProjectModal from '@/modules/app/project/ProjectModal';
+import ProjectModalApplication from '@/modules/app/project/ProjectModalApplication';
 import { createProject } from '@/modules/app/project/ProjectRepository';
 import SettingsModal from '@/modules/app/settings/SettingsModal';
 import { ConfirmationModal, ConfirmationModalProps } from './ConfirmationModal';
@@ -122,7 +122,7 @@ export default function AppShell({ children, projects }: AppShellProps) {
           </div>
         </div>
       </div>
-      <ProjectModal
+      <ProjectModalApplication
         open={isShowingProjectModal}
         onCloseHandler={onCloseProjectModal}
         onCreateProject={onCreateProject}

@@ -13,7 +13,7 @@ import { UnarchiveIcon } from '@/modules/shared/icon/UnarchiveIcon';
 import { ConfirmationModal, ConfirmationModalProps } from '@/modules/app/shared/ConfirmationModal';
 import { deleteProject, updateProject } from './ProjectRepository';
 import { CreateProjectDto, UpdateProjectDto, ProjectDto } from './ProjectDomain';
-import ProjectModal from './ProjectModal';
+import ProjectModalApplication from './ProjectModalApplication';
 
 export enum ProjectAction {
   Archive = 'Archive',
@@ -230,7 +230,7 @@ export default function ProjectHeader({ project }: ProjectHeaderProps) {
           <p className="mt-2 block whitespace-pre-line text-sm mb-8">This project is archived.</p>
         )}
       </div>
-      <ProjectModal
+      <ProjectModalApplication
         open={showProjectModal}
         onCloseHandler={onCloseProjectModal}
         onCreateProject={onCreateProject}
