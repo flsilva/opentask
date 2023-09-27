@@ -3,7 +3,7 @@ import TaskCheck, { TaskCheckSize } from './TaskCheck';
 import { formatTaskDueDate } from './task-utils';
 import { CalendarEventIcon } from '@/modules/shared/icon/CalendarEventIcon';
 
-interface TaskListItemProps {
+interface TaskListItemUIProps {
   readonly description: string;
   readonly dueDate: Date | null | undefined;
   readonly isCompleted: boolean | undefined;
@@ -12,14 +12,14 @@ interface TaskListItemProps {
   readonly onTaskClick: () => void;
 }
 
-export default function TaskListItem({
+export default function TaskListItemUI({
   description,
   dueDate,
   isCompleted,
   name,
   onCompleteTaskClick,
   onTaskClick,
-}: TaskListItemProps) {
+}: TaskListItemUIProps) {
   return (
     <div className="flex">
       <TaskCheck

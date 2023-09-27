@@ -1,18 +1,18 @@
 import { TaskDto } from './TaskDomain';
-import TaskListItem from './TaskListItem';
+import TaskListItemUI from './TaskListItemUI';
 
-interface TaskListProps {
+interface TaskListUIProps {
   readonly onCompleteTaskClick: (task: TaskDto) => void;
   readonly onTaskClick: (task: TaskDto) => void;
   readonly tasks: Array<TaskDto>;
 }
 
-export default function TaskList({ onCompleteTaskClick, onTaskClick, tasks }: TaskListProps) {
+export default function TaskListUI({ onCompleteTaskClick, onTaskClick, tasks }: TaskListUIProps) {
   return (
     <>
       {tasks.map((task) => (
         <div key={task.id} className="mb-8 flex last:mb-0">
-          <TaskListItem
+          <TaskListItemUI
             description={task.description || ''}
             dueDate={task.dueDate}
             isCompleted={task.isCompleted}

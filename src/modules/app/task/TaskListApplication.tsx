@@ -5,15 +5,15 @@ import { usePathname, useRouter } from 'next/navigation';
 import { ProjectDto } from '@/modules/app/project/ProjectDomain';
 import { updateTask } from './TaskRepository';
 import { TaskDto } from './TaskDomain';
-import TaskList from './TaskList';
+import TaskListUI from './TaskListUI';
 
-interface TodayPageTaskListProps {
+interface TaskListApplicationProps {
   readonly addTask?: React.ReactNode;
   readonly project?: ProjectDto | null;
   readonly tasks: Array<TaskDto>;
 }
 
-export const TaskListApplication = ({ addTask, project, tasks }: TodayPageTaskListProps) => {
+export const TaskListApplication = ({ addTask, project, tasks }: TaskListApplicationProps) => {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -42,7 +42,7 @@ export const TaskListApplication = ({ addTask, project, tasks }: TodayPageTaskLi
     <div className="flex flex-col">
       {uncompletedTasks.length > 0 && (
         <div className="flex flex-col pb-8">
-          <TaskList
+          <TaskListUI
             onCompleteTaskClick={onCompleteTaskClick}
             onTaskClick={onTaskClick}
             tasks={uncompletedTasks}
@@ -52,7 +52,7 @@ export const TaskListApplication = ({ addTask, project, tasks }: TodayPageTaskLi
       {addTask}
       {completedTasks.length > 0 && (
         <div className="flex flex-col py-8">
-          <TaskList
+          <TaskListUI
             onCompleteTaskClick={onUncompleteTaskClick}
             onTaskClick={onTaskClick}
             tasks={completedTasks}
