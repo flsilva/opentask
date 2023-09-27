@@ -1,6 +1,6 @@
 import 'server-only';
 import AppShell from '@/modules/app/shared/AppShell';
-import ProjectList from '@/modules/app/project/ProjectList';
+import ProjectListApplication from '@/modules/app/project/ProjectListApplication';
 import ProjectsHeader from '@/modules/app/project/ProjectsHeader';
 import { getAllProjects } from '@/modules/app/project/ProjectRepository';
 
@@ -9,7 +9,7 @@ export default async function ActiveProjectsPage() {
   return (
     <AppShell projects={projects}>
       <ProjectsHeader archived={false} />
-      <ProjectList projects={projects} />
+      <ProjectListApplication projects={projects} />
     </AppShell>
   );
 }

@@ -2,23 +2,17 @@
 
 import 'client-only';
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { Transition } from '@headlessui/react';
 import { ProjectDto } from './ProjectDomain';
 
-interface ProjectListProps {
+interface ProjectListUIProps {
+  readonly onProjectClick: (project: ProjectDto) => void;
   readonly projects: Array<ProjectDto>;
 }
 
-export default function ProjectList({ projects }: ProjectListProps) {
+export default function ProjectListUI({ onProjectClick, projects }: ProjectListUIProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const router = useRouter();
-
   useEffect(() => setIsOpen(true), []);
-
-  const onProjectClick = (project: ProjectDto) => {
-    router.push(`/app/project/${project.id}`);
-  };
 
   return (
     <Transition
