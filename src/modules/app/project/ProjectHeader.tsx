@@ -12,7 +12,7 @@ import { EditIcon } from '@/modules/shared/icon/EditIcon';
 import { UnarchiveIcon } from '@/modules/shared/icon/UnarchiveIcon';
 import { ConfirmationModal, ConfirmationModalProps } from '@/modules/app/shared/ConfirmationModal';
 import { deleteProject, updateProject } from './ProjectRepository';
-import { CreateProjectDto, UpdateProjectDto, ProjectDto } from './ProjectDomain';
+import { ProjectDto } from './ProjectDomain';
 import ProjectModalApplication from './ProjectModalApplication';
 
 export enum ProjectAction {
@@ -67,21 +67,6 @@ export default function ProjectHeader({ project }: ProjectHeaderProps) {
 
   const onCloseConfirmationModal = () => {
     setConfirmationModalProps(null);
-  };
-
-  const onCreateProject = (data: CreateProjectDto) => {
-    throw new Error('This operation should be handler by a different component.');
-  };
-
-  const onUpdateProject = async (data: UpdateProjectDto) => {
-    const project = await updateProject(data);
-    onCloseProjectModal();
-    /*
-     * This is necessary to refetch data and rerender the UI.
-     * Otherwise, data changes do not display in the UI.
-     */
-    router.refresh();
-    /**/
   };
 
   const archiveUnarchiveProjectHandler = (project: ProjectDto, archive: boolean) => {
@@ -233,8 +218,6 @@ export default function ProjectHeader({ project }: ProjectHeaderProps) {
       <ProjectModalApplication
         open={showProjectModal}
         onCloseHandler={onCloseProjectModal}
-        onCreateProject={onCreateProject}
-        onUpdateProject={onUpdateProject}
         project={project}
       />
       {confirmationModalProps && <ConfirmationModal {...confirmationModalProps} />}

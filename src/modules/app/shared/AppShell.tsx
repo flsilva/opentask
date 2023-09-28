@@ -1,19 +1,13 @@
 'use client';
 
 import { useLayoutEffect, useRef, useState } from 'react';
-import { useRouter } from 'next/navigation';
 
 import { ChildrenProps } from '@/modules/shared/ChildrenProps';
 import PwaPromptModal from '@/modules/shared/pwa/PwaPromptModal';
 import AppHeader from '@/modules/app/shared/AppHeader';
 import AppNav from '@/modules/app/shared/AppNav';
-import {
-  CreateProjectDto,
-  ProjectDto,
-  UpdateProjectDto,
-} from '@/modules/app/project/ProjectDomain';
+import { ProjectDto } from '@/modules/app/project/ProjectDomain';
 import ProjectModalApplication from '@/modules/app/project/ProjectModalApplication';
-import { createProject } from '@/modules/app/project/ProjectRepository';
 import SettingsModal from '@/modules/app/settings/SettingsModal';
 import { ConfirmationModal, ConfirmationModalProps } from './ConfirmationModal';
 import { deleteUserAccount } from '@/modules/app/user/user-model';
@@ -30,26 +24,9 @@ export default function AppShell({ children, projects }: AppShellProps) {
     useState<ConfirmationModalProps | null>(null);
 
   const headerRef = useRef<HTMLElement>(null);
-  const router = useRouter();
 
   const onCloseProjectModal = () => {
     setIsShowingProjectModal(false);
-  };
-
-  const onCreateProject = async (data: CreateProjectDto) => {
-    const project = await createProject(data);
-    onCloseProjectModal();
-    router.push(`/app/project/${project.id}`);
-    /*
-     * This is necessary to refetch data and rerender the UI.
-     * Otherwise, data changes do not display in the UI.
-     */
-    router.refresh();
-    /**/
-  };
-
-  const onUpdateProject = async (data: UpdateProjectDto) => {
-    throw new Error('This operation should be handler by a different component.');
   };
 
   const noProjectsMessage = () => (
@@ -122,12 +99,7 @@ export default function AppShell({ children, projects }: AppShellProps) {
           </div>
         </div>
       </div>
-      <ProjectModalApplication
-        open={isShowingProjectModal}
-        onCloseHandler={onCloseProjectModal}
-        onCreateProject={onCreateProject}
-        onUpdateProject={onUpdateProject}
-      />
+      <ProjectModalApplication open={isShowingProjectModal} onCloseHandler={onCloseProjectModal} />
       <SettingsModal
         open={isShowingSettingsModal}
         onCloseModal={onCloseSettingsModal}
