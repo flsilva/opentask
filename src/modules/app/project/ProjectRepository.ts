@@ -1,13 +1,15 @@
 'use server';
 
+import { z } from 'zod';
 import { cuid2, prisma } from '@/modules/app/shared/utils/model-utils';
 import { getSessionOrThrow } from '@/modules/app/shared/utils/session-utils';
-import {
-  CreateProjectDto,
-  createProjectSchema,
-  UpdateProjectDto,
-  updateProjectSchema,
-} from './ProjectDomain';
+import { createProjectSchema, updateProjectSchema } from './ProjectDomain';
+
+export type CreateProjectDto = z.infer<typeof createProjectSchema>;
+
+export type UpdateProjectDto = z.infer<typeof updateProjectSchema>;
+
+export type ProjectDto = UpdateProjectDto;
 
 export const createProject = async (data: CreateProjectDto) => {
   createProjectSchema.parse(data);

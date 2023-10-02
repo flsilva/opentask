@@ -6,7 +6,7 @@ import { ChildrenProps } from '@/modules/shared/ChildrenProps';
 import PwaPromptModal from '@/modules/shared/pwa/PwaPromptModal';
 import AppHeader from '@/modules/app/shared/AppHeader';
 import AppNav from '@/modules/app/shared/AppNav';
-import { ProjectDto } from '@/modules/app/project/ProjectDomain';
+import { ProjectDto } from '@/modules/app/project/ProjectRepository';
 import ProjectModalApplication from '@/modules/app/project/ProjectModalApplication';
 import SettingsModal from '@/modules/app/settings/SettingsModal';
 import { ConfirmationModal, ConfirmationModalProps } from './ConfirmationModal';

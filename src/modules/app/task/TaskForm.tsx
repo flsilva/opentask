@@ -14,16 +14,10 @@ import { ExpandMoreIcon } from '@/modules/shared/icon/ExpandMoreIcon';
 import DropdownMenu from '@/modules/shared/dropdown/DropdownMenu';
 import { useAutoFocus } from '@/modules/shared/utils/useAutoFocus';
 import { useKeyboardEvent } from '@/modules/shared/utils/useKeyboardEvent';
-import { ProjectDto } from '@/modules/app/project/ProjectDomain';
-import {
-  CreateTaskDto,
-  createTaskSchema,
-  TaskDto,
-  UpdateTaskDto,
-  updateTaskSchema,
-} from './TaskDomain';
+import { ProjectDto } from '@/modules/app/project/ProjectRepository';
+import { createTaskSchema, updateTaskSchema } from './TaskDomain';
 import TaskDueDatePicker from './TaskDueDatePicker';
-import { createTask, updateTask } from './TaskRepository';
+import { createTask, updateTask, CreateTaskDto, TaskDto, UpdateTaskDto } from './TaskRepository';
 import TaskCheck, { TaskCheckSize } from './TaskCheck';
 
 interface TaskFormProps extends ClassNamePropsOptional {

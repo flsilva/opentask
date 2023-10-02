@@ -23,8 +23,6 @@ export const createTaskSchema = z.object({
     .cuid2({ message: 'Invalid task projectId.' }),
 });
 
-export type CreateTaskDto = z.infer<typeof createTaskSchema>;
-
 export const updateTaskSchema = createTaskSchema.extend({
   id: z
     .string({
@@ -53,16 +51,3 @@ export const updateTaskSchema = createTaskSchema.extend({
     .cuid2({ message: 'Invalid task projectId.' })
     .optional(),
 });
-
-export type UpdateTaskDto = z.infer<typeof updateTaskSchema>;
-
-const taskSchema = createTaskSchema.extend({
-  id: z
-    .string({
-      required_error: 'Cannot update a task without its id.',
-      invalid_type_error: 'The task id must be a string.',
-    })
-    .cuid2({ message: 'Invalid task ID.' }),
-});
-
-export type TaskDto = z.infer<typeof taskSchema>;

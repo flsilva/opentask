@@ -11,8 +11,7 @@ import { DeleteIcon } from '@/modules/shared/icon/DeleteIcon';
 import { EditIcon } from '@/modules/shared/icon/EditIcon';
 import { UnarchiveIcon } from '@/modules/shared/icon/UnarchiveIcon';
 import { ConfirmationModal, ConfirmationModalProps } from '@/modules/app/shared/ConfirmationModal';
-import { deleteProject, updateProject } from './ProjectRepository';
-import { ProjectDto } from './ProjectDomain';
+import { deleteProject, updateProject, ProjectDto } from './ProjectRepository';
 import ProjectModalApplication from './ProjectModalApplication';
 
 export enum ProjectAction {

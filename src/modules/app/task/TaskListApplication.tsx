@@ -2,9 +2,8 @@
 
 import 'client-only';
 import { usePathname, useRouter } from 'next/navigation';
-import { ProjectDto } from '@/modules/app/project/ProjectDomain';
-import { updateTask } from './TaskRepository';
-import { TaskDto } from './TaskDomain';
+import { ProjectDto } from '@/modules/app/project/ProjectRepository';
+import { updateTask, TaskDto } from './TaskRepository';
 import TaskListUI from './TaskListUI';
 
 interface TaskListApplicationProps {

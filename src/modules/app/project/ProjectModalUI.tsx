@@ -3,7 +3,7 @@
 import { ChildrenProps } from '@/modules/shared/ChildrenProps';
 import ModalUI from '@/modules/shared/modal/ModalUI';
 import { XIcon } from '@/modules/shared/icon/XIcon';
-import { ProjectDto } from './ProjectDomain';
+import { ProjectDto } from './ProjectRepository';
 
 interface ProjectModalUIProps extends ChildrenProps {
   readonly inputNameRef: React.MutableRefObject<HTMLInputElement | null>;

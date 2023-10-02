@@ -6,10 +6,9 @@ import { Dialog, Transition } from '@headlessui/react';
 import { XIcon } from '@/modules/shared/icon/XIcon';
 import { DeleteIcon } from '@/modules/shared/icon/DeleteIcon';
 import { ConfirmationModal, ConfirmationModalProps } from '@/modules/app/shared/ConfirmationModal';
-import { ProjectDto } from '@/modules/app/project/ProjectDomain';
+import { ProjectDto } from '@/modules/app/project/ProjectRepository';
 import TaskForm from './TaskForm';
-import { TaskDto } from './TaskDomain';
-import { deleteTask } from './TaskRepository';
+import { deleteTask, TaskDto } from './TaskRepository';
 
 interface TaskModalModalProps {
   readonly isOpen: boolean;

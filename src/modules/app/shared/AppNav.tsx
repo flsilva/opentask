@@ -6,7 +6,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { CalendarTodayIcon } from '@/modules/shared/icon/CalendarTodayIcon';
 import { PlusSignalIcon } from '@/modules/shared/icon/PlusSignalIcon';
 import { ProjectsIcon } from '@/modules/shared/icon/ProjectsIcon';
-import { ProjectDto } from '@/modules/app/project/ProjectDomain';
+import { ProjectDto } from '@/modules/app/project/ProjectRepository';
 
 interface AppNavProps {
   readonly isOpen: boolean | null;

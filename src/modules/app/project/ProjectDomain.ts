@@ -16,8 +16,6 @@ export const createProjectSchema = z.object({
   isArchived: z.boolean().optional(),
 });
 
-export type CreateProjectDto = z.infer<typeof createProjectSchema>;
-
 export const updateProjectSchema = createProjectSchema.extend({
   id: z
     .string({
@@ -26,7 +24,3 @@ export const updateProjectSchema = createProjectSchema.extend({
     })
     .cuid2({ message: 'Invalid project ID.' }),
 });
-
-export type UpdateProjectDto = z.infer<typeof updateProjectSchema>;
-
-export type ProjectDto = UpdateProjectDto;

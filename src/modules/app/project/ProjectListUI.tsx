@@ -3,7 +3,7 @@
 import 'client-only';
 import { useEffect, useState } from 'react';
 import { Transition } from '@headlessui/react';
-import { ProjectDto } from './ProjectDomain';
+import { ProjectDto } from './ProjectRepository';
 
 interface ProjectListUIProps {
   readonly onProjectClick: (project: ProjectDto) => void;

@@ -1,4 +1,4 @@
-import { TaskDto } from './TaskDomain';
+import { TaskDto } from './TaskRepository';
 import TaskListItemUI from './TaskListItemUI';
 
 interface TaskListUIProps {

@@ -1,8 +1,8 @@
 'use client';
 
 import { useRef } from 'react';
-import { ProjectDto } from './ProjectDomain';
 import ProjectModalUI from './ProjectModalUI';
+import { ProjectDto } from './ProjectRepository';
 import ProjectFormApplication from './ProjectFormApplication';
 
 interface ProjectModalApplicationProps {
