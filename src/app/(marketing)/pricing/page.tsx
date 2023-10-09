@@ -1,6 +1,6 @@
 import 'server-only';
 import Link from 'next/link';
-import { buttonClassNameGreen } from '@/modules/shared//button/buttonClassName';
+import { buttonClassNameGreen } from '@/modules/shared/controls/button/buttonClassName';
 import HeroShell from '@/modules/marketing/shared/HeroShell';
 import HeroHeading from '@/modules/marketing/shared/HeroHeading';
 import HeroCopy from '@/modules/marketing/shared/HeroCopy';

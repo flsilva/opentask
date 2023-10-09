@@ -9,9 +9,9 @@ import { ClassNamePropsOptional } from '@/modules/shared/ClassNameProps';
 import {
   buttonClassNameGreen,
   buttonClassNameWhite,
-} from '@/modules/shared//button/buttonClassName';
+} from '@/modules/shared/controls/button/buttonClassName';
 import { ExpandMoreIcon } from '@/modules/shared/icon/ExpandMoreIcon';
-import DropdownMenu from '@/modules/shared/dropdown/DropdownMenu';
+import DropdownMenu from '@/modules/shared/controls/dropdown/DropdownMenu';
 import { useAutoFocus } from '@/modules/shared/utils/useAutoFocus';
 import { useKeyboardEvent } from '@/modules/shared/utils/useKeyboardEvent';
 import { ProjectDto } from '@/modules/app/project/ProjectRepository';

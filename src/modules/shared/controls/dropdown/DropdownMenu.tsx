@@ -1,6 +1,6 @@
-import { Menu, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
-import { ClassNamePropsOptional } from '../ClassNameProps';
+import { Menu, Transition } from '@headlessui/react';
+import { ClassNamePropsOptional } from '../../ClassNameProps';
 
 interface DropdownMenuProps extends ClassNamePropsOptional {
   readonly items: React.ReactNode;

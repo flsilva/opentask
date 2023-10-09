@@ -3,7 +3,7 @@
 import {
   buttonClassNameGreen,
   buttonClassNameWhite,
-} from '@/modules/shared/button/buttonClassName';
+} from '@/modules/shared/controls/button/buttonClassName';
 
 interface ProjectFormUIProps {
   readonly description: string;

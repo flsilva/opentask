@@ -3,7 +3,7 @@
 import 'client-only';
 import { useState } from 'react';
 import { Transition } from '@headlessui/react';
-import { buttonClassNameLink } from '@/modules/shared//button/buttonClassName';
+import { buttonClassNameLink } from '@/modules/shared/controls/button/buttonClassName';
 import { PlusSignalIcon } from '@/modules/shared/icon/PlusSignalIcon';
 import { ProjectDto } from '@/modules/app/project/ProjectRepository';
 import TaskForm from './TaskForm';

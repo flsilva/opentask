@@ -2,7 +2,7 @@
 
 import 'client-only';
 import { useRouter } from 'next/navigation';
-import { Switch } from '@/modules/shared/switch/Switch';
+import { Switch } from '@/modules/shared/controls/switch/Switch';
 
 interface ProjectsHeaderProps {
   readonly archived: boolean;

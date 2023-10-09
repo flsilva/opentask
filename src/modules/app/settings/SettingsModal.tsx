@@ -4,7 +4,7 @@ import 'client-only';
 import { Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { XIcon } from '@/modules/shared/icon/XIcon';
-import { buttonClassNameRed } from '@/modules/shared/button/buttonClassName';
+import { buttonClassNameRed } from '@/modules/shared/controls/button/buttonClassName';
 
 interface SettingsModalProps {
   readonly onCloseModal: () => void;

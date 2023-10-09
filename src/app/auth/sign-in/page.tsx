@@ -6,7 +6,7 @@ import { Database } from '@/lib/database.types';
 import {
   buttonClassNameGreen,
   buttonClassNameWhite,
-} from '@/modules/shared//button/buttonClassName';
+} from '@/modules/shared//controls/button/buttonClassName';
 import { ChildrenProps } from '@/modules/shared/ChildrenProps';
 import { GitHubLogoIcon } from '@/modules/shared/icon/GitHubLogoIcon';
 import { LinkedInInLogoIcon } from '@/modules/shared/icon/LinkedInInLogoIcon';

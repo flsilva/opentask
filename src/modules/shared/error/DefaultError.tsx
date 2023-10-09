@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { buttonClassNameGreen } from '../button/buttonClassName';
+import { buttonClassNameGreen } from '../controls/button/buttonClassName';
 
 export default function DefaultError({ error, reset }: { error: Error; reset: () => void }) {
   useEffect(() => {

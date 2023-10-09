@@ -6,7 +6,7 @@ import { XIcon } from '@/modules/shared/icon/XIcon';
 import {
   buttonClassNameGreen,
   buttonClassNameWhite,
-} from '@/modules/shared/button/buttonClassName';
+} from '@/modules/shared/controls/button/buttonClassName';
 
 export interface ConfirmationModalProps {
   readonly cancelButtonLabel?: string;

@@ -4,7 +4,7 @@ import 'client-only';
 import { Fragment, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Menu } from '@headlessui/react';
-import DropdownMenu from '@/modules/shared/dropdown/DropdownMenu';
+import DropdownMenu from '@/modules/shared/controls/dropdown/DropdownMenu';
 import { MoreHorizontalIcon } from '@/modules/shared/icon/MoreHorizontalIcon';
 import { ArchiveIcon } from '@/modules/shared/icon/ArchiveIcon';
 import { DeleteIcon } from '@/modules/shared/icon/DeleteIcon';

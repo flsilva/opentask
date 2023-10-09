@@ -5,7 +5,7 @@ import { forwardRef, Fragment, useContext } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Menu } from '@headlessui/react';
-import DropdownMenu from '@/modules/shared/dropdown/DropdownMenu';
+import DropdownMenu from '@/modules/shared/controls/dropdown/DropdownMenu';
 import { HamburgerMenuIcon } from '@/modules/shared/icon/HamburgerMenuIcon';
 import { LogoutIcon } from '@/modules/shared/icon/LogoutIcon';
 import { PersonIcon } from '@/modules/shared/icon/PersonIcon';

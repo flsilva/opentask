@@ -4,7 +4,7 @@ import 'client-only';
 import { Fragment, useContext, useEffect, useState } from 'react';
 import { UAParser } from 'ua-parser-js';
 import { Dialog, Transition } from '@headlessui/react';
-import { buttonClassNameGreen } from '@/modules/shared/button/buttonClassName';
+import { buttonClassNameGreen } from '@/modules/shared/controls/button/buttonClassName';
 import { IOSAddIcon } from '@/modules/shared/icon/IOSAddIcon';
 import { IOSShareIcon } from '@/modules/shared/icon/IOSShareIcon';
 import { XIcon } from '@/modules/shared/icon/XIcon';
