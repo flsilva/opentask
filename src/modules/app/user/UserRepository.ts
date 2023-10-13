@@ -7,6 +7,11 @@ import { Database } from '@/lib/database.types';
 import { prisma } from '@/modules/app/shared/utils/model-utils';
 import { getSessionOrThrow } from '@/modules/app/shared/utils/session-utils';
 
+export interface UserDto {
+  readonly email: string;
+  readonly name: string;
+}
+
 export const deleteUserAccount = async () => {
   const {
     user: { id },
@@ -14,15 +19,20 @@ export const deleteUserAccount = async () => {
 
   try {
     await prisma.user.delete({ where: { id } });
+    signOut();
   } catch (error) {
     console.log(error);
   }
+};
 
+export const signOut = async () => {
   const supabase = createServerActionClient<Database>({ cookies });
+
   try {
     return await supabase.auth.signOut();
   } catch (error) {
     console.log(error);
-    redirect('/');
   }
+
+  redirect('/');
 };

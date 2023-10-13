@@ -10,7 +10,7 @@ import { ProjectDto } from '@/modules/app/project/ProjectRepository';
 import ProjectModalApplication from '@/modules/app/project/ProjectModalApplication';
 import SettingsModal from '@/modules/app/settings/SettingsModal';
 import { ConfirmationModal, ConfirmationModalProps } from './ConfirmationModal';
-import { deleteUserAccount } from '@/modules/app/user/user-model';
+import { deleteUserAccount } from '@/modules/app/user/UserRepository';
 
 interface AppShellProps extends ChildrenProps {
   readonly projects: Array<ProjectDto>;

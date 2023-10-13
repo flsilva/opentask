@@ -2,15 +2,14 @@
 
 import 'client-only';
 import { forwardRef, Fragment, useContext } from 'react';
-import { useRouter } from 'next/navigation';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Menu } from '@headlessui/react';
 import DropdownMenu from '@/modules/shared/controls/dropdown/DropdownMenu';
 import { HamburgerMenuIcon } from '@/modules/shared/icon/HamburgerMenuIcon';
 import { LogoutIcon } from '@/modules/shared/icon/LogoutIcon';
 import { PersonIcon } from '@/modules/shared/icon/PersonIcon';
 import { SettingsIcon } from '@/modules/shared/icon/SettingsIcon';
-import { UserSessionContext } from '@/modules/app/user/UserSessionProvider';
+import { UserContext } from '@/modules/app/user/UserProvider';
+import { signOut } from '../user/UserRepository';
 
 interface AppHeaderProps {
   readonly onMenuButtonClick: () => void;
@@ -43,16 +42,12 @@ const settingsItems: Array<SettingsItem> = [
 
 const AppHeader = forwardRef<HTMLElement, AppHeaderProps>(
   ({ onMenuButtonClick, onSettingsButtonClick }: AppHeaderProps, ref) => {
-    const wrappedUserSession = useContext(UserSessionContext);
-    const router = useRouter();
-    const supabase = createClientComponentClient();
+    const user = useContext(UserContext);
 
     const onSettingsActionClick = async (action: SettingsAction) => {
       switch (action) {
         case SettingsAction.Logout:
-          wrappedUserSession.logout();
-          await supabase.auth.signOut();
-          router.push('/');
+          signOut();
           break;
         case SettingsAction.Settings:
           onSettingsButtonClick();
@@ -86,7 +81,7 @@ const AppHeader = forwardRef<HTMLElement, AppHeaderProps>(
       ));
       items.unshift(
         <p key="user" className="truncate p-2 text-sm">
-          Hello, {wrappedUserSession.getUserName()}
+          Hello, {user.name}
         </p>,
       );
       return items;
