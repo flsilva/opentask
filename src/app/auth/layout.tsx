@@ -2,7 +2,7 @@ import '../globals.css';
 import { Logo } from '@/modules/shared/logo/Logo';
 import Footer from '@/modules/marketing/shared/Footer';
 
-export default function MarketingLayout({ children }: { children: React.ReactNode }) {
+export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <div className="mt-8 flex flex-1 flex-col bg-white px-4 md:mt-12">

@@ -5,7 +5,7 @@ import HeroShell from '@/modules/marketing/shared/HeroShell';
 import HeroHeading from '@/modules/marketing/shared/HeroHeading';
 import HeroCopy from '@/modules/marketing/shared/HeroCopy';
 
-export default function Pricing() {
+export default function PricingPage() {
   return (
     <HeroShell className="pt-16 sm:pt-32 lg:pt-38">
       <HeroHeading>

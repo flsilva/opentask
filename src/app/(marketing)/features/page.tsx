@@ -12,7 +12,7 @@ import imgFeatures04 from './features-img-04.png';
 import imgFeatures05 from './features-img-05.png';
 import imgFeatures06 from './features-img-06.png';
 
-export default function Features() {
+export default function FeaturesPage() {
   return (
     <HeroShell className="pt-24 sm:pt-36 lg:pt-42">
       <HeroHeading>

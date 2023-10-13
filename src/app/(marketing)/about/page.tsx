@@ -4,7 +4,7 @@ import HeroHeading from '@/modules/marketing/shared/HeroHeading';
 import HeroCopy from '@/modules/marketing/shared/HeroCopy';
 import AboutMDX from './about.mdx';
 
-export default function About() {
+export default function AboutPage() {
   return (
     <HeroShell className="pt-12 sm:pt-20 lg:pt-20">
       <HeroHeading>

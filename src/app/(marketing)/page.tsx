@@ -5,7 +5,7 @@ import HeroShell from '@/modules/marketing/shared/HeroShell';
 import HeroHeading from '@/modules/marketing/shared/HeroHeading';
 import HeroCopy from '@/modules/marketing/shared/HeroCopy';
 
-export default function Home() {
+export default function LandingPage() {
   return (
     <HeroShell className="pt-24 sm:pt-36 lg:pt-42">
       <HeroHeading>
