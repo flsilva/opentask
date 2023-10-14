@@ -1,5 +1,4 @@
 import 'server-only';
-import AppShell from '@/modules/app/shared/AppShell';
 import { getAllProjects } from '@/modules/app/project/ProjectRepository';
 import TodayHeader from '@/modules/app/today/TodayHeader';
 import AddTask from '@/modules/app/task/AddTask';
@@ -16,7 +15,7 @@ export default async function TodayPage() {
   );
 
   return (
-    <AppShell projects={projects}>
+    <>
       <TodayHeader />
       {projects.length > 0 && tasks.length < 1 && (
         <p className="mb-12 text-sm font-medium text-gray-600">
@@ -42,6 +41,6 @@ export default async function TodayPage() {
           />
         </>
       )}
-    </AppShell>
+    </>
   );
 }

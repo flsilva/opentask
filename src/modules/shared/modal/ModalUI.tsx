@@ -30,7 +30,7 @@ export default function ModalUI({ children, initialFocusRef, onCloseHandler, ope
         >
           <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
         </Transition.Child>
-        <div className="fixed inset-0 flex md:items-center">
+        <div className="flex fixed inset-0 md:items-center">
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -40,7 +40,7 @@ export default function ModalUI({ children, initialFocusRef, onCloseHandler, ope
             leaveFrom="opacity-100 translate-y-0 md:scale-100"
             leaveTo="opacity-0 translate-y-[200px] md:translate-y-0 md:scale-95"
           >
-            <Dialog.Panel className="mx-auto w-full rounded-lg bg-white p-4 md:w-[40rem]">
+            <Dialog.Panel className="flex flex-col mx-auto w-full rounded-lg bg-white p-4 md:w-[40rem]">
               {children}
             </Dialog.Panel>
           </Transition.Child>

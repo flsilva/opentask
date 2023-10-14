@@ -1,29 +1,30 @@
 'use client';
 
 import 'client-only';
-import { useLayoutEffect, useState } from 'react';
+import { useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { CalendarTodayIcon } from '@/modules/shared/icon/CalendarTodayIcon';
 import { PlusSignalIcon } from '@/modules/shared/icon/PlusSignalIcon';
 import { ProjectsIcon } from '@/modules/shared/icon/ProjectsIcon';
 import { ProjectDto } from '@/modules/app/project/ProjectRepository';
+import ProjectModalApplication from '../project/ProjectModalApplication';
 
 interface AppNavProps {
-  readonly isOpen: boolean | null;
-  readonly onNewProjectClick: () => void;
   readonly projects: Array<ProjectDto>;
 }
 
-export default function AppNav({ isOpen, onNewProjectClick, projects }: AppNavProps) {
-  const navClassesCommon =
-    'flex flex-col h-full transition-all duration-500 overflow-y-auto overflow-x-hidden bg-gray-50 px-4 py-4 w-80';
-  const [navClasses, setNavClasses] = useState(`${navClassesCommon} md:ml-0 -ml-80`);
+export default function AppNav({ projects }: AppNavProps) {
   const router = useRouter();
   const pathname = usePathname();
+  const [isShowingProjectModal, setIsShowingProjectModal] = useState(false);
 
   const activeClassName = 'bg-gray-200';
 
   const isActive = (item: string) => pathname.lastIndexOf(item) !== -1;
+
+  const onCloseProjectModal = () => {
+    setIsShowingProjectModal(false);
+  };
 
   const onTodayClick = () => {
     router.push('/app/today');
@@ -37,18 +38,11 @@ export default function AppNav({ isOpen, onNewProjectClick, projects }: AppNavPr
     router.push(`/app/project/${project.id}`);
   };
 
-  useLayoutEffect(() => {
-    if (isOpen === null) return;
-    let navClasses = navClassesCommon;
-    navClasses += isOpen ? ' ml-0' : ' -ml-80';
-    setNavClasses(navClasses);
-  }, [isOpen]);
-
   return (
-    <nav className={navClasses}>
+    <nav className="flex flex-col h-full overflow-y-auto overflow-x-hidden bg-gray-50 px-4 py-4 lg:w-80">
       <button
         type="button"
-        className={`flex rounded-md p-2 text-sm font-medium text-gray-600 hover:bg-gray-200 ${
+        className={`flex rounded-md p-2 text-base lg:text-sm font-medium text-gray-600 hover:bg-gray-200 ${
           isActive('today') ? activeClassName : ''
         }`}
         onClick={onTodayClick}
@@ -59,7 +53,7 @@ export default function AppNav({ isOpen, onNewProjectClick, projects }: AppNavPr
       <div className="mt-4 flex justify-between">
         <button
           type="button"
-          className={`flex grow rounded-md p-2 text-sm font-medium text-gray-600 hover:bg-gray-200 ${
+          className={`flex grow rounded-md p-2 text-base lg:text-sm font-medium text-gray-600 hover:bg-gray-200 ${
             isActive('projects') ? activeClassName : ''
           }`}
           onClick={onProjectsClick}
@@ -70,20 +64,20 @@ export default function AppNav({ isOpen, onNewProjectClick, projects }: AppNavPr
         <button
           type="button"
           className="rounded-md p-2 text-gray-700 hover:bg-gray-200"
-          onClick={onNewProjectClick}
+          onClick={() => setIsShowingProjectModal(true)}
         >
           <span className="sr-only">Open menu</span>
           <PlusSignalIcon className="fill-gray-600" />
         </button>
       </div>
-      <nav className="flex flex-col pl-2">
+      <nav className="flex flex-col">
         {projects &&
           projects.length > 0 &&
           projects.map((project) => (
             <button
               key={project.id}
               type="button"
-              className={`flex grow items-center rounded-md p-2.5 text-sm font-medium text-gray-600 hover:bg-gray-200 ${
+              className={`flex grow items-center rounded-none lg:rounded-md py-2.5 pl-9 text-base lg:text-sm text-gray-600 hover:bg-gray-200 border-b lg:border-b-0 ${
                 isActive(`project/${project.id}`) ? activeClassName : ''
               }`}
               onClick={() => onProjectClick(project)}
@@ -96,6 +90,7 @@ export default function AppNav({ isOpen, onNewProjectClick, projects }: AppNavPr
           <p className="mt-4 text-sm font-medium text-gray-600">No projects</p>
         )}
       </nav>
+      <ProjectModalApplication open={isShowingProjectModal} onCloseHandler={onCloseProjectModal} />
     </nav>
   );
 }

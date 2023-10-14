@@ -1,5 +1,4 @@
 import 'server-only';
-import AppShell from '@/modules/app/shared/AppShell';
 import { getAllProjects } from '@/modules/app/project/ProjectRepository';
 import AddTask from '@/modules/app/task/AddTask';
 import TaskModal from '@/modules/app/task/TaskModal';
@@ -25,9 +24,9 @@ export default async function TodayTaskPage({ params: { taskId } }: TodayTaskPag
   );
 
   return (
-    <AppShell projects={projects}>
+    <>
       <TodayHeader />
-      {tasks.length < 1 && projects.length > 0 && (
+      {projects.length > 0 && tasks.length < 1 && (
         <p className="mb-12 text-sm font-medium text-gray-600">
           No tasks due today. Enjoy your day!
         </p>
@@ -52,6 +51,6 @@ export default async function TodayTaskPage({ params: { taskId } }: TodayTaskPag
         </>
       )}
       {task && <TaskModal isOpen={true} project={task.project} projects={projects} task={task} />}
-    </AppShell>
+    </>
   );
 }

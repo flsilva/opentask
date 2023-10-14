@@ -1,19 +1,32 @@
-import Link from 'next/link';
 import { LogoIcon } from './LogoIcon';
 
 interface LogoProps {
-  readonly fillColor?: string;
-  readonly textColor?: string;
+  readonly color?: 'green' | 'white';
+  readonly displayText?: boolean;
+  readonly height?: string;
+  readonly width?: string;
 }
 
-export const Logo = ({ fillColor = 'fill-green-700', textColor = 'text-green-700' }: LogoProps) => (
+export const Logo = ({
+  color = 'green',
+  height = '2rem',
+  displayText = false,
+  width = '2rem',
+}: LogoProps) => (
   <div className="flex flex-row">
-    <Link href="/" className="-m-1.5 p-1.5">
-      <span className="sr-only">Open Task</span>
-      <LogoIcon className={fillColor} />
-    </Link>
-    <Link href="/" className="-m-1.5 p-1.5">
-      <h1 className={`ml-2 text-lg font-semibold leading-8 ${textColor}`}>OpenTask</h1>
-    </Link>
+    <LogoIcon
+      className={color === 'green' ? 'fill-green-700' : 'fill-gray-50'}
+      height={height}
+      width={width}
+    />
+    {displayText && (
+      <h1
+        className={`ml-2 text-lg font-semibold leading-8 ${
+          color === 'green' ? 'text-green-700' : 'text-gray-50'
+        }`}
+      >
+        OpenTask
+      </h1>
+    )}
   </div>
 );

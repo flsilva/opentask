@@ -15,7 +15,10 @@ export default function Header() {
       <nav className="flex flex-col grow justify-between p-6 lg:px-8" aria-label="Global">
         <div className="flex items-center justify-between">
           <div className="flex lg:flex-1">
-            <Logo />
+            <Link href="/" className="-m-1.5 p-1.5">
+              <span className="sr-only">Open Task</span>
+              <Logo displayText />
+            </Link>
           </div>
           {!isMobileMenuOpen && (
             <button

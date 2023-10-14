@@ -1,5 +1,4 @@
 import 'server-only';
-import AppShell from '@/modules/app/shared/AppShell';
 import ProjectHeader from '@/modules/app/project/ProjectHeader';
 import { getAllProjects, getProjectById } from '@/modules/app/project/ProjectRepository';
 import AddTask from '@/modules/app/task/AddTask';
@@ -18,7 +17,7 @@ export default async function ProjectPage({ params: { projectId } }: ProjectPage
   if (!project) return;
 
   return (
-    <AppShell projects={projects}>
+    <>
       <ProjectHeader project={project} />
       {project.tasks.length < 1 && (
         <p className="mb-12 text-sm font-medium text-gray-600">No tasks in this project.</p>
@@ -28,6 +27,6 @@ export default async function ProjectPage({ params: { projectId } }: ProjectPage
         project={project}
         tasks={project.tasks}
       />
-    </AppShell>
+    </>
   );
 }
