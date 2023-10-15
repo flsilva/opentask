@@ -4,7 +4,6 @@ import { cookies } from 'next/headers';
 import { createServerActionClient } from '@supabase/auth-helpers-nextjs';
 import { Database } from '@/lib/database.types';
 import { prisma } from '@/modules/app/shared/utils/model-utils';
-import { getSessionOrThrow } from '@/modules/app/shared/utils/session-utils';
 
 export interface UserDto {
   readonly email: string;
@@ -14,7 +13,7 @@ export interface UserDto {
 export const deleteUserAccount = async () => {
   const {
     user: { id },
-  } = await getSessionOrThrow();
+  } = await getUserSession();
 
   try {
     await prisma.user.delete({ where: { id } });
@@ -23,6 +22,52 @@ export const deleteUserAccount = async () => {
   } catch (error) {
     console.log(error);
   }
+};
+
+const getUserSession = async () => {
+  const supabase = createServerActionClient<Database>({ cookies });
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  if (
+    session === null ||
+    session === undefined ||
+    session.user === null ||
+    session.user === undefined ||
+    typeof session.user.id !== 'string' ||
+    session.user.id === ''
+  )
+    throw new Error('Your session has expired. Please sign in again.');
+
+  return session;
+};
+
+/*
+ * We don't expose user's id to the client because it doesn't need it.
+ */
+export const getUser = async () => {
+  const {
+    user: { user_metadata, email },
+  } = await getUserSession();
+  const name = user_metadata && typeof user_metadata.name === 'string' ? user_metadata.name : email;
+
+  const userDto: UserDto = {
+    email: email || '',
+    name: name || '',
+  };
+
+  return userDto;
+};
+
+/*
+ * We have this extra function to be called by server side code only.
+ */
+export const getUserId = async () => {
+  const {
+    user: { id },
+  } = await getUserSession();
+  return id;
 };
 
 export const signOut = async () => {

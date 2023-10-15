@@ -1,26 +1,23 @@
-import { Session } from '@supabase/supabase-js';
 import { redirect } from 'next/navigation';
 import { UserProvider } from '@/modules/app/user/UserProvider';
-import { getSessionOrThrow } from '@/modules/app/shared/utils/session-utils';
+import { UserDto, getUser } from '@/modules/app/user/UserRepository';
 import { AppHeader } from '@/modules/app/shared/AppHeader';
 import PwaPromptModal from '@/modules/shared/pwa/PwaPromptModal';
-import AppNav from '@/modules/app/shared/AppNav';
+import { AppNav } from '@/modules/app/shared/AppNav';
 import { getAllProjects } from '@/modules/app/project/ProjectRepository';
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
-  let session: Session;
-
+  let user: UserDto;
   try {
-    session = await getSessionOrThrow();
+    user = await getUser();
   } catch {
-    // log error
     redirect('/auth/sign-in');
   }
 
   const projects = await getAllProjects();
 
   return (
-    <UserProvider session={session}>
+    <UserProvider user={user}>
       <div className="flex flex-col h-full overflow-hidden bg-white">
         <AppHeader />
         <div className="flex h-full overflow-hidden">

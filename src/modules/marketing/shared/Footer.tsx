@@ -6,7 +6,7 @@ export default function Footer() {
     <footer>
       <div className="items-center bg-gray-100 px-6 py-6 md:flex md:justify-between lg:px-8">
         <p className="text-center text-sm md:text-left">
-          © OpenTask.app
+          © OpenTask
           <span className="ml-3">|</span>
           <Link href="/privacy" className=" hover:text-green-500 ml-3">
             Privacy

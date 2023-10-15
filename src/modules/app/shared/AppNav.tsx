@@ -13,7 +13,7 @@ interface AppNavProps {
   readonly projects: Array<ProjectDto>;
 }
 
-export default function AppNav({ projects }: AppNavProps) {
+export const AppNav = ({ projects }: AppNavProps) => {
   const router = useRouter();
   const pathname = usePathname();
   const [isShowingProjectModal, setIsShowingProjectModal] = useState(false);
@@ -93,4 +93,4 @@ export default function AppNav({ projects }: AppNavProps) {
       <ProjectModalApplication open={isShowingProjectModal} onCloseHandler={onCloseProjectModal} />
     </nav>
   );
-}
+};

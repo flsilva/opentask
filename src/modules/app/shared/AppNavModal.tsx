@@ -4,7 +4,7 @@ import 'client-only';
 import { useEffect, useState } from 'react';
 import { ProjectDto } from '@/modules/app/project/ProjectRepository';
 import ModalUI from '@/modules/shared/modal/ModalUI';
-import AppNav from './AppNav';
+import { AppNav } from './AppNav';
 
 interface AppNavModalProps {
   readonly projects: Array<ProjectDto>;

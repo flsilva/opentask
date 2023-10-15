@@ -2,7 +2,7 @@
 
 import { z } from 'zod';
 import { cuid2, prisma } from '@/modules/app/shared/utils/model-utils';
-import { getSessionOrThrow } from '@/modules/app/shared/utils/session-utils';
+import { getUserId } from '@/modules/app/user/UserRepository';
 import { createTaskSchema, updateTaskSchema } from './TaskDomain';
 
 export type CreateTaskDto = z.infer<typeof createTaskSchema>;
@@ -23,9 +23,7 @@ export type TaskDto = z.infer<typeof taskSchema>;
 export const createTask = async (data: CreateTaskDto) => {
   createTaskSchema.parse(data);
 
-  const {
-    user: { id: authorId },
-  } = await getSessionOrThrow();
+  const authorId = await getUserId();
   const { projectId, ...rest } = data;
 
   return await prisma.task.create({
@@ -41,9 +39,7 @@ export const createTask = async (data: CreateTaskDto) => {
 export const deleteTask = async (id: string) => {
   if (typeof id !== 'string' || id === '') throw new Error('Invalid task ID.');
 
-  const {
-    user: { id: authorId },
-  } = await getSessionOrThrow();
+  const authorId = await getUserId();
 
   return await prisma.task.delete({
     where: { id, authorId },
@@ -51,9 +47,7 @@ export const deleteTask = async (id: string) => {
 };
 
 export const getAllTasksDueUntilToday = async (isCompleted = false) => {
-  const {
-    user: { id: authorId },
-  } = await getSessionOrThrow();
+  const authorId = await getUserId();
 
   return prisma.task.findMany({
     where: { authorId, dueDate: { lte: new Date() }, isCompleted },
@@ -70,9 +64,7 @@ export const getAllTasksDueUntilToday = async (isCompleted = false) => {
 };
 
 export const getTaskById = async (id: string) => {
-  const {
-    user: { id: authorId },
-  } = await getSessionOrThrow();
+  const authorId = await getUserId();
 
   return prisma.task.findUnique({
     where: { authorId, id },
@@ -90,9 +82,7 @@ export const getTaskById = async (id: string) => {
 export const updateTask = async (data: UpdateTaskDto) => {
   updateTaskSchema.parse(data);
 
-  const {
-    user: { id: authorId },
-  } = await getSessionOrThrow();
+  const authorId = await getUserId();
   const { id: taskId, ...rest } = data;
 
   return await prisma.task.update({

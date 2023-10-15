@@ -2,7 +2,7 @@
 
 import { z } from 'zod';
 import { cuid2, prisma } from '@/modules/app/shared/utils/model-utils';
-import { getSessionOrThrow } from '@/modules/app/shared/utils/session-utils';
+import { getUserId } from '@/modules/app/user/UserRepository';
 import { createProjectSchema, updateProjectSchema } from './ProjectDomain';
 
 export type CreateProjectDto = z.infer<typeof createProjectSchema>;
@@ -14,9 +14,7 @@ export type ProjectDto = UpdateProjectDto;
 export const createProject = async (data: CreateProjectDto) => {
   createProjectSchema.parse(data);
 
-  const {
-    user: { id },
-  } = await getSessionOrThrow();
+  const id = await getUserId();
 
   return await prisma.project.create({
     data: {
@@ -32,38 +30,26 @@ export const createProject = async (data: CreateProjectDto) => {
 };
 
 export const deleteProject = async (id: string) => {
-  if (typeof id !== 'string' || id === '') throw new Error('Invalid project ID.');
+  if (typeof id !== 'string' || id === '') throw new Error('Invalid argument "id".');
 
-  const {
-    user: { id: authorId },
-  } = await getSessionOrThrow();
+  const authorId = await getUserId();
 
   return await prisma.project.delete({
     where: { id, authorId },
   });
 };
 
-export const getAllProjects = async ({
-  isArchived = false,
-  includeTasks,
-}: { isArchived?: boolean; includeTasks?: boolean } = {}) => {
-  const {
-    user: { id: authorId },
-  } = await getSessionOrThrow();
+export const getAllProjects = async ({ isArchived = false }: { isArchived?: boolean } = {}) => {
+  const authorId = await getUserId();
 
   return await prisma.project.findMany({
     where: { authorId, isArchived },
     orderBy: { createdAt: 'asc' },
-    include: {
-      tasks: includeTasks,
-    },
   });
 };
 
 export const getProjectById = async ({ id }: { id: string }) => {
-  const {
-    user: { id: authorId },
-  } = await getSessionOrThrow();
+  const authorId = await getUserId();
 
   return prisma.project.findUnique({
     where: { authorId, id },
@@ -74,9 +60,7 @@ export const getProjectById = async ({ id }: { id: string }) => {
 export const updateProject = async (data: UpdateProjectDto) => {
   updateProjectSchema.parse(data);
 
-  const {
-    user: { id: authorId },
-  } = await getSessionOrThrow();
+  const authorId = await getUserId();
   const { id: projectId, ...rest } = data;
 
   return await prisma.project.update({
