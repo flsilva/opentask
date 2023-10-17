@@ -18,7 +18,7 @@ interface OAuthProviderButtonProps extends ChildrenProps {
   readonly provider: Provider;
 }
 
-export default async function SignIn() {
+export default async function SignInPage() {
   /*
    * Redirect users to the app if they're signed in.
    */

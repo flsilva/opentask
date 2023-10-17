@@ -1,9 +1,9 @@
 import 'server-only';
-import ProjectHeader from '@/modules/app/project/ProjectHeader';
+import { ProjectHeader } from '@/modules/app/project/ProjectHeader';
 import { getAllProjects, getProjectById } from '@/modules/app/project/ProjectRepository';
-import AddTask from '@/modules/app/task/AddTask';
+import { AddTask } from '@/modules/app/task/AddTask';
 import { TaskListApplication } from '@/modules/app/task/TaskListApplication';
-import TaskModal from '@/modules/app/task/TaskModal';
+import { TaskModal } from '@/modules/app/task/TaskModal';
 import { getTaskById } from '@/modules/app/task/TaskRepository';
 
 interface ProjectTaskPageProps {

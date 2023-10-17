@@ -6,8 +6,8 @@ import { Transition } from '@headlessui/react';
 import { buttonClassNameLink } from '@/modules/shared/controls/button/buttonClassName';
 import { PlusSignalIcon } from '@/modules/shared/icon/PlusSignalIcon';
 import { ProjectDto } from '@/modules/app/project/ProjectRepository';
-import TaskForm from './TaskForm';
-import TaskModal from './TaskModal';
+import { TaskForm } from './TaskForm';
+import { TaskModal } from './TaskModal';
 
 interface AddTaskProps {
   readonly defaultDueDate?: Date | null;
@@ -15,7 +15,7 @@ interface AddTaskProps {
   readonly projects: Array<ProjectDto>;
 }
 
-export default function AddTask({ defaultDueDate, project, projects }: AddTaskProps) {
+export const AddTask = ({ defaultDueDate, project, projects }: AddTaskProps) => {
   const [isAddingTask, setIsAddingTask] = useState(false);
 
   const addTaskHandler = () => {
@@ -97,4 +97,4 @@ export default function AddTask({ defaultDueDate, project, projects }: AddTaskPr
       {getNewTaskComponent()}
     </>
   );
-}
+};

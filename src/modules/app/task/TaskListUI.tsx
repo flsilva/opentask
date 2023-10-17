@@ -1,5 +1,5 @@
 import { TaskDto } from './TaskRepository';
-import TaskListItemUI from './TaskListItemUI';
+import { TaskListItemUI } from './TaskListItemUI';
 
 interface TaskListUIProps {
   readonly onCompleteTaskClick: (task: TaskDto) => void;
@@ -7,7 +7,7 @@ interface TaskListUIProps {
   readonly tasks: Array<TaskDto>;
 }
 
-export default function TaskListUI({ onCompleteTaskClick, onTaskClick, tasks }: TaskListUIProps) {
+export const TaskListUI = ({ onCompleteTaskClick, onTaskClick, tasks }: TaskListUIProps) => {
   return (
     <>
       {tasks.map((task) => (
@@ -25,4 +25,4 @@ export default function TaskListUI({ onCompleteTaskClick, onTaskClick, tasks }: 
       ))}
     </>
   );
-}
+};

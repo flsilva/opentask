@@ -3,13 +3,13 @@
 import 'client-only';
 import { useRouter } from 'next/navigation';
 import { ProjectDto } from './ProjectRepository';
-import ProjectListUI from './ProjectListUI';
+import { ProjectListUI } from './ProjectListUI';
 
 interface ProjectListApplicationProps {
   readonly projects: Array<ProjectDto>;
 }
 
-export default function ProjectListApplication({ projects }: ProjectListApplicationProps) {
+export const ProjectListApplication = ({ projects }: ProjectListApplicationProps) => {
   const router = useRouter();
 
   const onProjectClick = (project: ProjectDto) => {
@@ -17,4 +17,4 @@ export default function ProjectListApplication({ projects }: ProjectListApplicat
   };
 
   return <ProjectListUI onProjectClick={onProjectClick} projects={projects} />;
-}
+};

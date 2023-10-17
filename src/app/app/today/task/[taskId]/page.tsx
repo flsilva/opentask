@@ -1,10 +1,10 @@
 import 'server-only';
 import { getAllProjects } from '@/modules/app/project/ProjectRepository';
-import AddTask from '@/modules/app/task/AddTask';
-import TaskModal from '@/modules/app/task/TaskModal';
+import { AddTask } from '@/modules/app/task/AddTask';
+import { TaskModal } from '@/modules/app/task/TaskModal';
 import { TaskListApplication } from '@/modules/app/task/TaskListApplication';
 import { getTaskById, getAllTasksDueUntilToday } from '@/modules/app/task/TaskRepository';
-import TodayHeader from '@/modules/app/today/TodayHeader';
+import { TodayHeader } from '@/modules/app/today/TodayHeader';
 
 interface TodayTaskPageProps {
   readonly params: { readonly taskId: string };

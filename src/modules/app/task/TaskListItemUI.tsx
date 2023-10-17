@@ -1,5 +1,5 @@
 import { sanitize } from 'isomorphic-dompurify';
-import TaskCheck, { TaskCheckSize } from './TaskCheck';
+import { TaskCheck, TaskCheckSize } from './TaskCheck';
 import { formatTaskDueDate } from './task-utils';
 import { CalendarEventIcon } from '@/modules/shared/icon/CalendarEventIcon';
 
@@ -12,14 +12,14 @@ interface TaskListItemUIProps {
   readonly onTaskClick: () => void;
 }
 
-export default function TaskListItemUI({
+export const TaskListItemUI = ({
   description,
   dueDate,
   isCompleted,
   name,
   onCompleteTaskClick,
   onTaskClick,
-}: TaskListItemUIProps) {
+}: TaskListItemUIProps) => {
   return (
     <div className="flex">
       <TaskCheck
@@ -47,4 +47,4 @@ export default function TaskListItemUI({
       </button>
     </div>
   );
-}
+};

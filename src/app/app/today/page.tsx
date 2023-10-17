@@ -1,7 +1,7 @@
 import 'server-only';
 import { getAllProjects } from '@/modules/app/project/ProjectRepository';
-import TodayHeader from '@/modules/app/today/TodayHeader';
-import AddTask from '@/modules/app/task/AddTask';
+import { TodayHeader } from '@/modules/app/today/TodayHeader';
+import { AddTask } from '@/modules/app/task/AddTask';
 import { TaskListApplication } from '@/modules/app/task/TaskListApplication';
 import { getAllTasksDueUntilToday } from '@/modules/app/task/TaskRepository';
 

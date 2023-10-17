@@ -4,7 +4,7 @@ import 'client-only';
 import { Fragment, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Menu } from '@headlessui/react';
-import DropdownMenu from '@/modules/shared/controls/dropdown/DropdownMenu';
+import { DropdownMenu } from '@/modules/shared/controls/dropdown/DropdownMenu';
 import { MoreHorizontalIcon } from '@/modules/shared/icon/MoreHorizontalIcon';
 import { ArchiveIcon } from '@/modules/shared/icon/ArchiveIcon';
 import { DeleteIcon } from '@/modules/shared/icon/DeleteIcon';
@@ -12,7 +12,7 @@ import { EditIcon } from '@/modules/shared/icon/EditIcon';
 import { UnarchiveIcon } from '@/modules/shared/icon/UnarchiveIcon';
 import { ConfirmationModal, ConfirmationModalProps } from '@/modules/app/shared/ConfirmationModal';
 import { deleteProject, updateProject, ProjectDto } from './ProjectRepository';
-import ProjectModalApplication from './ProjectModalApplication';
+import { ProjectModalApplication } from './ProjectModalApplication';
 
 export enum ProjectAction {
   Archive = 'Archive',
@@ -54,7 +54,7 @@ const menuItems: Array<MenuItem> = [
   },
 ];
 
-export default function ProjectHeader({ project }: ProjectHeaderProps) {
+export const ProjectHeader = ({ project }: ProjectHeaderProps) => {
   const router = useRouter();
   const [showProjectModal, setShowProjectModal] = useState(false);
   const [confirmationModalProps, setConfirmationModalProps] =
@@ -222,4 +222,4 @@ export default function ProjectHeader({ project }: ProjectHeaderProps) {
       {confirmationModalProps && <ConfirmationModal {...confirmationModalProps} />}
     </>
   );
-}
+};

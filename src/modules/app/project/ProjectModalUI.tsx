@@ -1,7 +1,7 @@
 'use client';
 
 import { ChildrenProps } from '@/modules/shared/ChildrenProps';
-import ModalUI from '@/modules/shared/modal/ModalUI';
+import { ModalUI } from '@/modules/shared/modal/ModalUI';
 import { XIcon } from '@/modules/shared/icon/XIcon';
 import { ProjectDto } from './ProjectRepository';
 
@@ -12,13 +12,13 @@ interface ProjectModalUIProps extends ChildrenProps {
   readonly project?: ProjectDto | null;
 }
 
-export default function ProjectModalUI({
+export const ProjectModalUI = ({
   children,
   inputNameRef,
   onCloseHandler,
   open,
   project,
-}: ProjectModalUIProps) {
+}: ProjectModalUIProps) => {
   return (
     <ModalUI initialFocusRef={inputNameRef} onCloseHandler={onCloseHandler} open={open}>
       <div className="flex items-center justify-between">
@@ -37,4 +37,4 @@ export default function ProjectModalUI({
       {children}
     </ModalUI>
   );
-}
+};

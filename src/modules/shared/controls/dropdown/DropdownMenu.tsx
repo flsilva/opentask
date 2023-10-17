@@ -8,12 +8,12 @@ interface DropdownMenuProps extends ClassNamePropsOptional {
   readonly menuButton: React.ReactNode;
 }
 
-export default function DropdownMenu({
+export const DropdownMenu = ({
   className,
   items,
   itemsClassName,
   menuButton,
-}: DropdownMenuProps) {
+}: DropdownMenuProps) => {
   return (
     <div className={className}>
       <Menu as="div" className="relative inline-block text-left">
@@ -36,4 +36,4 @@ export default function DropdownMenu({
       </Menu>
     </div>
   );
-}
+};

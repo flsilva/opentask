@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   title: "OpenTask.app: You're offline",
 };
 
-export default function Page() {
+export default function OfflinePage() {
   return (
     <div className="flex flex-col h-screen w-full items-center px-12">
       <Image

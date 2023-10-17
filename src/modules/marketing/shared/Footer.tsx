@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { GitHubLogoIcon } from '@/modules/shared/icon/GitHubLogoIcon';
 
-export default function Footer() {
+export const Footer = () => {
   return (
     <footer>
       <div className="items-center bg-gray-100 px-6 py-6 md:flex md:justify-between lg:px-8">
@@ -24,4 +24,4 @@ export default function Footer() {
       </div>
     </footer>
   );
-}
+};

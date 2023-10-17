@@ -1,6 +1,6 @@
 import { MailIcon } from '@/modules/shared/icon/MailIcon';
 
-export default function CheckEmailLink({ searchParams }: { searchParams: { email?: string } }) {
+export default function CheckEmailLinkPage({ searchParams }: { searchParams: { email?: string } }) {
   const getEmailText = () =>
     searchParams && typeof searchParams.email === 'string' ? (
       <span className="font-semibold">{searchParams.email}</span>

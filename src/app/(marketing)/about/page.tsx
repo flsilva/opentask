@@ -1,7 +1,7 @@
 import 'server-only';
-import HeroShell from '@/modules/marketing/shared/HeroShell';
-import HeroHeading from '@/modules/marketing/shared/HeroHeading';
-import HeroCopy from '@/modules/marketing/shared/HeroCopy';
+import { HeroShell } from '@/modules/marketing/shared/HeroShell';
+import { HeroHeading } from '@/modules/marketing/shared/HeroHeading';
+import { HeroCopy } from '@/modules/marketing/shared/HeroCopy';
 import AboutMDX from './about.mdx';
 
 export default function AboutPage() {

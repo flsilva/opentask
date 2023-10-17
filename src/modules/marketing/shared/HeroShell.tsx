@@ -5,7 +5,7 @@ import { Transition } from '@headlessui/react';
 import { ChildrenProps } from '@/modules/shared/ChildrenProps';
 import { ClassNamePropsOptional } from '@/modules/shared/ClassNameProps';
 
-export default function HeroShell({ children, className }: ChildrenProps & ClassNamePropsOptional) {
+export const HeroShell = ({ children, className }: ChildrenProps & ClassNamePropsOptional) => {
   const [isOpen, setIsOpen] = useState(false);
   useEffect(() => setIsOpen(true), []);
 
@@ -27,4 +27,4 @@ export default function HeroShell({ children, className }: ChildrenProps & Class
       </div>
     </Transition>
   );
-}
+};

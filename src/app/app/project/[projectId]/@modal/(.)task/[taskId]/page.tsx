@@ -1,6 +1,6 @@
 import 'server-only';
 import { getAllProjects, getProjectById } from '@/modules/app/project/ProjectRepository';
-import TaskModal from '@/modules/app/task/TaskModal';
+import { TaskModal } from '@/modules/app/task/TaskModal';
 import { getTaskById } from '@/modules/app/task/TaskRepository';
 
 interface ProjectTaskInterceptingPageProps {

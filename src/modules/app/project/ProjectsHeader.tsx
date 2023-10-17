@@ -8,7 +8,7 @@ interface ProjectsHeaderProps {
   readonly archived: boolean;
 }
 
-export default function ProjectsHeader({ archived = false }: ProjectsHeaderProps) {
+export const ProjectsHeader = ({ archived = false }: ProjectsHeaderProps) => {
   const router = useRouter();
   const onSwitchClick = (enabled: boolean) => {
     const path = enabled ? 'archived' : 'active';
@@ -26,4 +26,4 @@ export default function ProjectsHeader({ archived = false }: ProjectsHeaderProps
       </div>
     </div>
   );
-}
+};

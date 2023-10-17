@@ -10,7 +10,7 @@ interface ProjectListUIProps {
   readonly projects: Array<ProjectDto>;
 }
 
-export default function ProjectListUI({ onProjectClick, projects }: ProjectListUIProps) {
+export const ProjectListUI = ({ onProjectClick, projects }: ProjectListUIProps) => {
   const [isOpen, setIsOpen] = useState(false);
   useEffect(() => setIsOpen(true), []);
 
@@ -45,4 +45,4 @@ export default function ProjectListUI({ onProjectClick, projects }: ProjectListU
       </nav>
     </Transition>
   );
-}
+};

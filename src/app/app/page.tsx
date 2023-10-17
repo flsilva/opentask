@@ -1,6 +1,6 @@
 import 'server-only';
 import { redirect } from 'next/navigation';
 
-export default function App() {
+export default function AppPage() {
   redirect('/app/today');
 }

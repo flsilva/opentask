@@ -11,14 +11,14 @@ import {
   buttonClassNameWhite,
 } from '@/modules/shared/controls/button/buttonClassName';
 import { ExpandMoreIcon } from '@/modules/shared/icon/ExpandMoreIcon';
-import DropdownMenu from '@/modules/shared/controls/dropdown/DropdownMenu';
+import { DropdownMenu } from '@/modules/shared/controls/dropdown/DropdownMenu';
 import { useAutoFocus } from '@/modules/shared/utils/useAutoFocus';
 import { useKeyboardEvent } from '@/modules/shared/utils/useKeyboardEvent';
 import { ProjectDto } from '@/modules/app/project/ProjectRepository';
 import { createTaskSchema, updateTaskSchema } from './TaskDomain';
-import TaskDueDatePicker from './TaskDueDatePicker';
+import { TaskDueDatePicker } from './TaskDueDatePicker';
 import { createTask, updateTask, CreateTaskDto, TaskDto, UpdateTaskDto } from './TaskRepository';
-import TaskCheck, { TaskCheckSize } from './TaskCheck';
+import { TaskCheck, TaskCheckSize } from './TaskCheck';
 
 interface TaskFormProps extends ClassNamePropsOptional {
   readonly defaultDueDate?: Date | undefined;
@@ -30,7 +30,7 @@ interface TaskFormProps extends ClassNamePropsOptional {
   readonly taskNameClassName?: string;
 }
 
-export default function TaskForm({
+export const TaskForm = ({
   className,
   defaultDueDate,
   onCancelClick,
@@ -39,7 +39,7 @@ export default function TaskForm({
   shouldStartOnEditingMode = false,
   task,
   taskNameClassName,
-}: TaskFormProps) {
+}: TaskFormProps) => {
   const NAME_PLACEHOLDER = 'Task name';
   const DESCRIPTION_PLACEHOLDER = 'Task description';
 
@@ -327,4 +327,4 @@ export default function TaskForm({
       )}
     </form>
   );
-}
+};

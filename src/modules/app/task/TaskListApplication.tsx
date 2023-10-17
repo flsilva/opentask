@@ -4,7 +4,7 @@ import 'client-only';
 import { usePathname, useRouter } from 'next/navigation';
 import { ProjectDto } from '@/modules/app/project/ProjectRepository';
 import { updateTask, TaskDto } from './TaskRepository';
-import TaskListUI from './TaskListUI';
+import { TaskListUI } from './TaskListUI';
 
 interface TaskListApplicationProps {
   readonly addTask?: React.ReactNode;

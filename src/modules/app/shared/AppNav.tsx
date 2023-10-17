@@ -7,7 +7,7 @@ import { CalendarTodayIcon } from '@/modules/shared/icon/CalendarTodayIcon';
 import { PlusSignalIcon } from '@/modules/shared/icon/PlusSignalIcon';
 import { ProjectsIcon } from '@/modules/shared/icon/ProjectsIcon';
 import { ProjectDto } from '@/modules/app/project/ProjectRepository';
-import ProjectModalApplication from '../project/ProjectModalApplication';
+import { ProjectModalApplication } from '../project/ProjectModalApplication';
 
 interface AppNavProps {
   readonly projects: Array<ProjectDto>;

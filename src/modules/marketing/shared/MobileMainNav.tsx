@@ -4,14 +4,14 @@ import 'client-only';
 import { Fragment } from 'react';
 import { Transition } from '@headlessui/react';
 import Link from 'next/link';
-import MainNav from './MainNav';
+import { MainNav } from './MainNav';
 
 interface MobileMainNavProps {
   readonly isOpen: boolean;
   readonly callback?: () => void;
 }
 
-export default function MobileMainNav({ callback, isOpen }: MobileMainNavProps) {
+export const MobileMainNav = ({ callback, isOpen }: MobileMainNavProps) => {
   return (
     <Transition
       show={isOpen}
@@ -38,4 +38,4 @@ export default function MobileMainNav({ callback, isOpen }: MobileMainNavProps) 
       </div>
     </Transition>
   );
-}
+};

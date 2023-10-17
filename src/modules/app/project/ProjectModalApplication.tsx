@@ -1,9 +1,9 @@
 'use client';
 
 import { useRef } from 'react';
-import ProjectModalUI from './ProjectModalUI';
+import { ProjectModalUI } from './ProjectModalUI';
 import { ProjectDto } from './ProjectRepository';
-import ProjectFormApplication from './ProjectFormApplication';
+import { ProjectFormApplication } from './ProjectFormApplication';
 
 interface ProjectModalApplicationProps {
   readonly open: boolean;
@@ -11,11 +11,11 @@ interface ProjectModalApplicationProps {
   readonly project?: ProjectDto | null;
 }
 
-export default function ProjectModalApplication({
+export const ProjectModalApplication = ({
   onCloseHandler,
   open,
   project,
-}: ProjectModalApplicationProps) {
+}: ProjectModalApplicationProps) => {
   const inputNameRef = useRef<HTMLInputElement | null>(null);
 
   const onCloseHandlerInternal = () => {
@@ -37,4 +37,4 @@ export default function ProjectModalApplication({
       />
     </ProjectModalUI>
   );
-}
+};

@@ -1,7 +1,7 @@
 import 'server-only';
 import { getAllProjects } from '@/modules/app/project/ProjectRepository';
 import { getTaskById } from '@/modules/app/task/TaskRepository';
-import TaskModal from '@/modules/app/task/TaskModal';
+import { TaskModal } from '@/modules/app/task/TaskModal';
 
 interface TodayTaskInterceptingPageProps {
   readonly params: { readonly taskId: string };

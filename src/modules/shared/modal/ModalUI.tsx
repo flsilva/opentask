@@ -10,7 +10,7 @@ interface ModalUIProps extends ChildrenProps {
   readonly open: boolean;
 }
 
-export default function ModalUI({ children, initialFocusRef, onCloseHandler, open }: ModalUIProps) {
+export const ModalUI = ({ children, initialFocusRef, onCloseHandler, open }: ModalUIProps) => {
   return (
     <Transition show={open} as={Fragment}>
       <Dialog
@@ -48,4 +48,4 @@ export default function ModalUI({ children, initialFocusRef, onCloseHandler, ope
       </Dialog>
     </Transition>
   );
-}
+};

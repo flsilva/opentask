@@ -12,12 +12,7 @@ interface TaskCheckProps extends ClassNamePropsOptional {
   readonly size: TaskCheckSize;
 }
 
-export default function TaskCheck({
-  className,
-  isCompleted,
-  onTaskCheckClick,
-  size,
-}: TaskCheckProps) {
+export const TaskCheck = ({ className, isCompleted, onTaskCheckClick, size }: TaskCheckProps) => {
   return (
     <button
       type="button"
@@ -37,4 +32,4 @@ export default function TaskCheck({
       </div>
     </button>
   );
-}
+};

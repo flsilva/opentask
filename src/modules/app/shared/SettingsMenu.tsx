@@ -2,8 +2,8 @@
 
 import { Fragment, useContext, useState } from 'react';
 import { Menu } from '@headlessui/react';
-import SettingsModal from '@/modules/app/settings/SettingsModal';
-import DropdownMenu from '@/modules/shared/controls/dropdown/DropdownMenu';
+import { SettingsModal } from '@/modules/app/settings/SettingsModal';
+import { DropdownMenu } from '@/modules/shared/controls/dropdown/DropdownMenu';
 import { PersonIcon } from '@/modules/shared/icon/PersonIcon';
 import { SettingsIcon } from '@/modules/shared/icon/SettingsIcon';
 import { LogoutIcon } from '@/modules/shared/icon/LogoutIcon';

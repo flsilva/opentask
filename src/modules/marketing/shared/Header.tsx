@@ -5,10 +5,10 @@ import Link from 'next/link';
 import { HamburgerMenuIcon } from '@/modules/shared/icon/HamburgerMenuIcon';
 import { XIcon } from '@/modules/shared/icon/XIcon';
 import { Logo } from '@/modules/shared/logo/Logo';
-import MainNav from './MainNav';
-import MobileMainNav from './MobileMainNav';
+import { MainNav } from './MainNav';
+import { MobileMainNav } from './MobileMainNav';
 
-export default function Header() {
+export const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   return (
     <header className="flex">
@@ -58,4 +58,4 @@ export default function Header() {
       </nav>
     </header>
   );
-}
+};

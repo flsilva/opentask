@@ -1,4 +1,4 @@
-export default function ProjectLayout({
+export default function TodayLayout({
   children,
   modal,
 }: {

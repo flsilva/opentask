@@ -21,7 +21,7 @@ interface ProjectFormUIProps {
   readonly onSaveProject: () => void;
 }
 
-export default function ProjectFormUI({
+export const ProjectFormUI = ({
   description,
   inputNameRef,
   isValidData,
@@ -31,7 +31,7 @@ export default function ProjectFormUI({
   onChangeNameHandler,
   onKeyDown,
   onSaveProject,
-}: ProjectFormUIProps) {
+}: ProjectFormUIProps) => {
   return (
     <form className="mt-6 flex flex-col">
       <input
@@ -69,4 +69,4 @@ export default function ProjectFormUI({
       </div>
     </form>
   );
-}
+};

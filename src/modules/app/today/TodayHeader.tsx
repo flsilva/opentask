@@ -4,7 +4,7 @@ import 'client-only';
 import { useEffect, useState } from 'react';
 import { format } from 'date-fns';
 
-export default function TodayHeader() {
+export const TodayHeader = () => {
   const [todayStr, setTodayStr] = useState('');
 
   useEffect(() => {
@@ -19,4 +19,4 @@ export default function TodayHeader() {
       </div>
     </div>
   );
-}
+};

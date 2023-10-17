@@ -3,14 +3,14 @@
 import 'client-only';
 import { useEffect, useState } from 'react';
 import { ProjectDto } from '@/modules/app/project/ProjectRepository';
-import ModalUI from '@/modules/shared/modal/ModalUI';
+import { ModalUI } from '@/modules/shared/modal/ModalUI';
 import { AppNav } from './AppNav';
 
 interface AppNavModalProps {
   readonly projects: Array<ProjectDto>;
 }
 
-export default function AppNavModal({ projects }: AppNavModalProps) {
+export const AppNavModal = ({ projects }: AppNavModalProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   /*
@@ -25,4 +25,4 @@ export default function AppNavModal({ projects }: AppNavModalProps) {
       <AppNav projects={projects} />
     </ModalUI>
   );
-}
+};

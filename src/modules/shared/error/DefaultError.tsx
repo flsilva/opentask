@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 import { buttonClassNameGreen } from '../controls/button/buttonClassName';
 
-export default function DefaultError({ error, reset }: { error: Error; reset: () => void }) {
+export const DefaultError = ({ error, reset }: { error: Error; reset: () => void }) => {
   useEffect(() => {
     // Log the error to an error reporting service
     console.error(error);
@@ -26,4 +26,4 @@ export default function DefaultError({ error, reset }: { error: Error; reset: ()
       </div>
     </div>
   );
-}
+};

@@ -19,7 +19,7 @@ export const mainNavItems: Array<MainNavItem> = [
   { name: 'About', href: '/about' },
 ];
 
-export default function MainNav({ callback }: MainNavProps) {
+export const MainNav = ({ callback }: MainNavProps) => {
   const pathname = usePathname();
   const dynamicProps = callback ? { onClick: callback } : {};
 
@@ -38,4 +38,4 @@ export default function MainNav({ callback }: MainNavProps) {
       })}
     </>
   );
-}
+};

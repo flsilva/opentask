@@ -10,7 +10,7 @@ import { IOSShareIcon } from '@/modules/shared/icon/IOSShareIcon';
 import { XIcon } from '@/modules/shared/icon/XIcon';
 import { PwaPromptContext } from './PwaPromptProvider';
 
-export default function PwaPromptModal() {
+export const PwaPromptModal = () => {
   const [isOpen, setIsOpen] = useState(false);
   const parser = new UAParser(window.navigator.userAgent);
   const os = parser.getOS().name;
@@ -131,4 +131,4 @@ export default function PwaPromptModal() {
       </Dialog>
     </Transition>
   );
-}
+};

@@ -8,7 +8,7 @@ export interface PwaPromptProviderProps extends ChildrenProps {}
 
 export const PwaPromptContext = createContext<(() => void) | null>(null);
 
-export default function PwaPromptProvider({ children }: PwaPromptProviderProps) {
+export const PwaPromptProvider = ({ children }: PwaPromptProviderProps) => {
   const promptFunction = usePwaPrompt();
   return <PwaPromptContext.Provider value={promptFunction}>{children}</PwaPromptContext.Provider>;
-}
+};

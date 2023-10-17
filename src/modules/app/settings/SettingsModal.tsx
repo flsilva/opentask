@@ -12,7 +12,7 @@ interface SettingsModalProps {
   readonly open: boolean;
 }
 
-export default function SettingsModal({ onCloseModal, onDeleteAccount, open }: SettingsModalProps) {
+export const SettingsModal = ({ onCloseModal, onDeleteAccount, open }: SettingsModalProps) => {
   return (
     <Transition show={open} as="div">
       <Dialog as="div" className="relative z-50" onClose={onCloseModal}>
@@ -66,4 +66,4 @@ export default function SettingsModal({ onCloseModal, onDeleteAccount, open }: S
       </Dialog>
     </Transition>
   );
-}
+};

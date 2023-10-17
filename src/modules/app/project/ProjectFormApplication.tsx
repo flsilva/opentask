@@ -10,7 +10,7 @@ import {
   ProjectDto,
   UpdateProjectDto,
 } from './ProjectRepository';
-import ProjectFormUI from './ProjectFormUI';
+import { ProjectFormUI } from './ProjectFormUI';
 
 interface ProjectFormApplicationProps {
   readonly inputNameRef: React.MutableRefObject<HTMLInputElement | null>;
@@ -18,11 +18,11 @@ interface ProjectFormApplicationProps {
   readonly project?: ProjectDto | null;
 }
 
-export default function ProjectFormApplication({
+export const ProjectFormApplication = ({
   inputNameRef,
   onCloseHandler,
   project,
-}: ProjectFormApplicationProps) {
+}: ProjectFormApplicationProps) => {
   const router = useRouter();
   /*
    * We can't set these initial states as this Modal is first rendered hidden with no project.
@@ -140,4 +140,4 @@ export default function ProjectFormApplication({
       onSaveProject={onSaveProject}
     />
   );
-}
+};

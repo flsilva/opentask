@@ -7,7 +7,7 @@ import { XIcon } from '@/modules/shared/icon/XIcon';
 import { DeleteIcon } from '@/modules/shared/icon/DeleteIcon';
 import { ConfirmationModal, ConfirmationModalProps } from '@/modules/app/shared/ConfirmationModal';
 import { ProjectDto } from '@/modules/app/project/ProjectRepository';
-import TaskForm from './TaskForm';
+import { TaskForm } from './TaskForm';
 import { deleteTask, TaskDto } from './TaskRepository';
 
 interface TaskModalModalProps {
@@ -20,7 +20,7 @@ interface TaskModalModalProps {
   readonly task?: TaskDto | null;
 }
 
-export default function TaskModal({
+export const TaskModal = ({
   isOpen,
   onCloseModal,
   project,
@@ -28,7 +28,7 @@ export default function TaskModal({
   shouldGoBackOnClose = true,
   shouldStartOnEditingMode = false,
   task,
-}: TaskModalModalProps) {
+}: TaskModalModalProps) => {
   const [confirmationModalProps, setConfirmationModalProps] =
     useState<ConfirmationModalProps | null>(null);
   const closeButtonRef = useRef(null);
@@ -183,4 +183,4 @@ export default function TaskModal({
       {confirmationModalProps && <ConfirmationModal {...confirmationModalProps} />}
     </Transition>
   );
-}
+};

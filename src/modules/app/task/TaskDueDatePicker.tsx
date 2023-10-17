@@ -14,7 +14,7 @@ interface TaskDueDatePickerProps {
   readonly onChange: (date: Date | undefined) => void;
 }
 
-export default function TaskDueDatePicker({ defaultDate, onChange }: TaskDueDatePickerProps) {
+export const TaskDueDatePicker = ({ defaultDate, onChange }: TaskDueDatePickerProps) => {
   const [isShowing, setIsShowing] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
   const closeButtonRef = useRef(null);
@@ -124,4 +124,4 @@ export default function TaskDueDatePicker({ defaultDate, onChange }: TaskDueDate
       </Transition>
     </>
   );
-}
+};
