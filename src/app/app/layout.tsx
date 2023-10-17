@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 import { UserProvider } from '@/modules/app/user/UserProvider';
-import { UserDto, getUser } from '@/modules/app/user/UserRepository';
+import { getUser, UserDto } from '@/modules/app/user/UserRepository';
 import { AppHeader } from '@/modules/app/shared/AppHeader';
 import PwaPromptModal from '@/modules/shared/pwa/PwaPromptModal';
 import { AppNav } from '@/modules/app/shared/AppNav';

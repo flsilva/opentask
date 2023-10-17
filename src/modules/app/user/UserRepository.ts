@@ -3,7 +3,7 @@
 import { cookies } from 'next/headers';
 import { createServerActionClient } from '@supabase/auth-helpers-nextjs';
 import { Database } from '@/lib/database.types';
-import { prisma } from '@/modules/app/shared/utils/model-utils';
+import { prisma } from '@/modules/app/shared/data-access/prisma';
 
 export interface UserDto {
   readonly email: string;

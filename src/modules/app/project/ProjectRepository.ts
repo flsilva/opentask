@@ -1,7 +1,8 @@
 'use server';
 
 import { z } from 'zod';
-import { cuid2, prisma } from '@/modules/app/shared/utils/model-utils';
+import { cuid2 } from '@/modules/app/shared/data-access/cuid2';
+import { prisma } from '@/modules/app/shared/data-access/prisma';
 import { getUserId } from '@/modules/app/user/UserRepository';
 import { createProjectSchema, updateProjectSchema } from './ProjectDomain';
 

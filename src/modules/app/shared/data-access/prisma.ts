@@ -1,7 +1,4 @@
-import { init } from '@paralleldrive/cuid2';
 import { PrismaClient } from '@prisma/client';
-
-export const cuid2 = init({ length: 8 });
 
 /*
  * Fix error on localhost only:
