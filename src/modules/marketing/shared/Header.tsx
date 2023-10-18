@@ -5,8 +5,8 @@ import Link from 'next/link';
 import { HamburgerMenuIcon } from '@/modules/shared/icon/HamburgerMenuIcon';
 import { XIcon } from '@/modules/shared/icon/XIcon';
 import { Logo } from '@/modules/shared/logo/Logo';
-import { MainNav } from './MainNav';
-import { MobileMainNav } from './MobileMainNav';
+import { MainMenu } from './MainMenu';
+import { MainMenuMobile } from './MainMenuMobile';
 
 export const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -41,7 +41,7 @@ export const Header = () => {
             </button>
           )}
           <div className="hidden lg:flex lg:gap-x-12">
-            <MainNav />
+            <MainMenu />
           </div>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
             <Link
@@ -53,7 +53,10 @@ export const Header = () => {
           </div>
         </div>
         <div className="flex lg:hidden">
-          <MobileMainNav callback={() => setIsMobileMenuOpen(false)} isOpen={isMobileMenuOpen} />
+          <MainMenuMobile
+            onItemClick={() => setIsMobileMenuOpen(false)}
+            isOpen={isMobileMenuOpen}
+          />
         </div>
       </nav>
     </header>

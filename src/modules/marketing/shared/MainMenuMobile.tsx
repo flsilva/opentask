@@ -4,14 +4,14 @@ import 'client-only';
 import { Fragment } from 'react';
 import { Transition } from '@headlessui/react';
 import Link from 'next/link';
-import { MainNav } from './MainNav';
+import { MainMenu } from './MainMenu';
 
-interface MobileMainNavProps {
+interface MainMenuMobileProps {
   readonly isOpen: boolean;
-  readonly callback?: () => void;
+  readonly onItemClick?: () => void;
 }
 
-export const MobileMainNav = ({ callback, isOpen }: MobileMainNavProps) => {
+export const MainMenuMobile = ({ onItemClick, isOpen }: MainMenuMobileProps) => {
   return (
     <Transition
       show={isOpen}
@@ -25,7 +25,7 @@ export const MobileMainNav = ({ callback, isOpen }: MobileMainNavProps) => {
     >
       <div className="flex flex-col grow overflow-hidden divide-y divide-gray-500/10">
         <div className="space-y-2 py-6">
-          <MainNav callback={callback} />
+          <MainMenu onItemClick={onItemClick} />
         </div>
         <div className="py-6">
           <Link

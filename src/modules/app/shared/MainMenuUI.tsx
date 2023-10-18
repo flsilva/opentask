@@ -1,42 +1,30 @@
 'use client';
 
 import 'client-only';
-import { useState } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { CalendarTodayIcon } from '@/modules/shared/icon/CalendarTodayIcon';
 import { PlusSignalIcon } from '@/modules/shared/icon/PlusSignalIcon';
 import { ProjectsIcon } from '@/modules/shared/icon/ProjectsIcon';
 import { ProjectDto } from '@/modules/app/project/ProjectRepository';
-import { ProjectModalApplication } from '../project/ProjectModalApplication';
 
-interface AppNavProps {
+interface MainMenuUIProps {
+  readonly onNewProjectClick: () => void;
+  readonly onProjectItemClick: (project: ProjectDto) => void;
+  readonly onProjectsItemClick: () => void;
+  readonly onTodayItemClick: () => void;
   readonly projects: Array<ProjectDto>;
 }
 
-export const AppNav = ({ projects }: AppNavProps) => {
-  const router = useRouter();
+export const MainMenuUI = ({
+  onNewProjectClick,
+  onProjectItemClick,
+  onProjectsItemClick,
+  onTodayItemClick,
+  projects,
+}: MainMenuUIProps) => {
   const pathname = usePathname();
-  const [isShowingProjectModal, setIsShowingProjectModal] = useState(false);
-
   const activeClassName = 'bg-gray-200';
-
   const isActive = (item: string) => pathname.lastIndexOf(item) !== -1;
-
-  const onCloseProjectModal = () => {
-    setIsShowingProjectModal(false);
-  };
-
-  const onTodayClick = () => {
-    router.push('/app/today');
-  };
-
-  const onProjectsClick = () => {
-    router.push('/app/projects/active');
-  };
-
-  const onProjectClick = (project: ProjectDto) => {
-    router.push(`/app/project/${project.id}`);
-  };
 
   return (
     <nav className="flex flex-col h-full overflow-y-auto overflow-x-hidden bg-gray-50 px-4 py-4 lg:w-80">
@@ -45,7 +33,7 @@ export const AppNav = ({ projects }: AppNavProps) => {
         className={`flex rounded-md p-2 text-base lg:text-sm font-medium text-gray-600 hover:bg-gray-200 ${
           isActive('today') ? activeClassName : ''
         }`}
-        onClick={onTodayClick}
+        onClick={onTodayItemClick}
       >
         <CalendarTodayIcon className="fill-gray-600" />
         <div className="ml-2 flex grow items-center">Today</div>
@@ -56,7 +44,7 @@ export const AppNav = ({ projects }: AppNavProps) => {
           className={`flex grow rounded-md p-2 text-base lg:text-sm font-medium text-gray-600 hover:bg-gray-200 ${
             isActive('projects') ? activeClassName : ''
           }`}
-          onClick={onProjectsClick}
+          onClick={onProjectsItemClick}
         >
           <ProjectsIcon className="fill-gray-600" />
           <div className="ml-2 flex grow items-center justify-between">Projects</div>
@@ -64,7 +52,7 @@ export const AppNav = ({ projects }: AppNavProps) => {
         <button
           type="button"
           className="rounded-md p-2 text-gray-700 hover:bg-gray-200"
-          onClick={() => setIsShowingProjectModal(true)}
+          onClick={onNewProjectClick}
         >
           <span className="sr-only">Open menu</span>
           <PlusSignalIcon className="fill-gray-600" />
@@ -80,7 +68,7 @@ export const AppNav = ({ projects }: AppNavProps) => {
               className={`flex grow items-center rounded-none lg:rounded-md py-2.5 pl-9 text-base lg:text-sm text-gray-600 hover:bg-gray-200 border-b lg:border-b-0 ${
                 isActive(`project/${project.id}`) ? activeClassName : ''
               }`}
-              onClick={() => onProjectClick(project)}
+              onClick={() => onProjectItemClick(project)}
             >
               <p>{project.name}</p>
             </button>
@@ -90,7 +78,6 @@ export const AppNav = ({ projects }: AppNavProps) => {
           <p className="mt-4 text-sm font-medium text-gray-600">No projects</p>
         )}
       </nav>
-      <ProjectModalApplication open={isShowingProjectModal} onCloseHandler={onCloseProjectModal} />
     </nav>
   );
 };

@@ -3,7 +3,7 @@ import { UserProvider } from '@/modules/app/user/UserProvider';
 import { getUser, UserDto } from '@/modules/app/user/UserRepository';
 import { AppHeader } from '@/modules/app/shared/AppHeader';
 import { PwaPromptModal } from '@/modules/shared/pwa/PwaPromptModal';
-import { AppNav } from '@/modules/app/shared/AppNav';
+import { MainMenuApplication } from '@/modules/app/shared/MainMenuApplication';
 import { getAllProjects } from '@/modules/app/project/ProjectRepository';
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
@@ -22,7 +22,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
         <AppHeader />
         <div className="flex h-full overflow-hidden">
           <div className="hidden lg:flex">
-            <AppNav projects={projects} />
+            <MainMenuApplication projects={projects} />
           </div>
           <div className="w-full overflow-y-auto overflow-x-hidden md:flex">
             <div className="flex w-full max-w-[24rem] flex-col px-4 md:max-w-[38rem] md:pl-8 lg:max-w-[60rem] xl:pl-36  2xl:pl-60">

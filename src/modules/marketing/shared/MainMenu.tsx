@@ -4,28 +4,28 @@ import 'client-only';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-interface MainNavProps {
-  readonly callback?: () => void;
+interface MainMenuProps {
+  readonly onItemClick?: () => void;
 }
 
-export interface MainNavItem {
+export interface MainMenuItem {
   readonly href: string;
   readonly name: string;
 }
 
-export const mainNavItems: Array<MainNavItem> = [
+export const mainMenuItems: Array<MainMenuItem> = [
   { name: 'Features', href: '/features' },
   { name: 'Pricing', href: '/pricing' },
   { name: 'About', href: '/about' },
 ];
 
-export const MainNav = ({ callback }: MainNavProps) => {
+export const MainMenu = ({ onItemClick }: MainMenuProps) => {
   const pathname = usePathname();
-  const dynamicProps = callback ? { onClick: callback } : {};
+  const dynamicProps = onItemClick ? { onClick: onItemClick } : {};
 
   return (
     <>
-      {mainNavItems.map((item) => {
+      {mainMenuItems.map((item) => {
         const isActive = pathname.startsWith(item.href);
         let className =
           '-mx-3 block px-3 py-2 text-base font-medium leading-7 text-gray-900 lg:mx-0 lg:px-0 lg:py-0 lg:text-sm lg:leading-6 lg:hover:text-green-700';
