@@ -1,10 +1,10 @@
 import { redirect } from 'next/navigation';
-import { UserProvider } from '@/modules/app/user/UserProvider';
-import { getUser, UserDto } from '@/modules/app/user/UserRepository';
-import { AppHeader } from '@/modules/app/shared/AppHeader';
+import { UserProvider } from '@/modules/app/users/UserProvider';
+import { getUser, UserDto } from '@/modules/app/users/UserRepository';
+import { Header } from '@/modules/app/shared/Header';
 import { PwaPromptModal } from '@/modules/shared/pwa/PwaPromptModal';
 import { MainMenuApplication } from '@/modules/app/shared/MainMenuApplication';
-import { getAllProjects } from '@/modules/app/project/ProjectRepository';
+import { getAllProjects } from '@/modules/app/projects/ProjectRepository';
 
 export default async function AppLayout({
   children,
@@ -25,7 +25,7 @@ export default async function AppLayout({
   return (
     <UserProvider user={user}>
       <div className="flex flex-col h-full overflow-hidden bg-white">
-        <AppHeader />
+        <Header />
         <div className="flex h-full overflow-hidden">
           <div className="hidden lg:flex">
             <MainMenuApplication projects={projects} />

@@ -2,7 +2,7 @@
 
 import { Fragment, useEffect, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
-import { XIcon } from '@/modules/shared/icon/XIcon';
+import { XIcon } from '@/modules/shared/icons/XIcon';
 import {
   buttonClassNameGreen,
   buttonClassNameWhite,

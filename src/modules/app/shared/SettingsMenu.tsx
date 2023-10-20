@@ -4,11 +4,11 @@ import { Fragment, useContext, useState } from 'react';
 import { Menu } from '@headlessui/react';
 import { SettingsModal } from '@/modules/app/settings/SettingsModal';
 import { DropdownMenu } from '@/modules/shared/controls/dropdown/DropdownMenu';
-import { PersonIcon } from '@/modules/shared/icon/PersonIcon';
-import { SettingsIcon } from '@/modules/shared/icon/SettingsIcon';
-import { LogoutIcon } from '@/modules/shared/icon/LogoutIcon';
-import { UserContext } from '@/modules/app/user/UserProvider';
-import { deleteUserAccount, signOut } from '@/modules/app/user/UserRepository';
+import { PersonIcon } from '@/modules/shared/icons/PersonIcon';
+import { SettingsIcon } from '@/modules/shared/icons/SettingsIcon';
+import { LogoutIcon } from '@/modules/shared/icons/LogoutIcon';
+import { UserContext } from '@/modules/app/users/UserProvider';
+import { deleteUserAccount, signOut } from '@/modules/app/users/UserRepository';
 import { ConfirmationModal, ConfirmationModalProps } from './ConfirmationModal';
 
 enum SettingsMenuAction {

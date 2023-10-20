@@ -2,8 +2,8 @@
 
 import 'client-only';
 import { useEffect, useState } from 'react';
-import { ProjectDto } from '@/modules/app/project/ProjectRepository';
-import { ModalUI } from '@/modules/shared/modal/ModalUI';
+import { ProjectDto } from '@/modules/app/projects/ProjectRepository';
+import { ModalUI } from '@/modules/shared/modals/ModalUI';
 import { MainMenuApplication } from './MainMenuApplication';
 
 interface MainMenuModalApplicationProps {

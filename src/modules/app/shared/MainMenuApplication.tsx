@@ -2,7 +2,7 @@
 
 import 'client-only';
 import { useRouter } from 'next/navigation';
-import { ProjectDto } from '@/modules/app/project/ProjectRepository';
+import { ProjectDto } from '@/modules/app/projects/ProjectRepository';
 import { MainMenuUI } from './MainMenuUI';
 
 interface MainMenuApplicationProps {
@@ -14,7 +14,7 @@ export const MainMenuApplication = ({ projects }: MainMenuApplicationProps) => {
 
   const onNewProjectClick = () => {
     // setIsShowingProjectModal(true);
-    router.push('/app/project/new');
+    router.push('/app/projects/new');
   };
 
   const onTodayItemClick = () => {
@@ -22,7 +22,7 @@ export const MainMenuApplication = ({ projects }: MainMenuApplicationProps) => {
   };
 
   const onProjectItemClick = (project: ProjectDto) => {
-    router.push(`/app/project/${project.id}`);
+    router.push(`/app/projects/${project.id}`);
   };
 
   const onProjectsItemClick = () => {

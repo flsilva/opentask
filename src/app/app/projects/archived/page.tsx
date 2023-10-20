@@ -1,7 +1,7 @@
 import 'server-only';
-import { ProjectListApplication } from '@/modules/app/project/ProjectListApplication';
-import { ProjectsHeader } from '@/modules/app/project/ProjectsHeader';
-import { getAllProjects } from '@/modules/app/project/ProjectRepository';
+import { ProjectListApplication } from '@/modules/app/projects/ProjectListApplication';
+import { ProjectsHeader } from '@/modules/app/projects/ProjectsHeader';
+import { getAllProjects } from '@/modules/app/projects/ProjectRepository';
 
 export default async function ArchivedProjectsPage() {
   const archivedProjects = await getAllProjects({ isArchived: true });

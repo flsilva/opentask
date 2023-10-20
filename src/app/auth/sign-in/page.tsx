@@ -8,9 +8,9 @@ import {
   buttonClassNameWhite,
 } from '@/modules/shared//controls/button/buttonClassName';
 import { ChildrenProps } from '@/modules/shared/ChildrenProps';
-import { GitHubLogoIcon } from '@/modules/shared/icon/GitHubLogoIcon';
-import { LinkedInInLogoIcon } from '@/modules/shared/icon/LinkedInInLogoIcon';
-import { TwitterLogoIcon } from '@/modules/shared/icon/TwitterLogoIcon';
+import { GitHubLogoIcon } from '@/modules/shared/icons/GitHubLogoIcon';
+import { LinkedInInLogoIcon } from '@/modules/shared/icons/LinkedInInLogoIcon';
+import { TwitterLogoIcon } from '@/modules/shared/icons/TwitterLogoIcon';
 
 export type Provider = 'github' | 'linkedin' | 'twitter';
 

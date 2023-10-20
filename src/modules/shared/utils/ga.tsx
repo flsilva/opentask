@@ -1,9 +1,9 @@
 'use client';
 
 import 'client-only';
+import { useEffect } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
 import Script from 'next/script';
-import { useEffect } from 'react';
 
 export const gaPageWiew = (id: string, url: string) => {
   if (!window.gtag) return;

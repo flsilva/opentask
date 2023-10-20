@@ -2,10 +2,10 @@
 
 import 'client-only';
 import { usePathname } from 'next/navigation';
-import { CalendarTodayIcon } from '@/modules/shared/icon/CalendarTodayIcon';
-import { PlusSignalIcon } from '@/modules/shared/icon/PlusSignalIcon';
-import { ProjectsIcon } from '@/modules/shared/icon/ProjectsIcon';
-import { ProjectDto } from '@/modules/app/project/ProjectRepository';
+import { CalendarTodayIcon } from '@/modules/shared/icons/CalendarTodayIcon';
+import { PlusSignalIcon } from '@/modules/shared/icons/PlusSignalIcon';
+import { ProjectsIcon } from '@/modules/shared/icons/ProjectsIcon';
+import { ProjectDto } from '@/modules/app/projects/ProjectRepository';
 
 interface MainMenuUIProps {
   readonly onNewProjectClick: () => void;
@@ -25,6 +25,19 @@ export const MainMenuUI = ({
   const pathname = usePathname();
   const activeClassName = 'bg-gray-200';
   const isActive = (item: string) => pathname.lastIndexOf(item) !== -1;
+  /*
+  const isActive = (item: string) => {
+    console.log('isActive() - item: ', item);
+    console.log('isActive() - pathname: ', pathname);
+    console.log(
+      'isActive() - pathname.lastIndexOf("projects/"): ',
+      pathname.lastIndexOf('projects/'),
+    );
+    if (item === 'projects') return pathname.lastIndexOf('projects/') === -1;
+
+    return pathname.lastIndexOf(item) !== -1;
+  };
+  */
 
   return (
     <nav className="flex flex-col h-full overflow-y-auto overflow-x-hidden bg-gray-50 px-4 py-4 lg:w-80">
@@ -42,7 +55,7 @@ export const MainMenuUI = ({
         <button
           type="button"
           className={`flex grow rounded-md p-2 text-base lg:text-sm font-medium text-gray-600 hover:bg-gray-200 ${
-            isActive('projects') ? activeClassName : ''
+            isActive('projects/active') || isActive('projects/archived') ? activeClassName : ''
           }`}
           onClick={onProjectsItemClick}
         >
@@ -66,7 +79,7 @@ export const MainMenuUI = ({
               key={project.id}
               type="button"
               className={`flex grow items-center rounded-none lg:rounded-md py-2.5 pl-9 text-base lg:text-sm text-gray-600 hover:bg-gray-200 border-b lg:border-b-0 ${
-                isActive(`project/${project.id}`) ? activeClassName : ''
+                isActive(`projects/${project.id}`) ? activeClassName : ''
               }`}
               onClick={() => onProjectItemClick(project)}
             >

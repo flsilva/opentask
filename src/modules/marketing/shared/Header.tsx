@@ -2,9 +2,9 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { HamburgerMenuIcon } from '@/modules/shared/icon/HamburgerMenuIcon';
-import { XIcon } from '@/modules/shared/icon/XIcon';
-import { Logo } from '@/modules/shared/logo/Logo';
+import { HamburgerMenuIcon } from '@/modules/shared/icons/HamburgerMenuIcon';
+import { XIcon } from '@/modules/shared/icons/XIcon';
+import { Logo } from '@/modules/shared/logos/Logo';
 import { MainMenu } from './MainMenu';
 import { MainMenuMobile } from './MainMenuMobile';
 
