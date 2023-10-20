@@ -5,14 +5,21 @@ import { Dialog, Transition } from '@headlessui/react';
 import { ChildrenProps } from '../ChildrenProps';
 
 interface ModalUIProps extends ChildrenProps {
+  readonly appear?: boolean;
   readonly initialFocusRef?: React.MutableRefObject<HTMLInputElement | null>;
   readonly onCloseHandler: () => void;
   readonly open: boolean;
 }
 
-export const ModalUI = ({ children, initialFocusRef, onCloseHandler, open }: ModalUIProps) => {
+export const ModalUI = ({
+  appear,
+  children,
+  initialFocusRef,
+  onCloseHandler,
+  open,
+}: ModalUIProps) => {
   return (
-    <Transition show={open} as={Fragment}>
+    <Transition appear={appear} show={open} as={Fragment}>
       <Dialog
         as="div"
         className="relative z-50"

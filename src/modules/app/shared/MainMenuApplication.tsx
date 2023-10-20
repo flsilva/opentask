@@ -1,10 +1,8 @@
 'use client';
 
 import 'client-only';
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { ProjectDto } from '@/modules/app/project/ProjectRepository';
-import { ProjectModalApplication } from '../project/ProjectModalApplication';
 import { MainMenuUI } from './MainMenuUI';
 
 interface MainMenuApplicationProps {
@@ -13,14 +11,10 @@ interface MainMenuApplicationProps {
 
 export const MainMenuApplication = ({ projects }: MainMenuApplicationProps) => {
   const router = useRouter();
-  const [isShowingProjectModal, setIsShowingProjectModal] = useState(false);
-
-  const onCloseProjectModal = () => {
-    setIsShowingProjectModal(false);
-  };
 
   const onNewProjectClick = () => {
-    setIsShowingProjectModal(true);
+    // setIsShowingProjectModal(true);
+    router.push('/app/project/new');
   };
 
   const onTodayItemClick = () => {
@@ -44,7 +38,6 @@ export const MainMenuApplication = ({ projects }: MainMenuApplicationProps) => {
         onProjectsItemClick={onProjectsItemClick}
         projects={projects}
       />
-      <ProjectModalApplication open={isShowingProjectModal} onCloseHandler={onCloseProjectModal} />
     </>
   );
 };

@@ -1,21 +1,17 @@
 'use client';
 
 import 'client-only';
-import { usePathname, useRouter } from 'next/navigation';
-import { ProjectDto } from '@/modules/app/project/ProjectRepository';
+import { useRouter } from 'next/navigation';
 import { updateTask, TaskDto } from './TaskRepository';
 import { TaskListUI } from './TaskListUI';
 
 interface TaskListApplicationProps {
   readonly addTask?: React.ReactNode;
-  readonly project?: ProjectDto | null;
   readonly tasks: Array<TaskDto>;
 }
 
-export const TaskListApplication = ({ addTask, project, tasks }: TaskListApplicationProps) => {
+export const TaskListApplication = ({ addTask, tasks }: TaskListApplicationProps) => {
   const router = useRouter();
-  const pathname = usePathname();
-
   const completedTasks = tasks.filter((task) => task.isCompleted);
   const uncompletedTasks = tasks.filter((task) => !task.isCompleted);
 
@@ -30,11 +26,7 @@ export const TaskListApplication = ({ addTask, project, tasks }: TaskListApplica
   };
 
   const onTaskClick = (task: TaskDto) => {
-    if (pathname.indexOf('today') !== -1 || !project) {
-      router.push(`/app/today/task/${task.id}`);
-    } else {
-      router.push(`/app/project/${project.id}/task/${task.id}`);
-    }
+    router.push(`/app/task/${task.id}`);
   };
 
   return (

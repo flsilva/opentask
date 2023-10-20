@@ -12,7 +12,7 @@ import { EditIcon } from '@/modules/shared/icon/EditIcon';
 import { UnarchiveIcon } from '@/modules/shared/icon/UnarchiveIcon';
 import { ConfirmationModal, ConfirmationModalProps } from '@/modules/app/shared/ConfirmationModal';
 import { deleteProject, updateProject, ProjectDto } from './ProjectRepository';
-import { ProjectModalApplication } from './ProjectModalApplication';
+//import { ProjectModalApplication } from './ProjectModalApplication';
 
 export enum ProjectAction {
   Archive = 'Archive',
@@ -137,7 +137,9 @@ export const ProjectHeader = ({ project }: ProjectHeaderProps) => {
        * Edit Project
        */
       case ProjectAction.Edit:
-        setShowProjectModal(true);
+        // setShowProjectModal(true);
+        if (!project) return;
+        router.push(`/app/project/${project.id}/edit`);
         break;
       /*
        * Unarchive Project
@@ -214,11 +216,6 @@ export const ProjectHeader = ({ project }: ProjectHeaderProps) => {
           <p className="mt-2 block whitespace-pre-line text-sm mb-8">This project is archived.</p>
         )}
       </div>
-      <ProjectModalApplication
-        open={showProjectModal}
-        onCloseHandler={onCloseProjectModal}
-        project={project}
-      />
       {confirmationModalProps && <ConfirmationModal {...confirmationModalProps} />}
     </>
   );

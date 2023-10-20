@@ -24,7 +24,6 @@ export default async function ProjectPage({ params: { projectId } }: ProjectPage
       )}
       <TaskListApplication
         addTask={<AddTask project={project} projects={projects} />}
-        project={project}
         tasks={project.tasks}
       />
     </>

@@ -11,17 +11,16 @@ import {
   UpdateProjectDto,
 } from './ProjectRepository';
 import { ProjectFormUI } from './ProjectFormUI';
+import { ProjectModalUI } from './ProjectModalUI';
 
 interface ProjectFormApplicationProps {
-  readonly inputNameRef: React.MutableRefObject<HTMLInputElement | null>;
-  readonly onCloseHandler: () => void;
   readonly project?: ProjectDto | null;
+  readonly shouldRenderOnModal?: boolean;
 }
 
 export const ProjectFormApplication = ({
-  inputNameRef,
-  onCloseHandler,
   project,
+  shouldRenderOnModal,
 }: ProjectFormApplicationProps) => {
   const router = useRouter();
   /*
@@ -31,10 +30,11 @@ export const ProjectFormApplication = ({
    */
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(true);
 
   useEffect(() => {
-    setNameAccordingToProject(project);
-    setDescriptionAccordingToProject(project);
+    _setName(project);
+    _setDescription(project);
   }, [project]);
   /**/
 
@@ -45,26 +45,16 @@ export const ProjectFormApplication = ({
 
   const isValidData = createProjectSchema.safeParse(generateProjectDto()).success;
 
-  const setNameAccordingToProject = (project?: ProjectDto | null) => {
-    if (
-      project !== undefined &&
-      project !== null &&
-      project.name !== undefined &&
-      project.name !== null
-    ) {
+  const _setName = (project?: ProjectDto | null) => {
+    if (project && project.name) {
       setName(project.name);
       return;
     }
     setName('');
   };
 
-  const setDescriptionAccordingToProject = (project?: ProjectDto | null) => {
-    if (
-      project !== undefined &&
-      project !== null &&
-      project.description !== undefined &&
-      project.description !== null
-    ) {
+  const _setDescription = (project?: ProjectDto | null) => {
+    if (project && project.description) {
       setDescription(project.description);
       return;
     }
@@ -83,41 +73,86 @@ export const ProjectFormApplication = ({
     setDescription(event.target.value);
   };
 
-  const _createProject = async (data: CreateProjectDto) => {
-    const project = await createProject(data);
-    onCloseHandler();
-    router.push(`/app/project/${project.id}`);
+  const onCloseHandler = () => {
+    setIsModalOpen(false);
     /*
-     * This is necessary to refetch data and rerender the UI.
-     * Otherwise, data changes do not display in the UI.
+     * setTimout() used to wait for the leave transition.
      */
-    router.refresh();
+    setTimeout(() => {
+      router.back();
+    }, 300);
     /**/
   };
 
-  const _updateProject = async (data: UpdateProjectDto) => {
-    const project = await updateProject(data);
-    onCloseHandler();
-    /*
-     * This is necessary to refetch data and rerender the UI.
-     * Otherwise, data changes do not display in the UI.
-     */
-    router.refresh();
-    /**/
+  const onFormSubmitSuceeded = (newProject: ProjectDto) => {
+    setIsModalOpen(false);
+
+    if (project && project.id === newProject.id) {
+      // User is editing a project.
+
+      /*
+       * setTimout() used to wait for the leave transition.
+       */
+      setTimeout(() => {
+        router.refresh();
+        router.back();
+      }, 300);
+      /**/
+
+      return;
+    }
+
+    // User is creating a project.
+
+    router.push(`/app/project/${newProject.id}`);
+
+    if (shouldRenderOnModal) {
+      /*
+       * Flavio Silva on Oct. 19th:
+       * When we navigate the user to "/app/project/[projectId]" after creating a project
+       * this Project Modal doesn't get closed as expected. It seems a bug with Parallel + Intercepting Routes,
+       * perhaps because it's also used together with dynamic routes, since we have [projectId] in the URL.
+       *
+       * If we just close this modal with the line above (setIsOpen(false)) it won't open again,
+       * probably because we just hid it, not properly unmounted it.
+       *
+       * So we have this ugly workaround to close the Project Modal.
+       * We hard reload the browser at a "/app/project/[projectId]" URL.
+       * Hopefully this bug gets fixed soon so we can remove this.
+       * There are many bugs related to Parallel + Intercepting Routes, including the following one
+       * that might be related to this specific bug:
+       *
+       * https://github.com/vercel/next.js/issues/48719
+       */
+      setTimeout(() => {
+        if (window) window.location.reload();
+      }, 300);
+      /**/
+    } else {
+      /*
+       * This is necessary to refetch data and rerender the UI.
+       * Otherwise, data changes do not display in the UI.
+       */
+      router.refresh();
+      /**/
+    }
   };
 
   const onSaveProject = async () => {
     let data: CreateProjectDto | UpdateProjectDto = generateProjectDto();
+    let newProject;
 
     if (project) {
       data = { ...data, id: project.id };
       updateProjectSchema.parse(data);
-      _updateProject(data);
+      newProject = await updateProject(data);
+      onFormSubmitSuceeded(newProject);
       return;
     }
 
     createProjectSchema.parse(data);
-    _createProject(data);
+    newProject = await createProject(data);
+    onFormSubmitSuceeded(newProject);
   };
 
   const onKeyDown = (event: React.KeyboardEvent) => {
@@ -127,10 +162,9 @@ export const ProjectFormApplication = ({
     onSaveProject();
   };
 
-  return (
+  const projectFormUI = (
     <ProjectFormUI
       description={description}
-      inputNameRef={inputNameRef}
       isValidData={isValidData}
       name={name}
       onCloseHandler={onCloseHandler}
@@ -140,4 +174,19 @@ export const ProjectFormApplication = ({
       onSaveProject={onSaveProject}
     />
   );
+
+  if (shouldRenderOnModal) {
+    return (
+      <ProjectModalUI
+        appear={isModalOpen}
+        onCloseHandler={onCloseHandler}
+        open={isModalOpen}
+        title={project ? 'Edit project' : 'Create project'}
+      >
+        {projectFormUI}
+      </ProjectModalUI>
+    );
+  }
+
+  return projectFormUI;
 };

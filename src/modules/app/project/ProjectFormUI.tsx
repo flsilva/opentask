@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useRef } from 'react';
 import {
   buttonClassNameGreen,
   buttonClassNameWhite,
@@ -7,10 +8,9 @@ import {
 
 interface ProjectFormUIProps {
   readonly description: string;
-  readonly inputNameRef: React.MutableRefObject<HTMLInputElement | null>;
   readonly isValidData: boolean;
   readonly name: string;
-  readonly onCloseHandler: () => void;
+  readonly onCloseHandler?: () => void;
   readonly onChangeDescriptionHandler: (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => void;
@@ -23,7 +23,6 @@ interface ProjectFormUIProps {
 
 export const ProjectFormUI = ({
   description,
-  inputNameRef,
   isValidData,
   name,
   onCloseHandler,
@@ -32,6 +31,12 @@ export const ProjectFormUI = ({
   onKeyDown,
   onSaveProject,
 }: ProjectFormUIProps) => {
+  const inputNameRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    inputNameRef.current?.focus();
+  });
+
   return (
     <form className="mt-6 flex flex-col">
       <input
@@ -55,9 +60,11 @@ export const ProjectFormUI = ({
         className="mb-6 block w-full resize-none rounded-md border border-gray-400 py-1.5 text-gray-900 ring-0 placeholder:text-gray-400 focus:border-gray-900 focus:outline-0 focus:ring-0"
       ></textarea>
       <div className="flex justify-end gap-4">
-        <button className={buttonClassNameWhite} onClick={onCloseHandler}>
-          Cancel
-        </button>
+        {onCloseHandler && (
+          <button className={buttonClassNameWhite} onClick={onCloseHandler}>
+            Cancel
+          </button>
+        )}
         <button
           type="button"
           disabled={!isValidData}

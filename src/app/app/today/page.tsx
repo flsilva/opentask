@@ -44,3 +44,10 @@ export default async function TodayPage() {
     </>
   );
 }
+
+/*
+export default function TodayPage() {
+  console.log('TodayPage()');
+  return <p>Today Page</p>;
+}
+*/

@@ -6,7 +6,13 @@ import { PwaPromptModal } from '@/modules/shared/pwa/PwaPromptModal';
 import { MainMenuApplication } from '@/modules/app/shared/MainMenuApplication';
 import { getAllProjects } from '@/modules/app/project/ProjectRepository';
 
-export default async function AppLayout({ children }: { children: React.ReactNode }) {
+export default async function AppLayout({
+  children,
+  modal,
+}: {
+  children: React.ReactNode;
+  modal: React.ReactNode;
+}) {
   let user: UserDto;
   try {
     user = await getUser();
@@ -28,6 +34,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
             <div className="flex w-full max-w-[24rem] flex-col px-4 md:max-w-[38rem] md:pl-8 lg:max-w-[60rem] xl:pl-36  2xl:pl-60">
               <div className="pb-16">
                 {children}
+                {modal}
                 {(!projects || projects.length === 0) && (
                   <p className="mt-4 text-sm font-medium text-gray-600">
                     You don&#39;t have any projects yet.{' '}
