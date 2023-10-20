@@ -1,4 +1,5 @@
 import 'server-only';
+import { format } from 'date-fns';
 import { getAllProjects } from '@/modules/app/projects/ProjectRepository';
 import { TodayHeader } from '@/modules/app/today/TodayHeader';
 import { AddTask } from '@/modules/app/tasks/AddTask';
@@ -7,11 +8,13 @@ import { getAllTasksDueUntilToday } from '@/modules/app/tasks/TaskRepository';
 
 export default async function TodayPage() {
   const [projects, tasks] = await Promise.all([getAllProjects(), getAllTasksDueUntilToday()]);
+  const todayStr = format(new Date(), 'yyyy/MM/d');
+
   const tasksDueToday = tasks.filter(
-    (task) => task.dueDate && task.dueDate.getDate() === new Date().getDate(),
+    (task) => task.dueDate && format(task.dueDate, 'yyyy/MM/d') === todayStr,
   );
   const tasksOverdue = tasks.filter(
-    (task) => task.dueDate && task.dueDate.getDate() !== new Date().getDate(),
+    (task) => task.dueDate && format(task.dueDate, 'yyyy/MM/d') !== todayStr,
   );
 
   return (
@@ -44,10 +47,3 @@ export default async function TodayPage() {
     </>
   );
 }
-
-/*
-export default function TodayPage() {
-  console.log('TodayPage()');
-  return <p>Today Page</p>;
-}
-*/
