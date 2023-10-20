@@ -5,7 +5,10 @@ import { useRouter } from 'next/navigation';
 import { Dialog, Transition } from '@headlessui/react';
 import { XIcon } from '@/modules/shared/icons/XIcon';
 import { DeleteIcon } from '@/modules/shared/icons/DeleteIcon';
-import { ConfirmationModal, ConfirmationModalProps } from '@/modules/app/shared/ConfirmationModal';
+import {
+  ConfirmationModal,
+  ConfirmationModalProps,
+} from '@/modules/shared/modals/ConfirmationModal';
 import { ProjectDto } from '@/modules/app/projects/ProjectsRepository';
 import { TaskForm } from './TaskForm';
 import { deleteTask, TaskDto } from './TasksRepository';

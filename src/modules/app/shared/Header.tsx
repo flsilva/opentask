@@ -3,7 +3,7 @@
 import 'client-only';
 import { HamburgerMenuIcon } from '@/modules/shared/icons/HamburgerMenuIcon';
 import { Logo } from '@/modules/shared/logos/Logo';
-import { SettingsMenu } from './SettingsMenu';
+import { SettingsMenu } from '@/modules/app/settings/SettingsMenu';
 import { useRouter } from 'next/navigation';
 
 export const Header = () => {

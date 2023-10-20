@@ -1,15 +1,14 @@
 'use client';
 
-import { Fragment, useContext, useState } from 'react';
+import { Fragment, useContext } from 'react';
 import { Menu } from '@headlessui/react';
-import { SettingsModal } from '@/modules/app/settings/SettingsModal';
+import { useRouter } from 'next/navigation';
 import { DropdownMenu } from '@/modules/shared/controls/dropdown/DropdownMenu';
 import { PersonIcon } from '@/modules/shared/icons/PersonIcon';
 import { SettingsIcon } from '@/modules/shared/icons/SettingsIcon';
 import { LogoutIcon } from '@/modules/shared/icons/LogoutIcon';
 import { UserContext } from '@/modules/app/users/UserProvider';
-import { deleteUserAccount, signOut } from '@/modules/app/users/UsersRepository';
-import { ConfirmationModal, ConfirmationModalProps } from './ConfirmationModal';
+import { signOut } from '@/modules/app/users/UsersRepository';
 
 enum SettingsMenuAction {
   Settings = 'Settings',
@@ -37,33 +36,7 @@ const settingsMenuItems: Array<SettingsMenuItem> = [
 
 export const SettingsMenu = () => {
   const user = useContext(UserContext);
-  const [isShowingSettingsModal, setIsShowingSettingsModal] = useState(false);
-  const [confirmationModalProps, setConfirmationModalProps] =
-    useState<ConfirmationModalProps | null>(null);
-
-  const onCloseSettingsModal = () => {
-    if (confirmationModalProps) return;
-    setIsShowingSettingsModal(false);
-  };
-
-  const onCloseConfirmationModal = () => {
-    setConfirmationModalProps(null);
-  };
-
-  const onDeleteAccount = () => {
-    setConfirmationModalProps({
-      confirmButtonLabel: 'Delete',
-      modalCopy: (
-        <span>Are you sure you want to delete you account and all data associated to it?</span>
-      ),
-      modalTitle: 'Delete Task',
-      onCancelHandler: onCloseConfirmationModal,
-      onConfirmHandler: async () => {
-        deleteUserAccount();
-      },
-      open: true,
-    });
-  };
+  const router = useRouter();
 
   const onSettingsMenuActionClick = async (action: SettingsMenuAction) => {
     switch (action) {
@@ -71,11 +44,11 @@ export const SettingsMenu = () => {
         signOut();
         break;
       case SettingsMenuAction.Settings:
-        setIsShowingSettingsModal(true);
+        router.push('/app/settings/account');
         break;
       default:
         throw new Error(
-          'AppHeader().onSettingsActionClick() - SettingsAction not handled: ',
+          'SettingsMenu().onSettingsMenuActionClick() - Unhandled SettingsAction: ',
           action,
         );
     }
@@ -119,12 +92,6 @@ export const SettingsMenu = () => {
           </Menu.Button>
         }
       />
-      <SettingsModal
-        open={isShowingSettingsModal}
-        onCloseModal={onCloseSettingsModal}
-        onDeleteAccount={onDeleteAccount}
-      />
-      {confirmationModalProps && <ConfirmationModal {...confirmationModalProps} />}
     </div>
   );
 };
