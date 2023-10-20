@@ -1,6 +1,6 @@
 import 'server-only';
 import { ProjectHeader } from '@/modules/app/projects/ProjectHeader';
-import { getAllProjects, getProjectById } from '@/modules/app/projects/ProjectRepository';
+import { getAllProjects, getProjectById } from '@/modules/app/projects/ProjectsRepository';
 import { AddTask } from '@/modules/app/tasks/AddTask';
 import { TaskListApplication } from '@/modules/app/tasks/TaskListApplication';
 

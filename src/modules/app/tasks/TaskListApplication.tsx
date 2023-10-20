@@ -2,7 +2,7 @@
 
 import 'client-only';
 import { useRouter } from 'next/navigation';
-import { updateTask, TaskDto } from './TaskRepository';
+import { updateTask, TaskDto } from './TasksRepository';
 import { TaskListUI } from './TaskListUI';
 
 interface TaskListApplicationProps {

@@ -1,10 +1,10 @@
 import { redirect } from 'next/navigation';
 import { UserProvider } from '@/modules/app/users/UserProvider';
-import { getUser, UserDto } from '@/modules/app/users/UserRepository';
+import { getUser, UserDto } from '@/modules/app/users/UsersRepository';
 import { Header } from '@/modules/app/shared/Header';
 import { PwaPromptModal } from '@/modules/shared/pwa/PwaPromptModal';
 import { MainMenuApplication } from '@/modules/app/shared/MainMenuApplication';
-import { getAllProjects } from '@/modules/app/projects/ProjectRepository';
+import { getAllProjects } from '@/modules/app/projects/ProjectsRepository';
 
 export default async function AppLayout({
   children,

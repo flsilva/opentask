@@ -1,6 +1,6 @@
 import 'server-only';
-import { getAllProjects } from '@/modules/app/projects/ProjectRepository';
-import { getTaskById } from '@/modules/app/tasks/TaskRepository';
+import { getAllProjects } from '@/modules/app/projects/ProjectsRepository';
+import { getTaskById } from '@/modules/app/tasks/TasksRepository';
 import { TaskForm } from '@/modules/app/tasks/TaskForm';
 
 interface TaskPageProps {

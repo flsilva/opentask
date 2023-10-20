@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import { CalendarTodayIcon } from '@/modules/shared/icons/CalendarTodayIcon';
 import { PlusSignalIcon } from '@/modules/shared/icons/PlusSignalIcon';
 import { ProjectsIcon } from '@/modules/shared/icons/ProjectsIcon';
-import { ProjectDto } from '@/modules/app/projects/ProjectRepository';
+import { ProjectDto } from '@/modules/app/projects/ProjectsRepository';
 
 interface MainMenuUIProps {
   readonly onNewProjectClick: () => void;

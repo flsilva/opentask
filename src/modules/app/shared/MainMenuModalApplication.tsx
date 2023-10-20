@@ -2,7 +2,7 @@
 
 import 'client-only';
 import { useEffect, useState } from 'react';
-import { ProjectDto } from '@/modules/app/projects/ProjectRepository';
+import { ProjectDto } from '@/modules/app/projects/ProjectsRepository';
 import { ModalUI } from '@/modules/shared/modals/ModalUI';
 import { MainMenuApplication } from './MainMenuApplication';
 

@@ -2,14 +2,14 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { createProjectSchema, updateProjectSchema } from './ProjectDomain';
+import { createProjectSchema, updateProjectSchema } from './ProjectsDomain';
 import {
   createProject,
   updateProject,
   CreateProjectDto,
   ProjectDto,
   UpdateProjectDto,
-} from './ProjectRepository';
+} from './ProjectsRepository';
 import { ProjectFormUI } from './ProjectFormUI';
 import { ProjectModalUI } from './ProjectModalUI';
 

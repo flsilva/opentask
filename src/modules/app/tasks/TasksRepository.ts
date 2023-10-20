@@ -3,8 +3,8 @@
 import { z } from 'zod';
 import { cuid2 } from '@/modules/app/shared/data-access/cuid2';
 import { prisma } from '@/modules/app/shared/data-access/prisma';
-import { getUserId } from '@/modules/app/users/UserRepository';
-import { createTaskSchema, updateTaskSchema } from './TaskDomain';
+import { getUserId } from '@/modules/app/users/UsersRepository';
+import { createTaskSchema, updateTaskSchema } from './TasksDomain';
 
 export type CreateTaskDto = z.infer<typeof createTaskSchema>;
 

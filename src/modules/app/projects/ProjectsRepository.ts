@@ -3,8 +3,8 @@
 import { z } from 'zod';
 import { cuid2 } from '@/modules/app/shared/data-access/cuid2';
 import { prisma } from '@/modules/app/shared/data-access/prisma';
-import { getUserId } from '@/modules/app/users/UserRepository';
-import { createProjectSchema, updateProjectSchema } from './ProjectDomain';
+import { getUserId } from '@/modules/app/users/UsersRepository';
+import { createProjectSchema, updateProjectSchema } from './ProjectsDomain';
 
 export type CreateProjectDto = z.infer<typeof createProjectSchema>;
 

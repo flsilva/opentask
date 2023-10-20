@@ -1,10 +1,10 @@
 import 'server-only';
 import { compareAsc, format } from 'date-fns';
-import { getAllProjects } from '@/modules/app/projects/ProjectRepository';
+import { getAllProjects } from '@/modules/app/projects/ProjectsRepository';
 import { TodayHeader } from '@/modules/app/today/TodayHeader';
 import { AddTask } from '@/modules/app/tasks/AddTask';
 import { TaskListApplication } from '@/modules/app/tasks/TaskListApplication';
-import { getAllTasksDueUntilToday } from '@/modules/app/tasks/TaskRepository';
+import { getAllTasksDueUntilToday } from '@/modules/app/tasks/TasksRepository';
 
 export default async function TodayPage() {
   const [projects, tasks] = await Promise.all([getAllProjects(), getAllTasksDueUntilToday()]);

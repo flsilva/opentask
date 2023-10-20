@@ -1,6 +1,6 @@
 import 'server-only';
 import { ProjectFormApplication } from '@/modules/app/projects/ProjectFormApplication';
-import { getProjectById } from '@/modules/app/projects/ProjectRepository';
+import { getProjectById } from '@/modules/app/projects/ProjectsRepository';
 
 interface EditProjectModalInterceptingPageProps {
   readonly params: { readonly projectId: string };

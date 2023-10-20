@@ -2,7 +2,7 @@
 
 import { createContext } from 'react';
 import { ChildrenProps } from '@/modules/shared/ChildrenProps';
-import { UserDto } from './UserRepository';
+import { UserDto } from './UsersRepository';
 
 interface UserProviderProps extends ChildrenProps {
   readonly user: UserDto;

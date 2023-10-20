@@ -2,7 +2,7 @@
 
 import 'client-only';
 import { useRouter } from 'next/navigation';
-import { ProjectDto } from './ProjectRepository';
+import { ProjectDto } from './ProjectsRepository';
 import { ProjectListUI } from './ProjectListUI';
 
 interface ProjectListApplicationProps {

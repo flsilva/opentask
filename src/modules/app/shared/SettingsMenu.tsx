@@ -8,7 +8,7 @@ import { PersonIcon } from '@/modules/shared/icons/PersonIcon';
 import { SettingsIcon } from '@/modules/shared/icons/SettingsIcon';
 import { LogoutIcon } from '@/modules/shared/icons/LogoutIcon';
 import { UserContext } from '@/modules/app/users/UserProvider';
-import { deleteUserAccount, signOut } from '@/modules/app/users/UserRepository';
+import { deleteUserAccount, signOut } from '@/modules/app/users/UsersRepository';
 import { ConfirmationModal, ConfirmationModalProps } from './ConfirmationModal';
 
 enum SettingsMenuAction {

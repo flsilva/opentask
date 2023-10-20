@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { Transition } from '@headlessui/react';
 import { buttonClassNameLink } from '@/modules/shared/controls/button/buttonClassName';
 import { PlusSignalIcon } from '@/modules/shared/icons/PlusSignalIcon';
-import { ProjectDto } from '@/modules/app/projects/ProjectRepository';
+import { ProjectDto } from '@/modules/app/projects/ProjectsRepository';
 import { TaskForm } from './TaskForm';
 import { TaskModal } from './TaskModal';
 
