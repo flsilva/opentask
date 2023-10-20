@@ -4,12 +4,17 @@ import 'client-only';
 import { useRouter } from 'next/navigation';
 import { ProjectDto } from '@/modules/app/projects/ProjectsRepository';
 import { MainMenuUI } from './MainMenuUI';
+import { ModalUI } from '@/modules/shared/modals/ModalUI';
 
 interface MainMenuApplicationProps {
   readonly projects: Array<ProjectDto>;
+  readonly shouldRenderOnModal?: boolean;
 }
 
-export const MainMenuApplication = ({ projects }: MainMenuApplicationProps) => {
+export const MainMenuApplication = ({
+  projects,
+  shouldRenderOnModal,
+}: MainMenuApplicationProps) => {
   const router = useRouter();
 
   const onNewProjectClick = () => {
@@ -29,15 +34,23 @@ export const MainMenuApplication = ({ projects }: MainMenuApplicationProps) => {
     router.push('/app/projects/active');
   };
 
-  return (
-    <>
-      <MainMenuUI
-        onNewProjectClick={onNewProjectClick}
-        onTodayItemClick={onTodayItemClick}
-        onProjectItemClick={onProjectItemClick}
-        onProjectsItemClick={onProjectsItemClick}
-        projects={projects}
-      />
-    </>
+  const mainMenuUI = (
+    <MainMenuUI
+      onNewProjectClick={onNewProjectClick}
+      onTodayItemClick={onTodayItemClick}
+      onProjectItemClick={onProjectItemClick}
+      onProjectsItemClick={onProjectsItemClick}
+      projects={projects}
+    />
   );
+
+  if (shouldRenderOnModal) {
+    return (
+      <ModalUI appear onCloseHandler={() => null} open>
+        {mainMenuUI}
+      </ModalUI>
+    );
+  }
+
+  return mainMenuUI;
 };

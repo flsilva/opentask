@@ -1,9 +1,9 @@
 import 'server-only';
 import { getAllProjects } from '@/modules/app/projects/ProjectsRepository';
-import { MainMenuModalApplication } from '@/modules/app/shared/MainMenuModalApplication';
+import { MainMenuApplication } from '@/modules/app/shared/MainMenuApplication';
 
 export default async function MainMenuPage() {
   const projects = await getAllProjects();
 
-  return <MainMenuModalApplication projects={projects} />;
+  return <MainMenuApplication projects={projects} shouldRenderOnModal />;
 }
