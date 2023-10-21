@@ -3,11 +3,11 @@
 import 'client-only';
 import { buttonClassNameRed } from '@/modules/shared/controls/button/buttonClassName';
 
-interface SettingsUIProps {
+interface AccountSettingsUIProps {
   readonly onDeleteAccount: () => void;
 }
 
-export const SettingsUI = ({ onDeleteAccount }: SettingsUIProps) => {
+export const AccountSettingsUI = ({ onDeleteAccount }: AccountSettingsUIProps) => {
   return (
     <div className="flex flex-col">
       <button

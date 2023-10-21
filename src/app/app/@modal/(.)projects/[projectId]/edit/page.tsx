@@ -1,5 +1,5 @@
 import 'server-only';
-import { ProjectFormApplication } from '@/modules/app/projects/ProjectFormApplication';
+import { ProjectFormController } from '@/modules/app/projects/ProjectFormController';
 import { getProjectById } from '@/modules/app/projects/ProjectsRepository';
 
 interface EditProjectModalInterceptingPageProps {
@@ -11,5 +11,5 @@ export default async function EditProjectModalInterceptingPage({
 }: EditProjectModalInterceptingPageProps) {
   const project = await getProjectById({ id: projectId });
 
-  return <ProjectFormApplication project={project} shouldRenderOnModal />;
+  return <ProjectFormController project={project} shouldRenderOnModal />;
 }

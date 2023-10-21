@@ -1,14 +1,14 @@
 import 'server-only';
-import { ProjectListApplication } from '@/modules/app/projects/ProjectListApplication';
-import { ProjectsHeader } from '@/modules/app/projects/ProjectsHeader';
+import { ProjectListController } from '@/modules/app/projects/ProjectListController';
+import { ProjectsPageHeaderController } from '@/modules/app/projects/ProjectsPageHeaderController';
 import { getAllProjects } from '@/modules/app/projects/ProjectsRepository';
 
 export default async function ActiveProjectsPage() {
   const projects = await getAllProjects();
   return (
     <>
-      <ProjectsHeader archived={false} />
-      <ProjectListApplication projects={projects} />
+      <ProjectsPageHeaderController archived={false} />
+      <ProjectListController projects={projects} />
     </>
   );
 }

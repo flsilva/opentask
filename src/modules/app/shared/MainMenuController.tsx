@@ -6,19 +6,15 @@ import { ProjectDto } from '@/modules/app/projects/ProjectsRepository';
 import { MainMenuUI } from './MainMenuUI';
 import { ModalUI } from '@/modules/shared/modals/ModalUI';
 
-interface MainMenuApplicationProps {
+interface MainMenuControllerProps {
   readonly projects: Array<ProjectDto>;
   readonly shouldRenderOnModal?: boolean;
 }
 
-export const MainMenuApplication = ({
-  projects,
-  shouldRenderOnModal,
-}: MainMenuApplicationProps) => {
+export const MainMenuController = ({ projects, shouldRenderOnModal }: MainMenuControllerProps) => {
   const router = useRouter();
 
   const onNewProjectClick = () => {
-    // setIsShowingProjectModal(true);
     router.push('/app/projects/new');
   };
 

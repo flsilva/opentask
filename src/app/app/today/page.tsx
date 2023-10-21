@@ -3,7 +3,7 @@ import { compareAsc, format } from 'date-fns';
 import { getAllProjects } from '@/modules/app/projects/ProjectsRepository';
 import { TodayHeader } from '@/modules/app/today/TodayHeader';
 import { AddTask } from '@/modules/app/tasks/AddTask';
-import { TaskListApplication } from '@/modules/app/tasks/TaskListApplication';
+import { TaskListController } from '@/modules/app/tasks/TaskListController';
 import { getAllTasksDueUntilToday } from '@/modules/app/tasks/TasksRepository';
 
 export default async function TodayPage() {
@@ -31,13 +31,13 @@ export default async function TodayPage() {
           {tasksOverdue.length > 0 && (
             <>
               <p className="text-xs font-semibold mb-4">Overdue</p>
-              <TaskListApplication tasks={tasksOverdue} />
+              <TaskListController tasks={tasksOverdue} />
             </>
           )}
           {tasksOverdue.length > 0 && tasksDueToday.length > 0 && (
             <p className="text-xs font-semibold mb-4">Today</p>
           )}
-          <TaskListApplication
+          <TaskListController
             addTask={
               <AddTask defaultDueDate={new Date()} project={projects[0]} projects={projects} />
             }

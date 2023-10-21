@@ -4,17 +4,15 @@ import 'client-only';
 import { useRouter } from 'next/navigation';
 import { Switch } from '@/modules/shared/controls/switch/Switch';
 
-interface ProjectsHeaderProps {
-  readonly archived: boolean;
+interface ProjectsPageHeaderUIProps {
+  readonly archived?: boolean;
+  readonly onSwitchClick: (enabled: boolean) => void;
 }
 
-export const ProjectsHeader = ({ archived = false }: ProjectsHeaderProps) => {
-  const router = useRouter();
-  const onSwitchClick = (enabled: boolean) => {
-    const path = enabled ? 'archived' : 'active';
-    router.push(path);
-  };
-
+export const ProjectsPageHeaderUI = ({
+  archived = false,
+  onSwitchClick,
+}: ProjectsPageHeaderUIProps) => {
   return (
     <div className="flex flex-col">
       <div className="sticky top-0 flex w-full justify-between bg-white py-8">

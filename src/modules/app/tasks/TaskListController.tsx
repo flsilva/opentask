@@ -5,12 +5,12 @@ import { useRouter } from 'next/navigation';
 import { updateTask, TaskDto } from './TasksRepository';
 import { TaskListUI } from './TaskListUI';
 
-interface TaskListApplicationProps {
+interface TaskListControllerProps {
   readonly addTask?: React.ReactNode;
   readonly tasks: Array<TaskDto>;
 }
 
-export const TaskListApplication = ({ addTask, tasks }: TaskListApplicationProps) => {
+export const TaskListController = ({ addTask, tasks }: TaskListControllerProps) => {
   const router = useRouter();
   const completedTasks = tasks.filter((task) => task.isCompleted);
   const uncompletedTasks = tasks.filter((task) => !task.isCompleted);

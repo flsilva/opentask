@@ -13,15 +13,15 @@ import {
 import { ProjectFormUI } from './ProjectFormUI';
 import { ProjectModalUI } from './ProjectModalUI';
 
-interface ProjectFormApplicationProps {
+interface ProjectFormControllerProps {
   readonly project?: ProjectDto | null;
   readonly shouldRenderOnModal?: boolean;
 }
 
-export const ProjectFormApplication = ({
+export const ProjectFormController = ({
   project,
   shouldRenderOnModal,
-}: ProjectFormApplicationProps) => {
+}: ProjectFormControllerProps) => {
   const router = useRouter();
   /*
    * We can't set these initial states as this Modal is first rendered hidden with no project.
@@ -46,18 +46,12 @@ export const ProjectFormApplication = ({
   const isValidData = createProjectSchema.safeParse(generateProjectDto()).success;
 
   const _setName = (project?: ProjectDto | null) => {
-    if (project && project.name) {
-      setName(project.name);
-      return;
-    }
+    if (project && project.name) return setName(project.name);
     setName('');
   };
 
   const _setDescription = (project?: ProjectDto | null) => {
-    if (project && project.description) {
-      setDescription(project.description);
-      return;
-    }
+    if (project && project.description) return setDescription(project.description);
     setDescription('');
   };
 

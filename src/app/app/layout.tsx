@@ -3,7 +3,7 @@ import { UserProvider } from '@/modules/app/users/UserProvider';
 import { getUser, UserDto } from '@/modules/app/users/UsersRepository';
 import { Header } from '@/modules/app/shared/Header';
 import { PwaPromptModal } from '@/modules/shared/pwa/PwaPromptModal';
-import { MainMenuApplication } from '@/modules/app/shared/MainMenuApplication';
+import { MainMenuController } from '@/modules/app/shared/MainMenuController';
 import { getAllProjects } from '@/modules/app/projects/ProjectsRepository';
 
 export default async function AppLayout({
@@ -28,7 +28,7 @@ export default async function AppLayout({
         <Header />
         <div className="flex h-full overflow-hidden">
           <div className="hidden lg:flex">
-            <MainMenuApplication projects={projects} />
+            <MainMenuController projects={projects} />
           </div>
           <div className="w-full overflow-y-auto overflow-x-hidden md:flex">
             <div className="flex w-full max-w-[24rem] flex-col px-4 md:max-w-[38rem] md:pl-8 lg:max-w-[60rem] xl:pl-36  2xl:pl-60">

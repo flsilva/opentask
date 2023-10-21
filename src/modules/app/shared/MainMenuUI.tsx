@@ -25,19 +25,6 @@ export const MainMenuUI = ({
   const pathname = usePathname();
   const activeClassName = 'bg-gray-200';
   const isActive = (item: string) => pathname.lastIndexOf(item) !== -1;
-  /*
-  const isActive = (item: string) => {
-    console.log('isActive() - item: ', item);
-    console.log('isActive() - pathname: ', pathname);
-    console.log(
-      'isActive() - pathname.lastIndexOf("projects/"): ',
-      pathname.lastIndexOf('projects/'),
-    );
-    if (item === 'projects') return pathname.lastIndexOf('projects/') === -1;
-
-    return pathname.lastIndexOf(item) !== -1;
-  };
-  */
 
   return (
     <nav className="flex flex-col h-full overflow-y-auto overflow-x-hidden bg-gray-50 px-4 py-4 lg:w-80">

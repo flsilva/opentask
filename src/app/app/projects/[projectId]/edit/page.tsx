@@ -1,5 +1,5 @@
 import 'server-only';
-import { ProjectFormApplication } from '@/modules/app/projects/ProjectFormApplication';
+import { ProjectFormController } from '@/modules/app/projects/ProjectFormController';
 import { getProjectById } from '@/modules/app/projects/ProjectsRepository';
 
 interface EditProjectPageProps {
@@ -12,7 +12,7 @@ export default async function EditProjectPage({ params: { projectId } }: EditPro
   return (
     <div className="flex flex-col mt-10">
       <h1 className="text-lg font-semibold text-gray-800">Edit project</h1>
-      <ProjectFormApplication project={project} />
+      <ProjectFormController project={project} />
     </div>
   );
 }

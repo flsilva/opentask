@@ -2,19 +2,21 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { SettingsModalUI } from '@/modules/app/settings/SettingsModalUI';
 import { deleteUserAccount } from '@/modules/app/users/UsersRepository';
 import {
   ConfirmationModal,
   ConfirmationModalProps,
 } from '@/modules/shared/modals/ConfirmationModal';
-import { SettingsUI } from './SettingsUI';
+import { SettingsModalUI } from '../SettingsModalUI';
+import { AccountSettingsUI } from './AccountSettingsUI';
 
-interface SettingsApplicationProps {
+interface AccountSettingsControllerProps {
   readonly shouldRenderOnModal?: boolean;
 }
 
-export const SettingsApplication = ({ shouldRenderOnModal }: SettingsApplicationProps) => {
+export const AccountSettingsController = ({
+  shouldRenderOnModal,
+}: AccountSettingsControllerProps) => {
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(true);
   const [confirmationModalProps, setConfirmationModalProps] =
@@ -52,7 +54,7 @@ export const SettingsApplication = ({ shouldRenderOnModal }: SettingsApplication
     });
   };
 
-  const settingsUI = <SettingsUI onDeleteAccount={onDeleteAccount} />;
+  const settingsUI = <AccountSettingsUI onDeleteAccount={onDeleteAccount} />;
 
   return (
     <>

@@ -1,8 +1,8 @@
 import 'server-only';
-import { ProjectHeader } from '@/modules/app/projects/ProjectHeader';
+import { ProjectPageHeaderController } from '@/modules/app/projects/ProjectPageHeaderController';
 import { getAllProjects, getProjectById } from '@/modules/app/projects/ProjectsRepository';
 import { AddTask } from '@/modules/app/tasks/AddTask';
-import { TaskListApplication } from '@/modules/app/tasks/TaskListApplication';
+import { TaskListController } from '@/modules/app/tasks/TaskListController';
 
 interface ProjectPageProps {
   readonly params: { readonly projectId: string };
@@ -14,15 +14,19 @@ export default async function ProjectPage({ params: { projectId } }: ProjectPage
     getProjectById({ id: projectId }),
   ]);
 
-  if (!project) return;
+  if (!project) {
+    return (
+      <p className="text-sm my-20">We couldn&apos;t find that Project. Maybe it got deleted?</p>
+    );
+  }
 
   return (
     <>
-      <ProjectHeader project={project} />
+      <ProjectPageHeaderController project={project} />
       {project.tasks.length < 1 && (
         <p className="mb-12 text-sm font-medium text-gray-600">No tasks in this project.</p>
       )}
-      <TaskListApplication
+      <TaskListController
         addTask={<AddTask project={project} projects={projects} />}
         tasks={project.tasks}
       />

@@ -1,6 +1,6 @@
 import 'server-only';
-import { SettingsApplication } from '@/modules/app/settings/SettingsApplication';
+import { AccountSettingsController } from '@/modules/app/settings/account/AccountSettingsController';
 
 export default function SettingsAccountInterceptingPage() {
-  return <SettingsApplication shouldRenderOnModal />;
+  return <AccountSettingsController shouldRenderOnModal />;
 }

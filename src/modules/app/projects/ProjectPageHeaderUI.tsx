@@ -2,7 +2,6 @@
 
 import 'client-only';
 import { Fragment, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { Menu } from '@headlessui/react';
 import { DropdownMenu } from '@/modules/shared/controls/dropdown/DropdownMenu';
 import { MoreHorizontalIcon } from '@/modules/shared/icons/MoreHorizontalIcon';
@@ -14,7 +13,7 @@ import {
   ConfirmationModal,
   ConfirmationModalProps,
 } from '@/modules/shared/modals/ConfirmationModal';
-import { deleteProject, updateProject, ProjectDto } from './ProjectsRepository';
+import { ProjectDto } from './ProjectsRepository';
 
 export enum ProjectAction {
   Archive = 'Archive',
@@ -23,8 +22,12 @@ export enum ProjectAction {
   Unarchive = 'Unarchive',
 }
 
-interface ProjectHeaderProps {
-  readonly project: ProjectDto | null;
+interface ProjectPageHeaderUIProps {
+  readonly onArchiveProject: (project: ProjectDto) => void;
+  readonly onDeleteProject: (project: ProjectDto) => void;
+  readonly onEditProject: (project: ProjectDto) => void;
+  readonly onUnarchiveProject: (project: ProjectDto) => void;
+  readonly project: ProjectDto;
 }
 
 interface MenuItem {
@@ -56,34 +59,18 @@ const menuItems: Array<MenuItem> = [
   },
 ];
 
-export const ProjectHeader = ({ project }: ProjectHeaderProps) => {
-  const router = useRouter();
-  const [showProjectModal, setShowProjectModal] = useState(false);
+export const ProjectPageHeaderUI = ({
+  onArchiveProject,
+  onDeleteProject,
+  onEditProject,
+  onUnarchiveProject,
+  project,
+}: ProjectPageHeaderUIProps) => {
   const [confirmationModalProps, setConfirmationModalProps] =
     useState<ConfirmationModalProps | null>(null);
 
-  const onCloseProjectModal = () => {
-    setShowProjectModal(false);
-  };
-
   const onCloseConfirmationModal = () => {
     setConfirmationModalProps(null);
-  };
-
-  const archiveUnarchiveProjectHandler = (project: ProjectDto, archive: boolean) => {
-    return updateProject({ id: project.id, name: project.name, isArchived: archive });
-  };
-
-  const deleteProjectHandler = async (project: ProjectDto) => {
-    await deleteProject(project.id);
-    setConfirmationModalProps(null);
-    router.push('/app/today');
-    /*
-     * This is necessary to refetch data and rerender the UI.
-     * Otherwise, data changes do not display in the UI.
-     */
-    router.refresh();
-    /**/
   };
 
   const onProjectActionClick = async (action: ProjectAction) => {
@@ -92,7 +79,6 @@ export const ProjectHeader = ({ project }: ProjectHeaderProps) => {
        * Archive Project
        */
       case ProjectAction.Archive:
-        if (project === null || project === undefined) return;
         setConfirmationModalProps({
           confirmButtonLabel: 'Archive',
           modalCopy: (
@@ -103,16 +89,9 @@ export const ProjectHeader = ({ project }: ProjectHeaderProps) => {
           ),
           modalTitle: 'Archive Project',
           onCancelHandler: onCloseConfirmationModal,
-          onConfirmHandler: async () => {
-            await archiveUnarchiveProjectHandler(project, true);
+          onConfirmHandler: () => {
             setConfirmationModalProps(null);
-            router.push('/app/today');
-            /*
-             * This is necessary to refetch data and rerender the UI.
-             * Otherwise, data changes do not display in the UI.
-             */
-            router.refresh();
-            /**/
+            onArchiveProject(project);
           },
           open: true,
         });
@@ -121,7 +100,6 @@ export const ProjectHeader = ({ project }: ProjectHeaderProps) => {
        * Delete Project
        */
       case ProjectAction.Delete:
-        if (project === null || project === undefined) return;
         setConfirmationModalProps({
           confirmButtonLabel: 'Delete',
           modalCopy: (
@@ -131,7 +109,10 @@ export const ProjectHeader = ({ project }: ProjectHeaderProps) => {
           ),
           modalTitle: 'Delete Project',
           onCancelHandler: onCloseConfirmationModal,
-          onConfirmHandler: () => deleteProjectHandler(project),
+          onConfirmHandler: () => {
+            setConfirmationModalProps(null);
+            onDeleteProject(project);
+          },
           open: true,
         });
         break;
@@ -139,29 +120,20 @@ export const ProjectHeader = ({ project }: ProjectHeaderProps) => {
        * Edit Project
        */
       case ProjectAction.Edit:
-        // setShowProjectModal(true);
-        if (!project) return;
-        router.push(`/app/projects/${project.id}/edit`);
+        onEditProject(project);
         break;
       /*
        * Unarchive Project
        */
       case ProjectAction.Unarchive:
-        if (project === null || project === undefined) return;
-        await archiveUnarchiveProjectHandler(project, false);
-        /*
-         * This is necessary to refetch data and rerender the UI.
-         * Otherwise, data changes do not display in the UI.
-         */
-        router.refresh();
-        /**/
+        onUnarchiveProject(project);
         break;
       /*
        * Unhandled action error
        */
       default:
         throw new Error(
-          `ProjectHeader().onProjectActionHandler() - Unhandled ProjectAction: ${action}`,
+          `ProjectPageHeaderUI().onProjectActionHandler() - Unhandled ProjectAction: ${action}`,
         );
     }
   };
@@ -170,7 +142,6 @@ export const ProjectHeader = ({ project }: ProjectHeaderProps) => {
     menuItems
       .filter(
         (item) =>
-          project &&
           (item.action !== ProjectAction.Archive || !project.isArchived) &&
           (item.action !== ProjectAction.Edit || !project.isArchived) &&
           (item.action !== ProjectAction.Unarchive || project.isArchived),
@@ -198,7 +169,7 @@ export const ProjectHeader = ({ project }: ProjectHeaderProps) => {
     <>
       <div className="flex flex-col">
         <div className="sticky top-0 flex w-full justify-between bg-white py-8">
-          <h1 className="text-lg font-semibold text-gray-800">{project?.name ?? ''}</h1>
+          <h1 className="text-lg font-semibold text-gray-800">{project.name}</h1>
           <div className="relative [&>div]:flex">
             <DropdownMenu
               items={getDropdownItems()}
@@ -211,10 +182,10 @@ export const ProjectHeader = ({ project }: ProjectHeaderProps) => {
             />
           </div>
         </div>
-        {project && project.description && (
-          <p className="block whitespace-pre-line text-sm mb-8">{project?.description || ''}</p>
+        {project.description && (
+          <p className="block whitespace-pre-line text-sm mb-8">{project.description}</p>
         )}
-        {project && project.isArchived && (
+        {project.isArchived && (
           <p className="mt-2 block whitespace-pre-line text-sm mb-8">This project is archived.</p>
         )}
       </div>
