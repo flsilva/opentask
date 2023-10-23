@@ -2,6 +2,8 @@
 
 import 'client-only';
 import { Fragment, useState } from 'react';
+import { experimental_useFormState as useFormState } from 'react-dom';
+import { useRouter } from 'next/navigation';
 import { Menu } from '@headlessui/react';
 import { DropdownMenu } from '@/modules/shared/controls/dropdown/DropdownMenu';
 import { MoreHorizontalIcon } from '@/modules/shared/icons/MoreHorizontalIcon';
@@ -13,21 +15,16 @@ import {
   ConfirmationModal,
   ConfirmationModalProps,
 } from '@/modules/shared/modals/ConfirmationModal';
-import { ProjectDto } from './ProjectsRepository';
+import { deleteProject, updateProject, ProjectDto } from './ProjectsRepository';
+import { ChildrenProps } from '@/modules/shared/ChildrenProps';
+import { ErrorList } from '@/modules/shared/errors/ErrorList';
+import { ServerResponse } from '../shared/errors/ServerResponse';
 
 export enum ProjectAction {
   Archive = 'Archive',
   Edit = 'Edit',
   Delete = 'Delete',
   Unarchive = 'Unarchive',
-}
-
-interface ProjectPageHeaderUIProps {
-  readonly onArchiveProject: (project: ProjectDto) => void;
-  readonly onDeleteProject: (project: ProjectDto) => void;
-  readonly onEditProject: (project: ProjectDto) => void;
-  readonly onUnarchiveProject: (project: ProjectDto) => void;
-  readonly project: ProjectDto;
 }
 
 interface MenuItem {
@@ -59,13 +56,54 @@ const menuItems: Array<MenuItem> = [
   },
 ];
 
-export const ProjectPageHeaderUI = ({
-  onArchiveProject,
-  onDeleteProject,
-  onEditProject,
-  onUnarchiveProject,
-  project,
-}: ProjectPageHeaderUIProps) => {
+interface UpdateProjectFormProps extends ChildrenProps {
+  readonly formAction: (
+    prevState: any,
+    formData: FormData,
+  ) => Promise<ServerResponse<ProjectDto | undefined>>;
+  readonly onFormSubmitSuceeded: (updatedProject: ProjectDto) => void;
+  readonly projectId: string;
+}
+
+const UpdateProjectForm = ({
+  children,
+  formAction,
+  onFormSubmitSuceeded,
+  projectId,
+}: UpdateProjectFormProps) => {
+  const router = useRouter();
+  const [isServerResponseHandled, setIsServerResponseHandled] = useState(false);
+  const [serverResponse, _formAction] = useFormState(formAction, null);
+
+  if (!isServerResponseHandled && !serverResponse?.errors && serverResponse?.data?.id) {
+    setIsServerResponseHandled(true);
+    onFormSubmitSuceeded(serverResponse.data);
+    /*
+     * This is necessary to refetch data and rerender the UI.
+     * Otherwise, data changes do not display in the UI.
+     */
+    router.refresh();
+    /**/
+  }
+  return (
+    <form action={_formAction}>
+      <input type="hidden" name="id" value={projectId} />
+      {children}
+      {serverResponse?.errors && (
+        <div className="flex flex-col">
+          <ErrorList errors={serverResponse.errors} />
+        </div>
+      )}
+    </form>
+  );
+};
+
+export interface ProjectPageHeaderProps {
+  readonly project: ProjectDto;
+}
+
+export const ProjectPageHeader = ({ project }: ProjectPageHeaderProps) => {
+  const router = useRouter();
   const [confirmationModalProps, setConfirmationModalProps] =
     useState<ConfirmationModalProps | null>(null);
 
@@ -81,6 +119,17 @@ export const ProjectPageHeaderUI = ({
       case ProjectAction.Archive:
         setConfirmationModalProps({
           confirmButtonLabel: 'Archive',
+          confirmButtonLabelSubmitting: 'Archiving...',
+          modalBodyWrapper: (children: React.ReactNode) => (
+            <UpdateProjectForm
+              formAction={updateProject}
+              onFormSubmitSuceeded={onCloseConfirmationModal}
+              projectId={project.id}
+            >
+              <input type="hidden" name="isArchived" value="on" />
+              {children}
+            </UpdateProjectForm>
+          ),
           modalCopy: (
             <span>
               Are you sure you want to archive <span className="font-semibold">{project.name}</span>
@@ -89,10 +138,7 @@ export const ProjectPageHeaderUI = ({
           ),
           modalTitle: 'Archive Project',
           onCancelHandler: onCloseConfirmationModal,
-          onConfirmHandler: () => {
-            setConfirmationModalProps(null);
-            onArchiveProject(project);
-          },
+          onConfirmHandler: 'submit',
           open: true,
         });
         break;
@@ -102,6 +148,19 @@ export const ProjectPageHeaderUI = ({
       case ProjectAction.Delete:
         setConfirmationModalProps({
           confirmButtonLabel: 'Delete',
+          confirmButtonLabelSubmitting: 'Deleting...',
+          modalBodyWrapper: (children: React.ReactNode) => (
+            <UpdateProjectForm
+              formAction={deleteProject}
+              onFormSubmitSuceeded={() => {
+                router.push('/app/today');
+                onCloseConfirmationModal();
+              }}
+              projectId={project.id}
+            >
+              {children}
+            </UpdateProjectForm>
+          ),
           modalCopy: (
             <span>
               Are you sure you want to delete <span className="font-semibold">{project.name}</span>?
@@ -109,10 +168,7 @@ export const ProjectPageHeaderUI = ({
           ),
           modalTitle: 'Delete Project',
           onCancelHandler: onCloseConfirmationModal,
-          onConfirmHandler: () => {
-            setConfirmationModalProps(null);
-            onDeleteProject(project);
-          },
+          onConfirmHandler: 'submit',
           open: true,
         });
         break;
@@ -120,13 +176,36 @@ export const ProjectPageHeaderUI = ({
        * Edit Project
        */
       case ProjectAction.Edit:
-        onEditProject(project);
+        router.push(`/app/projects/${project.id}/edit`);
         break;
       /*
        * Unarchive Project
        */
       case ProjectAction.Unarchive:
-        onUnarchiveProject(project);
+        setConfirmationModalProps({
+          confirmButtonLabel: 'Unarchive',
+          confirmButtonLabelSubmitting: 'unarchiving...',
+          modalBodyWrapper: (children: React.ReactNode) => (
+            <UpdateProjectForm
+              formAction={updateProject}
+              onFormSubmitSuceeded={onCloseConfirmationModal}
+              projectId={project.id}
+            >
+              <input type="hidden" name="isArchived" value="off" />
+              {children}
+            </UpdateProjectForm>
+          ),
+          modalCopy: (
+            <span>
+              Are you sure you want to unarchive{' '}
+              <span className="font-semibold">{project.name}</span>?
+            </span>
+          ),
+          modalTitle: 'Unarchive Project',
+          onCancelHandler: onCloseConfirmationModal,
+          onConfirmHandler: 'submit',
+          open: true,
+        });
         break;
       /*
        * Unhandled action error

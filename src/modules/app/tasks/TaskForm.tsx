@@ -67,7 +67,7 @@ export const TaskForm = ({
   );
 
   const isValidData = createTaskSchema.safeParse(generateTaskDto()).success;
-  const inputNameRef = useAutoFocus(shouldStartOnEditingMode);
+  const inputNameRef = useAutoFocus<HTMLInputElement>(shouldStartOnEditingMode);
 
   const resetForm = useCallback(() => {
     setName('');

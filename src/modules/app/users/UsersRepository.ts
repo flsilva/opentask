@@ -20,7 +20,7 @@ export const deleteUserAccount = async () => {
     const supabase = createServerActionClient<Database>({ cookies });
     await supabase.auth.signOut();
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };
 
@@ -75,6 +75,6 @@ export const signOut = async () => {
     const supabase = createServerActionClient<Database>({ cookies });
     await supabase.auth.signOut();
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };

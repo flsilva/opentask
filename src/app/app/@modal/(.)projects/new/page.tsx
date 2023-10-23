@@ -1,6 +1,6 @@
 import 'server-only';
-import { ProjectFormController } from '@/modules/app/projects/ProjectFormController';
+import { ProjectForm } from '@/modules/app/projects/ProjectForm';
 
 export default function NewProjectModalInterceptingPage() {
-  return <ProjectFormController shouldRenderOnModal />;
+  return <ProjectForm renderOnModal />;
 }

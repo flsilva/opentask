@@ -3,8 +3,10 @@
 import 'client-only';
 import { useEffect, useRef } from 'react';
 
-export const useAutoFocus = (autoFocus: boolean = true) => {
-  const inputRef = useRef<HTMLElement>(null);
+export const useAutoFocus = <ElementType extends { focus: () => void }>(
+  autoFocus: boolean = true,
+) => {
+  const inputRef = useRef<ElementType>(null);
 
   useEffect(() => {
     if (!autoFocus || !inputRef.current) return;

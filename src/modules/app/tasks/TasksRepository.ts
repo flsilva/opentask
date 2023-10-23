@@ -70,12 +70,7 @@ export const getTaskById = async (id: string) => {
   return prisma.task.findUnique({
     where: { authorId, id },
     include: {
-      project: {
-        select: {
-          id: true,
-          name: true,
-        },
-      },
+      project: true,
     },
   });
 };
