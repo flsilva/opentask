@@ -1,25 +1,25 @@
 'use client';
 
 import { ChildrenProps } from '@/modules/shared/ChildrenProps';
-import { ModalUI } from '@/modules/shared/modals/ModalUI';
+import { Modal } from '@/modules/shared/modals/Modal';
 import { XIcon } from '@/modules/shared/icons/XIcon';
 
-interface ProjectModalUIProps extends ChildrenProps {
+interface ProjectModalProps extends ChildrenProps {
   readonly appear?: boolean;
   readonly open: boolean;
   readonly onCloseHandler: () => void;
   readonly title: string;
 }
 
-export const ProjectModalUI = ({
+export const ProjectModal = ({
   appear,
   children,
   onCloseHandler,
   open,
   title,
-}: ProjectModalUIProps) => {
+}: ProjectModalProps) => {
   return (
-    <ModalUI appear={appear} onCloseHandler={onCloseHandler} open={open}>
+    <Modal appear={appear} onCloseHandler={onCloseHandler} open={open}>
       <div className="flex items-center justify-between">
         <h1 className="text-lg font-semibold text-gray-800">{title}</h1>
         <button
@@ -32,6 +32,6 @@ export const ProjectModalUI = ({
         </button>
       </div>
       {children}
-    </ModalUI>
+    </Modal>
   );
 };

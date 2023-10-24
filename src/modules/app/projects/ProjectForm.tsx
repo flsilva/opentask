@@ -1,18 +1,14 @@
 'use client';
 
 import { useState } from 'react';
-import {
-  experimental_useFormState as useFormState,
-  // @ts-ignore
-  experimental_useFormStatus as useFormStatus,
-} from 'react-dom';
 import { useRouter } from 'next/navigation';
 import { buttonClassNameGreen } from '@/modules/shared/controls/button/buttonClassName';
 import { ProjectDto, createProject, updateProject } from './ProjectsRepository';
-import { ProjectModalUI } from './ProjectModalUI';
-import { ErrorList } from '@/modules/shared/errors/ErrorList';
+import { ProjectModal } from './ProjectModal';
 import { useAutoFocus } from '@/modules/shared/utils/useAutoFocus';
 import { SubmitButton } from '@/modules/shared/controls/button/SubmitButton';
+import { FormAction } from '../shared/form/FormAction';
+import { ServerResponse } from '../shared/errors/ServerResponse';
 
 export interface ProjectFormProps {
   readonly project?: ProjectDto;
@@ -22,13 +18,10 @@ export interface ProjectFormProps {
 export const ProjectForm = ({ project, renderOnModal }: ProjectFormProps) => {
   const router = useRouter();
   const [isModalOpen, setIsModalOpen] = useState(true);
-  const [isServerResponseHandled, setIsServerResponseHandled] = useState(false);
   const inputNameRef = useAutoFocus<HTMLInputElement>();
 
   const name = project && project.name ? project.name : '';
   const description = project && project.description ? project.description : '';
-  const _formAction = project && project.id ? updateProject : createProject;
-  const [serverResponse, formAction] = useFormState(_formAction, null);
 
   const onCloseHandler = () => {
     setIsModalOpen(false);
@@ -41,7 +34,12 @@ export const ProjectForm = ({ project, renderOnModal }: ProjectFormProps) => {
     /**/
   };
 
-  const onFormSubmitSuceeded = (newProject: ProjectDto) => {
+  const onFormSubmitted = ({
+    data: newProject,
+    errors,
+  }: ServerResponse<ProjectDto | undefined>) => {
+    if (!newProject || errors) return;
+
     setIsModalOpen(false);
 
     if (project && project.id === newProject.id) {
@@ -86,29 +84,17 @@ export const ProjectForm = ({ project, renderOnModal }: ProjectFormProps) => {
       }, 300);
       /**/
     } else {
-      /*
-       * This is necessary to refetch data and rerender the UI.
-       * Otherwise, data changes do not display in the UI.
-       */
+      // router.refresh() is necessary to refetch and rerender mutated data.
       router.refresh();
-      /**/
     }
   };
 
-  /*
-   * Flavio Silva on Oct. 22th:
-   * I don't like this solution.
-   * I hate to have to create this extra state (isFormResultHandled).
-   * Could React provide a callback feature to be called after React Action execution?
-   */
-  if (!isServerResponseHandled && !serverResponse?.errors && serverResponse?.data?.id) {
-    setIsServerResponseHandled(true);
-    onFormSubmitSuceeded(serverResponse.data);
-  }
-  /**/
-
   const formUI = (
-    <form action={formAction} className="mt-6 flex flex-col">
+    <FormAction
+      action={project && project.id ? updateProject : createProject}
+      className="mt-6 flex flex-col"
+      onFormSubmitted={onFormSubmitted}
+    >
       {project && <input type="hidden" name="id" value={project.id} />}
       <input
         defaultValue={name}
@@ -135,24 +121,19 @@ export const ProjectForm = ({ project, renderOnModal }: ProjectFormProps) => {
         label="Save"
         submittingLabel="Saving..."
       />
-      {serverResponse?.errors && (
-        <div className="flex flex-col">
-          <ErrorList errors={serverResponse.errors} />
-        </div>
-      )}
-    </form>
+    </FormAction>
   );
 
   if (renderOnModal) {
     return (
-      <ProjectModalUI
+      <ProjectModal
         appear={isModalOpen}
         onCloseHandler={onCloseHandler}
         open={isModalOpen}
         title={project ? 'Edit project' : 'Create project'}
       >
         {formUI}
-      </ProjectModalUI>
+      </ProjectModal>
     );
   }
 

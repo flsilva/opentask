@@ -3,17 +3,17 @@
 import 'client-only';
 import { XIcon } from '@/modules/shared/icons/XIcon';
 import { ChildrenProps } from '@/modules/shared/ChildrenProps';
-import { ModalUI } from '@/modules/shared/modals/ModalUI';
+import { Modal } from '@/modules/shared/modals/Modal';
 
-interface SettingsModalUIProps extends ChildrenProps {
+interface SettingsModalProps extends ChildrenProps {
   readonly appear?: boolean;
   readonly onCloseModal: () => void;
   readonly open: boolean;
 }
 
-export const SettingsModalUI = ({ appear, children, onCloseModal, open }: SettingsModalUIProps) => {
+export const SettingsModal = ({ appear, children, onCloseModal, open }: SettingsModalProps) => {
   return (
-    <ModalUI appear={appear} onCloseHandler={onCloseModal} open={open}>
+    <Modal appear={appear} onCloseHandler={onCloseModal} open={open}>
       <div className="flex items-center justify-between">
         <h1 className="text-lg font-semibold text-gray-800">Settings</h1>
         <button
@@ -26,6 +26,6 @@ export const SettingsModalUI = ({ appear, children, onCloseModal, open }: Settin
         </button>
       </div>
       {children}
-    </ModalUI>
+    </Modal>
   );
 };

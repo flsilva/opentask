@@ -1,11 +1,11 @@
 import 'server-only';
-import { AccountSettingsController } from '@/modules/app/settings/account/AccountSettingsController';
+import { AccountSettings } from '@/modules/app/settings/account/AccountSettings';
 
-export default function SettingsAccountPage() {
+export default function AccountSettingsPage() {
   return (
     <div className="flex flex-col mt-10">
       <h1 className="text-lg font-semibold text-gray-800">Settings</h1>
-      <AccountSettingsController />
+      <AccountSettings />
     </div>
   );
 }

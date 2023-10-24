@@ -2,15 +2,23 @@
 
 import 'client-only';
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { Transition } from '@headlessui/react';
+import { ClassNamePropsOptional } from '@/modules/shared/ClassNameProps';
 import { ProjectDto } from './ProjectsRepository';
 
-interface ProjectListUIProps {
-  readonly onProjectClick: (project: ProjectDto) => void;
+interface ProjectListProps extends ClassNamePropsOptional {
+  readonly classNameItem?: string;
+  readonly getClassNameItem?: (project: ProjectDto) => string;
   readonly projects: Array<ProjectDto>;
 }
 
-export const ProjectListUI = ({ onProjectClick, projects }: ProjectListUIProps) => {
+export const ProjectList = ({
+  className,
+  classNameItem,
+  getClassNameItem,
+  projects,
+}: ProjectListProps) => {
   const [isOpen, setIsOpen] = useState(false);
   useEffect(() => setIsOpen(true), []);
 
@@ -25,18 +33,19 @@ export const ProjectListUI = ({ onProjectClick, projects }: ProjectListUIProps) 
       leaveFrom="opacity-100 translate-y-0"
       leaveTo="opacity-0 translate-y-[20px]"
     >
-      <nav className="flex w-full flex-col">
+      <nav className={`flex flex-col w-full ${className}`}>
         {projects &&
           projects.length > 0 &&
           projects.map((project) => (
-            <button
+            <Link
+              href={`/app/projects/${project.id}`}
               key={project.id}
-              type="button"
-              className="flex grow items-center rounded-md py-2.5 text-sm font-medium text-gray-600 hover:bg-gray-200"
-              onClick={() => onProjectClick(project)}
+              className={`flex grow items-center rounded-none lg:rounded-md py-2.5 text-base lg:text-sm text-gray-600 hover:bg-gray-200 border-b lg:border-b-0 ${classNameItem} ${
+                getClassNameItem ? getClassNameItem(project) : ''
+              }`}
             >
               <p>{project.name}</p>
-            </button>
+            </Link>
           ))}
         {!projects ||
           (projects.length < 1 && (

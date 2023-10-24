@@ -95,7 +95,7 @@ export const TaskForm = ({
     createTaskSchema.parse(data);
 
     /*
-     * Set focus must come here, before await, otherwise the virtual keyboard
+     * Set focus must come before await, otherwise the virtual keyboard
      * is not shown on the iPhone, even though focus is set (default focus outlined is drawn).
      */
     inputNameRef.current?.focus();
@@ -104,10 +104,7 @@ export const TaskForm = ({
     await createTask(data);
     resetForm();
 
-    /*
-     * This is necessary to refetch data and rerender the UI.
-     * Otherwise, data changes do not display in the UI.
-     */
+    // router.refresh() is necessary to refetch and rerender mutated data.
     router.refresh();
     /**/
   }, [generateTaskDto, inputNameRef, resetForm, router, task]);

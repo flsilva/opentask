@@ -2,25 +2,42 @@
 
 import { cookies } from 'next/headers';
 import { createServerActionClient } from '@supabase/auth-helpers-nextjs';
-import { Database } from '@/lib/database.types';
 import { prisma } from '@/modules/app/shared/data-access/prisma';
+import { Database } from '@/lib/database.types';
+import {
+  createServerErrorResponse,
+  createServerSuccessResponse,
+} from '@/modules/app/shared/errors/ServerResponse';
+import { genericAwareOfInternalErrorMessage } from '@/modules/app/shared/errors/errorMessages';
 
 export interface UserDto {
   readonly email: string;
   readonly name: string;
 }
 
-export const deleteUserAccount = async () => {
-  const {
-    user: { id },
-  } = await getUserSession();
+export const deleteUserAccount = async (prevState: any, formData: FormData) => {
+  let id;
+  try {
+    ({
+      user: { id },
+    } = await getUserSession());
+  } catch (error) {
+    // LOG ERROR HERE
+
+    // We want to return the real error (the session has probably expired).
+    return createServerErrorResponse(error);
+  }
 
   try {
     await prisma.user.delete({ where: { id } });
     const supabase = createServerActionClient<Database>({ cookies });
     await supabase.auth.signOut();
+    return createServerSuccessResponse(undefined);
   } catch (error) {
-    console.error(error);
+    // LOG ERROR HERE
+
+    // We want to return a friendly error message instead of the (unknown) real one.
+    return createServerErrorResponse(genericAwareOfInternalErrorMessage);
   }
 };
 

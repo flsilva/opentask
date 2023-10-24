@@ -14,8 +14,8 @@ import {
   ConfirmationModal,
   ConfirmationModalProps,
 } from '@/modules/shared/modals/ConfirmationModal';
+import { FormAction } from '@/modules/app/shared/form/FormAction';
 import { deleteProject, updateProject, ProjectDto } from './ProjectsRepository';
-import { ProjectActionForm } from './ProjectActionForm';
 
 export enum ProjectAction {
   Archive = 'Archive',
@@ -71,14 +71,18 @@ export const ProjectActionsDropdown = ({ project }: ProjectActionsDropdownProps)
       confirmButtonLabel: 'Archive',
       confirmButtonLabelSubmitting: 'Archiving...',
       modalBodyWrapper: (children: React.ReactNode) => (
-        <ProjectActionForm
-          formAction={updateProject}
-          onFormSubmitSuceeded={onCloseConfirmationModal}
-          projectId={project.id}
+        <FormAction
+          action={updateProject}
+          onFormSubmitted={() => {
+            onCloseConfirmationModal();
+            // router.refresh() is necessary to refetch and rerender mutated data.
+            router.refresh();
+          }}
         >
+          <input type="hidden" name="id" value={project.id} />
           <input type="hidden" name="isArchived" value="on" />
           {children}
-        </ProjectActionForm>
+        </FormAction>
       ),
       modalCopy: (
         <span>
@@ -97,14 +101,18 @@ export const ProjectActionsDropdown = ({ project }: ProjectActionsDropdownProps)
       confirmButtonLabel: 'Unarchive',
       confirmButtonLabelSubmitting: 'unarchiving...',
       modalBodyWrapper: (children: React.ReactNode) => (
-        <ProjectActionForm
-          formAction={updateProject}
-          onFormSubmitSuceeded={onCloseConfirmationModal}
-          projectId={project.id}
+        <FormAction
+          action={updateProject}
+          onFormSubmitted={() => {
+            onCloseConfirmationModal();
+            // router.refresh() is necessary to refetch and rerender mutated data.
+            router.refresh();
+          }}
         >
+          <input type="hidden" name="id" value={project.id} />
           <input type="hidden" name="isArchived" value="off" />
           {children}
-        </ProjectActionForm>
+        </FormAction>
       ),
       modalCopy: (
         <span>
@@ -123,16 +131,18 @@ export const ProjectActionsDropdown = ({ project }: ProjectActionsDropdownProps)
       confirmButtonLabel: 'Delete',
       confirmButtonLabelSubmitting: 'Deleting...',
       modalBodyWrapper: (children: React.ReactNode) => (
-        <ProjectActionForm
-          formAction={deleteProject}
-          onFormSubmitSuceeded={() => {
+        <FormAction
+          action={deleteProject}
+          onFormSubmitted={() => {
             router.push('/app/today');
             onCloseConfirmationModal();
+            // router.refresh() is necessary to refetch and rerender mutated data.
+            router.refresh();
           }}
-          projectId={project.id}
         >
+          <input type="hidden" name="id" value={project.id} />
           {children}
-        </ProjectActionForm>
+        </FormAction>
       ),
       modalCopy: (
         <span>
