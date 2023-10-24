@@ -12,26 +12,12 @@ import { ProjectDto, createProject, updateProject } from './ProjectsRepository';
 import { ProjectModalUI } from './ProjectModalUI';
 import { ErrorList } from '@/modules/shared/errors/ErrorList';
 import { useAutoFocus } from '@/modules/shared/utils/useAutoFocus';
+import { SubmitButton } from '@/modules/shared/controls/button/SubmitButton';
 
-interface ProjectFormProps {
+export interface ProjectFormProps {
   readonly project?: ProjectDto;
   readonly renderOnModal?: boolean;
 }
-
-const SubmitButton = () => {
-  const { pending } = useFormStatus();
-
-  return (
-    <button
-      type="submit"
-      className={buttonClassNameGreen}
-      aria-disabled={pending}
-      disabled={pending}
-    >
-      {pending ? 'Saving...' : 'Save'}
-    </button>
-  );
-};
 
 export const ProjectForm = ({ project, renderOnModal }: ProjectFormProps) => {
   const router = useRouter();
@@ -144,9 +130,11 @@ export const ProjectForm = ({ project, renderOnModal }: ProjectFormProps) => {
         maxLength={500}
         className="mb-6 block w-full resize-none rounded-md border border-gray-400 py-1.5 text-gray-900 ring-0 placeholder:text-gray-400 focus:border-gray-900 focus:outline-0 focus:ring-0"
       ></textarea>
-      <div className="flex justify-end gap-4">
-        <SubmitButton />
-      </div>
+      <SubmitButton
+        className={`flex self-end ${buttonClassNameGreen}`}
+        label="Save"
+        submittingLabel="Saving..."
+      />
       {serverResponse?.errors && (
         <div className="flex flex-col">
           <ErrorList errors={serverResponse.errors} />

@@ -1,14 +1,13 @@
 'use client';
 
 import { Fragment, useEffect, useState } from 'react';
-// @ts-ignore
-import { experimental_useFormStatus as useFormStatus } from 'react-dom';
 import { Dialog, Transition } from '@headlessui/react';
 import { XIcon } from '@/modules/shared/icons/XIcon';
 import {
   buttonClassNameGreen,
   buttonClassNameWhite,
 } from '@/modules/shared/controls/button/buttonClassName';
+import { SubmitButton } from '../controls/button/SubmitButton';
 
 export interface ConfirmationModalProps {
   readonly cancelButtonLabel?: string;
@@ -21,26 +20,6 @@ export interface ConfirmationModalProps {
   readonly onConfirmHandler: (() => void) | 'submit';
   readonly open: boolean;
 }
-
-export interface SubmitButtonProps {
-  readonly label: string;
-  readonly submittingLabel: string;
-}
-
-const SubmitButton = ({ label, submittingLabel }: SubmitButtonProps) => {
-  const { pending } = useFormStatus();
-
-  return (
-    <button
-      type="submit"
-      className={buttonClassNameGreen}
-      aria-disabled={pending}
-      disabled={pending}
-    >
-      {pending ? submittingLabel : label}
-    </button>
-  );
-};
 
 export const ConfirmationModal = ({
   cancelButtonLabel = 'Cancel',
@@ -74,6 +53,7 @@ export const ConfirmationModal = ({
   const submitButton =
     onConfirmHandler === 'submit' ? (
       <SubmitButton
+        className={buttonClassNameGreen}
         label={confirmButtonLabel}
         submittingLabel={
           confirmButtonLabelSubmitting ? confirmButtonLabelSubmitting : confirmButtonLabel
