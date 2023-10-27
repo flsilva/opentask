@@ -5,6 +5,7 @@ import { GaNextScriptNavigation } from '@/modules/shared/utils/ga';
 import { PwaPromptProvider } from '@/modules/shared/pwa/PwaPromptProvider';
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://opentask.app'),
   title: 'OpenTask',
   description: 'Free and Open Source Task Manager.',
   applicationName: 'OpenTask',
