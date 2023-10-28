@@ -3,12 +3,13 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { buttonClassNameGreen } from '@/modules/shared/controls/button/buttonClassName';
-import { ProjectDto, createProject, updateProject } from './ProjectsRepository';
-import { ProjectModal } from './ProjectModal';
-import { useAutoFocus } from '@/modules/shared/utils/useAutoFocus';
 import { SubmitButton } from '@/modules/shared/controls/button/SubmitButton';
-import { FormAction } from '../shared/form/FormAction';
-import { ServerResponse } from '../shared/errors/ServerResponse';
+import { ErrorList } from '@/modules/shared/errors/ErrorList';
+import { useAutoFocus } from '@/modules/shared/utils/useAutoFocus';
+import { ServerResponse } from '@/modules/app/shared/errors/ServerResponse';
+import { useFormAction } from '@/modules/app/shared/form/useFormAction';
+import { ProjectModal } from './ProjectModal';
+import { ProjectDto, createProject, updateProject } from './ProjectsRepository';
 
 export interface ProjectFormProps {
   readonly project?: ProjectDto;
@@ -23,23 +24,10 @@ export const ProjectForm = ({ project, renderOnModal }: ProjectFormProps) => {
   const name = project && project.name ? project.name : '';
   const description = project && project.description ? project.description : '';
 
-  const onCloseHandler = () => {
-    setIsModalOpen(false);
-    /*
-     * setTimout() used to wait for a leave transition.
-     */
-    setTimeout(() => {
-      router.back();
-    }, 300);
-    /**/
-  };
+  const onFormSubmitted = (response: ServerResponse<ProjectDto | undefined> | undefined) => {
+    if (!response || !response.data || response.errors) return;
 
-  const onFormSubmitted = ({
-    data: newProject,
-    errors,
-  }: ServerResponse<ProjectDto | undefined>) => {
-    if (!newProject || errors) return;
-
+    const { data: newProject } = response;
     setIsModalOpen(false);
 
     if (project && project.id === newProject.id) {
@@ -89,12 +77,24 @@ export const ProjectForm = ({ project, renderOnModal }: ProjectFormProps) => {
     }
   };
 
-  const formUI = (
-    <FormAction
-      action={project && project.id ? updateProject : createProject}
-      className="mt-6 flex flex-col"
-      onFormSubmitted={onFormSubmitted}
-    >
+  const [serverResponse, formAction] = useFormAction({
+    action: project ? updateProject : createProject,
+    onFormSubmitted,
+  });
+
+  const onCloseHandler = () => {
+    setIsModalOpen(false);
+    /*
+     * setTimout() used to wait for a leave transition.
+     */
+    setTimeout(() => {
+      router.back();
+    }, 300);
+    /**/
+  };
+
+  const formJSX = (
+    <form action={formAction} className="mt-6 flex flex-col">
       {project && <input type="hidden" name="id" value={project.id} />}
       <input
         defaultValue={name}
@@ -116,12 +116,13 @@ export const ProjectForm = ({ project, renderOnModal }: ProjectFormProps) => {
         maxLength={500}
         className="mb-6 block w-full resize-none rounded-md border border-gray-400 py-1.5 text-gray-900 ring-0 placeholder:text-gray-400 focus:border-gray-900 focus:outline-0 focus:ring-0"
       ></textarea>
+      {serverResponse && serverResponse.errors && <ErrorList errors={serverResponse.errors} />}
       <SubmitButton
         className={`flex self-end ${buttonClassNameGreen}`}
         label="Save"
         submittingLabel="Saving..."
       />
-    </FormAction>
+    </form>
   );
 
   if (renderOnModal) {
@@ -132,10 +133,10 @@ export const ProjectForm = ({ project, renderOnModal }: ProjectFormProps) => {
         open={isModalOpen}
         title={project ? 'Edit project' : 'Create project'}
       >
-        {formUI}
+        {formJSX}
       </ProjectModal>
     );
   }
 
-  return formUI;
+  return formJSX;
 };

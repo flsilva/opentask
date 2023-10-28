@@ -1,9 +1,9 @@
 import 'server-only';
+import { ErrorList } from '@/modules/shared/errors/ErrorList';
+import { AddTask } from '@/modules/app/tasks/AddTask';
+import { TaskList } from '@/modules/app/tasks/TaskList';
 import { ProjectPageHeader } from '@/modules/app/projects/ProjectPageHeader';
 import { getAllProjects, getProjectById } from '@/modules/app/projects/ProjectsRepository';
-import { AddTask } from '@/modules/app/tasks/AddTask';
-import { TaskListController } from '@/modules/app/tasks/TaskListController';
-import { ErrorList } from '@/modules/shared/errors/ErrorList';
 
 interface ProjectPageProps {
   readonly params: { readonly projectId: string };
@@ -28,10 +28,7 @@ export default async function ProjectPage({ params: { projectId } }: ProjectPage
       {project.tasks.length < 1 && (
         <p className="mb-12 text-sm font-medium text-gray-600">No tasks in this project.</p>
       )}
-      <TaskListController
-        addTask={<AddTask project={project} projects={projects} />}
-        tasks={project.tasks}
-      />
+      <TaskList addTask={<AddTask project={project} projects={projects} />} tasks={project.tasks} />
     </>
   );
 }

@@ -67,7 +67,7 @@ export const AddTask = ({ defaultDueDate, project, projects }: AddTaskProps) => 
 
   if (!project)
     throw new Error(
-      `AddTask() - Object "project" must not be null nor undefined. Received: ${project}`,
+      `AddTask() - AddTaskProps.project must not be null nor undefined. Received: ${project}`,
     );
 
   return (

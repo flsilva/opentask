@@ -7,8 +7,8 @@ import { CalendarTodayIcon } from '@/modules/shared/icons/CalendarTodayIcon';
 import { PlusSignalIcon } from '@/modules/shared/icons/PlusSignalIcon';
 import { ProjectsIcon } from '@/modules/shared/icons/ProjectsIcon';
 import { Modal } from '@/modules/shared/modals/Modal';
+import { ProjectList } from '@/modules/app/projects/ProjectList';
 import { ProjectDto } from '@/modules/app/projects/ProjectsRepository';
-import { ProjectList } from '../projects/ProjectList';
 
 interface MainMenuProps {
   readonly projects: Array<ProjectDto>;

@@ -1,10 +1,10 @@
 import { Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
-import { ClassNamePropsOptional } from '../../ClassNameProps';
+import { ClassNamePropsOptional } from '@/modules/shared/ClassNameProps';
 
-interface DropdownMenuProps extends ClassNamePropsOptional {
+export interface DropdownMenuProps extends ClassNamePropsOptional {
   readonly items: React.ReactNode;
-  readonly itemsClassName: string;
+  readonly itemsClassName?: string;
   readonly menuButton: React.ReactNode;
 }
 
@@ -28,7 +28,9 @@ export const DropdownMenu = ({
           leaveTo="transform opacity-0 scale-90"
         >
           <Menu.Items
-            className={`${itemsClassName} origin-top-right divide-y divide-gray-100 overflow-auto rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none`}
+            className={`${
+              itemsClassName ? itemsClassName : ''
+            } divide-y divide-gray-100 overflow-auto rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none`}
           >
             <div className="px-1 py-1 ">{items}</div>
           </Menu.Items>

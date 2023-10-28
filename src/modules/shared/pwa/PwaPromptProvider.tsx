@@ -1,14 +1,12 @@
 'use client';
 
 import { createContext } from 'react';
-import { ChildrenProps } from '../ChildrenProps';
+import { ChildrenProps } from '@/modules/shared/ChildrenProps';
 import { usePwaPrompt } from './usePwaPrompt';
-
-export interface PwaPromptProviderProps extends ChildrenProps {}
 
 export const PwaPromptContext = createContext<(() => void) | null>(null);
 
-export const PwaPromptProvider = ({ children }: PwaPromptProviderProps) => {
+export const PwaPromptProvider = ({ children }: ChildrenProps) => {
   const promptFunction = usePwaPrompt();
   return <PwaPromptContext.Provider value={promptFunction}>{children}</PwaPromptContext.Provider>;
 };

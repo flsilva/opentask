@@ -1,12 +1,12 @@
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
+import { ErrorList } from '@/modules/shared/errors/ErrorList';
+import { Header } from '@/modules/app/shared/Header';
+import { MainMenu } from '@/modules/app/shared/MainMenu';
+import { PwaPromptModal } from '@/modules/shared/pwa/PwaPromptModal';
+import { getAllProjects } from '@/modules/app/projects/ProjectsRepository';
 import { UserProvider } from '@/modules/app/users/UserProvider';
 import { getUser, UserDto } from '@/modules/app/users/UsersRepository';
-import { Header } from '@/modules/app/shared/Header';
-import { PwaPromptModal } from '@/modules/shared/pwa/PwaPromptModal';
-import { MainMenu } from '@/modules/app/shared/MainMenu';
-import { getAllProjects } from '@/modules/app/projects/ProjectsRepository';
-import { ErrorList } from '@/modules/shared/errors/ErrorList';
 
 export default async function AppLayout({
   children,

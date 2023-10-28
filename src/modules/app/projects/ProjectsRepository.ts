@@ -7,6 +7,7 @@ import { getUserId } from '@/modules/app/users/UsersRepository';
 import { createProjectSchema, deleteProjectSchema, updateProjectSchema } from './ProjectsDomain';
 import { genericAwareOfInternalErrorMessage } from '@/modules/app//shared/errors/errorMessages';
 import {
+  ServerResponse,
   createServerErrorResponse,
   createServerSuccessResponse,
 } from '@/modules/app//shared/errors/ServerResponse';
@@ -17,18 +18,21 @@ export type UpdateProjectDto = z.infer<typeof updateProjectSchema>;
 
 export type ProjectDto = CreateProjectDto & { id: string };
 
-export const createProject = async (prevState: any, formData: FormData) => {
-  let data;
-  try {
-    data = createProjectSchema.parse(formData);
-  } catch (error) {
-    // LOG ERROR HERE
+export const createProject = async (
+  prevResponse: ServerResponse<ProjectDto | undefined> | undefined,
+  formData: FormData,
+) => {
+  const validation = createProjectSchema.safeParse(Object.fromEntries(formData));
 
-    // We want to return our custom Zod validation errors.
-    return createServerErrorResponse(error);
+  if (!validation.success) {
+    console.error(validation.error);
+
+    // We want to return Zod validation errors.
+    return createServerErrorResponse(validation.error);
   }
 
   try {
+    const { data } = validation;
     const id = await getUserId();
 
     const result = await prisma.project.create({
@@ -45,25 +49,28 @@ export const createProject = async (prevState: any, formData: FormData) => {
 
     return createServerSuccessResponse(result);
   } catch (error) {
-    // LOG ERROR HERE
+    console.error(error);
 
     // We want to return a friendly error message instead of the (unknown) real one.
     return createServerErrorResponse(genericAwareOfInternalErrorMessage);
   }
 };
 
-export const deleteProject = async (prevState: any, formData: FormData) => {
-  let id;
-  try {
-    ({ id } = deleteProjectSchema.parse(formData));
-  } catch (error) {
-    // LOG ERROR HERE
+export const deleteProject = async (
+  prevResponse: ServerResponse<ProjectDto | undefined> | undefined,
+  formData: FormData,
+) => {
+  const validation = deleteProjectSchema.safeParse(Object.fromEntries(formData));
 
-    // We want to return our custom Zod validation errors.
-    return createServerErrorResponse(error);
+  if (!validation.success) {
+    console.error(validation.error);
+
+    // We want to return Zod validation errors.
+    return createServerErrorResponse(validation.error);
   }
 
   try {
+    const { id } = validation.data;
     const authorId = await getUserId();
 
     const result = await prisma.project.delete({
@@ -72,7 +79,7 @@ export const deleteProject = async (prevState: any, formData: FormData) => {
 
     return createServerSuccessResponse(result);
   } catch (error) {
-    // LOG ERROR HERE
+    console.error(error);
 
     // We want to return a friendly error message instead of the (unknown) real one.
     return createServerErrorResponse(genericAwareOfInternalErrorMessage);
@@ -90,7 +97,7 @@ export const getAllProjects = async ({ isArchived = false }: { isArchived?: bool
 
     return createServerSuccessResponse(result);
   } catch (error) {
-    // LOG ERROR HERE
+    console.error(error);
 
     // We want to return a friendly error message instead of the (unknown) real one.
     return createServerErrorResponse(genericAwareOfInternalErrorMessage);
@@ -108,46 +115,38 @@ export const getProjectById = async ({ id }: { id: string }) => {
 
     return createServerSuccessResponse(result);
   } catch (error) {
-    // LOG ERROR HERE
+    console.error(error);
 
     // We want to return a friendly error message instead of the (unknown) real one.
     return createServerErrorResponse(genericAwareOfInternalErrorMessage);
   }
 };
 
-export const updateProject = async (prevState: any, formData: FormData) => {
-  /*
-   * Flavio Silva on Oct 23rd, 2023:
-   * It seems it's not possible to pass a false value to zfd.checkbox() to reset it.
-   * I also tried using trueValue: "true" then passing "false" but didn't work either.
-   */
-  const isArchived = formData.get('isArchived');
-  if (isArchived === 'off') formData.delete('isArchived');
-  /**/
+export const updateProject = async (
+  prevResponse: ServerResponse<ProjectDto | undefined> | undefined,
+  formData: FormData,
+) => {
+  const validation = updateProjectSchema.safeParse(Object.fromEntries(formData));
 
-  let data;
-  try {
-    data = updateProjectSchema.parse(formData);
-  } catch (error) {
-    // LOG ERROR HERE
+  if (!validation.success) {
+    console.error(validation.error);
 
-    // We want to return our custom Zod validation errors.
-    return createServerErrorResponse(error);
+    // We want to return Zod validation errors.
+    return createServerErrorResponse(validation.error);
   }
 
   try {
+    const { id, ...data } = validation.data;
     const authorId = await getUserId();
-    const { id, ...rest } = data;
-    if (isArchived === 'off') rest.isArchived = false;
 
     const result = await prisma.project.update({
       where: { id, authorId },
-      data: rest,
+      data,
     });
 
     return createServerSuccessResponse(result);
   } catch (error) {
-    // LOG ERROR HERE
+    console.error(error);
 
     // We want to return a friendly error message instead of the (unknown) real one.
     return createServerErrorResponse(genericAwareOfInternalErrorMessage);

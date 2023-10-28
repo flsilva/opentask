@@ -1,34 +1,40 @@
+import Link from 'next/link';
 import { sanitize } from 'isomorphic-dompurify';
-import { TaskCheck, TaskCheckSize } from './TaskCheck';
-import { formatTaskDueDate } from './task-utils';
 import { CalendarEventIcon } from '@/modules/shared/icons/CalendarEventIcon';
+import { ClassNamePropsOptional } from '@/modules/shared/ClassNameProps';
+import { formatTaskDueDate } from './task-utils';
+import { TaskCheck } from './TaskCheck';
+import { TaskCheckSize } from './TaskCheckSize';
 
-interface TaskListItemUIProps {
+export interface TaskListItemProps extends ClassNamePropsOptional {
   readonly description: string;
   readonly dueDate: Date | null | undefined;
+  readonly id: string;
   readonly isCompleted: boolean | undefined;
   readonly name: string;
-  readonly onCompleteTaskClick: () => void;
-  readonly onTaskClick: () => void;
 }
 
-export const TaskListItemUI = ({
+export const TaskListItem = ({
+  className,
   description,
   dueDate,
+  id,
   isCompleted,
   name,
-  onCompleteTaskClick,
-  onTaskClick,
-}: TaskListItemUIProps) => {
+}: TaskListItemProps) => {
   return (
-    <div className="flex">
+    <div
+      className={`flex grow py-4 border-y border-transparent hover:border-gray-100 ${
+        className ? className : ''
+      }`}
+    >
       <TaskCheck
         className="mt-0.25"
         isCompleted={isCompleted}
-        onTaskCheckClick={onCompleteTaskClick}
         size={TaskCheckSize.Medium}
+        taskId={id}
       />
-      <button type="button" className="cursor flex text-left" onClick={onTaskClick}>
+      <Link href={`/app/tasks/${id}`} className="flex grow text-left cursor">
         <div className="ml-3 block">
           <p className={`text-sm text-gray-800 ${isCompleted ? 'line-through' : ''}`}>{name}</p>
           {description && (
@@ -44,7 +50,7 @@ export const TaskListItemUI = ({
             </div>
           )}
         </div>
-      </button>
+      </Link>
     </div>
   );
 };

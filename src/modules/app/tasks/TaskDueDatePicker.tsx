@@ -9,12 +9,13 @@ import { CalendarMonthIcon } from '@/modules/shared/icons/CalendarMonthIcon';
 import { XIcon } from '@/modules/shared/icons/XIcon';
 import { formatTaskDueDate } from './task-utils';
 
-interface TaskDueDatePickerProps {
+export interface TaskDueDatePickerProps {
   readonly defaultDate?: Date | undefined;
+  readonly name?: string;
   readonly onChange: (date: Date | undefined) => void;
 }
 
-export const TaskDueDatePicker = ({ defaultDate, onChange }: TaskDueDatePickerProps) => {
+export const TaskDueDatePicker = ({ defaultDate, name, onChange }: TaskDueDatePickerProps) => {
   const [isShowing, setIsShowing] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
   const closeButtonRef = useRef(null);
@@ -53,6 +54,9 @@ export const TaskDueDatePicker = ({ defaultDate, onChange }: TaskDueDatePickerPr
 
   return (
     <>
+      {name && (
+        <input type="hidden" name={name} value={selectedDate ? selectedDate.toString() : ''} />
+      )}
       <div className="flex flex-row">
         <button
           type="button"

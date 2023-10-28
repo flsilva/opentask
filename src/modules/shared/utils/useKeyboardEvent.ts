@@ -16,7 +16,7 @@ export const useKeyboardEvent = (
   useEffect(() => {
     const onKeyEvent = (e: KeyboardEvent) => {
       for (const setting of listeners) {
-        if ((e as KeyboardEvent).key === setting.key) {
+        if (setting.key === '*' || (e as KeyboardEvent).key === setting.key) {
           if (setting.shouldPreventDefault) {
             e.preventDefault();
           }

@@ -2,7 +2,7 @@
 
 import { Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
-import { ChildrenProps } from '../ChildrenProps';
+import { ChildrenProps } from '@/modules/shared/ChildrenProps';
 
 interface ModalProps extends ChildrenProps {
   readonly appear?: boolean;

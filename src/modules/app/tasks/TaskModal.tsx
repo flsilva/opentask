@@ -9,11 +9,13 @@ import {
   ConfirmationModal,
   ConfirmationModalProps,
 } from '@/modules/shared/modals/ConfirmationModal';
+import { ErrorList } from '@/modules/shared/errors/ErrorList';
+import { useFormAction } from '@/modules/app/shared/form/useFormAction';
 import { ProjectDto } from '@/modules/app/projects/ProjectsRepository';
 import { TaskForm } from './TaskForm';
 import { deleteTask, TaskDto } from './TasksRepository';
 
-interface TaskModalModalProps {
+export interface TaskModalModalProps {
   readonly isOpen: boolean;
   readonly onCloseModal?: () => void;
   readonly project: ProjectDto;
@@ -46,6 +48,16 @@ export const TaskModal = ({
   useEffect(() => _setIsOpen(isOpen), [isOpen]);
   /**/
 
+  const onFormSubmitted = () => {
+    setConfirmationModalProps(null);
+    onInternalCloseModal();
+  };
+
+  const [serverResponse, formAction] = useFormAction({
+    action: deleteTask,
+    onFormSubmitted,
+  });
+
   const onInternalCloseModal = () => {
     if (confirmationModalProps) return;
     /*
@@ -63,7 +75,7 @@ export const TaskModal = ({
      * "/app/projects/[projectId]" as expected, but <TaskModal> is not closed.
      *
      * That probably means that we're still in the "/app/tasks/[taskId]" route.
-     * The "/app/today/task/[taskId]" route is implemented as described in Next.js App Router docs, especifically
+     * The "/app/tasks/[taskId]" route is implemented as described in Next.js App Router docs, especifically
      * in the Parallel Routes and Intercepting Routes pages:
      *
      * https://nextjs.org/docs/app/building-your-application/routing/parallel-routes
@@ -72,12 +84,12 @@ export const TaskModal = ({
      * Fix: Call router.refresh() after router.back().
      * That's far from ideal beacuse that causes a full refetch and rerender every time the modal is closed.
      * But it's the only way to fix the issue, at least while keeping everything as simple as possible
-     * and following this is server / client paradigm, i.e., implementing data fetching on the server only, etc.
+     * and following this new server / client paradigm, i.e., implementing data fetching on the server only, etc.
      *
      * But, calling router.refresh() here is also fixing another issue, which I don't think is a Next.js bug,
      * but rather an application issue: data is not refetched and so not rerendered after we make changes
      * to tasks in the <TaskModal>. And calling router.refresh() right after making changes to tasks,
-     * from within "/app/projects/[projectId]/task/[taskId]" route doesn't rereftch and rerender the routes
+     * from within "/app/tasks/[taskId]" route doesn't rereftch and rerender the routes
      * under it, i.e., it doesn't update data and UI that's outside the modal.
      */
 
@@ -99,23 +111,28 @@ export const TaskModal = ({
   };
 
   const onDeleteTask = () => {
+    if (!task) throw new Error('Unexpected error trying to delete task.');
+
     setConfirmationModalProps({
       confirmButtonLabel: 'Delete',
+      confirmButtonLabelSubmitting: 'Delete...',
       modalCopy: (
         <span>
-          Are you sure you want to delete <span className="font-semibold">{task && task.name}</span>
-          ?
+          Are you sure you want to delete <span className="font-semibold">{task.name}</span>?
         </span>
       ),
       modalTitle: 'Delete Task',
       onCancelHandler: onCloseConfirmationModal,
-      onConfirmHandler: async () => {
-        if (!task) return;
-        await deleteTask(task.id);
-        setConfirmationModalProps(null);
-        onInternalCloseModal();
-      },
+      onConfirmHandler: 'submit',
       open: true,
+      renderBodyWrapper: (children: React.ReactNode) => (
+        <form action={formAction}>
+          <input type="hidden" name="id" value={task.id} />
+          <input type="hidden" name="isArchived" value="on" />
+          {children}
+          {serverResponse && serverResponse.errors && <ErrorList errors={serverResponse.errors} />}
+        </form>
+      ),
     });
   };
 

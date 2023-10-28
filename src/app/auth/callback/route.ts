@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
       const supabase = createRouteHandlerClient<Database>({ cookies });
       await supabase.auth.exchangeCodeForSession(code);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 

@@ -7,30 +7,32 @@ import {
   buttonClassNameGreen,
   buttonClassNameWhite,
 } from '@/modules/shared/controls/button/buttonClassName';
-import { SubmitButton } from '../controls/button/SubmitButton';
+import { SubmitButton } from '@/modules/shared/controls/button/SubmitButton';
 
 export interface ConfirmationModalProps {
+  readonly appear?: boolean;
   readonly cancelButtonLabel?: string;
   readonly confirmButtonLabel: string;
   readonly confirmButtonLabelSubmitting?: string;
-  readonly modalBodyWrapper?: (children: React.ReactNode) => React.ReactNode;
   readonly modalCopy: string | React.ReactNode;
   readonly modalTitle: string | React.ReactNode;
   readonly onCancelHandler: () => void;
   readonly onConfirmHandler: (() => void) | 'submit';
   readonly open: boolean;
+  readonly renderBodyWrapper?: (children: React.ReactNode) => React.ReactNode;
 }
 
 export const ConfirmationModal = ({
+  appear,
   cancelButtonLabel = 'Cancel',
   confirmButtonLabel,
   confirmButtonLabelSubmitting,
-  modalBodyWrapper,
   modalCopy,
   modalTitle,
   onCancelHandler,
   onConfirmHandler,
   open,
+  renderBodyWrapper,
 }: ConfirmationModalProps) => {
   /*
    * Flavio Silva on Aug. 16th, 2023:
@@ -78,12 +80,12 @@ export const ConfirmationModal = ({
   );
 
   let bodyWrapper;
-  if (modalBodyWrapper) {
-    bodyWrapper = modalBodyWrapper(modalBody);
+  if (renderBodyWrapper) {
+    bodyWrapper = renderBodyWrapper(modalBody);
   }
 
   return (
-    <Transition show={isOpen} as={Fragment}>
+    <Transition appear={appear} show={isOpen} as={Fragment}>
       <Dialog as="div" className="relative z-50" onClose={onInternalCancelHandler}>
         <Transition.Child
           as={Fragment}

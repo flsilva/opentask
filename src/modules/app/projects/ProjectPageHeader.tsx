@@ -2,7 +2,7 @@
 
 import 'client-only';
 import { ProjectDto } from './ProjectsRepository';
-import { ProjectActionsDropdown } from './ProjectActionsDropdown';
+import { ProjectMutationDropdown } from './ProjectMutationDropdown';
 
 export interface ProjectPageHeaderProps {
   readonly project: ProjectDto;
@@ -14,7 +14,7 @@ export const ProjectPageHeader = ({ project }: ProjectPageHeaderProps) => {
       <div className="flex flex-col">
         <div className="sticky top-0 flex w-full justify-between bg-white py-8">
           <h1 className="text-lg font-semibold text-gray-800">{project.name}</h1>
-          <ProjectActionsDropdown project={project} />
+          <ProjectMutationDropdown project={project} />
         </div>
         {project.description && (
           <p className="block whitespace-pre-line text-sm mb-8">{project.description}</p>

@@ -9,20 +9,20 @@ interface TaskPageProps {
 }
 
 export default async function TaskPage({ params: { taskId } }: TaskPageProps) {
-  const [{ data: projects, errors: projectsErrors }, task] = await Promise.all([
-    getAllProjects(),
-    getTaskById(taskId),
-  ]);
+  const [{ data: projects, errors: projectsErrors }, { data: task, errors: taskErrors }] =
+    await Promise.all([getAllProjects(), getTaskById(taskId)]);
 
   if (projectsErrors) return <ErrorList errors={projectsErrors} />;
+  if (taskErrors) return <ErrorList errors={taskErrors} />;
 
   if (!task) return;
+  if (!projects || projects.length < 1 || !task) return null;
 
   return (
     <div className="flex flex-col mt-10">
       <TaskForm
         project={task.project}
-        projects={projects || []}
+        projects={projects}
         shouldStartOnEditingMode={false}
         task={task}
         taskNameClassName="text-2xl"

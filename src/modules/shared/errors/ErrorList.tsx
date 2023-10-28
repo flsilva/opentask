@@ -1,14 +1,26 @@
+'use client';
+
+import 'client-only';
+// @ts-ignore
+import { experimental_useFormStatus as useFormStatus } from 'react-dom';
+import { ClassNamePropsOptional } from '@/modules/shared/ClassNameProps';
 import { ServerError } from '@/modules/app/shared/errors/ServerResponse';
 
-interface ErrorListProps {
+interface ErrorListProps extends ClassNamePropsOptional {
   readonly errors: Array<ServerError>;
 }
 
-export const ErrorList = ({ errors }: ErrorListProps) =>
-  errors && errors.length > 0
-    ? errors.map((error) => (
+export const ErrorList = ({ className, errors }: ErrorListProps) => {
+  const { pending } = useFormStatus();
+  if (pending || !errors || errors.length < 1) return null;
+
+  return (
+    <div className={`flex flex-col ${className}`}>
+      {errors.map((error) => (
         <p key={error.message} className="text-sm mb-2 text-red-600">
           {error.message}
         </p>
-      ))
-    : null;
+      ))}
+    </div>
+  );
+};

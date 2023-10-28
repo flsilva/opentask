@@ -85,7 +85,7 @@ export const SettingsMenu = () => {
     <div className="flex">
       <DropdownMenu
         items={getMenuItems()}
-        itemsClassName="absolute top-8 right-0 max-h-80 w-56 z-10"
+        itemsClassName="absolute top-8 right-0 max-h-48 w-56 z-10"
         menuButton={
           <Menu.Button className="flex items-center justify-center outline-none">
             <PersonIcon className="fill-white hover:fill-green-500" />

@@ -4,85 +4,158 @@ import { z } from 'zod';
 import { cuid2 } from '@/modules/app/shared/data-access/cuid2';
 import { prisma } from '@/modules/app/shared/data-access/prisma';
 import { getUserId } from '@/modules/app/users/UsersRepository';
-import { createTaskSchema, updateTaskSchema } from './TasksDomain';
+import { createTaskSchema, deleteTaskSchema, updateTaskSchema } from './TasksDomain';
+import {
+  ServerResponse,
+  createServerErrorResponse,
+  createServerSuccessResponse,
+} from '@/modules/app/shared/errors/ServerResponse';
+import { genericAwareOfInternalErrorMessage } from '@/modules/app/shared/errors/errorMessages';
 
 export type CreateTaskDto = z.infer<typeof createTaskSchema>;
 
 export type UpdateTaskDto = z.infer<typeof updateTaskSchema>;
 
-const taskSchema = createTaskSchema.extend({
-  id: z
-    .string({
-      required_error: 'Cannot update a task without its id.',
-      invalid_type_error: 'The task id must be a string.',
-    })
-    .cuid2({ message: 'Invalid task ID.' }),
-});
+export type TaskDto = CreateTaskDto & { id: string };
 
-export type TaskDto = z.infer<typeof taskSchema>;
+export const createTask = async (
+  prevResponse: ServerResponse<TaskDto | undefined> | undefined,
+  formData: FormData,
+) => {
+  const validation = createTaskSchema.safeParse(Object.fromEntries(formData));
 
-export const createTask = async (data: CreateTaskDto) => {
-  createTaskSchema.parse(data);
+  if (!validation.success) {
+    console.error(validation.error);
 
-  const authorId = await getUserId();
-  const { projectId, ...rest } = data;
+    // We want to return Zod validation errors.
+    return createServerErrorResponse(validation.error);
+  }
 
-  return await prisma.task.create({
-    data: {
-      author: { connect: { id: authorId } },
-      project: { connect: { id: projectId } },
-      ...rest,
-      id: cuid2(),
-    },
-  });
+  try {
+    const { projectId, ...data } = validation.data;
+    const authorId = await getUserId();
+
+    const result = await prisma.task.create({
+      data: {
+        author: { connect: { id: authorId } },
+        project: { connect: { id: projectId } },
+        ...data,
+        id: cuid2(),
+      },
+    });
+
+    return createServerSuccessResponse(result);
+  } catch (error) {
+    console.error(error);
+
+    // We want to return a friendly error message instead of the (unknown) real one.
+    return createServerErrorResponse(genericAwareOfInternalErrorMessage);
+  }
 };
 
-export const deleteTask = async (id: string) => {
-  if (typeof id !== 'string' || id === '') throw new Error('Invalid task ID.');
+export const deleteTask = async (
+  prevResponse: ServerResponse<TaskDto | undefined> | undefined,
+  formData: FormData,
+) => {
+  const validation = deleteTaskSchema.safeParse(Object.fromEntries(formData));
 
-  const authorId = await getUserId();
+  if (!validation.success) {
+    console.error(validation.error);
 
-  return await prisma.task.delete({
-    where: { id, authorId },
-  });
+    // We want to return Zod validation errors.
+    return createServerErrorResponse(validation.error);
+  }
+
+  try {
+    const { id } = validation.data;
+    const authorId = await getUserId();
+
+    const result = await prisma.task.delete({
+      where: { id, authorId },
+    });
+
+    return createServerSuccessResponse(result);
+  } catch (error) {
+    console.error(error);
+
+    // We want to return a friendly error message instead of the (unknown) real one.
+    return createServerErrorResponse(genericAwareOfInternalErrorMessage);
+  }
 };
 
 export const getAllTasksDueUntilToday = async (isCompleted = false) => {
-  const authorId = await getUserId();
+  try {
+    const authorId = await getUserId();
 
-  return prisma.task.findMany({
-    where: { authorId, dueDate: { lte: new Date() }, isCompleted },
-    orderBy: { createdAt: 'asc' },
-    include: {
-      project: {
-        select: {
-          id: true,
-          name: true,
+    const result = await prisma.task.findMany({
+      where: { authorId, dueDate: { lte: new Date() }, isCompleted },
+      orderBy: { createdAt: 'asc' },
+      include: {
+        project: {
+          select: {
+            id: true,
+            name: true,
+          },
         },
       },
-    },
-  });
+    });
+
+    return createServerSuccessResponse(result);
+  } catch (error) {
+    console.error(error);
+
+    // We want to return a friendly error message instead of the (unknown) real one.
+    return createServerErrorResponse(genericAwareOfInternalErrorMessage);
+  }
 };
 
 export const getTaskById = async (id: string) => {
-  const authorId = await getUserId();
+  try {
+    const authorId = await getUserId();
 
-  return prisma.task.findUnique({
-    where: { authorId, id },
-    include: {
-      project: true,
-    },
-  });
+    const result = await prisma.task.findUnique({
+      where: { authorId, id },
+      include: {
+        project: true,
+      },
+    });
+
+    return createServerSuccessResponse(result);
+  } catch (error) {
+    console.error(error);
+
+    // We want to return a friendly error message instead of the (unknown) real one.
+    return createServerErrorResponse(genericAwareOfInternalErrorMessage);
+  }
 };
 
-export const updateTask = async (data: UpdateTaskDto) => {
-  updateTaskSchema.parse(data);
+export const updateTask = async (
+  prevResponse: ServerResponse<TaskDto | undefined> | undefined,
+  formData: FormData,
+) => {
+  const validation = updateTaskSchema.safeParse(Object.fromEntries(formData));
 
-  const authorId = await getUserId();
-  const { id: taskId, ...rest } = data;
+  if (!validation.success) {
+    console.error(validation.error);
 
-  return await prisma.task.update({
-    where: { id: taskId, authorId },
-    data: rest,
-  });
+    // We want to return Zod validation errors.
+    return createServerErrorResponse(validation.error);
+  }
+
+  try {
+    const { id, ...data } = validation.data;
+    const authorId = await getUserId();
+
+    const result = await prisma.task.update({
+      where: { id, authorId },
+      data,
+    });
+
+    return createServerSuccessResponse(result);
+  } catch (error) {
+    console.error(error);
+
+    // We want to return a friendly error message instead of the (unknown) real one.
+    return createServerErrorResponse(genericAwareOfInternalErrorMessage);
+  }
 };

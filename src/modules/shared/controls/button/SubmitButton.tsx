@@ -2,7 +2,7 @@
 
 // @ts-ignore
 import { experimental_useFormStatus as useFormStatus } from 'react-dom';
-import { ClassNamePropsOptional } from '../../ClassNameProps';
+import { ClassNamePropsOptional } from '@/modules/shared/ClassNameProps';
 
 export interface SubmitButtonProps extends ClassNamePropsOptional {
   readonly label: string;

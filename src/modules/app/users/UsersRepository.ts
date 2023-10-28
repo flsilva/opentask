@@ -2,9 +2,10 @@
 
 import { cookies } from 'next/headers';
 import { createServerActionClient } from '@supabase/auth-helpers-nextjs';
-import { prisma } from '@/modules/app/shared/data-access/prisma';
 import { Database } from '@/lib/database.types';
+import { prisma } from '@/modules/app/shared/data-access/prisma';
 import {
+  ServerResponse,
   createServerErrorResponse,
   createServerSuccessResponse,
 } from '@/modules/app/shared/errors/ServerResponse';
@@ -15,7 +16,10 @@ export interface UserDto {
   readonly name: string;
 }
 
-export const deleteUserAccount = async (prevState: any, formData: FormData) => {
+export const deleteUserAccount = async (
+  prevResponse: ServerResponse<undefined> | undefined,
+  formData: FormData,
+) => {
   let id;
   try {
     ({

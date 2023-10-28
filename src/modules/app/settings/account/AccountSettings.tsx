@@ -2,15 +2,16 @@
 
 import 'client-only';
 import { useState } from 'react';
+import { useFormState } from 'react-dom';
 import { useRouter } from 'next/navigation';
 import { buttonClassNameRed } from '@/modules/shared/controls/button/buttonClassName';
+import { ErrorList } from '@/modules/shared/errors/ErrorList';
 import {
   ConfirmationModal,
   ConfirmationModalProps,
 } from '@/modules/shared/modals/ConfirmationModal';
-import { FormAction } from '@/modules/app//shared/form/FormAction';
 import { deleteUserAccount } from '@/modules/app/users/UsersRepository';
-import { SettingsModal } from '../SettingsModal';
+import { SettingsModal } from '@/modules/app/settings/SettingsModal';
 
 export interface AccountSettingsProps {
   readonly renderOnModal?: boolean;
@@ -21,6 +22,7 @@ export const AccountSettings = ({ renderOnModal }: AccountSettingsProps) => {
   const [isModalOpen, setIsModalOpen] = useState(true);
   const [confirmationModalProps, setConfirmationModalProps] =
     useState<ConfirmationModalProps | null>(null);
+  const [serverResponse, formAction] = useFormState(deleteUserAccount, undefined);
 
   const onCloseSettingsModal = () => {
     if (confirmationModalProps) return;
@@ -43,9 +45,6 @@ export const AccountSettings = ({ renderOnModal }: AccountSettingsProps) => {
     setConfirmationModalProps({
       confirmButtonLabel: 'Delete',
       confirmButtonLabelSubmitting: 'Deleting...',
-      modalBodyWrapper: (children: React.ReactNode) => (
-        <FormAction action={deleteUserAccount}>{children}</FormAction>
-      ),
       modalCopy: (
         <span>Are you sure you want to delete you account and all data associated to it?</span>
       ),
@@ -53,6 +52,12 @@ export const AccountSettings = ({ renderOnModal }: AccountSettingsProps) => {
       onCancelHandler: onCloseConfirmationModal,
       onConfirmHandler: 'submit',
       open: true,
+      renderBodyWrapper: (children: React.ReactNode) => (
+        <form action={formAction}>
+          {children}
+          {serverResponse && serverResponse.errors && <ErrorList errors={serverResponse.errors} />}
+        </form>
+      ),
     });
   };
 
