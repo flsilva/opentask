@@ -129,8 +129,8 @@ export const ProjectForm = ({ project, renderOnModal }: ProjectFormProps) => {
     return (
       <ProjectModal
         appear={isModalOpen}
-        onCloseHandler={onCloseHandler}
-        open={isModalOpen}
+        onClose={onCloseHandler}
+        show={isModalOpen}
         title={project ? 'Edit project' : 'Create project'}
       >
         {formJSX}

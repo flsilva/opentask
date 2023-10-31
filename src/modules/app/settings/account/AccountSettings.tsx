@@ -2,7 +2,7 @@
 
 import 'client-only';
 import { useState } from 'react';
-import { useFormState } from 'react-dom';
+import { experimental_useFormState as useFormState } from 'react-dom';
 import { useRouter } from 'next/navigation';
 import { buttonClassNameRed } from '@/modules/shared/controls/button/buttonClassName';
 import { ErrorList } from '@/modules/shared/errors/ErrorList';
@@ -51,13 +51,13 @@ export const AccountSettings = ({ renderOnModal }: AccountSettingsProps) => {
       modalTitle: 'Delete User Account',
       onCancelHandler: onCloseConfirmationModal,
       onConfirmHandler: 'submit',
-      open: true,
       renderBodyWrapper: (children: React.ReactNode) => (
         <form action={formAction}>
           {children}
           {serverResponse && serverResponse.errors && <ErrorList errors={serverResponse.errors} />}
         </form>
       ),
+      show: true,
     });
   };
 
@@ -80,7 +80,7 @@ export const AccountSettings = ({ renderOnModal }: AccountSettingsProps) => {
   return (
     <>
       {renderOnModal && (
-        <SettingsModal appear={isModalOpen} onCloseModal={onCloseSettingsModal} open={isModalOpen}>
+        <SettingsModal appear={isModalOpen} onClose={onCloseSettingsModal} show={isModalOpen}>
           {settings}
         </SettingsModal>
       )}

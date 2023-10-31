@@ -6,20 +6,15 @@ import { ChildrenProps } from '@/modules/shared/ChildrenProps';
 
 interface ModalProps extends ChildrenProps {
   readonly appear?: boolean;
-  readonly initialFocusRef?: React.MutableRefObject<HTMLInputElement | null>;
-  readonly onCloseHandler: () => void;
-  readonly open: boolean;
+  readonly initialFocus?: React.MutableRefObject<HTMLInputElement | null>;
+  readonly onClose: () => void;
+  readonly show: boolean;
 }
 
-export const Modal = ({ appear, children, initialFocusRef, onCloseHandler, open }: ModalProps) => {
+export const Modal = ({ appear, children, initialFocus, onClose, show }: ModalProps) => {
   return (
-    <Transition appear={appear} show={open} as={Fragment}>
-      <Dialog
-        as="div"
-        className="relative z-50"
-        initialFocus={initialFocusRef}
-        onClose={onCloseHandler}
-      >
+    <Transition appear={appear} as={Fragment} show={show}>
+      <Dialog as="div" className="relative z-50" initialFocus={initialFocus} onClose={onClose}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"

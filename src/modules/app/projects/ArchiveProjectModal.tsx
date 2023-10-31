@@ -49,7 +49,7 @@ export const ArchiveProjectModal = ({
       modalTitle={`${action} Project`}
       onCancelHandler={onClose}
       onConfirmHandler="submit"
-      open
+      show
     />
   );
 };

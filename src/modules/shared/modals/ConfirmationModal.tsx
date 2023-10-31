@@ -1,13 +1,13 @@
 'use client';
 
-import { Fragment, useEffect, useState } from 'react';
-import { Dialog, Transition } from '@headlessui/react';
+import { useEffect, useState } from 'react';
 import { XIcon } from '@/modules/shared/icons/XIcon';
 import {
   buttonClassNameGreen,
   buttonClassNameWhite,
 } from '@/modules/shared/controls/button/buttonClassName';
 import { SubmitButton } from '@/modules/shared/controls/button/SubmitButton';
+import { Modal } from './Modal';
 
 export interface ConfirmationModalProps {
   readonly appear?: boolean;
@@ -18,8 +18,8 @@ export interface ConfirmationModalProps {
   readonly modalTitle: string | React.ReactNode;
   readonly onCancelHandler: () => void;
   readonly onConfirmHandler: (() => void) | 'submit';
-  readonly open: boolean;
   readonly renderBodyWrapper?: (children: React.ReactNode) => React.ReactNode;
+  readonly show: boolean;
 }
 
 export const ConfirmationModal = ({
@@ -31,8 +31,8 @@ export const ConfirmationModal = ({
   modalTitle,
   onCancelHandler,
   onConfirmHandler,
-  open,
   renderBodyWrapper,
+  show,
 }: ConfirmationModalProps) => {
   /*
    * Flavio Silva on Aug. 16th, 2023:
@@ -40,7 +40,7 @@ export const ConfirmationModal = ({
    * When I tried to set "show={true}" and "appear={true}" it didn't work.
    */
   const [isOpen, setIsOpen] = useState(false);
-  useEffect(() => setIsOpen(open), [open]);
+  useEffect(() => setIsOpen(show), [show]);
   /**/
 
   const onInternalCancelHandler = () => {
@@ -85,46 +85,19 @@ export const ConfirmationModal = ({
   }
 
   return (
-    <Transition appear={appear} show={isOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-50" onClose={onInternalCancelHandler}>
-        <Transition.Child
-          as={Fragment}
-          enter="ease-out duration-300"
-          enterFrom="opacity-0"
-          enterTo="opacity-100"
-          leave="ease-in duration-200"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
+    <Modal appear={appear} show={isOpen} onClose={onInternalCancelHandler}>
+      <div className="flex items-center justify-between">
+        <h1 className="text-lg font-semibold text-gray-800">{modalTitle}</h1>
+        <button
+          type="button"
+          className="-m-2.5 rounded-md p-2.5 text-gray-700"
+          onClick={onInternalCancelHandler}
         >
-          <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
-        </Transition.Child>
-        <div className="fixed inset-0 flex items-center">
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0 translate-y-[200px] md:translate-y-0 md:scale-95"
-            enterTo="opacity-100 translate-y-0 md:scale-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100 translate-y-0 md:scale-100"
-            leaveTo="opacity-0 translate-y-[200px] md:translate-y-0 md:scale-95"
-          >
-            <Dialog.Panel className="mx-auto w-full rounded-lg bg-white p-4 md:w-[40rem]">
-              <div className="flex items-center justify-between">
-                <h1 className="text-lg font-semibold text-gray-800">{modalTitle}</h1>
-                <button
-                  type="button"
-                  className="-m-2.5 rounded-md p-2.5 text-gray-700"
-                  onClick={onInternalCancelHandler}
-                >
-                  <span className="sr-only">Close modal</span>
-                  <XIcon aria-hidden="true" />
-                </button>
-              </div>
-              {bodyWrapper ? bodyWrapper : modalBody}
-            </Dialog.Panel>
-          </Transition.Child>
-        </div>
-      </Dialog>
-    </Transition>
+          <span className="sr-only">Close modal</span>
+          <XIcon aria-hidden="true" />
+        </button>
+      </div>
+      {bodyWrapper ? bodyWrapper : modalBody}
+    </Modal>
   );
 };

@@ -1,13 +1,13 @@
 'use client';
 
 import 'client-only';
-import { Fragment, useEffect, useRef, useState } from 'react';
-import { Dialog, Transition } from '@headlessui/react';
+import { useEffect, useRef, useState } from 'react';
 import { DayPicker, DayPickerSingleProps } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
 import { CalendarMonthIcon } from '@/modules/shared/icons/CalendarMonthIcon';
 import { XIcon } from '@/modules/shared/icons/XIcon';
 import { formatTaskDueDate } from './task-utils';
+import { Modal } from '@/modules/shared/modals/Modal';
 
 export interface TaskDueDatePickerProps {
   readonly defaultDate?: Date | undefined;
@@ -78,54 +78,27 @@ export const TaskDueDatePicker = ({ defaultDate, name, onChange }: TaskDueDatePi
           </button>
         )}
       </div>
-      <Transition show={isShowing} as={Fragment}>
-        <Dialog
-          as="div"
-          className="relative z-50"
-          initialFocus={closeButtonRef}
-          onClose={() => handleClose(false)}
-        >
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
-          </Transition.Child>
-          <div className="fixed inset-0 flex md:items-center">
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0 translate-y-[200px] md:translate-y-0 md:scale-95"
-              enterTo="opacity-100 translate-y-0 md:scale-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100 translate-y-0 md:scale-100"
-              leaveTo="opacity-0 translate-y-[200px] md:translate-y-0 md:scale-95"
-            >
-              <Dialog.Panel className="mx-auto w-full rounded-lg bg-white p-4 md:w-[28rem]">
-                <div className="flex items-start justify-between">
-                  <div className="flex items-start justify-center">
-                    <DayPicker {...datePickerProps} />
-                  </div>
-                  <button
-                    type="button"
-                    className="-m-2.5 rounded-md p-1.5 text-gray-700 hover:bg-gray-200"
-                    onClick={() => handleClose(false)}
-                    ref={closeButtonRef}
-                  >
-                    <span className="sr-only">Close modal</span>
-                    <XIcon aria-hidden="true" />
-                  </button>
-                </div>
-              </Dialog.Panel>
-            </Transition.Child>
+      <Modal
+        appear={isShowing}
+        initialFocus={closeButtonRef}
+        show={isShowing}
+        onClose={() => handleClose(false)}
+      >
+        <div className="flex items-start justify-between">
+          <div className="flex items-start justify-center">
+            <DayPicker {...datePickerProps} />
           </div>
-        </Dialog>
-      </Transition>
+          <button
+            type="button"
+            className="-m-2.5 rounded-md p-1.5 text-gray-700 hover:bg-gray-200"
+            onClick={() => handleClose(false)}
+            ref={closeButtonRef}
+          >
+            <span className="sr-only">Close modal</span>
+            <XIcon aria-hidden="true" />
+          </button>
+        </div>
+      </Modal>
     </>
   );
 };

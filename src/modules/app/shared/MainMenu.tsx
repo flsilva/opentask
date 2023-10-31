@@ -63,7 +63,7 @@ export const MainMenu = ({ projects, renderOnModal }: MainMenuProps) => {
 
   if (renderOnModal) {
     return (
-      <Modal appear onCloseHandler={() => null} open>
+      <Modal appear onClose={() => null} show>
         {menu}
       </Modal>
     );

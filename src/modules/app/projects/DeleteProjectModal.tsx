@@ -44,7 +44,7 @@ export const DeleteProjectModal = ({
       modalTitle="Delete Project"
       onCancelHandler={onClose}
       onConfirmHandler="submit"
-      open
+      show
     />
   );
 };
