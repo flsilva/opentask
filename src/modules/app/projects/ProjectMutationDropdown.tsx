@@ -91,7 +91,9 @@ export const ProjectMutationDropdown = ({ project }: ProjectMutationDropdownProp
     setMutationModal(
       <ArchiveProjectModal
         action={action}
-        onClose={onCloseMutationModal}
+        onOpenChange={(open: boolean) => {
+          if (!open) onCloseMutationModal();
+        }}
         onFormSubmitted={onArchiveUnarchiveFormSubmitted}
         projectId={project.id}
         projectName={project.name}
@@ -102,7 +104,9 @@ export const ProjectMutationDropdown = ({ project }: ProjectMutationDropdownProp
   const onDeleteProject = (project: ProjectDto) => {
     setMutationModal(
       <DeleteProjectModal
-        onClose={onCloseMutationModal}
+        onOpenChange={(open: boolean) => {
+          if (!open) onCloseMutationModal();
+        }}
         onFormSubmitted={onDeleteFormSubmitted}
         projectId={project.id}
         projectName={project.name}

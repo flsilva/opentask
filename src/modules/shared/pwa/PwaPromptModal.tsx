@@ -6,7 +6,6 @@ import { UAParser } from 'ua-parser-js';
 import { buttonClassNameGreen } from '@/modules/shared/controls/button/buttonClassName';
 import { IOSAddIcon } from '@/modules/shared/icons/IOSAddIcon';
 import { IOSShareIcon } from '@/modules/shared/icons/IOSShareIcon';
-import { XIcon } from '@/modules/shared/icons/XIcon';
 import { Modal } from '@/modules/shared/modals/Modal';
 import { PwaPromptContext } from './PwaPromptProvider';
 
@@ -53,55 +52,42 @@ export const PwaPromptModal = () => {
     /**/
   }, [browser, os, pwaPrompt]);
 
-  const onCloseModal = () => {
-    setIsOpen(false);
-  };
-
   return (
-    <Modal appear={isOpen} onClose={onCloseModal} show={isOpen}>
-      <div className="flex items-center justify-between">
-        <h1 className="text-lg font-semibold text-gray-800">Add to Home Screen</h1>
-        <button
-          type="button"
-          className="-m-2.5 rounded-md p-2.5 text-gray-700"
-          onClick={onCloseModal}
-        >
-          <span className="sr-only">Close modal</span>
-          <XIcon aria-hidden="true" />
-        </button>
+    <Modal open={isOpen} onOpenChange={setIsOpen} title="Add to Home Screen">
+      <div className="flex flex-col">
+        <p className="font-medium text-gray-800 mt-6">
+          Add OpenTask.app to your home screen to have a better user experience and use it in
+          fullscreen.
+        </p>
+        {os === 'iOS' && (
+          <>
+            <div className="flex items-center mt-6">
+              <IOSShareIcon fill="#2998ff" />
+              <p className="text-sm font-medium text-gray-800 ml-4 mt-2">
+                1&#41; Tap the &quot;Share&quot; button
+              </p>
+            </div>
+            <div className="flex items-center mt-4">
+              <IOSAddIcon />
+              <p className="text-sm font-medium text-gray-800 ml-4">
+                2&#41; Tap &quot;Add to Home Screen&quot; button
+              </p>
+            </div>
+          </>
+        )}
+        {os === 'Android' && (
+          <button
+            type="button"
+            className={`${buttonClassNameGreen} flex justify-center mt-6`}
+            onClick={() => {
+              if (pwaPrompt) pwaPrompt();
+              setIsOpen(false);
+            }}
+          >
+            Add to Home Screen
+          </button>
+        )}
       </div>
-      <p className="font-medium text-gray-800 mt-6">
-        Add OpenTask.app to your home screen to have a better user experience and use it in
-        fullscreen.
-      </p>
-      {os === 'iOS' && (
-        <>
-          <div className="flex items-center mt-6">
-            <IOSShareIcon fill="#2998ff" />
-            <p className="text-sm font-medium text-gray-800 ml-4 mt-2">
-              1&#41; Tap the &quot;Share&quot; button
-            </p>
-          </div>
-          <div className="flex items-center mt-4">
-            <IOSAddIcon />
-            <p className="text-sm font-medium text-gray-800 ml-4">
-              2&#41; Tap &quot;Add to Home Screen&quot; button
-            </p>
-          </div>
-        </>
-      )}
-      {os === 'Android' && (
-        <button
-          type="button"
-          className={`${buttonClassNameGreen} flex justify-center mt-6`}
-          onClick={() => {
-            if (pwaPrompt) pwaPrompt();
-            onCloseModal();
-          }}
-        >
-          Add to Home Screen
-        </button>
-      )}
     </Modal>
   );
 };

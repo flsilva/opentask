@@ -1,7 +1,7 @@
 'use client';
 
 import 'client-only';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DayPicker, DayPickerSingleProps } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
 import { CalendarMonthIcon } from '@/modules/shared/icons/CalendarMonthIcon';
@@ -16,9 +16,8 @@ export interface TaskDueDatePickerProps {
 }
 
 export const TaskDueDatePicker = ({ defaultDate, name, onChange }: TaskDueDatePickerProps) => {
-  const [isShowing, setIsShowing] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
-  const closeButtonRef = useRef(null);
 
   useEffect(() => {
     setSelectedDate(defaultDate);
@@ -26,12 +25,8 @@ export const TaskDueDatePicker = ({ defaultDate, name, onChange }: TaskDueDatePi
 
   const handleChange = (date: Date | undefined) => {
     setSelectedDate(date);
-    setIsShowing(false);
     onChange(date);
-  };
-
-  const handleClose = (state: boolean) => {
-    setIsShowing(state);
+    setIsModalOpen(false);
   };
 
   const datePickerProps: DayPickerSingleProps = {
@@ -52,21 +47,31 @@ export const TaskDueDatePicker = ({ defaultDate, name, onChange }: TaskDueDatePi
     toYear: new Date().getFullYear() + 2,
   };
 
+  const modalTrigger = (
+    <button type="button" className="flex rounded-md p-1.5 hover:bg-gray-200">
+      <span className="sr-only">Add due date</span>
+      <CalendarMonthIcon aria-hidden="true" />
+      <span className="ml-2 ">{formatTaskDueDate(selectedDate)}</span>
+    </button>
+  );
+
   return (
     <>
       {name && (
         <input type="hidden" name={name} value={selectedDate ? selectedDate.toString() : ''} />
       )}
       <div className="flex flex-row">
-        <button
-          type="button"
-          className="flex rounded-md p-1.5 hover:bg-gray-200"
-          onClick={() => setIsShowing(!isShowing)}
+        <Modal
+          open={isModalOpen}
+          onOpenChange={setIsModalOpen}
+          onOpenAutoFocus={(event: Event) => event.preventDefault()}
+          trigger={modalTrigger}
+          noCloseButton
         >
-          <span className="sr-only">Add due date</span>
-          <CalendarMonthIcon aria-hidden="true" />
-          <span className="ml-2 ">{formatTaskDueDate(selectedDate)}</span>
-        </button>
+          <div className="flex grow justify-center">
+            <DayPicker {...datePickerProps} />
+          </div>
+        </Modal>
         {selectedDate && (
           <button
             type="button"
@@ -78,27 +83,6 @@ export const TaskDueDatePicker = ({ defaultDate, name, onChange }: TaskDueDatePi
           </button>
         )}
       </div>
-      <Modal
-        appear={isShowing}
-        initialFocus={closeButtonRef}
-        show={isShowing}
-        onClose={() => handleClose(false)}
-      >
-        <div className="flex items-start justify-between">
-          <div className="flex items-start justify-center">
-            <DayPicker {...datePickerProps} />
-          </div>
-          <button
-            type="button"
-            className="-m-2.5 rounded-md p-1.5 text-gray-700 hover:bg-gray-200"
-            onClick={() => handleClose(false)}
-            ref={closeButtonRef}
-          >
-            <span className="sr-only">Close modal</span>
-            <XIcon aria-hidden="true" />
-          </button>
-        </div>
-      </Modal>
     </>
   );
 };

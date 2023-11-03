@@ -1,79 +1,85 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { XIcon } from '@/modules/shared/icons/XIcon';
+import { useState } from 'react';
+import * as AlertDialog from '@radix-ui/react-alert-dialog';
 import {
   buttonClassNameGreen,
   buttonClassNameWhite,
 } from '@/modules/shared/controls/button/buttonClassName';
 import { SubmitButton } from '@/modules/shared/controls/button/SubmitButton';
-import { Modal } from './Modal';
+import { RouterActions } from '../controls/button/RouterActions';
+import { dialogContentClassNames, visibleOverlayClassNames } from './Modal';
+import { useRouterActions } from '../controls/button/useRouterActions';
 
 export interface ConfirmationModalProps {
-  readonly appear?: boolean;
+  readonly defaultOpen?: boolean;
   readonly cancelButtonLabel?: string;
   readonly confirmButtonLabel: string;
   readonly confirmButtonLabelSubmitting?: string;
   readonly modalCopy: string | React.ReactNode;
   readonly modalTitle: string | React.ReactNode;
-  readonly onCancelHandler: () => void;
   readonly onConfirmHandler: (() => void) | 'submit';
+  readonly onOpenChange?: (open: boolean) => void;
+  readonly open?: boolean;
   readonly renderBodyWrapper?: (children: React.ReactNode) => React.ReactNode;
-  readonly show: boolean;
+  readonly routerActionsOnClose?: RouterActions;
 }
 
 export const ConfirmationModal = ({
-  appear,
   cancelButtonLabel = 'Cancel',
   confirmButtonLabel,
   confirmButtonLabelSubmitting,
+  defaultOpen,
   modalCopy,
   modalTitle,
-  onCancelHandler,
   onConfirmHandler,
+  onOpenChange,
+  open,
   renderBodyWrapper,
-  show,
+  routerActionsOnClose,
 }: ConfirmationModalProps) => {
-  /*
-   * Flavio Silva on Aug. 16th, 2023:
-   * This is necessary to have the on enter <Transition> animation.
-   * When I tried to set "show={true}" and "appear={true}" it didn't work.
-   */
-  const [isOpen, setIsOpen] = useState(false);
-  useEffect(() => setIsOpen(show), [show]);
-  /**/
+  const [isOpen, setIsOpen] = useState(open || defaultOpen);
+  const triggerRouterActions = useRouterActions(routerActionsOnClose);
 
-  const onInternalCancelHandler = () => {
-    /*
-     * setTimout() used to wait for the leave transition.
-     */
-    setIsOpen(false);
-    setTimeout(onCancelHandler, 300);
-    /**/
+  const _onOpenChange = (_open: boolean) => {
+    setIsOpen(_open);
+
+    if (_open) {
+      if (onOpenChange) onOpenChange(_open);
+    } else {
+      setTimeout(() => {
+        triggerRouterActions();
+        if (onOpenChange) onOpenChange(_open);
+      }, 300);
+    }
   };
 
   const submitButton =
     onConfirmHandler === 'submit' ? (
-      <SubmitButton
-        className={buttonClassNameGreen}
-        label={confirmButtonLabel}
-        submittingLabel={
-          confirmButtonLabelSubmitting ? confirmButtonLabelSubmitting : confirmButtonLabel
-        }
-      />
+      <AlertDialog.Action asChild>
+        <SubmitButton
+          className={buttonClassNameGreen}
+          label={confirmButtonLabel}
+          submittingLabel={
+            confirmButtonLabelSubmitting ? confirmButtonLabelSubmitting : confirmButtonLabel
+          }
+        />
+      </AlertDialog.Action>
     ) : (
-      <button type="button" className={buttonClassNameGreen} onClick={onConfirmHandler}>
-        {confirmButtonLabel}
-      </button>
+      <AlertDialog.Action asChild>
+        <button type="button" className={buttonClassNameGreen} onClick={onConfirmHandler}>
+          {confirmButtonLabel}
+        </button>
+      </AlertDialog.Action>
     );
 
   const modalBody = (
     <div className="flex flex-col">
-      <p className="mt-6">{modalCopy}</p>
+      <AlertDialog.Description className="mt-6">{modalCopy}</AlertDialog.Description>
       <div className="mt-12 flex justify-end gap-4">
-        <button type="button" className={buttonClassNameWhite} onClick={onInternalCancelHandler}>
+        <AlertDialog.Cancel className={buttonClassNameWhite}>
           {cancelButtonLabel}
-        </button>
+        </AlertDialog.Cancel>
         {submitButton}
       </div>
     </div>
@@ -85,19 +91,21 @@ export const ConfirmationModal = ({
   }
 
   return (
-    <Modal appear={appear} show={isOpen} onClose={onInternalCancelHandler}>
-      <div className="flex items-center justify-between">
-        <h1 className="text-lg font-semibold text-gray-800">{modalTitle}</h1>
-        <button
-          type="button"
-          className="-m-2.5 rounded-md p-2.5 text-gray-700"
-          onClick={onInternalCancelHandler}
-        >
-          <span className="sr-only">Close modal</span>
-          <XIcon aria-hidden="true" />
-        </button>
-      </div>
-      {bodyWrapper ? bodyWrapper : modalBody}
-    </Modal>
+    <AlertDialog.Root
+      defaultOpen={defaultOpen}
+      {...(open === undefined
+        ? { open: isOpen, onOpenChange: _onOpenChange }
+        : { open, onOpenChange })}
+    >
+      <AlertDialog.Portal>
+        <AlertDialog.Overlay className={`${visibleOverlayClassNames} z-50`} />
+        <div className="flex fixed inset-0 md:items-center z-50">
+          <AlertDialog.Content className={dialogContentClassNames}>
+            <AlertDialog.Title className="text-xl">{modalTitle}</AlertDialog.Title>
+            {bodyWrapper ? bodyWrapper : modalBody}
+          </AlertDialog.Content>
+        </div>
+      </AlertDialog.Portal>
+    </AlertDialog.Root>
   );
 };

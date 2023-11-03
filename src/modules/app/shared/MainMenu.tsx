@@ -12,16 +12,15 @@ import { ProjectDto } from '@/modules/app/projects/ProjectsRepository';
 
 interface MainMenuProps {
   readonly projects: Array<ProjectDto>;
-  readonly renderOnModal?: boolean;
 }
 
-export const MainMenu = ({ projects, renderOnModal }: MainMenuProps) => {
+export const MainMenu = ({ projects }: MainMenuProps) => {
   const pathname = usePathname();
   const activeClassName = 'bg-gray-200';
   const isActive = (item: string) => pathname.lastIndexOf(item) !== -1;
 
-  const menu = (
-    <nav className="flex flex-col h-full overflow-y-auto overflow-x-hidden bg-gray-50 px-4 py-4 lg:w-80">
+  return (
+    <nav className="flex flex-col h-full w-full lg:w-80 overflow-y-auto overflow-x-hidden bg-gray-50 px-4 py-4">
       <Link
         href="/app/today"
         className={`flex rounded-md p-2 text-base lg:text-sm font-medium text-gray-600 hover:bg-gray-200 ${
@@ -60,14 +59,4 @@ export const MainMenu = ({ projects, renderOnModal }: MainMenuProps) => {
       )}
     </nav>
   );
-
-  if (renderOnModal) {
-    return (
-      <Modal appear onClose={() => null} show>
-        {menu}
-      </Modal>
-    );
-  }
-
-  return menu;
 };

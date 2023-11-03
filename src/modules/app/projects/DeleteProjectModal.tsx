@@ -8,21 +8,21 @@ import { ServerResponse } from '@/modules/app/shared/errors/ServerResponse';
 import { deleteProject, ProjectDto } from './ProjectsRepository';
 
 export interface DeleteProjectModalProps {
-  readonly onClose: () => void;
   readonly onFormSubmitted: (response: ServerResponse<ProjectDto | undefined> | undefined) => void;
+  readonly onOpenChange: (open: boolean) => void;
   readonly projectId: string;
   readonly projectName: string;
 }
 
 export const DeleteProjectModal = ({
-  onClose,
   onFormSubmitted,
+  onOpenChange,
   projectId,
   projectName,
 }: DeleteProjectModalProps) => {
   return (
     <ConfirmationModal
-      appear
+      defaultOpen
       confirmButtonLabel="Delete"
       confirmButtonLabelSubmitting="Deleting..."
       renderBodyWrapper={(children: React.ReactNode) => (
@@ -42,9 +42,8 @@ export const DeleteProjectModal = ({
         </span>
       }
       modalTitle="Delete Project"
-      onCancelHandler={onClose}
       onConfirmHandler="submit"
-      show
+      onOpenChange={onOpenChange}
     />
   );
 };

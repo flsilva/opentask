@@ -30,10 +30,11 @@ export const TaskCheck = ({ className, isCompleted, onClick, size, taskId }: Tas
     /*
      * Flavio Silva on Oct. 27:
      * The following router.refresh() works when we're completing / undoing tasks in a task list,
-     * but it doesn't work as expected whe we're showing a task and try to complete it.
-     * The Route Server Component does rerender (TaskInterceptingPage), refetches task,
-     * but the Client Component that it hands the task object to doesn't rerender (<TaskModal>).
-     * And the same is true for TaskPage and <TaskForm>.
+     * but it doesn't work as expected whe we're showing a task on a modal,
+     * and so in a Intercepting Router, and complete it.
+     * The Server Component of the page segment does rerender (TaskInterceptingPage) and
+     * refetches the task, but the Client Component that it hands the task object to (<TaskForm>) doesn't rerender.
+     * And the same is true for TaskPage, which is a normal page, and <TaskForm>.
      */
     // router.refresh() is necessary to refetch and rerender mutated data.
     router.refresh();

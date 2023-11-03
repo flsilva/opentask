@@ -10,22 +10,22 @@ import { ProjectMutationAction } from './ProjectMutationDropdown';
 
 export interface ArchiveProjectModalProps {
   readonly action: ProjectMutationAction.Archive | ProjectMutationAction.Unarchive;
-  readonly onClose: () => void;
   readonly onFormSubmitted: (response: ServerResponse<ProjectDto | undefined> | undefined) => void;
+  readonly onOpenChange: (open: boolean) => void;
   readonly projectId: string;
   readonly projectName: string;
 }
 
 export const ArchiveProjectModal = ({
   action,
-  onClose,
   onFormSubmitted,
+  onOpenChange,
   projectId,
   projectName,
 }: ArchiveProjectModalProps) => {
   return (
     <ConfirmationModal
-      appear
+      defaultOpen
       confirmButtonLabel={action}
       confirmButtonLabelSubmitting={action === 'Archive' ? 'Archiving...' : 'Unarchiving...'}
       renderBodyWrapper={(children: React.ReactNode) => (
@@ -47,9 +47,8 @@ export const ArchiveProjectModal = ({
         </span>
       }
       modalTitle={`${action} Project`}
-      onCancelHandler={onClose}
       onConfirmHandler="submit"
-      show
+      onOpenChange={onOpenChange}
     />
   );
 };

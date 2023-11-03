@@ -20,8 +20,8 @@ export default async function EditProjectPage({ params: { projectId } }: EditPro
 
   return (
     <div className="flex flex-col mt-10">
-      <h1 className="text-lg font-semibold text-gray-800">Edit project</h1>
-      <ProjectForm project={project} />
+      <h1 className="text-xl text-gray-800">Edit project</h1>
+      <ProjectForm className="mt-6" project={project} />
     </div>
   );
 }

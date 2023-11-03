@@ -7,7 +7,7 @@ import { buttonClassNameLink } from '@/modules/shared/controls/button/buttonClas
 import { PlusSignalIcon } from '@/modules/shared/icons/PlusSignalIcon';
 import { ProjectDto } from '@/modules/app/projects/ProjectsRepository';
 import { TaskForm } from './TaskForm';
-import { TaskModal } from './TaskModal';
+import { useRouter } from 'next/navigation';
 
 interface AddTaskProps {
   readonly defaultDueDate?: Date | null;
@@ -16,10 +16,17 @@ interface AddTaskProps {
 }
 
 export const AddTask = ({ defaultDueDate, project, projects }: AddTaskProps) => {
+  const router = useRouter();
   const [isAddingTask, setIsAddingTask] = useState(false);
 
   const addTaskHandler = () => {
-    setIsAddingTask(true);
+    const viewportWidth = window.innerWidth;
+
+    if (viewportWidth < 768) {
+      router.push(`/app/tasks/new?projectId=${project.id}`);
+    } else {
+      setIsAddingTask(true);
+    }
   };
 
   const cancelNewTaskHandler = () => {
@@ -29,40 +36,29 @@ export const AddTask = ({ defaultDueDate, project, projects }: AddTaskProps) => 
   const getNewTaskComponent = () => {
     const viewportWidth = window.innerWidth;
 
-    if (viewportWidth >= 768) {
-      return (
-        <Transition
-          show={isAddingTask}
-          as="div"
-          enter="ease-out duration-300"
-          enterFrom="opacity-0 translate-y-[50px]"
-          enterTo="opacity-100 translate-y-0"
-          leave="ease-in duration-200"
-          leaveFrom="opacity-100 translate-y-0"
-          leaveTo="opacity-0 translate-y-[50px]"
-        >
-          <TaskForm
-            className="rounded-md bg-gray-100 px-2 py-6 sm:px-6 mt-4"
-            defaultDueDate={defaultDueDate ?? undefined}
-            onCancelClick={cancelNewTaskHandler}
-            project={project}
-            projects={projects}
-            shouldStartOnEditingMode={true}
-          />
-        </Transition>
-      );
-    } else {
-      return (
-        <TaskModal
-          isOpen={isAddingTask}
-          onCloseModal={() => setIsAddingTask(false)}
+    if (viewportWidth < 768) return null;
+
+    return (
+      <Transition
+        show={isAddingTask}
+        as="div"
+        enter="ease-out duration-300"
+        enterFrom="opacity-0 translate-y-[50px]"
+        enterTo="opacity-100 translate-y-0"
+        leave="ease-in duration-200"
+        leaveFrom="opacity-100 translate-y-0"
+        leaveTo="opacity-0 translate-y-[50px]"
+      >
+        <TaskForm
+          className="rounded-md bg-gray-100 px-2 py-6 sm:px-6 mt-4"
+          defaultDueDate={defaultDueDate ?? undefined}
+          onCancelClick={cancelNewTaskHandler}
           project={project}
           projects={projects}
-          shouldGoBackOnClose={false}
           shouldStartOnEditingMode={true}
         />
-      );
-    }
+      </Transition>
+    );
   };
 
   if (!project)

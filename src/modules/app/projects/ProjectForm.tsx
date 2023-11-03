@@ -1,26 +1,20 @@
 'use client';
 
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { buttonClassNameGreen } from '@/modules/shared/controls/button/buttonClassName';
 import { SubmitButton } from '@/modules/shared/controls/button/SubmitButton';
 import { ErrorList } from '@/modules/shared/errors/ErrorList';
-import { useAutoFocus } from '@/modules/shared/utils/useAutoFocus';
 import { ServerResponse } from '@/modules/app/shared/errors/ServerResponse';
 import { useFormAction } from '@/modules/app/shared/form/useFormAction';
-import { ProjectModal } from './ProjectModal';
 import { ProjectDto, createProject, updateProject } from './ProjectsRepository';
+import { ClassNamePropsOptional } from '@/modules/shared/ClassNameProps';
 
-export interface ProjectFormProps {
+export interface ProjectFormProps extends ClassNamePropsOptional {
   readonly project?: ProjectDto;
-  readonly renderOnModal?: boolean;
 }
 
-export const ProjectForm = ({ project, renderOnModal }: ProjectFormProps) => {
+export const ProjectForm = ({ className, project }: ProjectFormProps) => {
   const router = useRouter();
-  const [isModalOpen, setIsModalOpen] = useState(true);
-  const inputNameRef = useAutoFocus<HTMLInputElement>();
-
   const name = project && project.name ? project.name : '';
   const description = project && project.description ? project.description : '';
 
@@ -28,53 +22,51 @@ export const ProjectForm = ({ project, renderOnModal }: ProjectFormProps) => {
     if (!response || !response.data || response.errors) return;
 
     const { data: newProject } = response;
-    setIsModalOpen(false);
 
     if (project && project.id === newProject.id) {
       // User is editing a project.
 
-      /*
-       * setTimout() used to wait for a leave transition.
-       */
-      setTimeout(() => {
-        router.refresh();
-        router.back();
-      }, 300);
-      /**/
+      router.back();
 
+      // router.refresh() is necessary to refetch and rerender mutated data.
+      router.refresh();
       return;
     }
 
     // User is creating a project.
 
-    router.push(`/app/projects/${newProject.id}`);
+    // router.replace(`/app/projects/${newProject.id}`);
 
-    if (renderOnModal) {
-      /*
-       * Flavio Silva on Oct. 19th:
-       * When we navigate the user to "/app/projects/[projectId]" after creating a project
-       * this Project Modal doesn't get closed as expected. It seems a bug with Parallel + Intercepting Routes,
-       * perhaps because it's also used together with dynamic routes, since we have [projectId] in the URL.
-       *
-       * If we just close this modal with the line above (setIsOpen(false)) it won't open again,
-       * probably because we just hid it, not properly unmounted it.
-       *
-       * So we have this ugly workaround to close the Project Modal.
-       * We hard reload the browser at a "/app/projects/[projectId]" URL.
-       * Hopefully this bug gets fixed soon so we can remove this.
-       * There are many bugs related to Parallel + Intercepting Routes, including the following one
-       * that might be related to this specific bug:
-       *
-       * https://github.com/vercel/next.js/issues/48719
-       */
-      setTimeout(() => {
-        if (window) window.location.reload();
-      }, 300);
-      /**/
-    } else {
-      // router.refresh() is necessary to refetch and rerender mutated data.
-      router.refresh();
-    }
+    // router.refresh() is necessary to refetch and rerender mutated data.
+    // router.refresh();
+
+    /*
+     * Flavio Silva on Oct. 19th:
+     * The above call to router.replace() (or it can be router.push) to navigate the user
+     * to the just created project isn't working at all when we're on a modal
+     * (so in a Intercepting Route).
+     * It doesn't change the URL. Nothing happens, and so the Modal doesn't get closed.
+     * It seems a bug with Parallel + Intercepting Routes.
+     * But I found out that the URL never changes only if the call router.refresh()
+     * right after calling router.push().
+     * If we only call router.push() the URL changes, the content below the modal gets updated,
+     * i.e., the just created project is rendered, but the modal doesn't close.
+     * Plus, the just created project doesn't get rendered in the <MainMenu> if we don't call
+     * router.refresh().
+     *
+     * If we tap outside the modal, which calls router.back(), it works, but sends
+     * users to the previous route, not to the just created project.
+     *
+     * So we have this ugly workaround to get out of the Modal,
+     * and navigate to the page of the created project.
+     *
+     * Hopefully this bug gets fixed soon so we can remove this.
+     * There are many bugs related to Parallel + Intercepting Routes, including the following one
+     * that might be related to this specific bug:
+     * https://github.com/vercel/next.js/issues/48719
+     */
+    if (window) window.location.href = `/app/projects/${newProject.id}`;
+    /**/
   };
 
   const [serverResponse, formAction] = useFormAction({
@@ -82,21 +74,11 @@ export const ProjectForm = ({ project, renderOnModal }: ProjectFormProps) => {
     onFormSubmitted,
   });
 
-  const onCloseHandler = () => {
-    setIsModalOpen(false);
-    /*
-     * setTimout() used to wait for a leave transition.
-     */
-    setTimeout(() => {
-      router.back();
-    }, 300);
-    /**/
-  };
-
-  const formJSX = (
-    <form action={formAction} className="mt-6 flex flex-col">
+  return (
+    <form action={formAction} className={`flex flex-col ${className}`}>
       {project && <input type="hidden" name="id" value={project.id} />}
       <input
+        autoFocus
         defaultValue={name}
         name="name"
         type="text"
@@ -106,7 +88,6 @@ export const ProjectForm = ({ project, renderOnModal }: ProjectFormProps) => {
         minLength={1}
         maxLength={500}
         autoComplete="off"
-        ref={inputNameRef}
       />
       <textarea
         defaultValue={description}
@@ -124,19 +105,4 @@ export const ProjectForm = ({ project, renderOnModal }: ProjectFormProps) => {
       />
     </form>
   );
-
-  if (renderOnModal) {
-    return (
-      <ProjectModal
-        appear={isModalOpen}
-        onClose={onCloseHandler}
-        show={isModalOpen}
-        title={project ? 'Edit project' : 'Create project'}
-      >
-        {formJSX}
-      </ProjectModal>
-    );
-  }
-
-  return formJSX;
 };

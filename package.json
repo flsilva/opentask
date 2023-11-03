@@ -20,6 +20,8 @@
     "@ducanh2912/next-pwa": "9.7.2",
     "@paralleldrive/cuid2": "2.2.2",
     "@prisma/client": "5.4.2",
+    "@radix-ui/react-alert-dialog": "1.0.5",
+    "@radix-ui/react-dialog": "1.0.5",
     "@supabase/auth-helpers-nextjs": "0.8.1",
     "@supabase/supabase-js": "2.26.0",
     "client-only": "0.0.1",
