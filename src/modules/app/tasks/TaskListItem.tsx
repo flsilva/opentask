@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { sanitize } from 'isomorphic-dompurify';
 import { CalendarEventIcon } from '@/modules/shared/icons/CalendarEventIcon';
 import { ClassNamePropsOptional } from '@/modules/shared/ClassNameProps';
-import { formatTaskDueDate } from './task-utils';
+import { formatTaskDueDate } from './formatTaskDueDate';
 import { TaskCheck } from './TaskCheck';
 import { TaskCheckSize } from './TaskCheckSize';
 

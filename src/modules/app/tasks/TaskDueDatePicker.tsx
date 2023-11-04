@@ -6,7 +6,7 @@ import { DayPicker, DayPickerSingleProps } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
 import { CalendarMonthIcon } from '@/modules/shared/icons/CalendarMonthIcon';
 import { XIcon } from '@/modules/shared/icons/XIcon';
-import { formatTaskDueDate } from './task-utils';
+import { formatTaskDueDate } from './formatTaskDueDate';
 import { Dialog } from '@/modules/shared/dialog/Dialog';
 
 export interface TaskDueDatePickerProps {
