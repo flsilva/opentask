@@ -5,7 +5,7 @@ import { buttonClassNameGreen } from '@/modules/shared/controls/button/buttonCla
 import { SubmitButton } from '@/modules/shared/controls/button/SubmitButton';
 import { ErrorList } from '@/modules/shared/errors/ErrorList';
 import { ServerResponse } from '@/modules/app/shared/errors/ServerResponse';
-import { useFormAction } from '@/modules/app/shared/form/useFormAction';
+import { useFormAction } from '@/modules/shared/form/useFormAction';
 import { ProjectDto, createProject, updateProject } from './ProjectsRepository';
 import { ClassNamePropsOptional } from '@/modules/shared/ClassNameProps';
 

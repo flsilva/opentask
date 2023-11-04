@@ -3,8 +3,8 @@
 import 'client-only';
 import { AlertDialog } from '@/modules/shared/dialog/AlertDialog';
 import { ErrorList } from '@/modules/shared/errors/ErrorList';
-import { FormAction } from '@/modules/app/shared/form/FormAction';
 import { ServerResponse } from '@/modules/app/shared/errors/ServerResponse';
+import { FormAction } from '@/modules/shared/form/FormAction';
 import { deleteProject, ProjectDto } from './ProjectsRepository';
 
 export interface DeleteProjectAlertDialogProps {

@@ -1,13 +1,13 @@
 'use client';
 
 import { useState } from 'react';
-import { DeleteIcon } from '@/modules/shared/icons/DeleteIcon';
 import { AlertDialog } from '@/modules/shared/dialog/AlertDialog';
+import { DeleteIcon } from '@/modules/shared/icons/DeleteIcon';
 import { ErrorList } from '@/modules/shared/errors/ErrorList';
-import { useFormAction } from '@/modules/app/shared/form/useFormAction';
-import { deleteTask } from './TasksRepository';
+import { useFormAction } from '@/modules/shared/form/useFormAction';
 import { RouterActions } from '@/modules/shared/controls/button/RouterActions';
 import { useRouterActions } from '@/modules/shared/controls/button/useRouterActions';
+import { deleteTask } from './TasksRepository';
 
 export interface DeleteTaskButtonProps {
   readonly id: string;
