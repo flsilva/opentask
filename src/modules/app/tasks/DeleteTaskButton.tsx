@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { DeleteIcon } from '@/modules/shared/icons/DeleteIcon';
-import { ConfirmationModal } from '@/modules/shared/modals/ConfirmationModal';
+import { AlertDialog } from '@/modules/shared/dialog/AlertDialog';
 import { ErrorList } from '@/modules/shared/errors/ErrorList';
 import { useFormAction } from '@/modules/app/shared/form/useFormAction';
 import { deleteTask } from './TasksRepository';
@@ -16,11 +16,11 @@ export interface DeleteTaskButtonProps {
 }
 
 export const DeleteTaskButton = ({ id, name, routerActionsOnSuccess }: DeleteTaskButtonProps) => {
-  const [confirmationModal, setConfirmationModal] = useState<React.ReactNode | null>(null);
+  const [alertDialog, setAlertDialog] = useState<React.ReactNode | null>(null);
   const routerActions = useRouterActions(routerActionsOnSuccess);
 
   const onDeleteTaskFormSubmitted = () => {
-    setConfirmationModal(null);
+    setAlertDialog(null);
     routerActions();
   };
 
@@ -32,19 +32,19 @@ export const DeleteTaskButton = ({ id, name, routerActionsOnSuccess }: DeleteTas
   const onDeleteTask = () => {
     if (!id) throw new Error('Unexpected error trying to delete task.');
 
-    setConfirmationModal(
-      <ConfirmationModal
+    setAlertDialog(
+      <AlertDialog
         defaultOpen
         confirmButtonLabel="Delete"
         confirmButtonLabelSubmitting="Deleting..."
-        modalCopy={
+        dialogCopy={
           <span>
             Are you sure you want to delete <span className="font-semibold">{name}</span>?
           </span>
         }
-        modalTitle="Delete Task"
+        dialogTitle="Delete Task"
         onOpenChange={(open: boolean) => {
-          if (!open) setConfirmationModal(null);
+          if (!open) setAlertDialog(null);
         }}
         onConfirmHandler="submit"
         renderBodyWrapper={(children: React.ReactNode) => (
@@ -70,7 +70,7 @@ export const DeleteTaskButton = ({ id, name, routerActionsOnSuccess }: DeleteTas
         <span className="sr-only">Delete task</span>
         <DeleteIcon aria-hidden="true" />
       </button>
-      {confirmationModal && confirmationModal}
+      {alertDialog && alertDialog}
     </>
   );
 };

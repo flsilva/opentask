@@ -7,7 +7,7 @@ import 'react-day-picker/dist/style.css';
 import { CalendarMonthIcon } from '@/modules/shared/icons/CalendarMonthIcon';
 import { XIcon } from '@/modules/shared/icons/XIcon';
 import { formatTaskDueDate } from './task-utils';
-import { Modal } from '@/modules/shared/modals/Modal';
+import { Dialog } from '@/modules/shared/dialog/Dialog';
 
 export interface TaskDueDatePickerProps {
   readonly defaultDate?: Date | undefined;
@@ -16,7 +16,7 @@ export interface TaskDueDatePickerProps {
 }
 
 export const TaskDueDatePicker = ({ defaultDate, name, onChange }: TaskDueDatePickerProps) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
 
   useEffect(() => {
@@ -26,7 +26,7 @@ export const TaskDueDatePicker = ({ defaultDate, name, onChange }: TaskDueDatePi
   const handleChange = (date: Date | undefined) => {
     setSelectedDate(date);
     onChange(date);
-    setIsModalOpen(false);
+    setIsDialogOpen(false);
   };
 
   const datePickerProps: DayPickerSingleProps = {
@@ -47,7 +47,7 @@ export const TaskDueDatePicker = ({ defaultDate, name, onChange }: TaskDueDatePi
     toYear: new Date().getFullYear() + 2,
   };
 
-  const modalTrigger = (
+  const dialogTrigger = (
     <button type="button" className="flex rounded-md p-1.5 hover:bg-gray-200">
       <span className="sr-only">Add due date</span>
       <CalendarMonthIcon aria-hidden="true" />
@@ -61,17 +61,17 @@ export const TaskDueDatePicker = ({ defaultDate, name, onChange }: TaskDueDatePi
         <input type="hidden" name={name} value={selectedDate ? selectedDate.toString() : ''} />
       )}
       <div className="flex flex-row">
-        <Modal
-          open={isModalOpen}
-          onOpenChange={setIsModalOpen}
+        <Dialog
+          open={isDialogOpen}
+          onOpenChange={setIsDialogOpen}
           onOpenAutoFocus={(event: Event) => event.preventDefault()}
-          trigger={modalTrigger}
+          trigger={dialogTrigger}
           noCloseButton
         >
           <div className="flex grow justify-center">
             <DayPicker {...datePickerProps} />
           </div>
-        </Modal>
+        </Dialog>
         {selectedDate && (
           <button
             type="button"

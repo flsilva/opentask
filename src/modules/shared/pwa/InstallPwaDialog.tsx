@@ -6,15 +6,15 @@ import { UAParser } from 'ua-parser-js';
 import { buttonClassNameGreen } from '@/modules/shared/controls/button/buttonClassName';
 import { IOSAddIcon } from '@/modules/shared/icons/IOSAddIcon';
 import { IOSShareIcon } from '@/modules/shared/icons/IOSShareIcon';
-import { Modal } from '@/modules/shared/modals/Modal';
-import { PwaPromptContext } from './PwaPromptProvider';
+import { Dialog } from '@/modules/shared/dialog/Dialog';
+import { InstallPwaContext } from './InstallPwaProvider';
 
-export const PwaPromptModal = () => {
+export const InstallPwaDialog = () => {
   const [isOpen, setIsOpen] = useState(false);
   const parser = new UAParser(window.navigator.userAgent);
   const os = parser.getOS().name;
   const browser = parser.getBrowser().name;
-  const pwaPrompt = useContext(PwaPromptContext);
+  const installPrompt = useContext(InstallPwaContext);
 
   /*
    * We need to set isOpen inside the useEffect otherwise the initial mount animation
@@ -26,37 +26,37 @@ export const PwaPromptModal = () => {
 
     try {
       isRunningAsPwa = window.matchMedia('(display-mode: fullscreen)').matches;
-      showedDate = localStorage.getItem('pwaPromptModalShowedDate');
+      showedDate = localStorage.getItem('InstallPwaDialogShowedDate');
     } catch {}
 
     /*
-     * We only want to show this modal once, if the web app is not running as a PWA already,
+     * We only want to show this Dialog once, if the web app is not running as a PWA already,
      * and if users are on Safari on iOS or Chrome on Android.
      */
     if (
       !showedDate &&
       !isRunningAsPwa &&
       ((os === 'iOS' && browser === 'Mobile Safari') ||
-        (os === 'Android' && browser === 'Chrome' && pwaPrompt))
+        (os === 'Android' && browser === 'Chrome' && installPrompt))
     ) {
       setIsOpen(true);
       /*
-       * We want to set this here, so we can make sure we showed the modal,
+       * We want to set this here, so we can make sure we showed the Dialog,
        * and now it's safe to not show it anymore.
        */
       try {
-        localStorage.setItem('pwaPromptModalShowedDate', new Date().toString());
+        localStorage.setItem('InstallPwaDialogShowedDate', new Date().toString());
       } catch {}
       /**/
     }
     /**/
-  }, [browser, os, pwaPrompt]);
+  }, [browser, os, installPrompt]);
 
   return (
-    <Modal open={isOpen} onOpenChange={setIsOpen} title="Add to Home Screen">
+    <Dialog open={isOpen} onOpenChange={setIsOpen} title="Add to Home Screen">
       <div className="flex flex-col">
         <p className="font-medium text-gray-800 mt-6">
-          Add OpenTask.app to your home screen to have a better user experience and use it in
+          Add OpenTask to your home screen to have a better user experience and use it in
           fullscreen.
         </p>
         {os === 'iOS' && (
@@ -80,7 +80,7 @@ export const PwaPromptModal = () => {
             type="button"
             className={`${buttonClassNameGreen} flex justify-center mt-6`}
             onClick={() => {
-              if (pwaPrompt) pwaPrompt();
+              if (installPrompt) installPrompt();
               setIsOpen(false);
             }}
           >
@@ -88,6 +88,6 @@ export const PwaPromptModal = () => {
           </button>
         )}
       </div>
-    </Modal>
+    </Dialog>
   );
 };

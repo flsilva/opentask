@@ -11,8 +11,8 @@ import { DeleteIcon } from '@/modules/shared/icons/DeleteIcon';
 import { EditIcon } from '@/modules/shared/icons/EditIcon';
 import { ServerResponse } from '@/modules/app/shared/errors/ServerResponse';
 import { UnarchiveIcon } from '@/modules/shared/icons/UnarchiveIcon';
-import { ArchiveProjectModal } from './ArchiveProjectModal';
-import { DeleteProjectModal } from './DeleteProjectModal';
+import { ArchiveProjectAlertDialog } from './ArchiveProjectAlertDialog';
+import { DeleteProjectAlertDialog } from './DeleteProjectAlertDialog';
 import { ProjectDto } from './ProjectsRepository';
 
 export enum ProjectMutationAction {
@@ -57,10 +57,10 @@ export interface ProjectMutationDropdownProps {
 
 export const ProjectMutationDropdown = ({ project }: ProjectMutationDropdownProps) => {
   const router = useRouter();
-  const [mutationModal, setMutationModal] = useState<React.ReactNode | null>(null);
+  const [mutationAlertDialog, setAlertDialog] = useState<React.ReactNode | null>(null);
 
-  const onCloseMutationModal = () => {
-    setMutationModal(null);
+  const onCloseMutationDialog = () => {
+    setAlertDialog(null);
   };
 
   const onArchiveUnarchiveFormSubmitted = (
@@ -68,7 +68,7 @@ export const ProjectMutationDropdown = ({ project }: ProjectMutationDropdownProp
   ) => {
     if (!response || response.errors) return;
 
-    onCloseMutationModal();
+    onCloseMutationDialog();
 
     // router.refresh() is necessary to refetch and rerender mutated data.
     router.refresh();
@@ -78,7 +78,7 @@ export const ProjectMutationDropdown = ({ project }: ProjectMutationDropdownProp
     if (!response || response.errors) return;
 
     router.push('/app/today');
-    onCloseMutationModal();
+    onCloseMutationDialog();
 
     // router.refresh() is necessary to refetch and rerender mutated data.
     router.refresh();
@@ -88,11 +88,11 @@ export const ProjectMutationDropdown = ({ project }: ProjectMutationDropdownProp
     action: ProjectMutationAction.Archive | ProjectMutationAction.Unarchive,
     project: ProjectDto,
   ) => {
-    setMutationModal(
-      <ArchiveProjectModal
+    setAlertDialog(
+      <ArchiveProjectAlertDialog
         action={action}
         onOpenChange={(open: boolean) => {
-          if (!open) onCloseMutationModal();
+          if (!open) onCloseMutationDialog();
         }}
         onFormSubmitted={onArchiveUnarchiveFormSubmitted}
         projectId={project.id}
@@ -102,10 +102,10 @@ export const ProjectMutationDropdown = ({ project }: ProjectMutationDropdownProp
   };
 
   const onDeleteProject = (project: ProjectDto) => {
-    setMutationModal(
-      <DeleteProjectModal
+    setAlertDialog(
+      <DeleteProjectAlertDialog
         onOpenChange={(open: boolean) => {
-          if (!open) onCloseMutationModal();
+          if (!open) onCloseMutationDialog();
         }}
         onFormSubmitted={onDeleteFormSubmitted}
         projectId={project.id}
@@ -176,7 +176,7 @@ export const ProjectMutationDropdown = ({ project }: ProjectMutationDropdownProp
           }
         />
       </div>
-      {mutationModal && mutationModal}
+      {mutationAlertDialog && mutationAlertDialog}
     </>
   );
 };

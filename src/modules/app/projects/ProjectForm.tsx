@@ -43,21 +43,21 @@ export const ProjectForm = ({ className, project }: ProjectFormProps) => {
     /*
      * Flavio Silva on Oct. 19th:
      * The above call to router.replace() (or it can be router.push) to navigate the user
-     * to the just created project isn't working at all when we're on a modal
+     * to the just created project isn't working at all when we're on a Dialog
      * (so in a Intercepting Route).
-     * It doesn't change the URL. Nothing happens, and so the Modal doesn't get closed.
+     * It doesn't change the URL. Nothing happens, and so the Dialog doesn't get closed.
      * It seems a bug with Parallel + Intercepting Routes.
      * But I found out that the URL never changes only if the call router.refresh()
      * right after calling router.push().
-     * If we only call router.push() the URL changes, the content below the modal gets updated,
-     * i.e., the just created project is rendered, but the modal doesn't close.
+     * If we only call router.push() the URL changes, the content below the Dialog gets updated,
+     * i.e., the just created project is rendered, but the Dialog doesn't close.
      * Plus, the just created project doesn't get rendered in the <MainMenu> if we don't call
      * router.refresh().
      *
-     * If we tap outside the modal, which calls router.back(), it works, but sends
+     * If we tap outside the Dialog, which calls router.back(), it works, but sends
      * users to the previous route, not to the just created project.
      *
-     * So we have this ugly workaround to get out of the Modal,
+     * So we have this ugly workaround to get out of the Dialog,
      * and navigate to the page of the created project.
      *
      * Hopefully this bug gets fixed soon so we can remove this.

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import * as Dialog from '@radix-ui/react-dialog';
+import * as DialogRX from '@radix-ui/react-dialog';
 import { ChildrenProps } from '@/modules/shared/ChildrenProps';
 import { XIcon } from '../icons/XIcon';
 import { useRouterActions } from '../controls/button/useRouterActions';
@@ -33,7 +33,7 @@ export const dialogContentAnimationSm = `data-[state=open]:animation-dialog-cont
 export const dialogContentAnimationMd = `md:data-[state=open]:animate-[dialog-content-show-md_300ms_ease-out] md:data-[state=closed]:animate-[dialog-content-hide-md_200ms_ease-in]`;
 export const dialogContentClassNames = `flex flex-col mx-auto w-full rounded-lg bg-white p-4 md:w-[40rem] translate-y-[10%] md:translate-y-0 ${dialogContentAnimationSm} ${dialogContentAnimationMd}`;
 
-interface ModalProps extends ChildrenProps {
+interface DialogProps extends ChildrenProps {
   readonly defaultOpen?: boolean;
   readonly headerButtons?: React.ReactNode;
   readonly noCloseButton?: boolean;
@@ -45,7 +45,7 @@ interface ModalProps extends ChildrenProps {
   readonly trigger?: React.ReactNode;
 }
 
-export const Modal = ({
+export const Dialog = ({
   children,
   defaultOpen,
   headerButtons,
@@ -56,7 +56,7 @@ export const Modal = ({
   routerActionsOnClose,
   title,
   trigger,
-}: ModalProps) => {
+}: DialogProps) => {
   const [isOpen, setIsOpen] = useState(open || defaultOpen);
   const triggerRouterActions = useRouterActions(routerActionsOnClose);
 
@@ -74,38 +74,38 @@ export const Modal = ({
   };
 
   return (
-    <Dialog.Root
+    <DialogRX.Root
       defaultOpen={defaultOpen}
       {...(open === undefined
         ? { open: isOpen, onOpenChange: _onOpenChange }
         : { open, onOpenChange })}
     >
-      {trigger && <Dialog.Trigger asChild>{trigger}</Dialog.Trigger>}
-      <Dialog.Portal>
-        <Dialog.Overlay className={`${invisibleOverlayClassNames} z-40`}>
+      {trigger && <DialogRX.Trigger asChild>{trigger}</DialogRX.Trigger>}
+      <DialogRX.Portal>
+        <DialogRX.Overlay className={`${invisibleOverlayClassNames} z-40`}>
           <div className={visibleOverlayClassNames} aria-hidden="true" />
           <div className="flex fixed inset-0 md:items-center">
-            <Dialog.Content className={dialogContentClassNames} onOpenAutoFocus={onOpenAutoFocus}>
+            <DialogRX.Content className={dialogContentClassNames} onOpenAutoFocus={onOpenAutoFocus}>
               <div
                 className={`flex justify-between ${
                   title ? 'items-center' : 'items-start h-[90%] md:h-full gap-x-3'
                 }`}
               >
-                {title ? <Dialog.Title className="text-xl">{title}</Dialog.Title> : children}
+                {title ? <DialogRX.Title className="text-xl">{title}</DialogRX.Title> : children}
                 <div className="flex flex-row gap-x-3">
                   {headerButtons}
                   {!noCloseButton && (
-                    <Dialog.Close className="-m-2.5 rounded-md p-1.5 text-gray-700 hover:bg-gray-200">
+                    <DialogRX.Close className="-m-2.5 rounded-md p-1.5 text-gray-700 hover:bg-gray-200">
                       <XIcon aria-hidden="true" />
-                    </Dialog.Close>
+                    </DialogRX.Close>
                   )}
                 </div>
               </div>
               {title && children}
-            </Dialog.Content>
+            </DialogRX.Content>
           </div>
-        </Dialog.Overlay>
-      </Dialog.Portal>
-    </Dialog.Root>
+        </DialogRX.Overlay>
+      </DialogRX.Portal>
+    </DialogRX.Root>
   );
 };

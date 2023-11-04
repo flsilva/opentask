@@ -2,18 +2,18 @@ import 'server-only';
 import { ErrorList } from '@/modules/shared/errors/ErrorList';
 import { getAllProjects } from '@/modules/app/projects/ProjectsRepository';
 import { getTaskById } from '@/modules/app/tasks/TasksRepository';
-import { Modal } from '@/modules/shared/modals/Modal';
+import { Dialog } from '@/modules/shared/dialog/Dialog';
 import { TaskForm } from '@/modules/app/tasks/TaskForm';
 import { RouterActionType } from '@/modules/shared/controls/button/RouterActions';
 import { DeleteTaskButton } from '@/modules/app/tasks/DeleteTaskButton';
 
-interface TaskInterceptingPageProps {
+interface TaskDialogInterceptingPageProps {
   readonly params: { readonly taskId: string };
 }
 
-export default async function TaskInterceptingPage({
+export default async function TaskDialogInterceptingPage({
   params: { taskId },
-}: TaskInterceptingPageProps) {
+}: TaskDialogInterceptingPageProps) {
   const [{ data: projects, errors: projectsErrors }, { data: task, errors: taskErrors }] =
     await Promise.all([getAllProjects(), getTaskById(taskId)]);
 
@@ -32,7 +32,7 @@ export default async function TaskInterceptingPage({
   );
 
   return (
-    <Modal
+    <Dialog
       defaultOpen
       headerButtons={deleteTaskButton}
       routerActionsOnClose={[{ type: RouterActionType.Back }, { type: RouterActionType.Refresh }]}
@@ -43,6 +43,6 @@ export default async function TaskInterceptingPage({
         task={task}
         taskNameClassName="text-2xl"
       />
-    </Modal>
+    </Dialog>
   );
 }

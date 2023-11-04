@@ -18,7 +18,7 @@ declare global {
   }
 }
 
-export const usePwaPrompt = () => {
+export const useInstallPwa = () => {
   const [promptEvent, setPromptEvent] = useState<BeforeInstallPromptEvent | null>(null);
 
   const prompt = useCallback(() => {

@@ -1,12 +1,12 @@
 import 'server-only';
 import { AccountSettings } from '@/modules/app/settings/account/AccountSettings';
-import { Modal } from '@/modules/shared/modals/Modal';
+import { Dialog } from '@/modules/shared/dialog/Dialog';
 import { RouterActionType } from '@/modules/shared/controls/button/RouterActions';
 
 export default function SettingsAccountInterceptingPage() {
   return (
-    <Modal defaultOpen title="Settings" routerActionsOnClose={{ type: RouterActionType.Back }}>
+    <Dialog defaultOpen title="Settings" routerActionsOnClose={{ type: RouterActionType.Back }}>
       <AccountSettings />
-    </Modal>
+    </Dialog>
   );
 }

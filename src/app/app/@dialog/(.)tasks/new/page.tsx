@@ -1,17 +1,17 @@
 import 'server-only';
 import { ErrorList } from '@/modules/shared/errors/ErrorList';
 import { getAllProjects, getProjectById } from '@/modules/app/projects/ProjectsRepository';
-import { Modal } from '@/modules/shared/modals/Modal';
+import { Dialog } from '@/modules/shared/dialog/Dialog';
 import { TaskForm } from '@/modules/app/tasks/TaskForm';
 import { RouterActionType } from '@/modules/shared/controls/button/RouterActions';
 
-interface NewTaskInterceptingPageProps {
+interface NewTaskDialogInterceptingPageProps {
   readonly searchParams: { readonly projectId: string };
 }
 
-export default async function NewTaskInterceptingPage({
+export default async function NewTaskDialogInterceptingPage({
   searchParams: { projectId },
-}: NewTaskInterceptingPageProps) {
+}: NewTaskDialogInterceptingPageProps) {
   const [{ data: projects, errors: projectsErrors }, { data: project, errors: projectErrors }] =
     await Promise.all([getAllProjects(), getProjectById({ id: projectId })]);
 
@@ -22,7 +22,7 @@ export default async function NewTaskInterceptingPage({
   if (!projects || projects.length < 1) return null;
 
   return (
-    <Modal
+    <Dialog
       defaultOpen
       routerActionsOnClose={[{ type: RouterActionType.Back }, { type: RouterActionType.Refresh }]}
     >
@@ -32,6 +32,6 @@ export default async function NewTaskInterceptingPage({
         shouldStartOnEditingMode
         taskNameClassName="text-2xl"
       />
-    </Modal>
+    </Dialog>
   );
 }

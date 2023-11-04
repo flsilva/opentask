@@ -1,23 +1,23 @@
 'use client';
 
 import { useState } from 'react';
-import * as AlertDialog from '@radix-ui/react-alert-dialog';
+import * as AlertDialogRX from '@radix-ui/react-alert-dialog';
 import {
   buttonClassNameGreen,
   buttonClassNameWhite,
 } from '@/modules/shared/controls/button/buttonClassName';
 import { SubmitButton } from '@/modules/shared/controls/button/SubmitButton';
 import { RouterActions } from '../controls/button/RouterActions';
-import { dialogContentClassNames, visibleOverlayClassNames } from './Modal';
+import { dialogContentClassNames, visibleOverlayClassNames } from './Dialog';
 import { useRouterActions } from '../controls/button/useRouterActions';
 
-export interface ConfirmationModalProps {
+export interface AlertDialogProps {
   readonly defaultOpen?: boolean;
   readonly cancelButtonLabel?: string;
   readonly confirmButtonLabel: string;
   readonly confirmButtonLabelSubmitting?: string;
-  readonly modalCopy: string | React.ReactNode;
-  readonly modalTitle: string | React.ReactNode;
+  readonly dialogCopy: string | React.ReactNode;
+  readonly dialogTitle: string | React.ReactNode;
   readonly onConfirmHandler: (() => void) | 'submit';
   readonly onOpenChange?: (open: boolean) => void;
   readonly open?: boolean;
@@ -25,19 +25,19 @@ export interface ConfirmationModalProps {
   readonly routerActionsOnClose?: RouterActions;
 }
 
-export const ConfirmationModal = ({
+export const AlertDialog = ({
   cancelButtonLabel = 'Cancel',
   confirmButtonLabel,
   confirmButtonLabelSubmitting,
   defaultOpen,
-  modalCopy,
-  modalTitle,
+  dialogCopy,
+  dialogTitle,
   onConfirmHandler,
   onOpenChange,
   open,
   renderBodyWrapper,
   routerActionsOnClose,
-}: ConfirmationModalProps) => {
+}: AlertDialogProps) => {
   const [isOpen, setIsOpen] = useState(open || defaultOpen);
   const triggerRouterActions = useRouterActions(routerActionsOnClose);
 
@@ -56,7 +56,7 @@ export const ConfirmationModal = ({
 
   const submitButton =
     onConfirmHandler === 'submit' ? (
-      <AlertDialog.Action asChild>
+      <AlertDialogRX.Action asChild>
         <SubmitButton
           className={buttonClassNameGreen}
           label={confirmButtonLabel}
@@ -64,22 +64,22 @@ export const ConfirmationModal = ({
             confirmButtonLabelSubmitting ? confirmButtonLabelSubmitting : confirmButtonLabel
           }
         />
-      </AlertDialog.Action>
+      </AlertDialogRX.Action>
     ) : (
-      <AlertDialog.Action asChild>
+      <AlertDialogRX.Action asChild>
         <button type="button" className={buttonClassNameGreen} onClick={onConfirmHandler}>
           {confirmButtonLabel}
         </button>
-      </AlertDialog.Action>
+      </AlertDialogRX.Action>
     );
 
-  const modalBody = (
+  const dialogBody = (
     <div className="flex flex-col">
-      <AlertDialog.Description className="mt-6">{modalCopy}</AlertDialog.Description>
+      <AlertDialogRX.Description className="mt-6">{dialogCopy}</AlertDialogRX.Description>
       <div className="mt-12 flex justify-end gap-4">
-        <AlertDialog.Cancel className={buttonClassNameWhite}>
+        <AlertDialogRX.Cancel className={buttonClassNameWhite}>
           {cancelButtonLabel}
-        </AlertDialog.Cancel>
+        </AlertDialogRX.Cancel>
         {submitButton}
       </div>
     </div>
@@ -87,25 +87,25 @@ export const ConfirmationModal = ({
 
   let bodyWrapper;
   if (renderBodyWrapper) {
-    bodyWrapper = renderBodyWrapper(modalBody);
+    bodyWrapper = renderBodyWrapper(dialogBody);
   }
 
   return (
-    <AlertDialog.Root
+    <AlertDialogRX.Root
       defaultOpen={defaultOpen}
       {...(open === undefined
         ? { open: isOpen, onOpenChange: _onOpenChange }
         : { open, onOpenChange })}
     >
-      <AlertDialog.Portal>
-        <AlertDialog.Overlay className={`${visibleOverlayClassNames} z-50`} />
+      <AlertDialogRX.Portal>
+        <AlertDialogRX.Overlay className={`${visibleOverlayClassNames} z-50`} />
         <div className="flex fixed inset-0 md:items-center z-50">
-          <AlertDialog.Content className={dialogContentClassNames}>
-            <AlertDialog.Title className="text-xl">{modalTitle}</AlertDialog.Title>
-            {bodyWrapper ? bodyWrapper : modalBody}
-          </AlertDialog.Content>
+          <AlertDialogRX.Content className={dialogContentClassNames}>
+            <AlertDialogRX.Title className="text-xl">{dialogTitle}</AlertDialogRX.Title>
+            {bodyWrapper ? bodyWrapper : dialogBody}
+          </AlertDialogRX.Content>
         </div>
-      </AlertDialog.Portal>
-    </AlertDialog.Root>
+      </AlertDialogRX.Portal>
+    </AlertDialogRX.Root>
   );
 };

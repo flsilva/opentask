@@ -3,17 +3,17 @@ import Link from 'next/link';
 import { ErrorList } from '@/modules/shared/errors/ErrorList';
 import { Header } from '@/modules/app/shared/Header';
 import { MainMenu } from '@/modules/app/shared/MainMenu';
-import { PwaPromptModal } from '@/modules/shared/pwa/PwaPromptModal';
+import { InstallPwaDialog } from '@/modules/shared/pwa/InstallPwaDialog';
 import { getAllProjects } from '@/modules/app/projects/ProjectsRepository';
 import { UserProvider } from '@/modules/app/users/UserProvider';
 import { getUser, UserDto } from '@/modules/app/users/UsersRepository';
 
 export default async function AppLayout({
   children,
-  modal,
+  dialog,
 }: {
   children: React.ReactNode;
-  modal: React.ReactNode;
+  dialog: React.ReactNode;
 }) {
   let user: UserDto;
   try {
@@ -37,7 +37,7 @@ export default async function AppLayout({
               <div className="flex w-full max-w-[24rem] flex-col px-4 md:max-w-[38rem] md:pl-8 lg:max-w-[60rem] xl:pl-36  2xl:pl-60">
                 <div className="pb-16">
                   {children}
-                  {modal}
+                  {dialog}
                   {(!projects || projects.length === 0) && (
                     <p className="mt-4 text-sm font-medium text-gray-600">
                       You don&#39;t have any projects yet. Create your first{' '}
@@ -53,7 +53,7 @@ export default async function AppLayout({
           </div>
         )}
         {errors && <ErrorList errors={errors} />}
-        <PwaPromptModal />
+        <InstallPwaDialog />
       </div>
     </UserProvider>
   );

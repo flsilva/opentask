@@ -6,29 +6,25 @@ import { experimental_useFormState as useFormState } from 'react-dom';
 import { useRouter } from 'next/navigation';
 import { buttonClassNameRed } from '@/modules/shared/controls/button/buttonClassName';
 import { ErrorList } from '@/modules/shared/errors/ErrorList';
-import {
-  ConfirmationModal,
-  ConfirmationModalProps,
-} from '@/modules/shared/modals/ConfirmationModal';
+import { AlertDialog, AlertDialogProps } from '@/modules/shared/dialog/AlertDialog';
 import { deleteUserAccount } from '@/modules/app/users/UsersRepository';
 
 export const AccountSettings = () => {
   const router = useRouter();
-  const [confirmationModalProps, setConfirmationModalProps] =
-    useState<ConfirmationModalProps | null>(null);
+  const [alertDialogProps, setAlertDialogProps] = useState<AlertDialogProps | null>(null);
   const [serverResponse, formAction] = useFormState(deleteUserAccount, undefined);
 
   const onDeleteAccount = () => {
-    setConfirmationModalProps({
+    setAlertDialogProps({
       defaultOpen: true,
       confirmButtonLabel: 'Delete',
       confirmButtonLabelSubmitting: 'Deleting...',
-      modalCopy: (
+      dialogCopy: (
         <span>Are you sure you want to delete you account and all data associated to it?</span>
       ),
-      modalTitle: 'Delete User Account',
+      dialogTitle: 'Delete User Account',
       onOpenChange: (open: boolean) => {
-        if (!open) setConfirmationModalProps(null);
+        if (!open) setAlertDialogProps(null);
       },
       onConfirmHandler: 'submit',
       renderBodyWrapper: (children: React.ReactNode) => (
@@ -55,7 +51,7 @@ export const AccountSettings = () => {
           the button above. You can&apos;t undo it.
         </p>
       </div>
-      {confirmationModalProps && <ConfirmationModal {...confirmationModalProps} />}
+      {alertDialogProps && <AlertDialog {...alertDialogProps} />}
     </>
   );
 };
