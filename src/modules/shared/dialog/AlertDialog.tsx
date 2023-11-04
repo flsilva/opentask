@@ -7,9 +7,9 @@ import {
   buttonClassNameWhite,
 } from '@/modules/shared/controls/button/buttonClassName';
 import { SubmitButton } from '@/modules/shared/controls/button/SubmitButton';
-import { RouterActions } from '../controls/button/RouterActions';
+import { RouterActions } from '@/modules/shared/router/RouterActions';
+import { useRouterActions } from '@/modules/shared/router/useRouterActions';
 import { dialogContentClassNames, visibleOverlayClassNames } from './Dialog';
-import { useRouterActions } from '../controls/button/useRouterActions';
 
 export interface AlertDialogProps {
   readonly defaultOpen?: boolean;

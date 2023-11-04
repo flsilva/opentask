@@ -3,9 +3,9 @@
 import { useState } from 'react';
 import * as DialogRX from '@radix-ui/react-dialog';
 import { ChildrenProps } from '@/modules/shared/ChildrenProps';
-import { XIcon } from '../icons/XIcon';
-import { useRouterActions } from '../controls/button/useRouterActions';
-import { RouterActions } from '../controls/button/RouterActions';
+import { XIcon } from '@/modules/shared/icons/XIcon';
+import { RouterActions } from '@/modules/shared/router/RouterActions';
+import { useRouterActions } from '@/modules/shared/router/useRouterActions';
 
 /*
  * Scrollable overlay

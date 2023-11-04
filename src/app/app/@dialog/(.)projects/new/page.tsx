@@ -1,7 +1,7 @@
 import 'server-only';
 import { ProjectForm } from '@/modules/app/projects/ProjectForm';
 import { Dialog } from '@/modules/shared/dialog/Dialog';
-import { RouterActionType } from '@/modules/shared/controls/button/RouterActions';
+import { RouterActionType } from '@/modules/shared/router/RouterActions';
 
 export default function NewProjectDialogInterceptingPage() {
   return (

@@ -2,11 +2,11 @@
 
 import { useState } from 'react';
 import { AlertDialog } from '@/modules/shared/dialog/AlertDialog';
-import { DeleteIcon } from '@/modules/shared/icons/DeleteIcon';
 import { ErrorList } from '@/modules/shared/errors/ErrorList';
 import { useFormAction } from '@/modules/shared/form/useFormAction';
-import { RouterActions } from '@/modules/shared/controls/button/RouterActions';
-import { useRouterActions } from '@/modules/shared/controls/button/useRouterActions';
+import { DeleteIcon } from '@/modules/shared/icons/DeleteIcon';
+import { RouterActions } from '@/modules/shared/router/RouterActions';
+import { useRouterActions } from '@/modules/shared/router/useRouterActions';
 import { deleteTask } from './TasksRepository';
 
 export interface DeleteTaskButtonProps {

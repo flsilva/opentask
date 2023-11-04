@@ -1,22 +1,23 @@
 'use client';
 
-import { RouterActions } from './RouterActions';
-import { useRouterActions } from './useRouterActions';
+import { RouterActions } from '@/modules/shared/router/RouterActions';
+import { useRouterActions } from '@/modules/shared/router/useRouterActions';
 
 export interface RouterButtonProps
   extends React.DetailedHTMLProps<
     React.ButtonHTMLAttributes<HTMLButtonElement>,
     HTMLButtonElement
   > {
-  readonly action: RouterActions;
+  readonly actions: RouterActions;
 }
 
-export const RouterButton = ({ action, ...rest }: RouterButtonProps) => {
-  const triggerActions = useRouterActions(action);
+export const RouterButton = ({ actions, onClick, ...rest }: RouterButtonProps) => {
+  const triggerActions = useRouterActions(actions);
 
-  const onClick = () => {
+  const _onClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     triggerActions();
+    if (onClick) onClick(event);
   };
 
-  return <button onClick={onClick} type="button" {...rest} />;
+  return <button onClick={_onClick} type="button" {...rest} />;
 };

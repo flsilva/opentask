@@ -1,11 +1,11 @@
 import 'server-only';
-import { ErrorList } from '@/modules/shared/errors/ErrorList';
-import { getAllProjects } from '@/modules/app/projects/ProjectsRepository';
-import { getTaskById } from '@/modules/app/tasks/TasksRepository';
 import { Dialog } from '@/modules/shared/dialog/Dialog';
-import { TaskForm } from '@/modules/app/tasks/TaskForm';
-import { RouterActionType } from '@/modules/shared/controls/button/RouterActions';
+import { ErrorList } from '@/modules/shared/errors/ErrorList';
+import { RouterActionType } from '@/modules/shared/router/RouterActions';
+import { getAllProjects } from '@/modules/app/projects/ProjectsRepository';
 import { DeleteTaskButton } from '@/modules/app/tasks/DeleteTaskButton';
+import { TaskForm } from '@/modules/app/tasks/TaskForm';
+import { getTaskById } from '@/modules/app/tasks/TasksRepository';
 
 interface TaskDialogInterceptingPageProps {
   readonly params: { readonly taskId: string };

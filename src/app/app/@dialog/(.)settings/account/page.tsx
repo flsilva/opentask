@@ -1,7 +1,7 @@
 import 'server-only';
-import { AccountSettings } from '@/modules/app/settings/account/AccountSettings';
 import { Dialog } from '@/modules/shared/dialog/Dialog';
-import { RouterActionType } from '@/modules/shared/controls/button/RouterActions';
+import { RouterActionType } from '@/modules/shared/router/RouterActions';
+import { AccountSettings } from '@/modules/app/settings/account/AccountSettings';
 
 export default function SettingsAccountInterceptingPage() {
   return (

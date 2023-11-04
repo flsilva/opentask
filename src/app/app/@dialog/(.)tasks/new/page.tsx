@@ -1,9 +1,9 @@
 import 'server-only';
-import { ErrorList } from '@/modules/shared/errors/ErrorList';
-import { getAllProjects, getProjectById } from '@/modules/app/projects/ProjectsRepository';
 import { Dialog } from '@/modules/shared/dialog/Dialog';
+import { ErrorList } from '@/modules/shared/errors/ErrorList';
+import { RouterActionType } from '@/modules/shared/router/RouterActions';
+import { getAllProjects, getProjectById } from '@/modules/app/projects/ProjectsRepository';
 import { TaskForm } from '@/modules/app/tasks/TaskForm';
-import { RouterActionType } from '@/modules/shared/controls/button/RouterActions';
 
 interface NewTaskDialogInterceptingPageProps {
   readonly searchParams: { readonly projectId: string };
