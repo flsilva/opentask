@@ -9,10 +9,11 @@ import {
 } from '@/modules/shared//controls/button/buttonClassName';
 import { ChildrenProps } from '@/modules/shared/ChildrenProps';
 import { GitHubLogoIcon } from '@/modules/shared/icons/GitHubLogoIcon';
+import { GoogleLogoIcon } from '@/modules/shared/icons/GoogleLogoIcon';
 import { LinkedInInLogoIcon } from '@/modules/shared/icons/LinkedInInLogoIcon';
-import { TwitterLogoIcon } from '@/modules/shared/icons/TwitterLogoIcon';
+import { XLogoIcon } from '@/modules/shared/icons/XLogoIcon';
 
-export type Provider = 'github' | 'linkedin' | 'twitter';
+export type Provider = 'github' | 'google' | 'linkedin' | 'twitter';
 
 interface OAuthProviderButtonProps extends ChildrenProps {
   readonly provider: Provider;
@@ -86,13 +87,17 @@ export default async function SignInPage() {
     <div className="pb-24">
       <h2 className="mb-9 mt-12 text-center text-xl font-semibold text-gray-900">Sign in</h2>
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <OAuthProviderButton provider="twitter">
-          <TwitterLogoIcon width="1rem" height="1rem" className="fill-[#1e9cf1]" />
-          Continue with Twitter
+        <OAuthProviderButton provider="google">
+          <GoogleLogoIcon />
+          Continue with Google
         </OAuthProviderButton>
         <OAuthProviderButton provider="github">
           <GitHubLogoIcon width="1rem" height="1rem" className="fill-black" />
           Continue with GitHub
+        </OAuthProviderButton>
+        <OAuthProviderButton provider="twitter">
+          <XLogoIcon width="1rem" height="1rem" className="fill-black" />
+          Continue with X
         </OAuthProviderButton>
         <OAuthProviderButton provider="linkedin">
           <LinkedInInLogoIcon />
