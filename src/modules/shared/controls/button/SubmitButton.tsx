@@ -1,7 +1,6 @@
 'use client';
 
-// @ts-ignore
-import { experimental_useFormStatus as useFormStatus } from 'react-dom';
+import { useFormStatus } from 'react-dom';
 import { ClassNamePropsOptional } from '@/modules/shared/ClassNameProps';
 
 export interface SubmitButtonProps extends ClassNamePropsOptional {

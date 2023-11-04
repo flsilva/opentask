@@ -1,8 +1,7 @@
 'use client';
 
 import 'client-only';
-// @ts-ignore
-import { experimental_useFormStatus as useFormStatus } from 'react-dom';
+import { useFormStatus } from 'react-dom';
 import { ClassNamePropsOptional } from '@/modules/shared/ClassNameProps';
 import { ServerError } from '@/modules/app/shared/errors/ServerResponse';
 

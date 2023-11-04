@@ -2,7 +2,7 @@
 
 import 'client-only';
 import { useState } from 'react';
-import { experimental_useFormState as useFormState } from 'react-dom';
+import { useFormState } from 'react-dom';
 
 export interface useFormActionProps<ServerResponse> {
   readonly action: (
