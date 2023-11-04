@@ -1,4 +1,5 @@
 import 'server-only';
+import { notFound } from 'next/navigation';
 import { ErrorList } from '@/modules/shared/errors/ErrorList';
 import { getAllProjects } from '@/modules/app/projects/ProjectsRepository';
 import { getTaskById } from '@/modules/app/tasks/TasksRepository';
@@ -15,8 +16,7 @@ export default async function TaskPage({ params: { taskId } }: TaskPageProps) {
   if (projectsErrors) return <ErrorList errors={projectsErrors} />;
   if (taskErrors) return <ErrorList errors={taskErrors} />;
 
-  if (!task) return;
-  if (!projects || projects.length < 1 || !task) return null;
+  if (!task || !projects || projects.length < 1 || !task) notFound();
 
   return (
     <div className="flex flex-col mt-10">

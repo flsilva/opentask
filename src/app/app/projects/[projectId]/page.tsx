@@ -1,4 +1,5 @@
 import 'server-only';
+import { notFound } from 'next/navigation';
 import { ErrorList } from '@/modules/shared/errors/ErrorList';
 import { AddTask } from '@/modules/app/tasks/AddTask';
 import { TaskList } from '@/modules/app/tasks/TaskList';
@@ -16,11 +17,7 @@ export default async function ProjectPage({ params: { projectId } }: ProjectPage
   if (projectsErrors) return <ErrorList errors={projectsErrors} />;
   if (projectErrors) return <ErrorList errors={projectErrors} />;
 
-  if (!project || !projects) {
-    return (
-      <p className="text-sm my-20">We couldn&apos;t find that Project. Maybe it got deleted?</p>
-    );
-  }
+  if (!project || !projects) notFound();
 
   return (
     <>

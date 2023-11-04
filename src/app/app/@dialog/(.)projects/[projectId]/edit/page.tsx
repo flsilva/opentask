@@ -1,4 +1,5 @@
 import 'server-only';
+import { notFound } from 'next/navigation';
 import { ErrorList } from '@/modules/shared/errors/ErrorList';
 import { Dialog } from '@/modules/shared/dialog/Dialog';
 import { RouterActionType } from '@/modules/shared/router/RouterActions';
@@ -16,11 +17,7 @@ export default async function EditProjectDialogInterceptingPage({
 
   if (errors) return <ErrorList errors={errors} />;
 
-  if (!project) {
-    return (
-      <p className="text-sm my-20">We couldn&apos;t find that Project. Maybe it got deleted?</p>
-    );
-  }
+  if (!project) notFound();
 
   return (
     <Dialog defaultOpen title="Edit project" routerActionsOnClose={{ type: RouterActionType.Back }}>

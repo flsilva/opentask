@@ -1,4 +1,5 @@
 import 'server-only';
+import { notFound } from 'next/navigation';
 import { ErrorList } from '@/modules/shared/errors/ErrorList';
 import { ProjectForm } from '@/modules/app/projects/ProjectForm';
 import { getProjectById } from '@/modules/app/projects/ProjectsRepository';
@@ -12,11 +13,7 @@ export default async function EditProjectPage({ params: { projectId } }: EditPro
 
   if (errors) return <ErrorList errors={errors} />;
 
-  if (!project) {
-    return (
-      <p className="text-sm my-20">We couldn&apos;t find that Project. Maybe it got deleted?</p>
-    );
-  }
+  if (!project) notFound();
 
   return (
     <div className="flex flex-col mt-10">

@@ -1,4 +1,5 @@
 import 'server-only';
+import { notFound } from 'next/navigation';
 import { Dialog } from '@/modules/shared/dialog/Dialog';
 import { ErrorList } from '@/modules/shared/errors/ErrorList';
 import { RouterActionType } from '@/modules/shared/router/RouterActions';
@@ -20,8 +21,7 @@ export default async function TaskDialogInterceptingPage({
   if (projectsErrors) return <ErrorList errors={projectsErrors} />;
   if (taskErrors) return <ErrorList errors={taskErrors} />;
 
-  if (!task) return;
-  if (!projects || projects.length < 1 || !task) return null;
+  if (!task || !projects || projects.length < 1 || !task) notFound();
 
   const deleteTaskButton = (
     <DeleteTaskButton
