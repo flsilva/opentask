@@ -5,8 +5,8 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { ClassNamePropsOptional } from '@/modules/shared/ClassNameProps';
 import {
-  buttonClassNameGreen,
-  buttonClassNameWhite,
+  buttonGreenClassName,
+  buttonWhiteClassName,
 } from '@/modules/shared/controls/button/buttonClassName';
 import { SubmitButton } from '@/modules/shared/controls/button/SubmitButton';
 import { cuid2 } from '@/modules/app/shared/data-access/cuid2';
@@ -222,7 +222,7 @@ export const TaskForm = ({
         <div className="mt-12 flex justify-end gap-2 sm:gap-4">
           <button
             type="button"
-            className={buttonClassNameWhite}
+            className={buttonWhiteClassName}
             onClick={() => {
               setIsOnEditingMode(false);
               if (onCancelClick) onCancelClick();
@@ -230,7 +230,7 @@ export const TaskForm = ({
           >
             Cancel
           </button>
-          <SubmitButton className={buttonClassNameGreen} label="Save" submittingLabel="Saving..." />
+          <SubmitButton className={buttonGreenClassName}>Save</SubmitButton>
         </div>
       )}
     </form>

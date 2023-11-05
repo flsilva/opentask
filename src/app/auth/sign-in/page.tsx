@@ -4,9 +4,10 @@ import Link from 'next/link';
 import { createServerActionClient } from '@supabase/auth-helpers-nextjs';
 import { Database } from '@/lib/database.types';
 import {
-  buttonClassNameGreen,
-  buttonClassNameWhite,
+  buttonGreenClassName,
+  buttonWhiteClassName,
 } from '@/modules/shared//controls/button/buttonClassName';
+import { SubmitButton } from '@/modules/shared/controls/button/SubmitButton';
 import { ChildrenProps } from '@/modules/shared/ChildrenProps';
 import { GitHubLogoIcon } from '@/modules/shared/icons/GitHubLogoIcon';
 import { GoogleLogoIcon } from '@/modules/shared/icons/GoogleLogoIcon';
@@ -16,8 +17,22 @@ import { XLogoIcon } from '@/modules/shared/icons/XLogoIcon';
 export type Provider = 'github' | 'google' | 'linkedin' | 'twitter';
 
 interface OAuthProviderButtonProps extends ChildrenProps {
+  readonly action: (formData: FormData) => void;
   readonly provider: Provider;
 }
+
+const OAuthProviderButton = ({ action, children, provider }: OAuthProviderButtonProps) => (
+  <form action={action}>
+    <input type="hidden" name="provider" value={provider} />
+    <SubmitButton
+      className={`${buttonWhiteClassName} mt-4 w-full`}
+      labelClassName="gap-2"
+      spinnerClassName="border-green-600 border-b-white"
+    >
+      {children}
+    </SubmitButton>
+  </form>
+);
 
 export default async function SignInPage() {
   /*
@@ -74,32 +89,23 @@ export default async function SignInPage() {
     }
   };
 
-  const OAuthProviderButton = ({ children, provider }: OAuthProviderButtonProps) => (
-    <form action={signInWithOAuth}>
-      <input type="hidden" name="provider" value={provider} />
-      <button type="submit" className={`${buttonClassNameWhite} mt-4 w-full gap-2`}>
-        {children}
-      </button>
-    </form>
-  );
-
   return (
     <div className="pb-24">
       <h2 className="mb-9 mt-12 text-center text-xl font-semibold text-gray-900">Sign in</h2>
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <OAuthProviderButton provider="google">
+        <OAuthProviderButton action={signInWithOAuth} provider="google">
           <GoogleLogoIcon />
           Continue with Google
         </OAuthProviderButton>
-        <OAuthProviderButton provider="github">
+        <OAuthProviderButton action={signInWithOAuth} provider="github">
           <GitHubLogoIcon width="1rem" height="1rem" className="fill-black" />
           Continue with GitHub
         </OAuthProviderButton>
-        <OAuthProviderButton provider="twitter">
+        <OAuthProviderButton action={signInWithOAuth} provider="twitter">
           <XLogoIcon width="1rem" height="1rem" className="fill-black" />
           Continue with X
         </OAuthProviderButton>
-        <OAuthProviderButton provider="linkedin">
+        <OAuthProviderButton action={signInWithOAuth} provider="linkedin">
           <LinkedInInLogoIcon />
           Continue with LinkedIn
         </OAuthProviderButton>
@@ -121,12 +127,9 @@ export default async function SignInPage() {
                 required
                 data-lpignore="true"
               />
-              <button
-                type="submit"
-                className={`${buttonClassNameGreen} flex w-full justify-center`}
-              >
+              <SubmitButton className={`${buttonGreenClassName} flex w-full justify-center`}>
                 Continue with Email
-              </button>
+              </SubmitButton>
             </form>
           </>
         )}

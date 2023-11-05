@@ -3,8 +3,8 @@
 import { useState } from 'react';
 import * as AlertDialogRX from '@radix-ui/react-alert-dialog';
 import {
-  buttonClassNameGreen,
-  buttonClassNameWhite,
+  buttonGreenClassName,
+  buttonWhiteClassName,
 } from '@/modules/shared/controls/button/buttonClassName';
 import { SubmitButton } from '@/modules/shared/controls/button/SubmitButton';
 import { RouterActions } from '@/modules/shared/router/RouterActions';
@@ -15,7 +15,7 @@ export interface AlertDialogProps {
   readonly defaultOpen?: boolean;
   readonly cancelButtonLabel?: string;
   readonly confirmButtonLabel: string;
-  readonly confirmButtonLabelSubmitting?: string;
+  readonly confirmButtonLabelSubmitting?: React.ReactNode;
   readonly dialogCopy: string | React.ReactNode;
   readonly dialogTitle: string | React.ReactNode;
   readonly onConfirmHandler: (() => void) | 'submit';
@@ -57,17 +57,13 @@ export const AlertDialog = ({
   const submitButton =
     onConfirmHandler === 'submit' ? (
       <AlertDialogRX.Action asChild>
-        <SubmitButton
-          className={buttonClassNameGreen}
-          label={confirmButtonLabel}
-          submittingLabel={
-            confirmButtonLabelSubmitting ? confirmButtonLabelSubmitting : confirmButtonLabel
-          }
-        />
+        <SubmitButton className={buttonGreenClassName} submitting={confirmButtonLabelSubmitting}>
+          {confirmButtonLabel}
+        </SubmitButton>
       </AlertDialogRX.Action>
     ) : (
       <AlertDialogRX.Action asChild>
-        <button type="button" className={buttonClassNameGreen} onClick={onConfirmHandler}>
+        <button type="button" className={buttonGreenClassName} onClick={onConfirmHandler}>
           {confirmButtonLabel}
         </button>
       </AlertDialogRX.Action>
@@ -77,7 +73,7 @@ export const AlertDialog = ({
     <div className="flex flex-col">
       <AlertDialogRX.Description className="mt-6">{dialogCopy}</AlertDialogRX.Description>
       <div className="mt-12 flex justify-end gap-4">
-        <AlertDialogRX.Cancel className={buttonClassNameWhite}>
+        <AlertDialogRX.Cancel className={buttonWhiteClassName}>
           {cancelButtonLabel}
         </AlertDialogRX.Cancel>
         {submitButton}

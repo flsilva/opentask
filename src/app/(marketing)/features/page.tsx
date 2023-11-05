@@ -1,7 +1,7 @@
 import 'server-only';
 import Image from 'next/image';
 import Link from 'next/link';
-import { buttonClassNameGreen } from '@/modules/shared/controls/button/buttonClassName';
+import { buttonGreenClassName } from '@/modules/shared/controls/button/buttonClassName';
 import { HeroShell } from '@/modules/marketing/shared/HeroShell';
 import { HeroHeading } from '@/modules/marketing/shared/HeroHeading';
 import { HeroCopy } from '@/modules/marketing/shared/HeroCopy';
@@ -111,7 +111,7 @@ export default function FeaturesPage() {
         See what tasks you have for today and what is overdue.
       </p>
       <div className="mt-10 flex items-center justify-center">
-        <Link href="/auth/sign-in" className={buttonClassNameGreen}>
+        <Link href="/auth/sign-in" className={buttonGreenClassName}>
           Get Started
         </Link>
       </div>

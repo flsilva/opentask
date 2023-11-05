@@ -24,7 +24,6 @@ export const DeleteProjectAlertDialog = ({
     <AlertDialog
       defaultOpen
       confirmButtonLabel="Delete"
-      confirmButtonLabelSubmitting="Deleting..."
       renderBodyWrapper={(children: React.ReactNode) => (
         <FormAction action={deleteProject} onFormSubmitted={onFormSubmitted}>
           {({ response }) => (

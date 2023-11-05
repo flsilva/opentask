@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { buttonClassNameGreen } from '@/modules/shared/controls/button/buttonClassName';
+import { buttonGreenClassName } from '@/modules/shared/controls/button/buttonClassName';
 
 export const DefaultError = ({ error, reset }: { error: Error; reset: () => void }) => {
   useEffect(() => {
@@ -15,7 +15,7 @@ export const DefaultError = ({ error, reset }: { error: Error; reset: () => void
         <h3 className="mb-6 text-lg font-semibold">Something went wrong!</h3>
         <p className="mb-8">{error.message}</p>
         <button
-          className={buttonClassNameGreen}
+          className={buttonGreenClassName}
           onClick={
             // Attempt to recover by trying to re-render the segment
             () => reset()

@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Logo } from '@/modules/shared/logos/Logo';
-import { buttonClassNameGreen } from '@/modules/shared/controls/button/buttonClassName';
+import { buttonGreenClassName } from '@/modules/shared/controls/button/buttonClassName';
 
 export default function NotFound() {
   return (
@@ -13,7 +13,7 @@ export default function NotFound() {
         <div className="flex flex-col items-center mt-8">
           <h2 className="text-3xl">404</h2>
           <p className="mt-4">This page could not be found.</p>
-          <Link href="/" className={`${buttonClassNameGreen} mt-8`}>
+          <Link href="/" className={`${buttonGreenClassName} mt-8`}>
             Return Home
           </Link>
         </div>

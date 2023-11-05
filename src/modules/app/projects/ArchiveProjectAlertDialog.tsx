@@ -27,7 +27,6 @@ export const ArchiveProjectAlertDialog = ({
     <AlertDialog
       defaultOpen
       confirmButtonLabel={action}
-      confirmButtonLabelSubmitting={action === 'Archive' ? 'Archiving...' : 'Unarchiving...'}
       renderBodyWrapper={(children: React.ReactNode) => (
         <FormAction action={updateProject} onFormSubmitted={onFormSubmitted}>
           {({ response }) => (

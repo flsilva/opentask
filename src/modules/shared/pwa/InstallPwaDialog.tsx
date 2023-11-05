@@ -3,7 +3,7 @@
 import 'client-only';
 import { useContext, useEffect, useState } from 'react';
 import { UAParser } from 'ua-parser-js';
-import { buttonClassNameGreen } from '@/modules/shared/controls/button/buttonClassName';
+import { buttonGreenClassName } from '@/modules/shared/controls/button/buttonClassName';
 import { IOSAddIcon } from '@/modules/shared/icons/IOSAddIcon';
 import { IOSShareIcon } from '@/modules/shared/icons/IOSShareIcon';
 import { Dialog } from '@/modules/shared/dialog/Dialog';
@@ -78,7 +78,7 @@ export const InstallPwaDialog = () => {
         {os === 'Android' && (
           <button
             type="button"
-            className={`${buttonClassNameGreen} flex justify-center mt-6`}
+            className={`${buttonGreenClassName} flex justify-center mt-6`}
             onClick={() => {
               if (installPrompt) installPrompt();
               setIsOpen(false);

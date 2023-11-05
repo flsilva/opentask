@@ -36,7 +36,6 @@ export const DeleteTaskButton = ({ id, name, routerActionsOnSuccess }: DeleteTas
       <AlertDialog
         defaultOpen
         confirmButtonLabel="Delete"
-        confirmButtonLabelSubmitting="Deleting..."
         dialogCopy={
           <span>
             Are you sure you want to delete <span className="font-semibold">{name}</span>?

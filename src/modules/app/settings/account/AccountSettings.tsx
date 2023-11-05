@@ -3,7 +3,7 @@
 import 'client-only';
 import { useState } from 'react';
 import { useFormState } from 'react-dom';
-import { buttonClassNameRed } from '@/modules/shared/controls/button/buttonClassName';
+import { buttonRedClassName } from '@/modules/shared/controls/button/buttonClassName';
 import { ErrorList } from '@/modules/shared/errors/ErrorList';
 import { AlertDialog, AlertDialogProps } from '@/modules/shared/dialog/AlertDialog';
 import { deleteUserAccount } from '@/modules/app/users/UsersRepository';
@@ -16,7 +16,6 @@ export const AccountSettings = () => {
     setAlertDialogProps({
       defaultOpen: true,
       confirmButtonLabel: 'Delete',
-      confirmButtonLabelSubmitting: 'Deleting...',
       dialogCopy: (
         <span>Are you sure you want to delete you account and all data associated to it?</span>
       ),
@@ -40,7 +39,7 @@ export const AccountSettings = () => {
         <button
           type="button"
           onClick={onDeleteAccount}
-          className={`${buttonClassNameRed} mt-12 self-start`}
+          className={`${buttonRedClassName} mt-12 self-start`}
         >
           Delete account
         </button>

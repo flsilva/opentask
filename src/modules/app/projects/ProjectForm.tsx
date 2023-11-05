@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { buttonClassNameGreen } from '@/modules/shared/controls/button/buttonClassName';
+import { buttonGreenClassName } from '@/modules/shared/controls/button/buttonClassName';
 import { SubmitButton } from '@/modules/shared/controls/button/SubmitButton';
 import { ErrorList } from '@/modules/shared/errors/ErrorList';
 import { ServerResponse } from '@/modules/app/shared/errors/ServerResponse';
@@ -98,11 +98,7 @@ export const ProjectForm = ({ className, project }: ProjectFormProps) => {
         className="mb-6 block w-full resize-none rounded-md border border-gray-400 py-1.5 text-gray-900 ring-0 placeholder:text-gray-400 focus:border-gray-900 focus:outline-0 focus:ring-0"
       ></textarea>
       {serverResponse && serverResponse.errors && <ErrorList errors={serverResponse.errors} />}
-      <SubmitButton
-        className={`flex self-end ${buttonClassNameGreen}`}
-        label="Save"
-        submittingLabel="Saving..."
-      />
+      <SubmitButton className={`flex self-end ${buttonGreenClassName}`}>Save</SubmitButton>
     </form>
   );
 };

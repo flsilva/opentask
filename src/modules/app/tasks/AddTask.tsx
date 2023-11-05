@@ -3,7 +3,7 @@
 import 'client-only';
 import { useState } from 'react';
 import { Transition } from '@headlessui/react';
-import { buttonClassNameLink } from '@/modules/shared/controls/button/buttonClassName';
+import { buttonLinkClassName } from '@/modules/shared/controls/button/buttonClassName';
 import { PlusSignalIcon } from '@/modules/shared/icons/PlusSignalIcon';
 import { ProjectDto } from '@/modules/app/projects/ProjectsRepository';
 import { TaskForm } from './TaskForm';
@@ -80,7 +80,7 @@ export const AddTask = ({ defaultDueDate, project, projects }: AddTaskProps) => 
       >
         <button
           onClick={addTaskHandler}
-          className={`${buttonClassNameLink} group flex-row self-start`}
+          className={`${buttonLinkClassName} group flex-row self-start`}
         >
           <PlusSignalIcon
             width="1.25rem"
