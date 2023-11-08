@@ -31,7 +31,7 @@ export default async function AppLayout({
         {projects && (
           <div className="flex h-full overflow-hidden">
             <div className="hidden lg:flex">
-              <MainMenu projects={projects} />
+              <MainMenu projects={projects || []} />
             </div>
             <div className="w-full overflow-y-auto overflow-x-hidden md:flex">
               <div className="flex w-full max-w-[24rem] flex-col px-4 md:max-w-[38rem] md:pl-8 lg:max-w-[60rem] xl:pl-36  2xl:pl-60">

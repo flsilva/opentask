@@ -12,7 +12,7 @@ export default async function ArchivedProjectsPage() {
   return (
     <>
       <ProjectsPageHeader archived={true} />
-      <ProjectList classNameItem="pl-2" projects={archivedProjects || []} />
+      <ProjectList itemClassName="pl-2" projects={archivedProjects || []} />
     </>
   );
 }

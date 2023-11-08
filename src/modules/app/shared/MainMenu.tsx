@@ -44,18 +44,12 @@ export const MainMenu = ({ projects }: MainMenuProps) => {
           <PlusSignalIcon className="fill-gray-600" />
         </Link>
       </div>
-      {projects && projects.length > 0 && (
-        <ProjectList
-          classNameItem="pl-9"
-          getClassNameItem={(project) =>
-            isActive(`projects/${project.id}`) ? activeClassName : ''
-          }
-          projects={projects}
-        />
-      )}
-      {(!projects || projects.length === 0) && (
-        <p className="mt-4 text-sm font-medium text-gray-600">No projects</p>
-      )}
+      <ProjectList
+        itemClassName="pl-9"
+        getClassNameItem={(project) => (isActive(`projects/${project.id}`) ? activeClassName : '')}
+        noProjectsClassName="pl-9 pt-4"
+        projects={projects}
+      />
     </nav>
   );
 };

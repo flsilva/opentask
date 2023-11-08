@@ -8,15 +8,17 @@ import { ClassNamePropsOptional } from '@/modules/shared/ClassNameProps';
 import { ProjectDto } from './ProjectsRepository';
 
 interface ProjectListProps extends ClassNamePropsOptional {
-  readonly classNameItem?: string;
+  readonly itemClassName?: string;
   readonly getClassNameItem?: (project: ProjectDto) => string;
+  readonly noProjectsClassName?: string;
   readonly projects: Array<ProjectDto>;
 }
 
 export const ProjectList = ({
   className,
-  classNameItem,
+  itemClassName,
   getClassNameItem,
+  noProjectsClassName,
   projects,
 }: ProjectListProps) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -40,16 +42,22 @@ export const ProjectList = ({
             <Link
               href={`/app/projects/${project.id}`}
               key={project.id}
-              className={`flex grow items-center rounded-none lg:rounded-md py-2.5 text-base lg:text-sm text-gray-600 hover:bg-gray-200 border-b lg:border-b-0 ${classNameItem} ${
-                getClassNameItem ? getClassNameItem(project) : ''
-              }`}
+              className={`flex grow items-center rounded-none lg:rounded-md py-2.5 text-base lg:text-sm text-gray-600 hover:bg-gray-200 border-b lg:border-b-0 ${
+                itemClassName ? itemClassName : ''
+              } ${getClassNameItem ? getClassNameItem(project) : ''}`}
             >
               <p>{project.name}</p>
             </Link>
           ))}
         {!projects ||
           (projects.length < 1 && (
-            <p className="text-sm font-medium text-gray-600">No projects.</p>
+            <p
+              className={`text-sm font-medium text-gray-600 ${
+                noProjectsClassName ? noProjectsClassName : ''
+              }`}
+            >
+              No projects.
+            </p>
           ))}
       </nav>
     </Transition>
