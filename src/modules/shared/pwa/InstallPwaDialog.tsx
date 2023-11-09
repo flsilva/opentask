@@ -11,16 +11,17 @@ import { InstallPwaContext } from './InstallPwaProvider';
 
 export const InstallPwaDialog = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const parser = new UAParser(window.navigator.userAgent);
-  const os = parser.getOS().name;
-  const browser = parser.getBrowser().name;
+  const [os, setOS] = useState<string>();
   const installPrompt = useContext(InstallPwaContext);
 
-  /*
-   * We need to set isOpen inside the useEffect otherwise the initial mount animation
-   * doesn't work, even after adding "appear".
-   */
   useEffect(() => {
+    if (!window || !localStorage) return;
+
+    const parser = new UAParser(window.navigator.userAgent);
+    const browser = parser.getBrowser().name;
+    const _os = parser.getOS().name;
+    setOS(_os);
+
     let showedDate: string | null = null;
     let isRunningAsPwa: boolean = false;
 
@@ -36,8 +37,8 @@ export const InstallPwaDialog = () => {
     if (
       !showedDate &&
       !isRunningAsPwa &&
-      ((os === 'iOS' && browser === 'Mobile Safari') ||
-        (os === 'Android' && browser === 'Chrome' && installPrompt))
+      ((_os === 'iOS' && browser === 'Mobile Safari') ||
+        (_os === 'Android' && browser === 'Chrome' && installPrompt))
     ) {
       setIsOpen(true);
       /*
@@ -50,7 +51,7 @@ export const InstallPwaDialog = () => {
       /**/
     }
     /**/
-  }, [browser, os, installPrompt]);
+  }, [installPrompt]);
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen} title="Add to Home Screen">
