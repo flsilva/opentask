@@ -88,7 +88,12 @@ export const getAllTasksDueUntilToday = async (isCompleted = false) => {
     const authorId = await getUserId();
 
     const result = await prisma.task.findMany({
-      where: { authorId, dueDate: { lte: new Date() }, isCompleted },
+      where: {
+        authorId,
+        dueDate: { lte: new Date() },
+        isCompleted,
+        project: { isNot: { isArchived: true } },
+      },
       orderBy: { createdAt: 'asc' },
       include: {
         project: {
