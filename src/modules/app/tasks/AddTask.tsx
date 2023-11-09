@@ -3,13 +3,14 @@
 import 'client-only';
 import { useState } from 'react';
 import { Transition } from '@headlessui/react';
+import { useWindowSize } from 'usehooks-ts';
 import { buttonLinkClassName } from '@/modules/shared/controls/button/buttonClassName';
 import { PlusSignalIcon } from '@/modules/shared/icons/PlusSignalIcon';
 import { ProjectDto } from '@/modules/app/projects/ProjectsRepository';
 import { TaskForm } from './TaskForm';
 import { useRouter } from 'next/navigation';
 
-interface AddTaskProps {
+export interface AddTaskProps {
   readonly defaultDueDate?: Date | null;
   readonly project: ProjectDto;
   readonly projects: Array<ProjectDto>;
@@ -18,11 +19,10 @@ interface AddTaskProps {
 export const AddTask = ({ defaultDueDate, project, projects }: AddTaskProps) => {
   const router = useRouter();
   const [isAddingTask, setIsAddingTask] = useState(false);
+  const { width } = useWindowSize();
 
   const addTaskHandler = () => {
-    const viewportWidth = window.innerWidth;
-
-    if (viewportWidth < 768) {
+    if (width < 768) {
       router.push(`/app/tasks/new?projectId=${project.id}`);
     } else {
       setIsAddingTask(true);
@@ -34,9 +34,7 @@ export const AddTask = ({ defaultDueDate, project, projects }: AddTaskProps) => 
   };
 
   const getNewTaskComponent = () => {
-    const viewportWidth = window.innerWidth;
-
-    if (viewportWidth < 768) return null;
+    if (width < 768) return null;
 
     return (
       <Transition
