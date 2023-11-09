@@ -7,6 +7,7 @@ import { InstallPwaDialog } from '@/modules/shared/pwa/InstallPwaDialog';
 import { getAllProjects } from '@/modules/app/projects/ProjectsRepository';
 import { UserProvider } from '@/modules/app/users/UserProvider';
 import { getUser, UserDto } from '@/modules/app/users/UsersRepository';
+import { buttonGreenClassName } from '@/modules/shared/controls/button/buttonClassName';
 
 export default async function AppLayout({
   children,
@@ -39,13 +40,17 @@ export default async function AppLayout({
                   {children}
                   {dialog}
                   {(!projects || projects.length === 0) && (
-                    <p className="mt-4 text-sm font-medium text-gray-600">
-                      You don&#39;t have any projects yet. Create your first{' '}
-                      <Link href="/app/projects/new" className="text-sm font-medium text-green-700">
-                        now
+                    <>
+                      <p className="mt-4 text-sm font-medium text-gray-600">
+                        You don&#39;t have any projects yet.
+                      </p>
+                      <Link
+                        href="/app/projects/new"
+                        className={`${buttonGreenClassName} w-fit mt-6`}
+                      >
+                        Create your first!
                       </Link>
-                      .
-                    </p>
+                    </>
                   )}
                 </div>
               </div>
