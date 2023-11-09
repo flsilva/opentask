@@ -145,7 +145,7 @@ const inter = Inter({ subsets: ['latin'] });
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="h-full">
+    <html lang="en" className="h-full antialiased">
       <body className={`${inter.className} flex flex-col h-full`}>
         <InstallPwaProvider>{children}</InstallPwaProvider>
         <GaNextScriptNavigation gaId="G-C6TYTB01NE" />

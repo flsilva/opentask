@@ -3,6 +3,7 @@
 import 'client-only';
 import { ProjectDto } from './ProjectsRepository';
 import { ProjectMutationDropdown } from './ProjectMutationDropdown';
+import { FeedbackBox } from '@/modules/shared/box/FeedbackBox';
 
 export interface ProjectPageHeaderProps {
   readonly project: ProjectDto;
@@ -20,7 +21,9 @@ export const ProjectPageHeader = ({ project }: ProjectPageHeaderProps) => {
           <p className="block whitespace-pre-line text-sm mb-8">{project.description}</p>
         )}
         {project.isArchived && (
-          <p className="mt-2 block whitespace-pre-line text-sm mb-8">This project is archived.</p>
+          <FeedbackBox className="mb-8">
+            <p className="block">This project is archived.</p>
+          </FeedbackBox>
         )}
       </div>
     </>
