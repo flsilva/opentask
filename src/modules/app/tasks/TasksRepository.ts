@@ -1,8 +1,8 @@
 'use server';
 
 import { z } from 'zod';
-import { cuid2 } from '@/modules/app/shared/data-access/cuid2';
-import { prisma } from '@/modules/app/shared/data-access/prisma';
+import { cuid2 } from '@/modules/shared/data-access/cuid2';
+import { prisma } from '@/modules/shared/data-access/prisma';
 import { getUserId } from '@/modules/app/users/UsersRepository';
 import { createTaskSchema, deleteTaskSchema, updateTaskSchema } from './TasksDomain';
 import {

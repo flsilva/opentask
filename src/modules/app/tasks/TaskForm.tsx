@@ -9,7 +9,7 @@ import {
   buttonWhiteClassName,
 } from '@/modules/shared/controls/button/buttonClassName';
 import { SubmitButton } from '@/modules/shared/controls/button/SubmitButton';
-import { cuid2 } from '@/modules/app/shared/data-access/cuid2';
+import { cuid2 } from '@/modules/shared/data-access/cuid2';
 import { ErrorList } from '@/modules/shared/errors/ErrorList';
 import { ServerResponse } from '@/modules/app/shared/errors/ServerResponse';
 import { InputContentEditable } from '@/modules/shared/form/InputContentEditable';

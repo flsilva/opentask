@@ -6,7 +6,7 @@ import {
   createServerComponentClient,
 } from '@supabase/auth-helpers-nextjs';
 import { Database } from '@/lib/database.types';
-import { prisma } from '@/modules/app/shared/data-access/prisma';
+import { prisma } from '@/modules/shared/data-access/prisma';
 import {
   ServerResponse,
   createServerErrorResponse,
