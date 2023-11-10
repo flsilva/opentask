@@ -1,5 +1,5 @@
 import '../globals.css';
-import { createServerActionClient } from '@supabase/auth-helpers-nextjs';
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { Database } from '@/lib/database.types';
@@ -10,7 +10,7 @@ export default async function MarketingLayout({ children }: { children: React.Re
   /*
    * Redirect users to the app if they're signed in.
    */
-  const supabase = createServerActionClient<Database>({ cookies });
+  const supabase = createServerComponentClient<Database>({ cookies });
   const {
     data: { session },
   } = await supabase.auth.getSession();

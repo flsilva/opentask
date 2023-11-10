@@ -1,7 +1,10 @@
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
-import { createServerActionClient } from '@supabase/auth-helpers-nextjs';
+import {
+  createServerActionClient,
+  createServerComponentClient,
+} from '@supabase/auth-helpers-nextjs';
 import { Database } from '@/lib/database.types';
 import {
   buttonGreenClassName,
@@ -38,7 +41,7 @@ export default async function SignInPage() {
   /*
    * Redirect users to the app if they're signed in.
    */
-  const supabase = createServerActionClient<Database>({ cookies });
+  const supabase = createServerComponentClient<Database>({ cookies });
   const {
     data: { session },
   } = await supabase.auth.getSession();
@@ -52,10 +55,9 @@ export default async function SignInPage() {
   const signInWithEmailHandler = async (formData: FormData) => {
     'use server';
     const email = String(formData.get('email'));
-
     const supabase = createServerActionClient<Database>({ cookies });
 
-    const { data, error } = await supabase.auth.signInWithOtp({
+    const { error } = await supabase.auth.signInWithOtp({
       email,
       options: {
         emailRedirectTo: redirectTo,

@@ -1,7 +1,10 @@
 'use server';
 
 import { cookies } from 'next/headers';
-import { createServerActionClient } from '@supabase/auth-helpers-nextjs';
+import {
+  createServerActionClient,
+  createServerComponentClient,
+} from '@supabase/auth-helpers-nextjs';
 import { Database } from '@/lib/database.types';
 import { prisma } from '@/modules/app/shared/data-access/prisma';
 import {
@@ -46,7 +49,7 @@ export const deleteUserAccount = async (
 };
 
 const getUserSession = async () => {
-  const supabase = createServerActionClient<Database>({ cookies });
+  const supabase = createServerComponentClient<Database>({ cookies });
   const {
     data: { session },
   } = await supabase.auth.getSession();
