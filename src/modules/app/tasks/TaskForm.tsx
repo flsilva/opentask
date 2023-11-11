@@ -76,20 +76,24 @@ export const TaskForm = ({
 
     const { data: newTask } = response;
 
+    /*
+     * Task was edited.
+     */
     if (task && task.id === newTask.id) {
-      // task was edited
-
       setIsOnEditingMode(false);
       inputNameRef.current?.blur();
       return;
     }
+    /**/
 
-    // task was created
-
+    /*
+     * Task was created
+     */
     resetForm();
 
-    // router.refresh() is necessary to refetch and rerender mutated data.
+    // Calling router.refresh() is necessary to refetch and rerender mutated data.
     router.refresh();
+    /**/
   };
 
   const [serverResponse, formAction] = useFormAction({
@@ -102,7 +106,6 @@ export const TaskForm = ({
   };
 
   const onTaskProjectChange = async (selectedProject: ProjectDto) => {
-    // setTaskProject(selectedProject);
     if (!task) return;
 
     const formData = new FormData();
@@ -130,7 +133,6 @@ export const TaskForm = ({
    */
   const onTaskCheckClick = (response: ServerResponse<TaskDto | undefined>) => {
     if (response.errors) return;
-
     setIsCompleted(response.data?.isCompleted);
   };
   /**/
