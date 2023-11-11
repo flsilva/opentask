@@ -4,7 +4,7 @@ import 'client-only';
 import { Fragment, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Menu } from '@headlessui/react';
-import { twMerge } from 'tailwind-merge';
+import { twJoin } from 'tailwind-merge';
 import { DropdownMenu } from '@/modules/shared/controls/dropdown/DropdownMenu';
 import { MoreHorizontalIcon } from '@/modules/shared/icons/MoreHorizontalIcon';
 import { ArchiveIcon } from '@/modules/shared/icons/ArchiveIcon';
@@ -151,7 +151,7 @@ export const ProjectMutationDropdown = ({ project }: ProjectMutationDropdownProp
             <button
               type="button"
               onClick={() => onProjectActionClick(item.action)}
-              className={twMerge(
+              className={twJoin(
                 'group flex w-full items-center rounded-md px-2 py-3 text-sm',
                 active ? 'group bg-green-500 text-white' : 'text-gray-900',
               )}

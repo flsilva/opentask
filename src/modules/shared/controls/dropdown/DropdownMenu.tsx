@@ -1,7 +1,7 @@
 import { Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
-import { ClassNamePropsOptional } from '@/modules/shared/ClassNameProps';
 import { twMerge } from 'tailwind-merge';
+import { ClassNamePropsOptional } from '@/modules/shared/ClassNameProps';
 
 export interface DropdownMenuProps extends ClassNamePropsOptional {
   readonly items: React.ReactNode;

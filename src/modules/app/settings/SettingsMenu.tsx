@@ -3,7 +3,7 @@
 import { Fragment, useContext } from 'react';
 import { Menu } from '@headlessui/react';
 import { useRouter } from 'next/navigation';
-import { twMerge } from 'tailwind-merge';
+import { twJoin } from 'tailwind-merge';
 import { DropdownMenu } from '@/modules/shared/controls/dropdown/DropdownMenu';
 import { PersonIcon } from '@/modules/shared/icons/PersonIcon';
 import { SettingsIcon } from '@/modules/shared/icons/SettingsIcon';
@@ -62,7 +62,7 @@ export const SettingsMenu = () => {
           <button
             type="button"
             onClick={() => onSettingsMenuActionClick(item.action)}
-            className={twMerge(
+            className={twJoin(
               'group flex w-full items-center rounded-md px-2 py-3 text-sm',
               active ? 'group bg-green-500 text-white' : 'text-gray-900',
             )}

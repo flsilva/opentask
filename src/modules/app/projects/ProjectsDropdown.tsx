@@ -3,7 +3,7 @@
 import 'client-only';
 import { Fragment, useState } from 'react';
 import { Menu } from '@headlessui/react';
-import { twMerge } from 'tailwind-merge';
+import { twJoin, twMerge } from 'tailwind-merge';
 import { ClassNamePropsOptional } from '@/modules/shared/ClassNameProps';
 import { ExpandMoreIcon } from '@/modules/shared/icons/ExpandMoreIcon';
 import { DropdownMenu } from '@/modules/shared/controls/dropdown/DropdownMenu';
@@ -22,7 +22,7 @@ const DropdownItens = ({ buttonLabel, onItemClick, projects }: DropdownItensProp
         <button
           type="button"
           onClick={() => onItemClick(project)}
-          className={twMerge(
+          className={twJoin(
             'group flex w-full items-center rounded-md px-2 py-2 text-sm',
             active || (buttonLabel && buttonLabel === project.name)
               ? 'bg-green-500 text-white'
