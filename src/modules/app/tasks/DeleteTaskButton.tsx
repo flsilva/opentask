@@ -5,23 +5,23 @@ import { AlertDialog } from '@/modules/shared/dialog/AlertDialog';
 import { ErrorList } from '@/modules/shared/errors/ErrorList';
 import { useFormAction } from '@/modules/shared/form/useFormAction';
 import { DeleteIcon } from '@/modules/shared/icons/DeleteIcon';
-import { RouterActions } from '@/modules/shared/router/RouterActions';
-import { useRouterActions } from '@/modules/shared/router/useRouterActions';
+import { RouterAction } from '@/modules/shared/router/RouterActions';
+import { useRouterAction } from '@/modules/shared/router/useRouterAction';
 import { deleteTask } from './TasksRepository';
 
 export interface DeleteTaskButtonProps {
   readonly id: string;
   readonly name: string;
-  readonly routerActionsOnSuccess: RouterActions;
+  readonly routerActionOnSuccess: RouterAction;
 }
 
-export const DeleteTaskButton = ({ id, name, routerActionsOnSuccess }: DeleteTaskButtonProps) => {
+export const DeleteTaskButton = ({ id, name, routerActionOnSuccess }: DeleteTaskButtonProps) => {
   const [alertDialog, setAlertDialog] = useState<React.ReactNode | null>(null);
-  const routerActions = useRouterActions(routerActionsOnSuccess);
+  const routerAction = useRouterAction(routerActionOnSuccess);
 
   const onDeleteTaskFormSubmitted = () => {
     setAlertDialog(null);
-    routerActions();
+    routerAction();
   };
 
   const [serverResponse, formAction] = useFormAction({

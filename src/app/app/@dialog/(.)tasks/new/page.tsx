@@ -1,7 +1,7 @@
 import 'server-only';
 import { Dialog } from '@/modules/shared/dialog/Dialog';
 import { ErrorList } from '@/modules/shared/errors/ErrorList';
-import { RouterActionType } from '@/modules/shared/router/RouterActions';
+import { RouterActions } from '@/modules/shared/router/RouterActions';
 import { getAllProjects, getProjectById } from '@/modules/app/projects/ProjectsRepository';
 import { TaskForm } from '@/modules/app/tasks/TaskForm';
 
@@ -22,10 +22,7 @@ export default async function NewTaskDialogInterceptingPage({
   if (!projects || projects.length < 1) return null;
 
   return (
-    <Dialog
-      defaultOpen
-      routerActionsOnClose={[{ type: RouterActionType.Back }, { type: RouterActionType.Refresh }]}
-    >
+    <Dialog defaultOpen routerActionOnClose={RouterActions.BackAndRefresh}>
       <TaskForm
         project={project}
         projects={projects}

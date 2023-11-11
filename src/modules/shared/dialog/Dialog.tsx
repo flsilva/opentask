@@ -5,8 +5,8 @@ import * as DialogRX from '@radix-ui/react-dialog';
 import { twJoin, twMerge } from 'tailwind-merge';
 import { ChildrenProps } from '@/modules/shared/ChildrenProps';
 import { XIcon } from '@/modules/shared/icons/XIcon';
-import { RouterActions } from '@/modules/shared/router/RouterActions';
-import { useRouterActions } from '@/modules/shared/router/useRouterActions';
+import { RouterAction } from '@/modules/shared/router/RouterActions';
+import { useRouterAction } from '@/modules/shared/router/useRouterAction';
 
 /*
  * Scrollable overlay
@@ -41,7 +41,7 @@ interface DialogProps extends ChildrenProps {
   readonly onOpenAutoFocus?: (event: Event) => void;
   readonly onOpenChange?: (open: boolean) => void;
   readonly open?: boolean;
-  readonly routerActionsOnClose?: RouterActions;
+  readonly routerActionOnClose?: RouterAction;
   readonly title?: React.ReactNode;
   readonly trigger?: React.ReactNode;
 }
@@ -54,12 +54,12 @@ export const Dialog = ({
   onOpenAutoFocus,
   onOpenChange,
   open,
-  routerActionsOnClose,
+  routerActionOnClose,
   title,
   trigger,
 }: DialogProps) => {
   const [isOpen, setIsOpen] = useState(open || defaultOpen);
-  const triggerRouterActions = useRouterActions(routerActionsOnClose);
+  const routerAction = useRouterAction(routerActionOnClose);
 
   const _onOpenChange = (_open: boolean) => {
     setIsOpen(_open);
@@ -68,7 +68,7 @@ export const Dialog = ({
       if (onOpenChange) onOpenChange(_open);
     } else {
       setTimeout(() => {
-        triggerRouterActions();
+        routerAction();
         if (onOpenChange) onOpenChange(_open);
       }, 300);
     }

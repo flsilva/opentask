@@ -2,7 +2,7 @@ import 'server-only';
 import { notFound } from 'next/navigation';
 import { Dialog } from '@/modules/shared/dialog/Dialog';
 import { ErrorList } from '@/modules/shared/errors/ErrorList';
-import { RouterActionType } from '@/modules/shared/router/RouterActions';
+import { RouterActions } from '@/modules/shared/router/RouterActions';
 import { getAllProjects } from '@/modules/app/projects/ProjectsRepository';
 import { DeleteTaskButton } from '@/modules/app/tasks/DeleteTaskButton';
 import { TaskForm } from '@/modules/app/tasks/TaskForm';
@@ -27,7 +27,7 @@ export default async function TaskDialogInterceptingPage({
     <DeleteTaskButton
       id={task.id}
       name={task.name}
-      routerActionsOnSuccess={[{ type: RouterActionType.Back }, { type: RouterActionType.Refresh }]}
+      routerActionOnSuccess={RouterActions.BackAndRefresh}
     />
   );
 
@@ -35,7 +35,7 @@ export default async function TaskDialogInterceptingPage({
     <Dialog
       defaultOpen
       headerButtons={deleteTaskButton}
-      routerActionsOnClose={[{ type: RouterActionType.Back }, { type: RouterActionType.Refresh }]}
+      routerActionOnClose={RouterActions.BackAndRefresh}
     >
       <TaskForm
         project={task.project}

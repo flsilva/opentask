@@ -8,8 +8,8 @@ import {
   buttonWhiteClassName,
 } from '@/modules/shared/controls/button/buttonClassName';
 import { SubmitButton } from '@/modules/shared/controls/button/SubmitButton';
-import { RouterActions } from '@/modules/shared/router/RouterActions';
-import { useRouterActions } from '@/modules/shared/router/useRouterActions';
+import { RouterAction } from '@/modules/shared/router/RouterActions';
+import { useRouterAction } from '@/modules/shared/router/useRouterAction';
 import { dialogContentClassNames, visibleOverlayClassNames } from './Dialog';
 
 export interface AlertDialogProps {
@@ -23,7 +23,7 @@ export interface AlertDialogProps {
   readonly onOpenChange?: (open: boolean) => void;
   readonly open?: boolean;
   readonly renderBodyWrapper?: (children: React.ReactNode) => React.ReactNode;
-  readonly routerActionsOnClose?: RouterActions;
+  readonly routerActionOnClose?: RouterAction;
 }
 
 export const AlertDialog = ({
@@ -37,10 +37,10 @@ export const AlertDialog = ({
   onOpenChange,
   open,
   renderBodyWrapper,
-  routerActionsOnClose,
+  routerActionOnClose,
 }: AlertDialogProps) => {
   const [isOpen, setIsOpen] = useState(open || defaultOpen);
-  const triggerRouterActions = useRouterActions(routerActionsOnClose);
+  const routerAction = useRouterAction(routerActionOnClose);
 
   const _onOpenChange = (_open: boolean) => {
     setIsOpen(_open);
@@ -49,7 +49,7 @@ export const AlertDialog = ({
       if (onOpenChange) onOpenChange(_open);
     } else {
       setTimeout(() => {
-        triggerRouterActions();
+        routerAction();
         if (onOpenChange) onOpenChange(_open);
       }, 300);
     }
