@@ -1,6 +1,7 @@
 'use client';
 
 import { useFormStatus } from 'react-dom';
+import { twMerge } from 'tailwind-merge';
 import { ClassNamePropsOptional } from '@/modules/shared/ClassNameProps';
 import { ChildrenProps } from '@/modules/shared/ChildrenProps';
 
@@ -23,7 +24,7 @@ export const SubmitButton = ({
 
   const spinner = (
     <div className="absolute w-4 h-4 left-1/2 right-1/2 -translate-x-1/2 -translate-y-1/2">
-      <div className={`spinner w-4 h-4 ${spinnerClassName ? spinnerClassName : ''}`} />
+      <div className={twMerge('spinner w-4 h-4', spinnerClassName)} />
     </div>
   );
 
@@ -32,22 +33,19 @@ export const SubmitButton = ({
   return (
     <button
       type="submit"
-      className={`group relative ${className}`}
+      className={twMerge('group relative', className)}
       aria-disabled={pending}
       disabled={pending}
     >
       <div
-        className={`flex items-center justify-center group-disabled:opacity-0 ${
-          labelClassName ? labelClassName : ''
-        }`}
+        className={twMerge(
+          'flex items-center justify-center group-disabled:opacity-0',
+          labelClassName,
+        )}
       >
         {(!submitting || !pending) && children}
       </div>
-      <div
-        className={`flex group-enabled:hidden ${
-          submittingContainerClassName ? submittingContainerClassName : ''
-        }`}
-      >
+      <div className={twMerge('flex group-enabled:hidden', submittingContainerClassName)}>
         {pendingComponent}
       </div>
     </button>

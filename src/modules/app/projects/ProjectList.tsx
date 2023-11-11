@@ -3,6 +3,7 @@
 import 'client-only';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { twMerge } from 'tailwind-merge';
 import { Transition } from '@headlessui/react';
 import { ClassNamePropsOptional } from '@/modules/shared/ClassNameProps';
 import { ProjectDto } from './ProjectsRepository';
@@ -35,27 +36,25 @@ export const ProjectList = ({
       leaveFrom="opacity-100 translate-y-0"
       leaveTo="opacity-0 translate-y-[20px]"
     >
-      <nav className={`flex flex-col w-full ${className}`}>
+      <nav className={twMerge('flex flex-col w-full', className)}>
         {projects &&
           projects.length > 0 &&
           projects.map((project) => (
             <Link
               href={`/app/projects/${project.id}`}
               key={project.id}
-              className={`flex grow items-center rounded-none lg:rounded-md py-2.5 text-base lg:text-sm text-gray-600 hover:bg-gray-200 border-b lg:border-b-0 ${
-                itemClassName ? itemClassName : ''
-              } ${getClassNameItem ? getClassNameItem(project) : ''}`}
+              className={twMerge(
+                'flex grow items-center rounded-none lg:rounded-md py-2.5 text-base lg:text-sm text-gray-600 hover:bg-gray-200 border-b lg:border-b-0',
+                itemClassName,
+                getClassNameItem && getClassNameItem(project),
+              )}
             >
               <p>{project.name}</p>
             </Link>
           ))}
         {!projects ||
           (projects.length < 1 && (
-            <p
-              className={`text-sm font-medium text-gray-600 ${
-                noProjectsClassName ? noProjectsClassName : ''
-              }`}
-            >
+            <p className={twMerge('text-sm font-medium text-gray-600', noProjectsClassName)}>
               No projects.
             </p>
           ))}

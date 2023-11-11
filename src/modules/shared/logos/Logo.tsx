@@ -1,3 +1,4 @@
+import { twJoin } from 'tailwind-merge';
 import { LogoIcon } from './LogoIcon';
 
 interface LogoProps {
@@ -21,9 +22,10 @@ export const Logo = ({
     />
     {displayText && (
       <h1
-        className={`ml-2 text-lg font-semibold leading-8 ${
-          color === 'green' ? 'text-green-700' : 'text-gray-50'
-        }`}
+        className={twJoin(
+          'ml-2 text-lg font-semibold leading-8',
+          color === 'green' ? 'text-green-700' : 'text-gray-50',
+        )}
       >
         OpenTask
       </h1>

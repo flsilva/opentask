@@ -3,6 +3,7 @@
 import 'client-only';
 import { useContext, useEffect, useState } from 'react';
 import { UAParser } from 'ua-parser-js';
+import { twMerge } from 'tailwind-merge';
 import { buttonGreenClassName } from '@/modules/shared/controls/button/buttonClassName';
 import { IOSAddIcon } from '@/modules/shared/icons/IOSAddIcon';
 import { IOSShareIcon } from '@/modules/shared/icons/IOSShareIcon';
@@ -79,7 +80,7 @@ export const InstallPwaDialog = () => {
         {os === 'Android' && (
           <button
             type="button"
-            className={`${buttonGreenClassName} flex justify-center mt-6`}
+            className={twMerge(buttonGreenClassName, 'flex justify-center mt-6')}
             onClick={() => {
               if (installPrompt) installPrompt();
               setIsOpen(false);

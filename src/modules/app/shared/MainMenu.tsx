@@ -3,6 +3,7 @@
 import 'client-only';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { twJoin } from 'tailwind-merge';
 import { CalendarTodayIcon } from '@/modules/shared/icons/CalendarTodayIcon';
 import { PlusSignalIcon } from '@/modules/shared/icons/PlusSignalIcon';
 import { ProjectsIcon } from '@/modules/shared/icons/ProjectsIcon';
@@ -22,9 +23,10 @@ export const MainMenu = ({ projects }: MainMenuProps) => {
     <nav className="flex flex-col h-full w-full lg:w-80 overflow-y-auto overflow-x-hidden bg-gray-50 px-4 py-4">
       <Link
         href="/app/today"
-        className={`flex rounded-md p-2 text-base lg:text-sm font-medium text-gray-600 hover:bg-gray-200 ${
-          isActive('today') ? activeClassName : ''
-        }`}
+        className={twJoin(
+          'flex rounded-md p-2 text-base lg:text-sm font-medium text-gray-600 hover:bg-gray-200',
+          isActive('today') && activeClassName,
+        )}
       >
         <CalendarTodayIcon className="fill-gray-600" />
         <div className="ml-2 flex grow items-center">Today</div>
@@ -32,9 +34,10 @@ export const MainMenu = ({ projects }: MainMenuProps) => {
       <div className="mt-4 flex justify-between">
         <Link
           href="/app/projects/active"
-          className={`flex grow rounded-md p-2 text-base lg:text-sm font-medium text-gray-600 hover:bg-gray-200 ${
-            isActive('projects/active') || isActive('projects/archived') ? activeClassName : ''
-          }`}
+          className={twJoin(
+            'flex grow rounded-md p-2 text-base lg:text-sm font-medium text-gray-600 hover:bg-gray-200',
+            (isActive('projects/active') || isActive('projects/archived')) && activeClassName,
+          )}
         >
           <ProjectsIcon className="fill-gray-600" />
           <div className="ml-2 flex grow items-center justify-between">Projects</div>

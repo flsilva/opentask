@@ -2,6 +2,7 @@
 
 import 'client-only';
 import { useRouter } from 'next/navigation';
+import { twJoin, twMerge } from 'tailwind-merge';
 import { ClassNamePropsOptional } from '@/modules/shared/ClassNameProps';
 import { CheckIcon } from '@/modules/shared/icons/CheckIcon';
 import { ServerResponse } from '@/modules/app/shared/errors/ServerResponse';
@@ -50,14 +51,18 @@ export const TaskCheck = ({ className, isCompleted, onClick, size, taskId }: Tas
   return (
     <button type="button" className="group cursor flex self-start text-left" onClick={onCheckClick}>
       <div
-        className={`shrink-0 rounded-full border border-gray-400 relative ${
-          size === TaskCheckSize.Medium ? 'h-5 w-5' : 'h-7 w-7'
-        } ${className}`}
+        className={twMerge(
+          'shrink-0 rounded-full border border-gray-400 relative',
+          size === TaskCheckSize.Medium ? 'h-5 w-5' : 'h-7 w-7',
+          className,
+        )}
       >
         <CheckIcon
-          className={`absolute fill-gray-500 ${isCompleted ? '' : 'hidden group-hover:block'} ${
-            size === TaskCheckSize.Medium ? 'w-5 h-5' : 'w-7 h-7'
-          }`}
+          className={twJoin(
+            'absolute fill-gray-500',
+            size === TaskCheckSize.Medium ? 'w-5 h-5' : 'w-7 h-7',
+            !isCompleted && 'hidden group-hover:block',
+          )}
         />
       </div>
     </button>

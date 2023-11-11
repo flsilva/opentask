@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import * as DialogRX from '@radix-ui/react-dialog';
+import { twJoin, twMerge } from 'tailwind-merge';
 import { ChildrenProps } from '@/modules/shared/ChildrenProps';
 import { XIcon } from '@/modules/shared/icons/XIcon';
 import { RouterActions } from '@/modules/shared/router/RouterActions';
@@ -82,14 +83,15 @@ export const Dialog = ({
     >
       {trigger && <DialogRX.Trigger asChild>{trigger}</DialogRX.Trigger>}
       <DialogRX.Portal>
-        <DialogRX.Overlay className={`${invisibleOverlayClassNames} z-40`}>
+        <DialogRX.Overlay className={twMerge(invisibleOverlayClassNames, 'z-40')}>
           <div className={visibleOverlayClassNames} aria-hidden="true" />
           <div className="flex fixed inset-0 md:items-center">
             <DialogRX.Content className={dialogContentClassNames} onOpenAutoFocus={onOpenAutoFocus}>
               <div
-                className={`flex justify-between ${
-                  title ? 'items-center' : 'items-start h-[90%] md:h-full gap-x-3'
-                }`}
+                className={twJoin(
+                  'flex justify-between',
+                  title ? 'items-center' : 'items-start h-[90%] md:h-full gap-x-3',
+                )}
               >
                 {title ? <DialogRX.Title className="text-xl">{title}</DialogRX.Title> : children}
                 <div className="flex flex-row gap-x-3">

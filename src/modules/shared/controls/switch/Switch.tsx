@@ -3,6 +3,7 @@
 import 'client-only';
 import { useState } from 'react';
 import { Switch as HeadlessSwitch } from '@headlessui/react';
+import { twJoin } from 'tailwind-merge';
 
 interface SwitchProps {
   readonly enabled?: boolean;
@@ -21,15 +22,17 @@ export const Switch = ({ enabled = false, onClick }: SwitchProps) => {
     <HeadlessSwitch
       checked={_enabled}
       onChange={onSwitchClick}
-      className={`${
-        _enabled ? 'bg-green-700' : 'bg-gray-200'
-      } relative inline-flex h-6 w-11 items-center rounded-full`}
+      className={twJoin(
+        'relative inline-flex h-6 w-11 items-center rounded-full',
+        _enabled ? 'bg-green-700' : 'bg-gray-200',
+      )}
     >
       <span className="sr-only">Toggle between active and archived projects</span>
       <span
-        className={`${
-          _enabled ? 'translate-x-6' : 'translate-x-1'
-        } inline-block h-4 w-4 transform rounded-full bg-white transition`}
+        className={twJoin(
+          'inline-block h-4 w-4 transform rounded-full bg-white transition',
+          _enabled ? 'translate-x-6' : 'translate-x-1',
+        )}
       />
     </HeadlessSwitch>
   );

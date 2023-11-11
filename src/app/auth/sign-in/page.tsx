@@ -16,6 +16,7 @@ import { GitHubLogoIcon } from '@/modules/shared/icons/GitHubLogoIcon';
 import { GoogleLogoIcon } from '@/modules/shared/icons/GoogleLogoIcon';
 import { LinkedInInLogoIcon } from '@/modules/shared/icons/LinkedInInLogoIcon';
 import { XLogoIcon } from '@/modules/shared/icons/XLogoIcon';
+import { twMerge } from 'tailwind-merge';
 
 export type Provider = 'github' | 'google' | 'linkedin' | 'twitter';
 
@@ -28,7 +29,7 @@ const OAuthProviderButton = ({ action, children, provider }: OAuthProviderButton
   <form action={action}>
     <input type="hidden" name="provider" value={provider} />
     <SubmitButton
-      className={`${buttonWhiteClassName} mt-4 w-full`}
+      className={twMerge(buttonWhiteClassName, 'mt-4 w-full')}
       labelClassName="gap-2"
       spinnerClassName="border-green-600 border-b-white"
     >

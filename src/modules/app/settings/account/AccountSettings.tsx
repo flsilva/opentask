@@ -3,6 +3,7 @@
 import 'client-only';
 import { useState } from 'react';
 import { useFormState } from 'react-dom';
+import { twMerge } from 'tailwind-merge';
 import { buttonRedClassName } from '@/modules/shared/controls/button/buttonClassName';
 import { ErrorList } from '@/modules/shared/errors/ErrorList';
 import { AlertDialog, AlertDialogProps } from '@/modules/shared/dialog/AlertDialog';
@@ -39,7 +40,7 @@ export const AccountSettings = () => {
         <button
           type="button"
           onClick={onDeleteAccount}
-          className={`${buttonRedClassName} mt-12 self-start`}
+          className={twMerge(buttonRedClassName, 'mt-12 self-start')}
         >
           Delete account
         </button>

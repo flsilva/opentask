@@ -5,6 +5,7 @@ import { ClassNamePropsOptional } from '@/modules/shared/ClassNameProps';
 import { formatTaskDueDate } from './formatTaskDueDate';
 import { TaskCheck } from './TaskCheck';
 import { TaskCheckSize } from './TaskCheckSize';
+import { twJoin, twMerge } from 'tailwind-merge';
 
 export interface TaskListItemProps extends ClassNamePropsOptional {
   readonly description: string;
@@ -24,9 +25,10 @@ export const TaskListItem = ({
 }: TaskListItemProps) => {
   return (
     <div
-      className={`flex grow py-4 border-y border-transparent hover:border-gray-100 ${
-        className ? className : ''
-      }`}
+      className={twMerge(
+        'flex grow py-4 border-y border-transparent hover:border-gray-100',
+        className,
+      )}
     >
       <TaskCheck
         className="mt-0.25"
@@ -36,7 +38,7 @@ export const TaskListItem = ({
       />
       <Link href={`/app/tasks/${id}`} className="flex grow text-left cursor">
         <div className="ml-3 block">
-          <p className={`text-sm text-gray-800 ${isCompleted ? 'line-through' : ''}`}>{name}</p>
+          <p className={twJoin('text-sm text-gray-800', isCompleted && 'line-through')}>{name}</p>
           {description && (
             <div
               className="mt-2 block w-[20rem] overflow-hidden text-ellipsis whitespace-nowrap text-xs text-gray-400 md:w-[26rem] lg:w-[40rem]"

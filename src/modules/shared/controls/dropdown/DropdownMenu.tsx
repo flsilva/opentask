@@ -1,6 +1,7 @@
 import { Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import { ClassNamePropsOptional } from '@/modules/shared/ClassNameProps';
+import { twMerge } from 'tailwind-merge';
 
 export interface DropdownMenuProps extends ClassNamePropsOptional {
   readonly items: React.ReactNode;
@@ -15,7 +16,7 @@ export const DropdownMenu = ({
   menuButton,
 }: DropdownMenuProps) => {
   return (
-    <div className={className}>
+    <div {...(className && { className })}>
       <Menu as="div" className="relative inline-block text-left">
         <div>{menuButton}</div>
         <Transition
@@ -28,9 +29,10 @@ export const DropdownMenu = ({
           leaveTo="transform opacity-0 scale-90"
         >
           <Menu.Items
-            className={`${
-              itemsClassName ? itemsClassName : ''
-            } divide-y divide-gray-100 overflow-auto rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none`}
+            className={twMerge(
+              'divide-y divide-gray-100 overflow-auto rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none',
+              itemsClassName,
+            )}
           >
             <div className="px-1 py-1 ">{items}</div>
           </Menu.Items>

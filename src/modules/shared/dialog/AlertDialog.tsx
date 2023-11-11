@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import * as AlertDialogRX from '@radix-ui/react-alert-dialog';
+import { twMerge } from 'tailwind-merge';
 import {
   buttonGreenClassName,
   buttonWhiteClassName,
@@ -94,7 +95,7 @@ export const AlertDialog = ({
         : { open, onOpenChange })}
     >
       <AlertDialogRX.Portal>
-        <AlertDialogRX.Overlay className={`${visibleOverlayClassNames} z-50`} />
+        <AlertDialogRX.Overlay className={twMerge(visibleOverlayClassNames, 'z-50')} />
         <div className="flex fixed inset-0 md:items-center z-50">
           <AlertDialogRX.Content className={dialogContentClassNames}>
             <AlertDialogRX.Title className="text-xl">{dialogTitle}</AlertDialogRX.Title>

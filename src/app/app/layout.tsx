@@ -1,5 +1,7 @@
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
+import { twMerge } from 'tailwind-merge';
+import { buttonGreenClassName } from '@/modules/shared/controls/button/buttonClassName';
 import { ErrorList } from '@/modules/shared/errors/ErrorList';
 import { Header } from '@/modules/app/shared/Header';
 import { MainMenu } from '@/modules/app/shared/MainMenu';
@@ -7,7 +9,6 @@ import { InstallPwaDialog } from '@/modules/shared/pwa/InstallPwaDialog';
 import { getAllProjects } from '@/modules/app/projects/ProjectsRepository';
 import { UserProvider } from '@/modules/app/users/UserProvider';
 import { getUser, UserDto } from '@/modules/app/users/UsersRepository';
-import { buttonGreenClassName } from '@/modules/shared/controls/button/buttonClassName';
 
 export default async function AppLayout({
   children,
@@ -46,7 +47,7 @@ export default async function AppLayout({
                       </p>
                       <Link
                         href="/app/projects/new"
-                        className={`${buttonGreenClassName} w-fit mt-6`}
+                        className={twMerge(buttonGreenClassName, 'w-fit mt-6')}
                       >
                         Create your first!
                       </Link>

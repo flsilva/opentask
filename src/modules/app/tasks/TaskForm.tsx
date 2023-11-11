@@ -3,6 +3,7 @@
 import 'client-only';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
+import { twJoin, twMerge } from 'tailwind-merge';
 import { ClassNamePropsOptional } from '@/modules/shared/ClassNameProps';
 import {
   buttonGreenClassName,
@@ -144,13 +145,16 @@ export const TaskForm = ({
     setIsOnEditingMode(true);
   };
 
-  const inputNameAndDescriptionClassName = `mb-3 block w-full rounded-md bg-white px-3 py-1.5 ring-0 focus:border-gray-900 focus:outline-0 focus:ring-0 ${
-    isOnEditingMode ? 'border border-gray-400 bg-white' : ''
-  }`;
+  const inputNameAndDescriptionClassName = twJoin(
+    'mb-3 block w-full rounded-md bg-white px-3 py-1.5 ring-0 focus:border-gray-900 focus:outline-0 focus:ring-0',
+    isOnEditingMode && 'border border-gray-400 bg-white',
+  );
 
-  const inputNameBaseClassName = `${inputNameAndDescriptionClassName} ${taskNameClassName} ${
-    isCompleted ? 'line-through' : ''
-  }`;
+  const inputNameBaseClassName = twMerge(
+    inputNameAndDescriptionClassName,
+    isCompleted && 'line-through',
+    taskNameClassName,
+  );
 
   const inputNameClassName = `${inputNameBaseClassName} text-gray-900`;
 
@@ -166,7 +170,7 @@ export const TaskForm = ({
     );
 
   return (
-    <form action={formAction} className={`flex w-full flex-col ${className}`} ref={formRef}>
+    <form action={formAction} className={twMerge('flex w-full flex-col', className)} ref={formRef}>
       {task && <input type="hidden" name="id" value={task.id} />}
       <div className="flex">
         {task && (

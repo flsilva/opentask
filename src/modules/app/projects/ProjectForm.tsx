@@ -1,6 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import { twMerge } from 'tailwind-merge';
 import { buttonGreenClassName } from '@/modules/shared/controls/button/buttonClassName';
 import { SubmitButton } from '@/modules/shared/controls/button/SubmitButton';
 import { ErrorList } from '@/modules/shared/errors/ErrorList';
@@ -75,7 +76,7 @@ export const ProjectForm = ({ className, project }: ProjectFormProps) => {
   });
 
   return (
-    <form action={formAction} className={`flex flex-col ${className}`}>
+    <form action={formAction} className={twMerge('flex flex-col', className)}>
       {project && <input type="hidden" name="id" value={project.id} />}
       <input
         autoFocus
@@ -98,7 +99,7 @@ export const ProjectForm = ({ className, project }: ProjectFormProps) => {
         className="mb-6 block w-full resize-none rounded-md border border-gray-400 py-1.5 text-gray-900 ring-0 placeholder:text-gray-400 focus:border-gray-900 focus:outline-0 focus:ring-0"
       ></textarea>
       {serverResponse && serverResponse.errors && <ErrorList errors={serverResponse.errors} />}
-      <SubmitButton className={`flex self-end ${buttonGreenClassName}`}>Save</SubmitButton>
+      <SubmitButton className={twMerge(buttonGreenClassName, 'flex self-end')}>Save</SubmitButton>
     </form>
   );
 };
