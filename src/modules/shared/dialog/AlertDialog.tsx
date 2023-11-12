@@ -10,7 +10,11 @@ import {
 import { SubmitButton } from '@/modules/shared/controls/button/SubmitButton';
 import { RouterAction } from '@/modules/shared/router/RouterActions';
 import { useRouterAction } from '@/modules/shared/router/useRouterAction';
-import { dialogContentClassNames, visibleOverlayClassNames } from './Dialog';
+import {
+  dialogContentClassNames,
+  invisibleOverlayClassNames,
+  visibleOverlayClassNames,
+} from './Dialog';
 
 export interface AlertDialogProps {
   readonly defaultOpen?: boolean;
@@ -98,13 +102,15 @@ export const AlertDialog = ({
     >
       {trigger && <AlertDialogRX.Trigger asChild>{trigger}</AlertDialogRX.Trigger>}
       <AlertDialogRX.Portal>
-        <AlertDialogRX.Overlay className={twMerge(visibleOverlayClassNames, 'z-50')} />
-        <div className="flex fixed inset-0 md:items-center z-50">
-          <AlertDialogRX.Content className={dialogContentClassNames}>
-            <AlertDialogRX.Title className="text-xl">{dialogTitle}</AlertDialogRX.Title>
-            {bodyWrapper ? bodyWrapper : dialogBody}
-          </AlertDialogRX.Content>
-        </div>
+        <AlertDialogRX.Overlay className={twMerge(invisibleOverlayClassNames, 'z-50')}>
+          <div className={visibleOverlayClassNames} aria-hidden="true" />
+          <div className="flex fixed inset-0 md:items-center z-50">
+            <AlertDialogRX.Content className={dialogContentClassNames}>
+              <AlertDialogRX.Title className="text-xl">{dialogTitle}</AlertDialogRX.Title>
+              {bodyWrapper ? bodyWrapper : dialogBody}
+            </AlertDialogRX.Content>
+          </div>
+        </AlertDialogRX.Overlay>
       </AlertDialogRX.Portal>
     </AlertDialogRX.Root>
   );
