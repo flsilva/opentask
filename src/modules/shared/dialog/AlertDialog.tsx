@@ -24,6 +24,7 @@ export interface AlertDialogProps {
   readonly open?: boolean;
   readonly renderBodyWrapper?: (children: React.ReactNode) => React.ReactNode;
   readonly routerActionOnClose?: RouterAction;
+  readonly trigger?: React.ReactNode;
 }
 
 export const AlertDialog = ({
@@ -38,6 +39,7 @@ export const AlertDialog = ({
   open,
   renderBodyWrapper,
   routerActionOnClose,
+  trigger,
 }: AlertDialogProps) => {
   const [isOpen, setIsOpen] = useState(open || defaultOpen);
   const routerAction = useRouterAction(routerActionOnClose);
@@ -90,10 +92,11 @@ export const AlertDialog = ({
   return (
     <AlertDialogRX.Root
       defaultOpen={defaultOpen}
-      {...(open === undefined
+      {...(open === undefined && !trigger
         ? { open: isOpen, onOpenChange: _onOpenChange }
         : { open, onOpenChange })}
     >
+      {trigger && <AlertDialogRX.Trigger asChild>{trigger}</AlertDialogRX.Trigger>}
       <AlertDialogRX.Portal>
         <AlertDialogRX.Overlay className={twMerge(visibleOverlayClassNames, 'z-50')} />
         <div className="flex fixed inset-0 md:items-center z-50">

@@ -47,7 +47,7 @@ export const TaskDueDatePicker = ({ defaultDate, name, onChange }: TaskDueDatePi
     toYear: new Date().getFullYear() + 2,
   };
 
-  const dialogTrigger = (
+  const openDialogButton = (
     <button type="button" className="flex rounded-md p-1.5 hover:bg-gray-200">
       <span className="sr-only">Add due date</span>
       <CalendarMonthIcon aria-hidden="true" />
@@ -65,7 +65,7 @@ export const TaskDueDatePicker = ({ defaultDate, name, onChange }: TaskDueDatePi
           open={isDialogOpen}
           onOpenChange={setIsDialogOpen}
           onOpenAutoFocus={(event: Event) => event.preventDefault()}
-          trigger={dialogTrigger}
+          trigger={openDialogButton}
           noCloseButton
         >
           <div className="flex grow justify-center">

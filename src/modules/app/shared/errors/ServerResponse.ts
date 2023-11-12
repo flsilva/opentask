@@ -1,4 +1,4 @@
-import { ZodError, ZodIssue } from 'zod';
+import { ZodError } from 'zod';
 
 export interface ServerError {
   readonly message: string;
