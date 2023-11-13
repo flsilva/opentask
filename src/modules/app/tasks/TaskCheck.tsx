@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { twJoin, twMerge } from 'tailwind-merge';
 import { ClassNamePropsOptional } from '@/modules/shared/ClassNameProps';
 import { CheckIcon } from '@/modules/shared/icons/CheckIcon';
-import { ServerResponse } from '@/modules/app/shared/errors/ServerResponse';
+import { ServerResponse } from '@/modules/shared/data-access/ServerResponse';
 import { TaskDto, updateTask } from './TasksRepository';
 import { TaskCheckSize } from './TaskCheckSize';
 

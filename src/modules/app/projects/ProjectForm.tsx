@@ -5,7 +5,7 @@ import { twMerge } from 'tailwind-merge';
 import { buttonGreenClassName } from '@/modules/shared/controls/button/buttonClassName';
 import { SubmitButton } from '@/modules/shared/controls/button/SubmitButton';
 import { ErrorList } from '@/modules/shared/errors/ErrorList';
-import { ServerResponse } from '@/modules/app/shared/errors/ServerResponse';
+import { ServerResponse } from '@/modules/shared/data-access/ServerResponse';
 import { useFormAction } from '@/modules/shared/form/useFormAction';
 import { ProjectDto, createProject, updateProject } from './ProjectsRepository';
 import { ClassNamePropsOptional } from '@/modules/shared/ClassNameProps';

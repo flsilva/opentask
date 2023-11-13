@@ -4,7 +4,7 @@ import 'client-only';
 import { useFormStatus } from 'react-dom';
 import { twMerge } from 'tailwind-merge';
 import { ClassNamePropsOptional } from '@/modules/shared/ClassNameProps';
-import { ServerError } from '@/modules/app/shared/errors/ServerResponse';
+import { ServerError } from '@/modules/shared/data-access/ServerResponse';
 
 interface ErrorListProps extends ClassNamePropsOptional {
   readonly errors: Array<ServerError>;

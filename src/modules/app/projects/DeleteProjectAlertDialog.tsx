@@ -3,7 +3,7 @@
 import 'client-only';
 import { AlertDialog } from '@/modules/shared/dialog/AlertDialog';
 import { ErrorList } from '@/modules/shared/errors/ErrorList';
-import { ServerResponse } from '@/modules/app/shared/errors/ServerResponse';
+import { ServerResponse } from '@/modules/shared/data-access/ServerResponse';
 import { FormAction } from '@/modules/shared/form/FormAction';
 import { deleteProject, ProjectDto } from './ProjectsRepository';
 

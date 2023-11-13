@@ -10,7 +10,7 @@ import { MoreHorizontalIcon } from '@/modules/shared/icons/MoreHorizontalIcon';
 import { ArchiveIcon } from '@/modules/shared/icons/ArchiveIcon';
 import { DeleteIcon } from '@/modules/shared/icons/DeleteIcon';
 import { EditIcon } from '@/modules/shared/icons/EditIcon';
-import { ServerResponse } from '@/modules/app/shared/errors/ServerResponse';
+import { ServerResponse } from '@/modules/shared/data-access/ServerResponse';
 import { UnarchiveIcon } from '@/modules/shared/icons/UnarchiveIcon';
 import { ArchiveProjectAlertDialog } from './ArchiveProjectAlertDialog';
 import { DeleteProjectAlertDialog } from './DeleteProjectAlertDialog';

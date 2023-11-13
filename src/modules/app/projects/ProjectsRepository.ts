@@ -10,7 +10,7 @@ import {
   ServerResponse,
   createServerErrorResponse,
   createServerSuccessResponse,
-} from '@/modules/app//shared/errors/ServerResponse';
+} from '@/modules//shared/data-access/ServerResponse';
 
 export type CreateProjectDto = z.infer<typeof createProjectSchema>;
 

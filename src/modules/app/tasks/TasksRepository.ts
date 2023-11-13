@@ -11,7 +11,7 @@ import {
   ServerResponse,
   createServerErrorResponse,
   createServerSuccessResponse,
-} from '@/modules/app/shared/errors/ServerResponse';
+} from '@/modules/shared/data-access/ServerResponse';
 import { genericAwareOfInternalErrorMessage } from '@/modules/app/shared/errors/errorMessages';
 
 export type CreateTaskDto = z.infer<typeof createTaskSchema>;
