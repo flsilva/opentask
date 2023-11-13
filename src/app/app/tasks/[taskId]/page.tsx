@@ -1,7 +1,7 @@
 import 'server-only';
 import { notFound } from 'next/navigation';
 import { ErrorList } from '@/modules/shared/errors/ErrorList';
-import { getAllProjects } from '@/modules/app/projects/ProjectsRepository';
+import { getProjects } from '@/modules/app/projects/ProjectsRepository';
 import { getTaskById } from '@/modules/app/tasks/TasksRepository';
 import { TaskForm } from '@/modules/app/tasks/TaskForm';
 
@@ -11,7 +11,7 @@ interface TaskPageProps {
 
 export default async function TaskPage({ params: { taskId } }: TaskPageProps) {
   const [{ data: projects, errors: projectsErrors }, { data: task, errors: taskErrors }] =
-    await Promise.all([getAllProjects(), getTaskById(taskId)]);
+    await Promise.all([getProjects(), getTaskById(taskId)]);
 
   if (projectsErrors) return <ErrorList errors={projectsErrors} />;
   if (taskErrors) return <ErrorList errors={taskErrors} />;
@@ -21,7 +21,7 @@ export default async function TaskPage({ params: { taskId } }: TaskPageProps) {
   return (
     <div className="flex flex-col mt-10">
       <TaskForm
-        project={task.project}
+        projectId={task.projectId}
         projects={projects}
         shouldStartOnEditingMode={false}
         task={task}

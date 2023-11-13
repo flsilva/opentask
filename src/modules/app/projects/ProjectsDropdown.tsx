@@ -36,24 +36,27 @@ const DropdownItens = ({ buttonLabel, onItemClick, projects }: DropdownItensProp
   ));
 
 export interface ProjectsDropdownProps extends ClassNamePropsOptional {
-  readonly defaultItem: ProjectDto;
+  readonly defaultItemId: string;
   readonly itemsClassName?: string;
   readonly name?: string;
   readonly onItemClick: (project: ProjectDto) => void;
   readonly projects: Array<ProjectDto>;
 }
 
+const getProjectNameById = (projects: Array<ProjectDto>, id: string) =>
+  projects.find((project) => project.id === id)?.name;
+
 export const ProjectsDropdown = ({
   className,
-  defaultItem,
+  defaultItemId,
   itemsClassName,
   name,
   onItemClick,
   projects,
 }: ProjectsDropdownProps) => {
-  const [selectedItem, setSelectedItem] = useState(defaultItem);
+  const [selectedItemId, setSelectedItemId] = useState(defaultItemId);
   const _onItemClick = (project: ProjectDto) => {
-    setSelectedItem(project);
+    setSelectedItemId(project.id);
     onItemClick(project);
   };
   return (
@@ -62,7 +65,7 @@ export const ProjectsDropdown = ({
         className={twMerge('absolute w-56', className)}
         items={
           <DropdownItens
-            buttonLabel={selectedItem.name}
+            buttonLabel={getProjectNameById(projects, selectedItemId) || ''}
             onItemClick={_onItemClick}
             projects={projects}
           />
@@ -70,12 +73,12 @@ export const ProjectsDropdown = ({
         itemsClassName={itemsClassName ? itemsClassName : ''}
         menuButton={
           <Menu.Button className="flex items-center justify-center rounded-md bg-green-600 px-2 py-1.5 text-sm font-medium text-white shadow-sm hover:bg-green-500">
-            {selectedItem.name}
+            {getProjectNameById(projects, selectedItemId) || ''}
             <ExpandMoreIcon className="ml-2 fill-white" />
           </Menu.Button>
         }
       />
-      {name && <input type="hidden" name={name} value={selectedItem.id} />}
+      {name && <input type="hidden" name={name} value={selectedItemId} />}
     </>
   );
 };

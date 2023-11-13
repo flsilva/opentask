@@ -24,7 +24,6 @@ export const DeleteTaskAlertDialog = ({
   routerActionOnSuccess,
   trigger,
 }: DeleteTaskAlertDialogProps) => {
-  console.log('DeleteTaskAlertDialog() - trigger: ', trigger);
   const routerAction = useRouterAction(routerActionOnSuccess);
 
   const onFormSubmitted = () => {

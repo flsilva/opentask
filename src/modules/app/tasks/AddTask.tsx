@@ -13,18 +13,18 @@ import { useRouter } from 'next/navigation';
 
 export interface AddTaskProps {
   readonly defaultDueDate?: Date | null;
-  readonly project: ProjectDto;
+  readonly projectId: string;
   readonly projects: Array<ProjectDto>;
 }
 
-export const AddTask = ({ defaultDueDate, project, projects }: AddTaskProps) => {
+export const AddTask = ({ defaultDueDate, projectId, projects }: AddTaskProps) => {
   const router = useRouter();
   const [isAddingTask, setIsAddingTask] = useState(false);
   const { width } = useWindowSize();
 
   const addTaskHandler = () => {
     if (width < 768) {
-      router.push(`/app/tasks/new?projectId=${project.id}`);
+      router.push(`/app/tasks/new?projectId=${projectId}`);
     } else {
       setIsAddingTask(true);
     }
@@ -52,7 +52,7 @@ export const AddTask = ({ defaultDueDate, project, projects }: AddTaskProps) => 
           className="rounded-md bg-gray-100 px-2 py-6 sm:px-6 mt-4"
           defaultDueDate={defaultDueDate ?? undefined}
           onCancelClick={cancelNewTaskHandler}
-          project={project}
+          projectId={projectId}
           projects={projects}
           shouldStartOnEditingMode={true}
         />
@@ -60,9 +60,9 @@ export const AddTask = ({ defaultDueDate, project, projects }: AddTaskProps) => 
     );
   };
 
-  if (!project)
+  if (!projectId)
     throw new Error(
-      `AddTask() - AddTaskProps.project must not be null nor undefined. Received: ${project}`,
+      `AddTask() - AddTaskProps.projectId must not be null nor undefined. Received: ${projectId}`,
     );
 
   return (

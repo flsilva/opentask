@@ -1,9 +1,11 @@
 'use server';
 
 import { z } from 'zod';
+import { startOfDay } from 'date-fns';
+import { zonedTimeToUtc } from 'date-fns-tz';
 import { cuid2 } from '@/modules/shared/data-access/cuid2';
 import { prisma } from '@/modules/shared/data-access/prisma';
-import { getUserId } from '@/modules/app/users/UsersRepository';
+import { getServerSideUser } from '@/modules/app/users/UsersRepository';
 import { createTaskSchema, deleteTaskSchema, updateTaskSchema } from './TasksDomain';
 import {
   ServerResponse,
@@ -32,14 +34,15 @@ export const createTask = async (
   }
 
   try {
-    const { projectId, ...data } = validation.data;
-    const authorId = await getUserId();
+    const { dueDate, projectId, ...data } = validation.data;
+    const { id: authorId } = await getServerSideUser();
 
     const result = await prisma.task.create({
       data: {
         author: { connect: { id: authorId } },
         project: { connect: { id: projectId } },
         ...data,
+        ...(dueDate && { dueDate: dueDate.toISOString() }),
         id: cuid2(),
       },
     });
@@ -68,7 +71,7 @@ export const deleteTask = async (
 
   try {
     const { id } = validation.data;
-    const authorId = await getUserId();
+    const { id: authorId } = await getServerSideUser();
 
     const result = await prisma.task.delete({
       where: { id, authorId },
@@ -83,26 +86,87 @@ export const deleteTask = async (
   }
 };
 
-export const getAllTasksDueUntilToday = async (isCompleted = false) => {
+export const getTasksDueBy = async ({
+  dueBy,
+  isCompleted = undefined,
+}: {
+  readonly dueBy: Date;
+  isCompleted?: boolean;
+}) => {
+  const now = new Date();
   try {
-    const authorId = await getUserId();
+    const { id: authorId, timeZone } = await getServerSideUser();
 
     const result = await prisma.task.findMany({
       where: {
         authorId,
-        dueDate: { lte: new Date() },
+        dueDate: { lte: zonedTimeToUtc(dueBy, timeZone) },
         isCompleted,
         project: { isNot: { isArchived: true } },
       },
       orderBy: { createdAt: 'asc' },
-      include: {
-        project: {
-          select: {
-            id: true,
-            name: true,
-          },
+    });
+
+    return createServerSuccessResponse(result);
+  } catch (error) {
+    console.error(error);
+
+    // We want to return a friendly error message instead of the (unknown) real one.
+    return createServerErrorResponse(genericAwareOfInternalErrorMessage);
+  }
+};
+
+export const getTasksDueOn = async ({
+  dueOn,
+  isCompleted = undefined,
+}: {
+  readonly dueOn: Date;
+  isCompleted?: boolean;
+}) => {
+  try {
+    const { id: authorId, timeZone } = await getServerSideUser();
+    const start = zonedTimeToUtc(startOfDay(dueOn), timeZone);
+    const current = zonedTimeToUtc(dueOn, timeZone);
+
+    const result = await prisma.task.findMany({
+      where: {
+        authorId,
+        dueDate: {
+          gte: start,
+          lte: current,
         },
+        isCompleted,
+        project: { isNot: { isArchived: true } },
       },
+      orderBy: { createdAt: 'asc' },
+    });
+
+    return createServerSuccessResponse(result);
+  } catch (error) {
+    console.error(error);
+
+    // We want to return a friendly error message instead of the (unknown) real one.
+    return createServerErrorResponse(genericAwareOfInternalErrorMessage);
+  }
+};
+
+export const getTasksByProject = async ({
+  isCompleted = undefined,
+  projectId,
+}: {
+  readonly isCompleted?: boolean;
+  readonly projectId: string;
+}) => {
+  try {
+    const { id: authorId, timeZone } = await getServerSideUser();
+
+    const result = await prisma.task.findMany({
+      where: {
+        authorId,
+        isCompleted,
+        projectId,
+      },
+      orderBy: { createdAt: 'asc' },
     });
 
     return createServerSuccessResponse(result);
@@ -116,7 +180,7 @@ export const getAllTasksDueUntilToday = async (isCompleted = false) => {
 
 export const getTaskById = async (id: string) => {
   try {
-    const authorId = await getUserId();
+    const { id: authorId } = await getServerSideUser();
 
     const result = await prisma.task.findUnique({
       where: { authorId, id },
@@ -148,12 +212,15 @@ export const updateTask = async (
   }
 
   try {
-    const { id, ...data } = validation.data;
-    const authorId = await getUserId();
+    const { id, dueDate, ...data } = validation.data;
+    const { id: authorId } = await getServerSideUser();
 
     const result = await prisma.task.update({
       where: { id, authorId },
-      data,
+      data: {
+        ...data,
+        ...(dueDate && { dueDate: dueDate.toISOString() }),
+      },
     });
 
     return createServerSuccessResponse(result);

@@ -1,6 +1,6 @@
 import 'server-only';
 import { ErrorList } from '@/modules/shared/errors/ErrorList';
-import { getAllProjects, getProjectById } from '@/modules/app/projects/ProjectsRepository';
+import { getProjects, getProjectById } from '@/modules/app/projects/ProjectsRepository';
 import { TaskForm } from '@/modules/app/tasks/TaskForm';
 
 interface NewTaskPageProps {
@@ -9,7 +9,7 @@ interface NewTaskPageProps {
 
 export default async function NewTaskPage({ searchParams: { projectId } }: NewTaskPageProps) {
   const [{ data: projects, errors: projectsErrors }, { data: project, errors: projectErrors }] =
-    await Promise.all([getAllProjects(), getProjectById({ id: projectId })]);
+    await Promise.all([getProjects(), getProjectById({ id: projectId })]);
 
   if (projectsErrors) return <ErrorList errors={projectsErrors} />;
   if (projectErrors) return <ErrorList errors={projectErrors} />;
@@ -22,7 +22,7 @@ export default async function NewTaskPage({ searchParams: { projectId } }: NewTa
       <h1 className="text-xl text-gray-800">Create task</h1>
       <TaskForm
         className="mt-6"
-        project={project}
+        projectId={projectId}
         projects={projects}
         shouldStartOnEditingMode={false}
         taskNameClassName="text-2xl"

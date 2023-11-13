@@ -19,6 +19,7 @@ model User {
   projects  Project[]
   provider  String?   @db.VarChar(100)
   tasks     Task[]
+  timeZone  String?   @db.VarChar(100)
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
 }

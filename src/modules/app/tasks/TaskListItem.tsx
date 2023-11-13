@@ -1,11 +1,12 @@
 import Link from 'next/link';
 import { sanitize } from 'isomorphic-dompurify';
+import { utcToZonedTime } from 'date-fns-tz';
 import { CalendarEventIcon } from '@/modules/shared/icons/CalendarEventIcon';
 import { ClassNamePropsOptional } from '@/modules/shared/ClassNameProps';
-import { formatTaskDueDate } from './formatTaskDueDate';
 import { TaskCheck } from './TaskCheck';
 import { TaskCheckSize } from './TaskCheckSize';
 import { twJoin, twMerge } from 'tailwind-merge';
+import { formatTaskDueDate } from './formatTaskDueDate';
 
 export interface TaskListItemProps extends ClassNamePropsOptional {
   readonly description: string;
@@ -13,6 +14,7 @@ export interface TaskListItemProps extends ClassNamePropsOptional {
   readonly id: string;
   readonly isCompleted: boolean | undefined;
   readonly name: string;
+  readonly timeZone: string;
 }
 
 export const TaskListItem = ({
@@ -22,6 +24,7 @@ export const TaskListItem = ({
   id,
   isCompleted,
   name,
+  timeZone,
 }: TaskListItemProps) => {
   return (
     <div
@@ -48,7 +51,9 @@ export const TaskListItem = ({
           {dueDate && (
             <div className="flex mt-2">
               <CalendarEventIcon className="fill-gray-400" width="0.875rem" height="0.875rem" />
-              <p className="text-xs text-gray-400 ml-1">{formatTaskDueDate(dueDate)}</p>
+              <p className="text-xs text-gray-400 ml-1">
+                {formatTaskDueDate(utcToZonedTime(dueDate, timeZone), new Date())}
+              </p>
             </div>
           )}
         </div>

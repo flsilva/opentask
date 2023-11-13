@@ -3,7 +3,7 @@
 import { z } from 'zod';
 import { cuid2 } from '@/modules/shared/data-access/cuid2';
 import { prisma } from '@/modules/shared/data-access/prisma';
-import { getUserId } from '@/modules/app/users/UsersRepository';
+import { getServerSideUser } from '@/modules/app/users/UsersRepository';
 import { createProjectSchema, deleteProjectSchema, updateProjectSchema } from './ProjectsDomain';
 import { genericAwareOfInternalErrorMessage } from '@/modules/app//shared/errors/errorMessages';
 import {
@@ -33,7 +33,7 @@ export const createProject = async (
 
   try {
     const { data } = validation;
-    const id = await getUserId();
+    const { id } = await getServerSideUser();
 
     const result = await prisma.project.create({
       data: {
@@ -71,7 +71,7 @@ export const deleteProject = async (
 
   try {
     const { id } = validation.data;
-    const authorId = await getUserId();
+    const { id: authorId } = await getServerSideUser();
 
     const result = await prisma.project.delete({
       where: { id, authorId },
@@ -86,9 +86,9 @@ export const deleteProject = async (
   }
 };
 
-export const getAllProjects = async ({ isArchived = false }: { isArchived?: boolean } = {}) => {
+export const getProjects = async ({ isArchived = false }: { isArchived?: boolean } = {}) => {
   try {
-    const authorId = await getUserId();
+    const { id: authorId } = await getServerSideUser();
 
     const result = await prisma.project.findMany({
       where: { authorId, isArchived },
@@ -106,11 +106,10 @@ export const getAllProjects = async ({ isArchived = false }: { isArchived?: bool
 
 export const getProjectById = async ({ id }: { id: string }) => {
   try {
-    const authorId = await getUserId();
+    const { id: authorId } = await getServerSideUser();
 
     const result = await prisma.project.findUnique({
       where: { authorId, id },
-      include: { tasks: { orderBy: { createdAt: 'asc' } } },
     });
 
     return createServerSuccessResponse(result);
@@ -137,7 +136,7 @@ export const updateProject = async (
 
   try {
     const { id, ...data } = validation.data;
-    const authorId = await getUserId();
+    const { id: authorId } = await getServerSideUser();
 
     const result = await prisma.project.update({
       where: { id, authorId },

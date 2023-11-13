@@ -1,57 +1,58 @@
 import 'server-only';
-import { compareAsc, format } from 'date-fns';
+import { endOfDay, subDays } from 'date-fns';
 import { ErrorList } from '@/modules/shared/errors/ErrorList';
-import { getAllProjects } from '@/modules/app/projects/ProjectsRepository';
+import { getProjects } from '@/modules/app/projects/ProjectsRepository';
 import { AddTask } from '@/modules/app/tasks/AddTask';
 import { TaskList } from '@/modules/app/tasks/TaskList';
-import { getAllTasksDueUntilToday } from '@/modules/app/tasks/TasksRepository';
+import { getTasksDueBy, getTasksDueOn } from '@/modules/app/tasks/TasksRepository';
 import { TodayHeader } from '@/modules/app/today/TodayHeader';
+import { getServerSideUser } from '@/modules/app/users/UsersRepository';
 
 export default async function TodayPage() {
-  const [{ data: projects, errors: projectsErrors }, { data: tasks, errors: tasksErrors }] =
-    await Promise.all([getAllProjects(), getAllTasksDueUntilToday()]);
+  const [
+    { data: projects, errors: projectsErrors },
+    { data: tasksOverdue, errors: tasksOverdueErrors },
+    { data: tasksDueToday, errors: tasksDueTodayErrors },
+    { timeZone },
+  ] = await Promise.all([
+    getProjects(),
+    getTasksDueBy({ dueBy: subDays(endOfDay(new Date()), 1), isCompleted: false }),
+    getTasksDueOn({ dueOn: endOfDay(new Date()), isCompleted: false }),
+    getServerSideUser(),
+  ]);
 
   if (projectsErrors) return <ErrorList errors={projectsErrors} />;
-  if (tasksErrors) return <ErrorList errors={tasksErrors} />;
-
-  const todayStr = format(new Date(), 'yyyy/MM/d');
-
-  const tasksDueToday = tasks
-    ? tasks
-        .filter((task) => task.dueDate && format(task.dueDate, 'yyyy/MM/d') === todayStr)
-        .sort((taskA, taskB) => compareAsc(taskA.dueDate as Date, taskB.dueDate as Date))
-    : [];
-
-  const tasksOverdue = tasks
-    ? tasks
-        .filter((task) => task.dueDate && format(task.dueDate, 'yyyy/MM/d') !== todayStr)
-        .sort((taskA, taskB) => compareAsc(taskA.dueDate as Date, taskB.dueDate as Date))
-    : [];
+  if (tasksOverdueErrors) return <ErrorList errors={tasksOverdueErrors} />;
+  if (tasksDueTodayErrors) return <ErrorList errors={tasksDueTodayErrors} />;
 
   return (
     <>
       <TodayHeader />
-      {projects && projects.length > 0 && (!tasks || tasks.length < 1) && (
-        <p className="mb-12 text-sm font-medium text-gray-600">
-          No tasks due today. Enjoy your day!
-        </p>
-      )}
+      {projects &&
+        projects.length > 0 &&
+        (!tasksOverdue || tasksOverdue.length < 1) &&
+        (!tasksDueToday || tasksDueToday.length < 1) && (
+          <p className="mb-12 text-sm font-medium text-gray-600">
+            No tasks due today. Enjoy your day!
+          </p>
+        )}
       {projects && projects.length > 0 && (
         <>
-          {tasksOverdue.length > 0 && (
+          {tasksOverdue && tasksOverdue.length > 0 && (
             <>
               <p className="text-xs font-semibold mb-4">Overdue</p>
-              <TaskList tasks={tasksOverdue} />
+              <TaskList tasks={tasksOverdue} timeZone={timeZone} />
             </>
           )}
-          {tasksOverdue.length > 0 && tasksDueToday.length > 0 && (
+          {tasksOverdue && tasksOverdue.length > 0 && tasksDueToday && tasksDueToday.length > 0 && (
             <p className="text-xs font-semibold mb-4">Today</p>
           )}
           <TaskList
             addTask={
-              <AddTask defaultDueDate={new Date()} project={projects[0]} projects={projects} />
+              <AddTask defaultDueDate={new Date()} projectId={projects[0].id} projects={projects} />
             }
-            tasks={tasksDueToday}
+            tasks={tasksDueToday || []}
+            timeZone={timeZone}
           />
         </>
       )}

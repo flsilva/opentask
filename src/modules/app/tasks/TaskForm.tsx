@@ -26,7 +26,7 @@ export interface TaskFormProps extends ClassNamePropsOptional {
   readonly defaultDueDate?: Date | undefined;
   readonly onCancelClick?: () => void;
   readonly openDropdownDirection?: 'top' | 'bottom';
-  readonly project: ProjectDto | null;
+  readonly projectId: string | undefined;
   readonly projects: Array<ProjectDto>;
   readonly shouldStartOnEditingMode?: boolean;
   readonly task?: TaskDto | null;
@@ -38,7 +38,7 @@ export const TaskForm = ({
   defaultDueDate,
   onCancelClick,
   openDropdownDirection,
-  project,
+  projectId,
   projects,
   shouldStartOnEditingMode = false,
   task,
@@ -166,9 +166,9 @@ export const TaskForm = ({
 
   const inputDescriptionPlaceholderClassName = `${inputNameAndDescriptionClassName} text-gray-400`;
 
-  if (!project)
+  if (!projectId)
     throw new Error(
-      `TaskForm() - Object "project" must not be null nor undefined. Received: ${project}`,
+      `TaskForm() - TaskFormProps.projectId must not be null nor undefined. Received: ${projectId}`,
     );
 
   return (
@@ -213,7 +213,7 @@ export const TaskForm = ({
         <div className="relative h-12 sm:ml-4 md:ml-16 mt-6 sm:mt-0">
           <ProjectsDropdown
             className="absolute w-56"
-            defaultItem={project ?? projects[0]}
+            defaultItemId={projectId}
             itemsClassName={`absolute left-0 max-h-48 w-56 ${
               openDropdownDirection === 'top' ? 'bottom-14' : 'top-14'
             }`}

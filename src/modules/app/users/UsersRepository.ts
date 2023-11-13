@@ -19,6 +19,13 @@ export interface UserDto {
   readonly name: string;
 }
 
+export interface ServerSideUserDto {
+  readonly id: string;
+  readonly email: string;
+  readonly name: string;
+  readonly timeZone: string;
+}
+
 export const deleteUserAccount = async (
   prevResponse: ServerResponse<undefined> | undefined,
   formData: FormData,
@@ -85,14 +92,27 @@ export const getUser = async () => {
 };
 
 /*
- * We have this extra function to be called by server side code only.
+ * We don't want to expose user's id to the client because it doesn't need it,
+ * so we have this extra function to be used server-side only.
  */
-export const getUserId = async () => {
+export const getServerSideUser = async () => {
   const {
-    user: { id },
+    user: { email, id, user_metadata },
   } = await getUserSession();
-  return id;
+  const _user = await prisma.user.findUnique({ where: { id } });
+  const timeZone = _user && _user.timeZone ? _user.timeZone : '';
+  const name = user_metadata && typeof user_metadata.name === 'string' ? user_metadata.name : email;
+
+  const userDto: ServerSideUserDto = {
+    email: email || '',
+    id: id || '',
+    name: name || '',
+    timeZone,
+  };
+
+  return userDto;
 };
+/**/
 
 export const signOut = async () => {
   try {
@@ -100,5 +120,30 @@ export const signOut = async () => {
     await supabase.auth.signOut();
   } catch (error) {
     console.error(error);
+  }
+};
+
+export const updateTimeZone = async (timeZone: string) => {
+  try {
+    Intl.DateTimeFormat(undefined, { timeZone });
+  } catch (error) {
+    console.error(error);
+    return createServerErrorResponse('Invalid time zone.');
+  }
+
+  try {
+    const { id } = await getServerSideUser();
+
+    const result = await prisma.user.update({
+      where: { id },
+      data: { timeZone },
+    });
+
+    return createServerSuccessResponse(result);
+  } catch (error) {
+    console.error(error);
+
+    // We want to return a friendly error message instead of the (unknown) real one.
+    return createServerErrorResponse(genericAwareOfInternalErrorMessage);
   }
 };

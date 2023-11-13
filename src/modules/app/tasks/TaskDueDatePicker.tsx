@@ -8,6 +8,7 @@ import { CalendarMonthIcon } from '@/modules/shared/icons/CalendarMonthIcon';
 import { XIcon } from '@/modules/shared/icons/XIcon';
 import { formatTaskDueDate } from './formatTaskDueDate';
 import { Dialog } from '@/modules/shared/dialog/Dialog';
+import { format } from 'date-fns';
 
 export interface TaskDueDatePickerProps {
   readonly defaultDate?: Date | undefined;
@@ -51,7 +52,7 @@ export const TaskDueDatePicker = ({ defaultDate, name, onChange }: TaskDueDatePi
     <button type="button" className="flex rounded-md p-1.5 hover:bg-gray-200">
       <span className="sr-only">Add due date</span>
       <CalendarMonthIcon aria-hidden="true" />
-      <span className="ml-2 ">{formatTaskDueDate(selectedDate)}</span>
+      <span className="ml-2 ">{formatTaskDueDate(selectedDate, new Date())}</span>
     </button>
   );
 

@@ -1,16 +1,13 @@
-import { differenceInCalendarDays, format, isToday, isTomorrow } from 'date-fns';
+import { differenceInCalendarDays, format } from 'date-fns';
 
-export const formatTaskDueDate = (date: Date | null | undefined) => {
-  if (!date) return 'Due date';
-  const diffDays = differenceInCalendarDays(date, new Date());
+export const formatTaskDueDate = (date: Date | null | undefined, now: Date) => {
+  if (!date || !now) return 'Due date';
+  const diffDays = differenceInCalendarDays(date, now);
 
-  if (isToday(date)) return 'Today';
-  if (isTomorrow(date)) return 'Tomorrow';
+  if (diffDays === -1) return 'Yesterday';
+  if (diffDays === 0) return 'Today';
+  if (diffDays === 1) return 'Tomorrow';
 
-  if (diffDays >= 0 && diffDays < 7) {
-    return format(date, 'EEEE');
-  } else if (diffDays === -1) {
-    return 'Yesterday';
-  }
+  if (diffDays > 1 && diffDays < 7) return format(date, 'EEEE');
   return format(date, 'MMM dd');
 };

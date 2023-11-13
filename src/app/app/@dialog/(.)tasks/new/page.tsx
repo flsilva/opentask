@@ -2,7 +2,7 @@ import 'server-only';
 import { Dialog } from '@/modules/shared/dialog/Dialog';
 import { ErrorList } from '@/modules/shared/errors/ErrorList';
 import { RouterActions } from '@/modules/shared/router/RouterActions';
-import { getAllProjects, getProjectById } from '@/modules/app/projects/ProjectsRepository';
+import { getProjects, getProjectById } from '@/modules/app/projects/ProjectsRepository';
 import { TaskForm } from '@/modules/app/tasks/TaskForm';
 
 interface NewTaskDialogInterceptingPageProps {
@@ -13,7 +13,7 @@ export default async function NewTaskDialogInterceptingPage({
   searchParams: { projectId },
 }: NewTaskDialogInterceptingPageProps) {
   const [{ data: projects, errors: projectsErrors }, { data: project, errors: projectErrors }] =
-    await Promise.all([getAllProjects(), getProjectById({ id: projectId })]);
+    await Promise.all([getProjects(), getProjectById({ id: projectId })]);
 
   if (projectsErrors) return <ErrorList errors={projectsErrors} />;
   if (projectErrors) return <ErrorList errors={projectErrors} />;
@@ -24,7 +24,7 @@ export default async function NewTaskDialogInterceptingPage({
   return (
     <Dialog defaultOpen routerActionOnClose={RouterActions.BackAndRefresh}>
       <TaskForm
-        project={project}
+        projectId={projectId}
         projects={projects}
         shouldStartOnEditingMode
         taskNameClassName="text-2xl"

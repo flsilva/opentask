@@ -6,8 +6,9 @@ import { ErrorList } from '@/modules/shared/errors/ErrorList';
 import { Header } from '@/modules/app/shared/Header';
 import { MainMenu } from '@/modules/app/shared/MainMenu';
 import { InstallPwaDialog } from '@/modules/shared/pwa/InstallPwaDialog';
-import { getAllProjects } from '@/modules/app/projects/ProjectsRepository';
+import { getProjects } from '@/modules/app/projects/ProjectsRepository';
 import { UserProvider } from '@/modules/app/users/UserProvider';
+import { UpdateUserTimeZone } from '@/modules/app/users/UpdateUserTimeZone';
 import { getUser, UserDto } from '@/modules/app/users/UsersRepository';
 
 export default async function AppLayout({
@@ -24,7 +25,7 @@ export default async function AppLayout({
     redirect('/auth/sign-in');
   }
 
-  const { data: projects, errors } = await getAllProjects();
+  const { data: projects, errors } = await getProjects();
 
   return (
     <UserProvider user={user}>
@@ -60,6 +61,7 @@ export default async function AppLayout({
         )}
         {errors && <ErrorList errors={errors} />}
         <InstallPwaDialog />
+        <UpdateUserTimeZone />
       </div>
     </UserProvider>
   );

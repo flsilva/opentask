@@ -4,7 +4,7 @@ import { DeleteIconButton } from '@/modules/shared/controls/button/DeleteIconBut
 import { Dialog } from '@/modules/shared/dialog/Dialog';
 import { ErrorList } from '@/modules/shared/errors/ErrorList';
 import { RouterActions } from '@/modules/shared/router/RouterActions';
-import { getAllProjects } from '@/modules/app/projects/ProjectsRepository';
+import { getProjects } from '@/modules/app/projects/ProjectsRepository';
 import { TaskForm } from '@/modules/app/tasks/TaskForm';
 import { getTaskById } from '@/modules/app/tasks/TasksRepository';
 import { DeleteTaskAlertDialog } from '@/modules/app/tasks/DeleteTaskAlertDialog';
@@ -17,7 +17,7 @@ export default async function TaskDialogInterceptingPage({
   params: { taskId },
 }: TaskDialogInterceptingPageProps) {
   const [{ data: projects, errors: projectsErrors }, { data: task, errors: taskErrors }] =
-    await Promise.all([getAllProjects(), getTaskById(taskId)]);
+    await Promise.all([getProjects(), getTaskById(taskId)]);
 
   if (projectsErrors) return <ErrorList errors={projectsErrors} />;
   if (taskErrors) return <ErrorList errors={taskErrors} />;
@@ -41,7 +41,7 @@ export default async function TaskDialogInterceptingPage({
         routerActionOnClose={RouterActions.BackAndRefresh}
       >
         <TaskForm
-          project={task.project}
+          projectId={task.projectId}
           projects={projects}
           task={task}
           taskNameClassName="text-2xl"
