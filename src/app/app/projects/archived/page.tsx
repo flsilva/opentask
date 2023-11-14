@@ -1,18 +1,13 @@
 import 'server-only';
-import { ErrorList } from '@/modules/shared/errors/ErrorList';
 import { ProjectList } from '@/modules/app/projects/ProjectList';
 import { ProjectsPageHeader } from '@/modules/app/projects/ProjectsPageHeader';
-import { getProjects } from '@/modules/app/projects/ProjectsRepository';
+import { ProjectStatus } from '@/modules/app/projects/ProjectStatus';
 
-export default async function ArchivedProjectsPage() {
-  const { data: archivedProjects, errors } = await getProjects({ isArchived: true });
-
-  if (errors) return <ErrorList errors={errors} />;
-
+export default function ArchivedProjectsPage() {
   return (
     <>
       <ProjectsPageHeader archived={true} />
-      <ProjectList itemClassName="pl-2" projects={archivedProjects || []} />
+      <ProjectList itemClassName="pl-2" only={ProjectStatus.Archived} />
     </>
   );
 }

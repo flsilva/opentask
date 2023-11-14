@@ -1,18 +1,12 @@
 import 'server-only';
 import { Dialog } from '@/modules/shared/dialog/Dialog';
-import { ErrorList } from '@/modules/shared/errors/ErrorList';
-import { MainMenu } from '@/modules/app/shared/MainMenu';
+import { MainMenu } from '@/modules/app/shared/main-menu/MainMenu';
 import { RouterActions } from '@/modules/shared/router/RouterActions';
-import { getProjects } from '@/modules/app/projects/ProjectsRepository';
 
-export default async function MainMenuDialogPage() {
-  const { data: projects, errors } = await getProjects();
-
-  if (errors) return <ErrorList errors={errors} />;
-
+export default function MainMenuPage() {
   return (
     <Dialog defaultOpen noCloseButton routerActionOnClose={RouterActions.Back}>
-      <MainMenu projects={projects || []} />
+      <MainMenu />
     </Dialog>
   );
 }
