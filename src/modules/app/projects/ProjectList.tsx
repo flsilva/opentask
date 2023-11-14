@@ -1,64 +1,53 @@
-'use client';
-
-import 'client-only';
-import { useEffect, useState } from 'react';
-import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
-import { Transition } from '@headlessui/react';
 import { ClassNamePropsOptional } from '@/modules/shared/ClassNameProps';
-import { ProjectDto } from './ProjectsRepository';
+import { ErrorList } from '@/modules/shared/errors/ErrorList';
+import { ProjectListItem } from './ProjectListItem';
+import { ProjectStatus } from './ProjectStatus';
+import { getProjects } from './ProjectsRepository';
 
 interface ProjectListProps extends ClassNamePropsOptional {
+  readonly activateItem?: boolean;
+  readonly activeItemClassName?: string;
   readonly itemClassName?: string;
-  readonly getClassNameItem?: (project: ProjectDto) => string;
+  readonly itemHref?: string;
   readonly noProjectsClassName?: string;
-  readonly projects: Array<ProjectDto>;
+  readonly only?: ProjectStatus;
 }
 
-export const ProjectList = ({
+export const ProjectList = async ({
+  activeItemClassName,
   className,
   itemClassName,
-  getClassNameItem,
+  itemHref,
   noProjectsClassName,
-  projects,
+  only,
 }: ProjectListProps) => {
-  const [isOpen, setIsOpen] = useState(false);
-  useEffect(() => setIsOpen(true), []);
+  const { data: projects, errors } = await getProjects({
+    ...(only && { isArchived: only === ProjectStatus.Archived }),
+  });
+
+  if (errors) return <ErrorList errors={errors} />;
 
   return (
-    <Transition
-      show={isOpen}
-      as="div"
-      enter="ease-out duration-300"
-      enterFrom="opacity-0 translate-y-[20px]"
-      enterTo="opacity-100 translate-y-0"
-      leave="ease-in duration-200"
-      leaveFrom="opacity-100 translate-y-0"
-      leaveTo="opacity-0 translate-y-[20px]"
-    >
-      <nav className={twMerge('flex flex-col w-full', className)}>
-        {projects &&
-          projects.length > 0 &&
-          projects.map((project) => (
-            <Link
-              href={`/app/projects/${project.id}`}
-              key={project.id}
-              className={twMerge(
-                'flex grow items-center rounded-none lg:rounded-md py-2.5 text-base lg:text-sm text-gray-600 hover:bg-gray-200 border-b lg:border-b-0',
-                itemClassName,
-                getClassNameItem && getClassNameItem(project),
-              )}
-            >
-              <p>{project.name}</p>
-            </Link>
-          ))}
-        {!projects ||
-          (projects.length < 1 && (
-            <p className={twMerge('text-sm font-medium text-gray-600', noProjectsClassName)}>
-              No projects.
-            </p>
-          ))}
-      </nav>
-    </Transition>
+    <nav className={twMerge('flex flex-col w-full', className)}>
+      {projects &&
+        projects.length > 0 &&
+        projects.map(({ id, name }) => (
+          <ProjectListItem
+            activeClassName={activeItemClassName}
+            href={itemHref || '/app/projects/:projectId'}
+            className={itemClassName}
+            id={id}
+            key={id}
+            name={name}
+          />
+        ))}
+      {!projects ||
+        (projects.length < 1 && (
+          <p className={twMerge('text-sm font-medium text-gray-600', noProjectsClassName)}>
+            No projects.
+          </p>
+        ))}
+    </nav>
   );
 };

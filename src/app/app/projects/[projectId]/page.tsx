@@ -19,7 +19,7 @@ export default async function ProjectPage({ params: { projectId } }: ProjectPage
     { data: tasks, errors: tasksErrors },
     { timeZone },
   ] = await Promise.all([
-    getProjects(),
+    getProjects({ isArchived: false }),
     getProjectById({ id: projectId }),
     getTasksByProject({ projectId }),
     getServerSideUser(),

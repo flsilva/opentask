@@ -86,7 +86,7 @@ export const deleteProject = async (
   }
 };
 
-export const getProjects = async ({ isArchived = false }: { isArchived?: boolean } = {}) => {
+export const getProjects = async ({ isArchived }: { isArchived?: boolean } = {}) => {
   try {
     const { id: authorId } = await getServerSideUser();
 
@@ -94,7 +94,6 @@ export const getProjects = async ({ isArchived = false }: { isArchived?: boolean
       where: { authorId, isArchived },
       orderBy: { createdAt: 'asc' },
     });
-
     return createServerSuccessResponse(result);
   } catch (error) {
     console.error(error);

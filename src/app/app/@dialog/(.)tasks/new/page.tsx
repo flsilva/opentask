@@ -13,7 +13,7 @@ export default async function NewTaskDialogInterceptingPage({
   searchParams: { projectId },
 }: NewTaskDialogInterceptingPageProps) {
   const [{ data: projects, errors: projectsErrors }, { data: project, errors: projectErrors }] =
-    await Promise.all([getProjects(), getProjectById({ id: projectId })]);
+    await Promise.all([getProjects({ isArchived: false }), getProjectById({ id: projectId })]);
 
   if (projectsErrors) return <ErrorList errors={projectsErrors} />;
   if (projectErrors) return <ErrorList errors={projectErrors} />;

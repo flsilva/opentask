@@ -17,7 +17,7 @@ export default async function TaskDialogInterceptingPage({
   params: { taskId },
 }: TaskDialogInterceptingPageProps) {
   const [{ data: projects, errors: projectsErrors }, { data: task, errors: taskErrors }] =
-    await Promise.all([getProjects(), getTaskById(taskId)]);
+    await Promise.all([getProjects({ isArchived: false }), getTaskById(taskId)]);
 
   if (projectsErrors) return <ErrorList errors={projectsErrors} />;
   if (taskErrors) return <ErrorList errors={taskErrors} />;
