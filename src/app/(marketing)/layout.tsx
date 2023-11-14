@@ -15,7 +15,7 @@ export default async function MarketingLayout({ children }: { children: React.Re
     data: { session },
   } = await supabase.auth.getSession();
 
-  if (session) redirect('/app/today');
+  if (session) redirect('/app/onboarding');
   /**/
 
   return (
