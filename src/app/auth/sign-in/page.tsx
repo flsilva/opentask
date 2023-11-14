@@ -47,7 +47,7 @@ export default async function SignInPage() {
     data: { session },
   } = await supabase.auth.getSession();
 
-  if (session) redirect('/app/today');
+  if (session) redirect('/app/onboarding');
   /**/
 
   const baseUrl = process.env.NEXT_PUBLIC_URL;
