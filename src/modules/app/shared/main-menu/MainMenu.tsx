@@ -1,6 +1,8 @@
+import { Suspense } from 'react';
 import Link from 'next/link';
 import { PlusSignalIcon } from '@/modules/shared/icons/PlusSignalIcon';
 import { ProjectList } from '@/modules/app/projects/ProjectList';
+import { ProjectListSkeleton } from '@/modules/app/projects/ProjectListSkeleton';
 import { ProjectStatus } from '@/modules/app/projects/ProjectStatus';
 import { MainMenuItem } from './MainMenuItem';
 
@@ -28,12 +30,14 @@ export const MainMenu = () => {
           <PlusSignalIcon className="fill-gray-600" />
         </Link>
       </div>
-      <ProjectList
-        activeItemClassName={activeClassName}
-        itemClassName="pl-9"
-        noProjectsClassName="pl-9 pt-4"
-        only={ProjectStatus.Active}
-      />
+      <Suspense fallback={<ProjectListSkeleton className="mt-3 pl-9 max-w-[95%]" />}>
+        <ProjectList
+          activeItemClassName={activeClassName}
+          itemClassName="pl-9"
+          noProjectsClassName="pl-9 pt-4"
+          only={ProjectStatus.Active}
+        />
+      </Suspense>
     </nav>
   );
 };
