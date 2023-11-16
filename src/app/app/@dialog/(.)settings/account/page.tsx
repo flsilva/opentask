@@ -3,7 +3,7 @@ import { Dialog } from '@/modules/shared/dialog/Dialog';
 import { RouterActions } from '@/modules/shared/router/RouterActions';
 import { AccountSettings } from '@/modules/app/settings/account/AccountSettings';
 
-export default function SettingsAccountInterceptingPage() {
+export default function AccountSettingsDialogPage() {
   return (
     <Dialog defaultOpen title="Settings" routerActionOnClose={RouterActions.Back}>
       <AccountSettings />

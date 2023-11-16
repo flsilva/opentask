@@ -15,8 +15,6 @@ import { ErrorList } from '@/modules/shared/errors/ErrorList';
 import { ServerResponse } from '@/modules/shared/data-access/ServerResponse';
 import { InputContentEditable } from '@/modules/shared/form/InputContentEditable';
 import { useFormAction } from '@/modules/shared/form/useFormAction';
-import { ProjectsDropdown } from '@/modules/app/projects/ProjectsDropdown';
-import { ProjectDto } from '@/modules/app/projects/ProjectsRepository';
 import { TaskCheck } from './TaskCheck';
 import { TaskCheckSize } from './TaskCheckSize';
 import { TaskDueDatePicker } from './TaskDueDatePicker';
@@ -24,10 +22,8 @@ import { createTask, updateTask, TaskDto } from './TasksRepository';
 
 export interface TaskFormProps extends ClassNamePropsOptional {
   readonly defaultDueDate?: Date | undefined;
-  readonly onCancelClick?: () => void;
-  readonly openDropdownDirection?: 'top' | 'bottom';
-  readonly projectId: string | undefined;
-  readonly projects: Array<ProjectDto>;
+  readonly onCancel?: () => void;
+  readonly projectsSelect: React.ReactNode;
   readonly shouldStartOnEditingMode?: boolean;
   readonly task?: TaskDto | null;
   readonly taskNameClassName?: string;
@@ -36,10 +32,8 @@ export interface TaskFormProps extends ClassNamePropsOptional {
 export const TaskForm = ({
   className,
   defaultDueDate,
-  onCancelClick,
-  openDropdownDirection,
-  projectId,
-  projects,
+  onCancel,
+  projectsSelect,
   shouldStartOnEditingMode = false,
   task,
   taskNameClassName,
@@ -105,16 +99,6 @@ export const TaskForm = ({
     formRef.current?.requestSubmit();
   };
 
-  const onTaskProjectChange = async (selectedProject: ProjectDto) => {
-    if (!task) return;
-
-    const formData = new FormData();
-    formData.append('id', task.id);
-    formData.append('projectId', selectedProject.id);
-
-    await updateTask(undefined, formData);
-  };
-
   const onDueDateChange = async (date: Date | undefined) => {
     setDueDate(date);
     if (!task) return;
@@ -166,13 +150,8 @@ export const TaskForm = ({
 
   const inputDescriptionPlaceholderClassName = `${inputNameAndDescriptionClassName} text-gray-400`;
 
-  if (!projectId)
-    throw new Error(
-      `TaskForm() - TaskFormProps.projectId must not be null nor undefined. Received: ${projectId}`,
-    );
-
   return (
-    <form action={formAction} className={twMerge('flex w-full flex-col', className)} ref={formRef}>
+    <form action={formAction} className={twMerge('flex flex-col w-full', className)} ref={formRef}>
       {task && <input type="hidden" name="id" value={task.id} />}
       <div className="flex">
         {task && (
@@ -210,18 +189,7 @@ export const TaskForm = ({
       </div>
       <div className="mt-8 flex flex-col sm:flex-row">
         <TaskDueDatePicker defaultDate={dueDate} name="dueDate" onChange={onDueDateChange} />
-        <div className="relative h-12 sm:ml-4 md:ml-16 mt-6 sm:mt-0">
-          <ProjectsDropdown
-            className="absolute w-56"
-            defaultItemId={projectId}
-            itemsClassName={`absolute left-0 max-h-48 w-56 ${
-              openDropdownDirection === 'top' ? 'bottom-14' : 'top-14'
-            }`}
-            name="projectId"
-            onItemClick={onTaskProjectChange}
-            projects={projects}
-          />
-        </div>
+        <div className="relative h-12 sm:ml-4 md:ml-16 mt-6 sm:mt-0">{projectsSelect}</div>
       </div>
       {serverResponse && serverResponse.errors && <ErrorList errors={serverResponse.errors} />}
       {isOnEditingMode && (
@@ -231,7 +199,7 @@ export const TaskForm = ({
             className={buttonWhiteClassName}
             onClick={() => {
               setIsOnEditingMode(false);
-              if (onCancelClick) onCancelClick();
+              if (onCancel) onCancel();
             }}
           >
             Cancel

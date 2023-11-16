@@ -4,25 +4,20 @@ import { DeleteIconButton } from '@/modules/shared/controls/button/DeleteIconBut
 import { Dialog } from '@/modules/shared/dialog/Dialog';
 import { ErrorList } from '@/modules/shared/errors/ErrorList';
 import { RouterActions } from '@/modules/shared/router/RouterActions';
-import { getProjects } from '@/modules/app/projects/ProjectsRepository';
 import { TaskForm } from '@/modules/app/tasks/TaskForm';
 import { getTaskById } from '@/modules/app/tasks/TasksRepository';
 import { DeleteTaskAlertDialog } from '@/modules/app/tasks/DeleteTaskAlertDialog';
+import { TaskProjectsSelect } from '@/modules/app/tasks/TaskProjectsSelect';
 
-interface TaskDialogInterceptingPageProps {
+interface TaskDialogPageProps {
   readonly params: { readonly taskId: string };
 }
 
-export default async function TaskDialogInterceptingPage({
-  params: { taskId },
-}: TaskDialogInterceptingPageProps) {
-  const [{ data: projects, errors: projectsErrors }, { data: task, errors: taskErrors }] =
-    await Promise.all([getProjects({ isArchived: false }), getTaskById(taskId)]);
+export default async function TaskDialogPage({ params: { taskId } }: TaskDialogPageProps) {
+  const { data: task, errors: taskErrors } = await getTaskById(taskId);
 
-  if (projectsErrors) return <ErrorList errors={projectsErrors} />;
   if (taskErrors) return <ErrorList errors={taskErrors} />;
-
-  if (!task || !projects || projects.length < 1 || !task) notFound();
+  if (!task) notFound();
 
   const deleteTaskDialog = (
     <DeleteTaskAlertDialog
@@ -34,19 +29,16 @@ export default async function TaskDialogInterceptingPage({
   );
 
   return (
-    <>
-      <Dialog
-        defaultOpen
-        headerButtons={deleteTaskDialog}
-        routerActionOnClose={RouterActions.BackAndRefresh}
-      >
-        <TaskForm
-          projectId={task.projectId}
-          projects={projects}
-          task={task}
-          taskNameClassName="text-2xl"
-        />
-      </Dialog>
-    </>
+    <Dialog
+      defaultOpen
+      headerButtons={deleteTaskDialog}
+      routerActionOnClose={RouterActions.BackAndRefresh}
+    >
+      <TaskForm
+        projectsSelect={<TaskProjectsSelect defaultValue={task.projectId} taskId={task.id} />}
+        task={task}
+        taskNameClassName="text-2xl"
+      />
+    </Dialog>
   );
 }

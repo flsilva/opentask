@@ -1,61 +1,46 @@
 import 'server-only';
-import { endOfDay, subDays } from 'date-fns';
-import { ErrorList } from '@/modules/shared/errors/ErrorList';
-import { getProjects } from '@/modules/app/projects/ProjectsRepository';
+import { endOfDay, startOfDay, subDays } from 'date-fns';
 import { AddTask } from '@/modules/app/tasks/AddTask';
 import { TaskList } from '@/modules/app/tasks/TaskList';
-import { getTasksDueBy, getTasksDueOn } from '@/modules/app/tasks/TasksRepository';
-import { TodayHeader } from '@/modules/app/today/TodayHeader';
-import { getServerSideUser } from '@/modules/app/users/UsersRepository';
+import { TaskForm } from '@/modules/app/tasks/TaskForm';
+import { TaskProjectsSelect } from '@/modules/app/tasks/TaskProjectsSelect';
+import { TaskStatus } from '@/modules/app/tasks/TaskStatus';
+import { TodayPageHeader } from '@/modules/app/today/TodayPageHeader';
 
-export default async function TodayPage() {
-  const [
-    { data: projects, errors: projectsErrors },
-    { data: tasksOverdue, errors: tasksOverdueErrors },
-    { data: tasksDueToday, errors: tasksDueTodayErrors },
-    { timeZone },
-  ] = await Promise.all([
-    getProjects(),
-    getTasksDueBy({ dueBy: subDays(endOfDay(new Date()), 1), isCompleted: false }),
-    getTasksDueOn({ dueOn: endOfDay(new Date()), isCompleted: false }),
-    getServerSideUser(),
-  ]);
-
-  if (projectsErrors) return <ErrorList errors={projectsErrors} />;
-  if (tasksOverdueErrors) return <ErrorList errors={tasksOverdueErrors} />;
-  if (tasksDueTodayErrors) return <ErrorList errors={tasksDueTodayErrors} />;
-
+export default function TodayPage() {
   return (
     <>
-      <TodayHeader />
-      {projects &&
-        projects.length > 0 &&
-        (!tasksOverdue || tasksOverdue.length < 1) &&
-        (!tasksDueToday || tasksDueToday.length < 1) && (
-          <p className="mb-12 text-sm font-medium text-gray-600">
-            No tasks due today. Enjoy your day!
-          </p>
+      <TodayPageHeader />
+      <TaskList dueBy={subDays(endOfDay(new Date()), 1)} only={TaskStatus.Incomplete}>
+        {({ list: listOverdue, tasks: tasksOverdue }) => (
+          <>
+            {tasksOverdue.length > 0 && <p className="mb-4 text-xs font-semibold">Overdue</p>}
+            {listOverdue}
+            {tasksOverdue.length > 0 && <p className="mt-8 mb-4 text-xs font-semibold">Today</p>}
+
+            <TaskList dueOn={endOfDay(new Date())} only={TaskStatus.Incomplete}>
+              {({ list: listDueToday, tasks: tasksDueToday }) => (
+                <>
+                  {listDueToday}
+                  {tasksDueToday.length < 1 && (
+                    <p className="mt-6 mb-6 text-sm font-medium text-gray-600">
+                      No tasks due today. {tasksOverdue.length < 1 && 'Enjoy your day!'}
+                    </p>
+                  )}
+                </>
+              )}
+            </TaskList>
+          </>
         )}
-      {projects && projects.length > 0 && (
-        <>
-          {tasksOverdue && tasksOverdue.length > 0 && (
-            <>
-              <p className="text-xs font-semibold mb-4">Overdue</p>
-              <TaskList tasks={tasksOverdue} timeZone={timeZone} />
-            </>
-          )}
-          {tasksOverdue && tasksOverdue.length > 0 && tasksDueToday && tasksDueToday.length > 0 && (
-            <p className="text-xs font-semibold mb-4">Today</p>
-          )}
-          <TaskList
-            addTask={
-              <AddTask defaultDueDate={new Date()} projectId={projects[0].id} projects={projects} />
-            }
-            tasks={tasksDueToday || []}
-            timeZone={timeZone}
-          />
-        </>
-      )}
+      </TaskList>
+      <AddTask containerClassName="my-8">
+        <TaskForm
+          className="rounded-md bg-gray-100 px-2 py-6 sm:px-6 mt-4"
+          defaultDueDate={startOfDay(new Date())}
+          projectsSelect={<TaskProjectsSelect />}
+          shouldStartOnEditingMode={true}
+        />
+      </AddTask>
     </>
   );
 }

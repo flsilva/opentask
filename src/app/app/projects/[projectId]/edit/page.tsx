@@ -12,7 +12,6 @@ export default async function EditProjectPage({ params: { projectId } }: EditPro
   const { data: project, errors } = await getProjectById({ id: projectId });
 
   if (errors) return <ErrorList errors={errors} />;
-
   if (!project) notFound();
 
   return (
