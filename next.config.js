@@ -9,10 +9,4 @@ const withPWA = require('@ducanh2912/next-pwa').default({
 
 const withMDX = require('@next/mdx')();
 
-/*
-module.exports = withMDX(
-  withPWA(nextConfig),
-);
-*/
-
-module.exports = withMDX(nextConfig);
+module.exports = withMDX(withPWA(nextConfig));
