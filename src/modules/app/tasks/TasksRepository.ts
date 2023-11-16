@@ -1,8 +1,7 @@
 'use server';
 
 import { z } from 'zod';
-import { startOfDay } from 'date-fns';
-import { zonedTimeToUtc } from 'date-fns-tz';
+import { endOfDay, startOfDay } from 'date-fns';
 import { cuid2 } from '@/modules/shared/data-access/cuid2';
 import { prisma } from '@/modules/shared/data-access/prisma';
 import { getServerSideUser } from '@/modules/app/users/UsersRepository';
@@ -13,6 +12,8 @@ import {
   createServerSuccessResponse,
 } from '@/modules/shared/data-access/ServerResponse';
 import { genericAwareOfInternalErrorMessage } from '@/modules/app/shared/errors/errorMessages';
+import { TaskStatus } from './TaskStatus';
+import { ProjectStatus } from '../projects/ProjectStatus';
 
 export type CreateTaskDto = z.infer<typeof createTaskSchema>;
 
@@ -86,85 +87,38 @@ export const deleteTask = async (
   }
 };
 
-export const getTasksDueBy = async ({
+export interface GetTasksProps {
+  readonly byProject?: string;
+  readonly dueBy?: Date;
+  readonly dueOn?: Date;
+  readonly only?: TaskStatus;
+  readonly onlyProject?: ProjectStatus;
+}
+
+export const getTasks = async ({
+  byProject,
   dueBy,
-  isCompleted = undefined,
-}: {
-  readonly dueBy: Date;
-  isCompleted?: boolean;
-}) => {
-  const now = new Date();
-  try {
-    const { id: authorId, timeZone } = await getServerSideUser();
-
-    const result = await prisma.task.findMany({
-      where: {
-        authorId,
-        dueDate: { lte: zonedTimeToUtc(dueBy, timeZone) },
-        isCompleted,
-        project: { isNot: { isArchived: true } },
-      },
-      orderBy: { createdAt: 'asc' },
-    });
-
-    return createServerSuccessResponse(result);
-  } catch (error) {
-    console.error(error);
-
-    // We want to return a friendly error message instead of the (unknown) real one.
-    return createServerErrorResponse(genericAwareOfInternalErrorMessage);
-  }
-};
-
-export const getTasksDueOn = async ({
   dueOn,
-  isCompleted = undefined,
-}: {
-  readonly dueOn: Date;
-  isCompleted?: boolean;
-}) => {
-  try {
-    const { id: authorId, timeZone } = await getServerSideUser();
-    const start = zonedTimeToUtc(startOfDay(dueOn), timeZone);
-    const current = zonedTimeToUtc(dueOn, timeZone);
-
-    const result = await prisma.task.findMany({
-      where: {
-        authorId,
-        dueDate: {
-          gte: start,
-          lte: current,
-        },
-        isCompleted,
-        project: { isNot: { isArchived: true } },
-      },
-      orderBy: { createdAt: 'asc' },
-    });
-
-    return createServerSuccessResponse(result);
-  } catch (error) {
-    console.error(error);
-
-    // We want to return a friendly error message instead of the (unknown) real one.
-    return createServerErrorResponse(genericAwareOfInternalErrorMessage);
+  only,
+  onlyProject,
+}: GetTasksProps = {}) => {
+  if (dueBy && dueOn) {
+    throw new Error('getTasks(): Only dueBy or dueOn arguments can be provided.');
   }
-};
 
-export const getTasksByProject = async ({
-  isCompleted = undefined,
-  projectId,
-}: {
-  readonly isCompleted?: boolean;
-  readonly projectId: string;
-}) => {
   try {
-    const { id: authorId, timeZone } = await getServerSideUser();
+    const { id: authorId } = await getServerSideUser();
 
     const result = await prisma.task.findMany({
       where: {
         authorId,
-        isCompleted,
-        projectId,
+        ...(dueBy && { dueDate: { lte: endOfDay(dueBy) } }),
+        ...(dueOn && { dueDate: { gte: startOfDay(dueOn), lte: endOfDay(dueOn) } }),
+        ...(only && { isCompleted: only === TaskStatus.Complete }),
+        ...(byProject && { projectId: byProject }),
+        ...(onlyProject && {
+          project: { is: { isArchived: onlyProject === ProjectStatus.Archived } },
+        }),
       },
       orderBy: { createdAt: 'asc' },
     });

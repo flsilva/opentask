@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import * as DialogRX from '@radix-ui/react-dialog';
+import * as DialogPrimitive from '@radix-ui/react-dialog';
 import { twJoin, twMerge } from 'tailwind-merge';
 import { ChildrenProps } from '@/modules/shared/ChildrenProps';
 import { XIcon } from '@/modules/shared/icons/XIcon';
@@ -75,39 +75,46 @@ export const Dialog = ({
   };
 
   return (
-    <DialogRX.Root
+    <DialogPrimitive.Root
       defaultOpen={defaultOpen}
       {...(open === undefined
         ? { open: isOpen, onOpenChange: _onOpenChange }
         : { open, onOpenChange })}
     >
-      {trigger && <DialogRX.Trigger asChild>{trigger}</DialogRX.Trigger>}
-      <DialogRX.Portal>
-        <DialogRX.Overlay className={twMerge(invisibleOverlayClassNames, 'z-40')}>
+      {trigger && <DialogPrimitive.Trigger asChild>{trigger}</DialogPrimitive.Trigger>}
+      <DialogPrimitive.Portal>
+        <DialogPrimitive.Overlay className={twMerge(invisibleOverlayClassNames, 'z-40')}>
           <div className={visibleOverlayClassNames} aria-hidden="true" />
           <div className="flex fixed inset-0 md:items-center">
-            <DialogRX.Content className={dialogContentClassNames} onOpenAutoFocus={onOpenAutoFocus}>
+            <DialogPrimitive.Content
+              className={dialogContentClassNames}
+              onOpenAutoFocus={onOpenAutoFocus}
+            >
               <div
                 className={twJoin(
                   'flex justify-between',
                   title ? 'items-center' : 'items-start h-[90%] md:h-full gap-x-3',
                 )}
               >
-                {title ? <DialogRX.Title className="text-xl">{title}</DialogRX.Title> : children}
+                {title ? (
+                  <DialogPrimitive.Title className="text-xl">{title}</DialogPrimitive.Title>
+                ) : (
+                  children
+                )}
                 <div className="flex flex-row gap-x-3">
                   {headerButtons}
                   {!noCloseButton && (
-                    <DialogRX.Close className="-m-2.5 rounded-md p-1.5 text-gray-700 hover:bg-gray-200">
+                    <DialogPrimitive.Close className="-m-2.5 rounded-md p-1.5 text-gray-700 hover:bg-gray-200">
                       <XIcon aria-hidden="true" />
-                    </DialogRX.Close>
+                    </DialogPrimitive.Close>
                   )}
                 </div>
               </div>
               {title && children}
-            </DialogRX.Content>
+            </DialogPrimitive.Content>
           </div>
-        </DialogRX.Overlay>
-      </DialogRX.Portal>
-    </DialogRX.Root>
+        </DialogPrimitive.Overlay>
+      </DialogPrimitive.Portal>
+    </DialogPrimitive.Root>
   );
 };

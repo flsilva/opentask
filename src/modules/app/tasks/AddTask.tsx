@@ -1,75 +1,49 @@
 'use client';
 
 import 'client-only';
-import { useState } from 'react';
-import { Transition } from '@headlessui/react';
+import { Fragment, cloneElement, isValidElement, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { useWindowSize } from 'usehooks-ts';
+import { Transition } from '@headlessui/react';
 import { twMerge } from 'tailwind-merge';
+import { ClassNamePropsOptional } from '@/modules/shared/ClassNameProps';
 import { buttonLinkClassName } from '@/modules/shared/controls/button/buttonClassName';
 import { PlusSignalIcon } from '@/modules/shared/icons/PlusSignalIcon';
-import { ProjectDto } from '@/modules/app/projects/ProjectsRepository';
-import { TaskForm } from './TaskForm';
-import { useRouter } from 'next/navigation';
+import { ChildrenProps } from '@/modules/shared/ChildrenProps';
+import { TaskFormProps } from './TaskForm';
 
-export interface AddTaskProps {
-  readonly defaultDueDate?: Date | null;
-  readonly projectId: string;
-  readonly projects: Array<ProjectDto>;
+export interface AddTaskProps extends ChildrenProps, ClassNamePropsOptional {
+  readonly containerClassName?: string;
+  readonly projectId?: string;
 }
 
-export const AddTask = ({ defaultDueDate, projectId, projects }: AddTaskProps) => {
+export const AddTask = ({ children, containerClassName, className, projectId }: AddTaskProps) => {
   const router = useRouter();
   const [isAddingTask, setIsAddingTask] = useState(false);
   const { width } = useWindowSize();
 
-  const addTaskHandler = () => {
+  const onAddTask = () => {
+    const projectIdQuery = projectId ? `?projectId=${projectId}` : '';
     if (width < 768) {
-      router.push(`/app/tasks/new?projectId=${projectId}`);
+      router.push(`/app/tasks/new${projectIdQuery}`);
     } else {
       setIsAddingTask(true);
     }
   };
 
-  const cancelNewTaskHandler = () => {
+  const onCancel = () => {
     setIsAddingTask(false);
   };
 
-  const getNewTaskComponent = () => {
-    if (width < 768) return null;
-
-    return (
-      <Transition
-        show={isAddingTask}
-        as="div"
-        enter="ease-out duration-300"
-        enterFrom="opacity-0 translate-y-[50px]"
-        enterTo="opacity-100 translate-y-0"
-        leave="ease-in duration-200"
-        leaveFrom="opacity-100 translate-y-0"
-        leaveTo="opacity-0 translate-y-[50px]"
-      >
-        <TaskForm
-          className="rounded-md bg-gray-100 px-2 py-6 sm:px-6 mt-4"
-          defaultDueDate={defaultDueDate ?? undefined}
-          onCancelClick={cancelNewTaskHandler}
-          projectId={projectId}
-          projects={projects}
-          shouldStartOnEditingMode={true}
-        />
-      </Transition>
-    );
-  };
-
-  if (!projectId)
-    throw new Error(
-      `AddTask() - AddTaskProps.projectId must not be null nor undefined. Received: ${projectId}`,
-    );
+  const cloneChildren = isValidElement(children)
+    ? cloneElement(children as React.ReactElement<TaskFormProps>, { onCancel })
+    : null;
 
   return (
-    <>
+    <div {...(containerClassName && { className: containerClassName })}>
       <Transition
         show={!isAddingTask}
-        as="div"
+        as={Fragment}
         enter="ease-out duration-300"
         enterFrom="opacity-0 -translate-y-[50px]"
         enterTo="opacity-100 translate-y-0"
@@ -78,8 +52,8 @@ export const AddTask = ({ defaultDueDate, projectId, projects }: AddTaskProps) =
         leaveTo="opacity-0 -translate-y-[50px]"
       >
         <button
-          onClick={addTaskHandler}
-          className={twMerge(buttonLinkClassName, 'group flex-row self-start')}
+          onClick={onAddTask}
+          className={twMerge(buttonLinkClassName, 'group py-4  flex-row self-start', className)}
         >
           <PlusSignalIcon
             width="1.25rem"
@@ -89,7 +63,20 @@ export const AddTask = ({ defaultDueDate, projectId, projects }: AddTaskProps) =
           Add task
         </button>
       </Transition>
-      {getNewTaskComponent()}
-    </>
+      {width >= 768 && (
+        <Transition
+          show={isAddingTask}
+          as="div"
+          enter="ease-out duration-300"
+          enterFrom="opacity-0 translate-y-[50px]"
+          enterTo="opacity-100 translate-y-0"
+          leave="ease-in duration-200"
+          leaveFrom="opacity-100 translate-y-0"
+          leaveTo="opacity-0 translate-y-[50px]"
+        >
+          {cloneChildren}
+        </Transition>
+      )}
+    </div>
   );
 };

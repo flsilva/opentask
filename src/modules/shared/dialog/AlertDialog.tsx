@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import * as AlertDialogRX from '@radix-ui/react-alert-dialog';
+import * as AlertDialogPrimitive from '@radix-ui/react-alert-dialog';
 import { twMerge } from 'tailwind-merge';
 import {
   buttonGreenClassName,
@@ -63,26 +63,28 @@ export const AlertDialog = ({
 
   const submitButton =
     onConfirmHandler === 'submit' ? (
-      <AlertDialogRX.Action asChild>
+      <AlertDialogPrimitive.Action asChild>
         <SubmitButton className={buttonGreenClassName} submitting={confirmButtonLabelSubmitting}>
           {confirmButtonLabel}
         </SubmitButton>
-      </AlertDialogRX.Action>
+      </AlertDialogPrimitive.Action>
     ) : (
-      <AlertDialogRX.Action asChild>
+      <AlertDialogPrimitive.Action asChild>
         <button type="button" className={buttonGreenClassName} onClick={onConfirmHandler}>
           {confirmButtonLabel}
         </button>
-      </AlertDialogRX.Action>
+      </AlertDialogPrimitive.Action>
     );
 
   const dialogBody = (
     <div className="flex flex-col">
-      <AlertDialogRX.Description className="mt-6">{dialogCopy}</AlertDialogRX.Description>
+      <AlertDialogPrimitive.Description className="mt-6">
+        {dialogCopy}
+      </AlertDialogPrimitive.Description>
       <div className="mt-12 flex justify-end gap-4">
-        <AlertDialogRX.Cancel className={buttonWhiteClassName}>
+        <AlertDialogPrimitive.Cancel className={buttonWhiteClassName}>
           {cancelButtonLabel}
-        </AlertDialogRX.Cancel>
+        </AlertDialogPrimitive.Cancel>
         {submitButton}
       </div>
     </div>
@@ -94,24 +96,26 @@ export const AlertDialog = ({
   }
 
   return (
-    <AlertDialogRX.Root
+    <AlertDialogPrimitive.Root
       defaultOpen={defaultOpen}
       {...(open === undefined && !trigger
         ? { open: isOpen, onOpenChange: _onOpenChange }
         : { open, onOpenChange })}
     >
-      {trigger && <AlertDialogRX.Trigger asChild>{trigger}</AlertDialogRX.Trigger>}
-      <AlertDialogRX.Portal>
-        <AlertDialogRX.Overlay className={twMerge(invisibleOverlayClassNames, 'z-50')}>
+      {trigger && <AlertDialogPrimitive.Trigger asChild>{trigger}</AlertDialogPrimitive.Trigger>}
+      <AlertDialogPrimitive.Portal>
+        <AlertDialogPrimitive.Overlay className={twMerge(invisibleOverlayClassNames, 'z-50')}>
           <div className={visibleOverlayClassNames} aria-hidden="true" />
           <div className="flex fixed inset-0 md:items-center z-50">
-            <AlertDialogRX.Content className={dialogContentClassNames}>
-              <AlertDialogRX.Title className="text-xl">{dialogTitle}</AlertDialogRX.Title>
+            <AlertDialogPrimitive.Content className={dialogContentClassNames}>
+              <AlertDialogPrimitive.Title className="text-xl">
+                {dialogTitle}
+              </AlertDialogPrimitive.Title>
               {bodyWrapper ? bodyWrapper : dialogBody}
-            </AlertDialogRX.Content>
+            </AlertDialogPrimitive.Content>
           </div>
-        </AlertDialogRX.Overlay>
-      </AlertDialogRX.Portal>
-    </AlertDialogRX.Root>
+        </AlertDialogPrimitive.Overlay>
+      </AlertDialogPrimitive.Portal>
+    </AlertDialogPrimitive.Root>
   );
 };

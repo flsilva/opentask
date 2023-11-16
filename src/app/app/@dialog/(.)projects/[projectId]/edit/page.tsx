@@ -6,17 +6,16 @@ import { RouterActions } from '@/modules/shared/router/RouterActions';
 import { ProjectForm } from '@/modules/app/projects/ProjectForm';
 import { getProjectById } from '@/modules/app/projects/ProjectsRepository';
 
-interface EditProjectDialogInterceptingPageProps {
+interface EditProjectDialogPageProps {
   readonly params: { readonly projectId: string };
 }
 
-export default async function EditProjectDialogInterceptingPage({
+export default async function EditProjectDialogPage({
   params: { projectId },
-}: EditProjectDialogInterceptingPageProps) {
+}: EditProjectDialogPageProps) {
   const { data: project, errors } = await getProjectById({ id: projectId });
 
   if (errors) return <ErrorList errors={errors} />;
-
   if (!project) notFound();
 
   return (
