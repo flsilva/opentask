@@ -1,12 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-      mdxRs: true,
-  },
+  pageExtensions: ['js', 'jsx', 'mdx', 'ts', 'tsx'],
 };
 
-const withPWA = require("@ducanh2912/next-pwa").default({
-  dest: "public",
+const withPWA = require('@ducanh2912/next-pwa').default({
+  dest: 'public',
 });
 
 const withMDX = require('@next/mdx')();

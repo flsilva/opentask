@@ -1,8 +1,8 @@
 # Welcome to OpenTask
 
-To report bugs, please [open an issue](https://github.com/opentask-app/pwa/issues).
+To report bugs, please [open an issue](https://github.com/flsilva/opentask/issues).
 
-To share ideas with the community, ask questions, and new features, please [start a discussion](https://github.com/opentask-app/pwa/discussions).
+To share ideas with the community, ask questions, and new features, please [start a discussion](https://github.com/flsilva/opentask/discussions).
 
 ## How to run OpenTask locally
 
@@ -55,7 +55,7 @@ That email confirmation link expires pretty quickly, so if you take a while to c
 
 `http://localhost:3000/auth/sign-in#error=invalid_request&error_code=400&error_description=No+associated+flow+state+found.+400%253A+Flow+state+is+expired`.
 
-If that happens, just try again. If you can't sign in, please [open a issue](https://github.com/opentask-app/pwa/issues).
+If that happens, just try again. If you can't sign in, please [open a issue](https://github.com/flsilva/opentask/issues).
 
 We should also improve the UX by adding a message telling the user that an error happened and they should try again.
 
@@ -65,4 +65,4 @@ We should also improve the UX by adding a message telling the user that an error
 2. Close Docker Desktop.
 3. Stop the Next.js development server.
 
-If you find any problems with the instructions above, please [open an issue](https://github.com/opentask-app/pwa/issues).
+If you find any problems with the instructions above, please [open an issue](https://github.com/flsilva/opentask/issues).
