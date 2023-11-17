@@ -58,7 +58,7 @@ export interface ProjectMutationDropdownProps {
 
 export const ProjectMutationDropdown = ({ project }: ProjectMutationDropdownProps) => {
   const router = useRouter();
-  const [mutationAlertDialog, setAlertDialog] = useState<React.ReactNode | null>(null);
+  const [alertDialog, setAlertDialog] = useState<React.ReactNode | null>(null);
 
   const onCloseMutationDialog = () => {
     setAlertDialog(null);
@@ -178,7 +178,7 @@ export const ProjectMutationDropdown = ({ project }: ProjectMutationDropdownProp
           }
         />
       </div>
-      {mutationAlertDialog && mutationAlertDialog}
+      {alertDialog}
     </>
   );
 };
