@@ -5,12 +5,6 @@ import { buttonGreenClassName } from '@/modules/shared/controls/button/buttonCla
 import { HeroShell } from '@/modules/marketing/shared/HeroShell';
 import { HeroHeading } from '@/modules/marketing/shared/HeroHeading';
 import { HeroCopy } from '@/modules/marketing/shared/HeroCopy';
-import imgFeatures01 from './features-img-01.png';
-import imgFeatures02 from './features-img-02.png';
-import imgFeatures03 from './features-img-03.png';
-import imgFeatures04 from './features-img-04.png';
-import imgFeatures05 from './features-img-05.png';
-import imgFeatures06 from './features-img-06.png';
 
 export default function FeaturesPage() {
   return (
@@ -25,7 +19,9 @@ export default function FeaturesPage() {
       <p className="mt-16 mb-8 text-2xl font-medium text-gray-800">Projects</p>
       <Image
         alt="Projects on OpenTask"
-        src={imgFeatures01}
+        src="/images/marketing/features/features-img-01.png"
+        width={435}
+        height={884}
         style={{
           marginLeft: 'auto',
           marginRight: 'auto',
@@ -41,7 +37,9 @@ export default function FeaturesPage() {
       <p className="mt-16 mb-8 text-2xl font-medium text-gray-800">Tasks</p>
       <Image
         alt="Tasks on OpenTask"
-        src={imgFeatures02}
+        src="/images/marketing/features/features-img-02.png"
+        width={435}
+        height={884}
         style={{
           marginLeft: 'auto',
           marginRight: 'auto',
@@ -55,7 +53,9 @@ export default function FeaturesPage() {
       </p>
       <Image
         alt="Tasks on OpenTask"
-        src={imgFeatures03}
+        src="/images/marketing/features/features-img-03.png"
+        width={435}
+        height={884}
         style={{
           marginLeft: 'auto',
           marginRight: 'auto',
@@ -69,7 +69,9 @@ export default function FeaturesPage() {
       </p>
       <Image
         alt="Tasks on OpenTask"
-        src={imgFeatures04}
+        src="/images/marketing/features/features-img-04.png"
+        width={435}
+        height={884}
         style={{
           marginLeft: 'auto',
           marginRight: 'auto',
@@ -83,7 +85,9 @@ export default function FeaturesPage() {
       </p>
       <Image
         alt="Tasks on OpenTask"
-        src={imgFeatures05}
+        src="/images/marketing/features/features-img-05.png"
+        width={435}
+        height={884}
         style={{
           marginLeft: 'auto',
           marginRight: 'auto',
@@ -98,7 +102,9 @@ export default function FeaturesPage() {
       <p className="mt-12 mb-6 text-2xl font-medium text-gray-800">What about today?</p>
       <Image
         alt="Tasks on OpenTask"
-        src={imgFeatures06}
+        src="/images/marketing/features/features-img-06.png"
+        width={435}
+        height={884}
         style={{
           marginLeft: 'auto',
           marginRight: 'auto',
