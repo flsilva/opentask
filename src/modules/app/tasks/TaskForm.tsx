@@ -24,7 +24,7 @@ export interface TaskFormProps extends ClassNamePropsOptional {
   readonly defaultDueDate?: Date | undefined;
   readonly onCancel?: () => void;
   readonly projectsSelect: React.ReactNode;
-  readonly shouldStartOnEditingMode?: boolean;
+  readonly startOnEditingMode?: boolean;
   readonly task?: TaskDto | null;
   readonly taskNameClassName?: string;
 }
@@ -34,7 +34,7 @@ export const TaskForm = ({
   defaultDueDate,
   onCancel,
   projectsSelect,
-  shouldStartOnEditingMode = false,
+  startOnEditingMode = false,
   task,
   taskNameClassName,
 }: TaskFormProps) => {
@@ -48,10 +48,10 @@ export const TaskForm = ({
     task && task.dueDate ? task.dueDate : defaultDueDate,
   );
   const [isCompleted, setIsCompleted] = useState(task && task.isCompleted);
-  const [isOnEditingMode, setIsOnEditingMode] = useState(shouldStartOnEditingMode);
+  const [isOnEditingMode, setIsOnEditingMode] = useState(startOnEditingMode);
 
   useEffect(() => {
-    if (shouldStartOnEditingMode) inputNameRef.current?.focus();
+    if (startOnEditingMode) inputNameRef.current?.focus();
   });
 
   const resetForm = () => {

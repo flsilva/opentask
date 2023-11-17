@@ -41,7 +41,7 @@ export default function TodayPage() {
             className="rounded-md bg-gray-100 px-2 py-6 sm:px-6 mt-4"
             defaultDueDate={startOfDay(new Date())}
             projectsSelect={<TaskProjectsSelect />}
-            shouldStartOnEditingMode={true}
+            startOnEditingMode
           />
         </AddTask>
       </Suspense>

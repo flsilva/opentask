@@ -24,7 +24,7 @@ export default function ProjectPage({ params: { projectId } }: ProjectPageProps)
           <TaskForm
             className="rounded-md bg-gray-100 px-2 py-6 sm:px-6 mt-4"
             projectsSelect={<TaskProjectsSelect defaultValue={projectId} />}
-            shouldStartOnEditingMode={true}
+            startOnEditingMode
           />
         </AddTask>
         <TaskList byProject={projectId} only={TaskStatus.Complete} />
