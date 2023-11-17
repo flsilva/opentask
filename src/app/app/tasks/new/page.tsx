@@ -12,7 +12,6 @@ export default function NewTaskPage({ searchParams: { projectId } }: NewTaskPage
       <h1 className="mb-6 text-xl text-gray-800">Create task</h1>
       <TaskForm
         projectsSelect={<TaskProjectsSelect defaultValue={projectId} />}
-        shouldStartOnEditingMode={false}
         taskNameClassName="text-2xl"
       />
     </div>

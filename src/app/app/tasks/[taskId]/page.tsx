@@ -19,7 +19,6 @@ export default async function TaskPage({ params: { taskId } }: TaskPageProps) {
     <TaskForm
       className="mt-10"
       projectsSelect={<TaskProjectsSelect defaultValue={task.projectId} taskId={task.id} />}
-      shouldStartOnEditingMode={false}
       task={task}
       taskNameClassName="text-2xl"
     />

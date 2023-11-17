@@ -13,7 +13,7 @@ export default function NewTaskDialogPage({ searchParams: { projectId } }: NewTa
     <Dialog defaultOpen routerActionOnClose={RouterActions.BackAndRefresh}>
       <TaskForm
         projectsSelect={<TaskProjectsSelect defaultValue={projectId} />}
-        shouldStartOnEditingMode
+        startOnEditingMode
         taskNameClassName="text-2xl"
       />
     </Dialog>
