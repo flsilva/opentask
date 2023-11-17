@@ -1,3 +1,6 @@
+'use server-;';
+
+import 'server-only';
 import { twMerge } from 'tailwind-merge';
 import { ClassNamePropsOptional } from '@/modules/shared/ClassNameProps';
 import { ErrorList } from '@/modules/shared/errors/ErrorList';
@@ -8,18 +11,25 @@ import { getProjects } from './ProjectsRepository';
 interface ProjectListProps extends ClassNamePropsOptional {
   readonly activateItem?: boolean;
   readonly activeItemClassName?: string;
+  readonly empty?: React.ReactNode;
   readonly itemClassName?: string;
   readonly itemHref?: string;
-  readonly noProjectsClassName?: string;
   readonly only?: ProjectStatus;
 }
 
+/*
+ * I'm suppressing the following TypeScript error that seems to be an issue
+ * with async functions:
+ *
+ * "Type is referenced directly or indirectly in the fulfillment callback of its own 'then' method.ts(1062)""
+ */
+// @ts-ignore
 export const ProjectList = async ({
   activeItemClassName,
   className,
+  empty,
   itemClassName,
   itemHref,
-  noProjectsClassName,
   only,
 }: ProjectListProps) => {
   const { data: projects, errors } = await getProjects({
@@ -27,6 +37,7 @@ export const ProjectList = async ({
   });
 
   if (errors) return <ErrorList errors={errors} />;
+  if (!projects || projects.length === 0) return empty;
 
   return (
     <nav className={twMerge('flex flex-col w-full', className)}>
@@ -41,12 +52,6 @@ export const ProjectList = async ({
             key={id}
             name={name}
           />
-        ))}
-      {!projects ||
-        (projects.length < 1 && (
-          <p className={twMerge('text-sm font-medium text-gray-600', noProjectsClassName)}>
-            No projects.
-          </p>
         ))}
     </nav>
   );

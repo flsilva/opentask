@@ -17,7 +17,7 @@ export default function ProjectPage({ params: { projectId } }: ProjectPageProps)
   return (
     <>
       <ProjectPageHeader id={projectId} />
-      <Suspense fallback={<TaskListSkeleton className="max-w-[80%]" />}>
+      <Suspense fallback={<TaskListSkeleton className="mt-4 max-w-[80%]" />}>
         <NoTasksInProject id={projectId} />
         <TaskList byProject={projectId} only={TaskStatus.Incomplete} />
         <AddTask containerClassName="my-8" projectId={projectId}>
