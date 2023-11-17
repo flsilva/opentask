@@ -41,7 +41,10 @@ export const TaskListItem = ({
       />
       <Link href={`/app/tasks/${id}`} className="flex grow text-left cursor">
         <div className="ml-3 block">
-          <p className={twJoin('text-sm text-gray-800', isCompleted && 'line-through')}>{name}</p>
+          <div
+            className={twJoin('text-sm text-gray-800', isCompleted && 'line-through')}
+            dangerouslySetInnerHTML={{ __html: sanitize(name) }}
+          />
           {description && (
             <div
               className="mt-2 block w-[20rem] overflow-hidden text-ellipsis whitespace-nowrap text-xs text-gray-400 md:w-[26rem] lg:w-[40rem]"
