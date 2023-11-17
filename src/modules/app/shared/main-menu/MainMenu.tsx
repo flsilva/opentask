@@ -8,6 +8,7 @@ import { MainMenuItem } from './MainMenuItem';
 
 export const MainMenu = () => {
   const activeClassName = 'bg-gray-200';
+  const noProjects = <p className="pl-9 pt-4 text-sm font-medium text-gray-600">No projects</p>;
 
   return (
     <nav className="flex flex-col h-full w-full lg:w-80 overflow-y-auto overflow-x-hidden bg-gray-50 px-4 py-4">
@@ -33,8 +34,8 @@ export const MainMenu = () => {
       <Suspense fallback={<ProjectListSkeleton className="mt-3 pl-9 max-w-[95%]" />}>
         <ProjectList
           activeItemClassName={activeClassName}
+          empty={noProjects}
           itemClassName="pl-9"
-          noProjectsClassName="pl-9 pt-4"
           only={ProjectStatus.Active}
         />
       </Suspense>

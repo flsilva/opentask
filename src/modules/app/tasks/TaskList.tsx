@@ -1,3 +1,6 @@
+'use server-;';
+
+import 'server-only';
 import { twMerge } from 'tailwind-merge';
 import { ClassNamePropsOptional } from '@/modules/shared/ClassNameProps';
 import { getServerSideUser } from '@/modules/app/users/UsersRepository';
