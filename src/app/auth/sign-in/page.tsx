@@ -112,7 +112,7 @@ export default async function SignInPage() {
           <LinkedInInLogoIcon />
           Continue with LinkedIn
         </OAuthProviderButton>
-        {baseUrl === 'http://localhost:3000' && (
+        {baseUrl !== 'https://opentask.app' && (
           <>
             <div className="relative flex items-center py-6">
               <div className="flex-grow border-t border-gray-200"></div>
