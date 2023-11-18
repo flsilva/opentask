@@ -6,13 +6,23 @@ import { SubmitButton } from '@/modules/shared/controls/button/SubmitButton';
 import { inputTextClassName } from '@/modules/shared/controls/input/inputTextClassName';
 import { Form } from '@/modules/shared/form/Form';
 import { FormErrorList } from '@/modules/shared/form/FormErrorList';
-import { ProjectDto, createProject, updateProject } from './ProjectsRepository';
+import { ProjectDto, createProject, getProjectById, updateProject } from './ProjectsRepository';
+import { ErrorList } from '@/modules/shared/errors/ErrorList';
+import { notFound } from 'next/navigation';
+import { ServerError } from '@/modules/shared/data-access/ServerResponse';
 
 export interface ProjectFormProps extends ClassNamePropsOptional {
-  readonly project?: ProjectDto;
+  readonly projectId?: string;
 }
 
-export const ProjectForm = ({ className, project }: ProjectFormProps) => {
+export const ProjectForm = async ({ className, projectId }: ProjectFormProps) => {
+  let project: ProjectDto | undefined | null;
+  let errors: Array<ServerError> | undefined;
+
+  if (projectId) ({ data: project, errors } = await getProjectById({ id: projectId }));
+  if (errors) return <ErrorList errors={errors} />;
+  if (projectId && !project) notFound();
+
   const name = (project && project.name) ?? '';
   const description = (project && project.description) ?? '';
   const formAction = project ? updateProject : createProject;

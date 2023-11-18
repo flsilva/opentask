@@ -10,7 +10,6 @@ import { MoreHorizontalIcon } from '@/modules/shared/icons/MoreHorizontalIcon';
 import { ArchiveIcon } from '@/modules/shared/icons/ArchiveIcon';
 import { DeleteIcon } from '@/modules/shared/icons/DeleteIcon';
 import { EditIcon } from '@/modules/shared/icons/EditIcon';
-import { ServerResponse } from '@/modules/shared/data-access/ServerResponse';
 import { UnarchiveIcon } from '@/modules/shared/icons/UnarchiveIcon';
 import { ArchiveProjectAlertDialog } from './ArchiveProjectAlertDialog';
 import { DeleteProjectAlertDialog } from './DeleteProjectAlertDialog';
@@ -57,7 +56,6 @@ export interface ProjectMutationDropdownProps {
 }
 
 export const ProjectMutationDropdown = ({ project }: ProjectMutationDropdownProps) => {
-  console.log('ProjectMutationDropdown() - project: ', project);
   const router = useRouter();
   const [alertDialog, setAlertDialog] = useState<React.ReactNode | null>(null);
 
