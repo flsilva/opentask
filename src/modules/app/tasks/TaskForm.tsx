@@ -41,9 +41,8 @@ export const TaskForm = ({
   const router = useRouter();
   const formRef = useRef<HTMLFormElement>(null);
   const inputNameRef = useRef<HTMLInputElement>(null);
-  const [keyToForceRerenderContentEditable, setKeyToForceRerenderContentEditable] = useState(
-    cuid2(),
-  );
+  const [keyToForceRerenderContentEditable, setKeyToForceRerenderContentEditable] =
+    useState(cuid2());
   const [dueDate, setDueDate] = useState<Date | undefined>(
     task && task.dueDate ? task.dueDate : defaultDueDate,
   );
@@ -85,7 +84,20 @@ export const TaskForm = ({
      */
     resetForm();
 
-    // Calling router.refresh() is necessary to refetch and rerender mutated data.
+    /*
+     * Flavio Silva on Nov. 18th:
+     *
+     * Using router.refresh() below is a workaraound necessary due to the bug described in
+     * TasksRepository's createTask() function, i.e., revalidateTag('tasks') doesn't work
+     * on Intercepting Routes. Pleae check that file for more details.
+     *
+     * But it triggers its own client side runtime error, even though the app works as expected,
+     * and so I'm keeping it for now. The following is the error message:
+     *
+     * Warning: Cannot update a component (`Router`) while rendering a different component (`TaskForm`).
+     * To locate the bad setState() call inside `TaskForm`, follow the stack trace as described in
+     * https://reactjs.org/link/setstate-in-render
+     */
     router.refresh();
     /**/
   };

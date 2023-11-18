@@ -48,6 +48,40 @@ export const createTask = async (
       },
     });
 
+    /*
+     * Flavio Silva on Nov. 18th, 2023:
+     *
+     * The revalidateTag('tasks') below works when this Server Action is triggered from
+     * the <TaskForm> component that is rendered as part of the "/app/projects/[projectId]"
+     * and "/app/today" regular routes. The cache is purged (even though this is the only place
+     * I'm using the 'tasks' tag), and Server and Client components re-render and re-fetch data,
+     * updating the UI accordingly.
+     *
+     * But there's a bug when it's triggered from the <TaskForm> component that is rendered
+     * as part of the "/app/tasks/new" route, which is an Intercepting Route rendered on
+     * small screens (it can be tested by rezising the desktop browser). That route maps to the
+     * following filesystem page: "/app/app/@dialog/(.)tasks/new/page.tsx".
+     *
+     * Curiously, if we are at that route and refresh the browser, we render the non-dialog version
+     * of it, mapped to the following filesystem page: "/app/app/tasks/new/page.tsx". And the bug
+     * also happens there.
+     *
+     * The bug is that Client Components never receive the result of this Server Action, i.e.,
+     * neither useFormStatus() nor useFormState() are updated, they don't re-render,
+     * and so the onFormSubmitted() of <TaskForm> is never called. The app hangs waiting for
+     * this Server Action result. If we refresh the browser, the created task is there, so
+     * this Server Action works. And I verified that createServerSuccessResponse() function
+     * is called as expected with the correct "result" argument.
+     *
+     * Because of that bug, the revalidateTag('tasks') below is commented out,
+     * and I'm using "router.refresh()" in <TaskForm>'s onFormSubmitted() to re-fetch and re-render
+     * components as a workaround it.
+     *
+     * The fact that it works on regular routes but not on Intercepting Routes makes me think
+     * that the problem is related to Intercepting Routes.
+     */
+    // revalidateTag('tasks');
+    /**/
     return createServerSuccessResponse(result);
   } catch (error) {
     console.error(error);
