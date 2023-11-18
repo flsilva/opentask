@@ -4,7 +4,7 @@ import 'client-only';
 import { useState } from 'react';
 import { useFormState } from 'react-dom';
 
-export interface useFormActionProps<ServerResponse> {
+export interface useFormProps<ServerResponse> {
   readonly action: (
     prevState: ServerResponse | undefined,
     formData: FormData,
@@ -12,10 +12,10 @@ export interface useFormActionProps<ServerResponse> {
   readonly onFormSubmitted?: (response: ServerResponse | undefined) => void;
 }
 
-export const useFormAction = <ServerResponse>({
+export const useForm = <ServerResponse>({
   action,
   onFormSubmitted,
-}: useFormActionProps<ServerResponse>): [
+}: useFormProps<ServerResponse>): [
   state: ServerResponse | undefined,
   dispatch: (payload: FormData) => void,
 ] => {

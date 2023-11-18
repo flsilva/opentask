@@ -14,7 +14,7 @@ import { cuid2 } from '@/modules/shared/data-access/cuid2';
 import { ErrorList } from '@/modules/shared/errors/ErrorList';
 import { ServerResponse } from '@/modules/shared/data-access/ServerResponse';
 import { InputContentEditable } from '@/modules/shared/form/InputContentEditable';
-import { useFormAction } from '@/modules/shared/form/useFormAction';
+import { useForm } from '@/modules/shared/form/useForm';
 import { TaskCheck } from './TaskCheck';
 import { TaskCheckSize } from './TaskCheckSize';
 import { TaskDueDatePicker } from './TaskDueDatePicker';
@@ -102,7 +102,7 @@ export const TaskForm = ({
     /**/
   };
 
-  const [serverResponse, formAction] = useFormAction({
+  const [serverResponse, formAction] = useForm({
     action: task ? updateTask : createTask,
     onFormSubmitted,
   });
