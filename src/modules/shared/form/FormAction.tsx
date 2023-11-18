@@ -4,6 +4,8 @@ import 'client-only';
 import { useState } from 'react';
 import { useFormState } from 'react-dom';
 import { ClassNamePropsOptional } from '@/modules/shared/ClassNameProps';
+import { ServerError } from '../data-access/ServerResponse';
+import { FormErrorProvider } from './FormErrorProvider';
 
 export interface FormActionChildrenProps<ServerResponse> {
   readonly response: ServerResponse | undefined;
@@ -21,7 +23,7 @@ export interface FormActionProps<ServerResponse> extends ClassNamePropsOptional 
   readonly onFormSubmitted?: (response: ServerResponse | undefined) => void;
 }
 
-export const FormAction = <ServerResponse,>({
+export const FormAction = <ServerResponse extends { readonly errors?: Array<ServerError> }>({
   action,
   children,
   className,
@@ -46,7 +48,7 @@ export const FormAction = <ServerResponse,>({
 
   return (
     <form action={formAction} {...(className && { className })} {...(formRef && { ref: formRef })}>
-      {_children}
+      <FormErrorProvider errors={_serverResponse?.errors}>{_children}</FormErrorProvider>
     </form>
   );
 };

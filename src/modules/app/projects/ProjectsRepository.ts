@@ -1,5 +1,7 @@
 'use server';
 
+import 'server-only';
+import { redirect } from 'next/navigation';
 import { z } from 'zod';
 import { cuid2 } from '@/modules/shared/data-access/cuid2';
 import { prisma } from '@/modules/shared/data-access/prisma';
@@ -27,15 +29,17 @@ export const createProject = async (
   if (!validation.success) {
     console.error(validation.error);
 
-    // We want to return Zod validation errors.
+    // return Zod validation errors.
     return createServerErrorResponse(validation.error);
   }
+
+  let result;
 
   try {
     const { data } = validation;
     const { id } = await getServerSideUser();
 
-    const result = await prisma.project.create({
+    result = await prisma.project.create({
       data: {
         author: {
           connect: {
@@ -46,14 +50,14 @@ export const createProject = async (
         id: cuid2(),
       },
     });
-
-    return createServerSuccessResponse(result);
   } catch (error) {
     console.error(error);
 
-    // We want to return a friendly error message instead of the (unknown) real one.
+    // return a friendly error message instead of the unknown real one.
     return createServerErrorResponse(genericAwareOfInternalErrorMessage);
   }
+
+  redirect(`/app/projects/${result.id}`);
 };
 
 export const deleteProject = async (
@@ -65,7 +69,7 @@ export const deleteProject = async (
   if (!validation.success) {
     console.error(validation.error);
 
-    // We want to return Zod validation errors.
+    // return Zod validation errors.
     return createServerErrorResponse(validation.error);
   }
 
@@ -81,7 +85,7 @@ export const deleteProject = async (
   } catch (error) {
     console.error(error);
 
-    // We want to return a friendly error message instead of the (unknown) real one.
+    // return a friendly error message instead of the (unknown) real one.
     return createServerErrorResponse(genericAwareOfInternalErrorMessage);
   }
 };
@@ -98,7 +102,7 @@ export const getProjects = async ({ isArchived }: { isArchived?: boolean } = {})
   } catch (error) {
     console.error(error);
 
-    // We want to return a friendly error message instead of the (unknown) real one.
+    // return a friendly error message instead of the (unknown) real one.
     return createServerErrorResponse(genericAwareOfInternalErrorMessage);
   }
 };
@@ -115,7 +119,7 @@ export const getProjectById = async ({ id }: { id: string }) => {
   } catch (error) {
     console.error(error);
 
-    // We want to return a friendly error message instead of the (unknown) real one.
+    // return a friendly error message instead of the (unknown) real one.
     return createServerErrorResponse(genericAwareOfInternalErrorMessage);
   }
 };
@@ -129,24 +133,26 @@ export const updateProject = async (
   if (!validation.success) {
     console.error(validation.error);
 
-    // We want to return Zod validation errors.
+    // return Zod validation errors.
     return createServerErrorResponse(validation.error);
   }
+
+  let result;
 
   try {
     const { id, ...data } = validation.data;
     const { id: authorId } = await getServerSideUser();
 
-    const result = await prisma.project.update({
+    result = await prisma.project.update({
       where: { id, authorId },
       data,
     });
-
-    return createServerSuccessResponse(result);
   } catch (error) {
     console.error(error);
 
-    // We want to return a friendly error message instead of the (unknown) real one.
+    // return a friendly error message instead of the (unknown) real one.
     return createServerErrorResponse(genericAwareOfInternalErrorMessage);
   }
+
+  redirect(`/app/projects/${result.id}`);
 };
