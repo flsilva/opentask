@@ -15,7 +15,9 @@ export interface FormActionProps<ServerResponse> extends ClassNamePropsOptional 
     formData: FormData,
   ) => Promise<ServerResponse | undefined>;
   readonly formRef?: React.Ref<HTMLFormElement>;
-  readonly children: (props: FormActionChildrenProps<ServerResponse>) => React.ReactNode;
+  readonly children:
+    | React.ReactNode
+    | ((props: FormActionChildrenProps<ServerResponse>) => React.ReactNode);
   readonly onFormSubmitted?: (response: ServerResponse | undefined) => void;
 }
 
@@ -39,9 +41,12 @@ export const FormAction = <ServerResponse,>({
     }
   }
 
+  const _children =
+    typeof children === 'function' ? children({ response: _serverResponse }) : children;
+
   return (
     <form action={formAction} {...(className && { className })} {...(formRef && { ref: formRef })}>
-      {children({ response: _serverResponse })}
+      {_children}
     </form>
   );
 };
