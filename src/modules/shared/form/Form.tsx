@@ -7,11 +7,11 @@ import { ClassNamePropsOptional } from '@/modules/shared/ClassNameProps';
 import { ServerError } from '../data-access/ServerResponse';
 import { FormErrorProvider } from './FormErrorProvider';
 
-export interface FormActionChildrenProps<ServerResponse> {
+export interface FormChildrenProps<ServerResponse> {
   readonly response: ServerResponse | undefined;
 }
 
-export interface FormActionProps<ServerResponse> extends ClassNamePropsOptional {
+export interface FormProps<ServerResponse> extends ClassNamePropsOptional {
   readonly action: (
     prevState: ServerResponse | undefined,
     formData: FormData,
@@ -19,17 +19,17 @@ export interface FormActionProps<ServerResponse> extends ClassNamePropsOptional 
   readonly formRef?: React.Ref<HTMLFormElement>;
   readonly children:
     | React.ReactNode
-    | ((props: FormActionChildrenProps<ServerResponse>) => React.ReactNode);
+    | ((props: FormChildrenProps<ServerResponse>) => React.ReactNode);
   readonly onFormSubmitted?: (response: ServerResponse | undefined) => void;
 }
 
-export const FormAction = <ServerResponse extends { readonly errors?: Array<ServerError> }>({
+export const Form = <ServerResponse extends { readonly errors?: Array<ServerError> }>({
   action,
   children,
   className,
   formRef,
   onFormSubmitted,
-}: FormActionProps<ServerResponse>) => {
+}: FormProps<ServerResponse>) => {
   const [serverResponse, setServerResponse] = useState<ServerResponse | undefined>(undefined);
   const [_serverResponse, formAction] = useFormState<ServerResponse | undefined, FormData>(
     action,

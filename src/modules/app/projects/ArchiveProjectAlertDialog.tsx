@@ -2,15 +2,13 @@
 
 import 'client-only';
 import { AlertDialog } from '@/modules/shared/dialog/AlertDialog';
-import { ErrorList } from '@/modules/shared/errors/ErrorList';
-import { ServerResponse } from '@/modules/shared/data-access/ServerResponse';
-import { FormAction } from '@/modules/shared/form/FormAction';
-import { updateProject, ProjectDto } from './ProjectsRepository';
+import { Form } from '@/modules/shared/form/Form';
+import { FormErrorList } from '@/modules/shared/form/FormErrorList';
 import { ProjectMutationAction } from './ProjectMutationDropdown';
+import { updateProject } from './ProjectsRepository';
 
 export interface ArchiveProjectAlertDialogProps {
   readonly action: ProjectMutationAction.Archive | ProjectMutationAction.Unarchive;
-  readonly onFormSubmitted: (response: ServerResponse<ProjectDto | undefined> | undefined) => void;
   readonly onOpenChange: (open: boolean) => void;
   readonly projectId: string;
   readonly projectName: string;
@@ -18,7 +16,6 @@ export interface ArchiveProjectAlertDialogProps {
 
 export const ArchiveProjectAlertDialog = ({
   action,
-  onFormSubmitted,
   onOpenChange,
   projectId,
   projectName,
@@ -28,16 +25,12 @@ export const ArchiveProjectAlertDialog = ({
       defaultOpen
       confirmButtonLabel={action}
       renderBodyWrapper={(children: React.ReactNode) => (
-        <FormAction action={updateProject} onFormSubmitted={onFormSubmitted}>
-          {({ response }) => (
-            <>
-              <input type="hidden" name="id" value={projectId} />
-              <input type="hidden" name="isArchived" value={action === 'Archive' ? 'on' : 'off'} />
-              {children}
-              {response && response.errors && <ErrorList errors={response.errors} />}
-            </>
-          )}
-        </FormAction>
+        <Form action={updateProject}>
+          <input type="hidden" name="id" value={projectId} />
+          <input type="hidden" name="isArchived" value={action === 'Archive' ? 'on' : 'off'} />
+          {children}
+          <FormErrorList />
+        </Form>
       )}
       dialogCopy={
         <span>

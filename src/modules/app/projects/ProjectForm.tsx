@@ -1,12 +1,12 @@
 import 'server-only';
 import { twMerge } from 'tailwind-merge';
+import { ClassNamePropsOptional } from '@/modules/shared/ClassNameProps';
 import { buttonGreenClassName } from '@/modules/shared/controls/button/buttonClassName';
 import { SubmitButton } from '@/modules/shared/controls/button/SubmitButton';
-import { ProjectDto, createProject, updateProject } from './ProjectsRepository';
-import { ClassNamePropsOptional } from '@/modules/shared/ClassNameProps';
-import { FormErrorList } from '@/modules/shared/form/FormErrorList';
-import { FormAction } from '@/modules/shared/form/FormAction';
 import { inputTextClassName } from '@/modules/shared/controls/input/inputTextClassName';
+import { Form } from '@/modules/shared/form/Form';
+import { FormErrorList } from '@/modules/shared/form/FormErrorList';
+import { ProjectDto, createProject, updateProject } from './ProjectsRepository';
 
 export interface ProjectFormProps extends ClassNamePropsOptional {
   readonly project?: ProjectDto;
@@ -18,7 +18,7 @@ export const ProjectForm = ({ className, project }: ProjectFormProps) => {
   const formAction = project ? updateProject : createProject;
 
   return (
-    <FormAction action={formAction} className={twMerge('flex flex-col', className)}>
+    <Form action={formAction} className={twMerge('flex flex-col', className)}>
       {project && <input type="hidden" name="id" value={project.id} />}
       <input
         autoFocus
@@ -42,6 +42,6 @@ export const ProjectForm = ({ className, project }: ProjectFormProps) => {
       ></textarea>
       <FormErrorList />
       <SubmitButton className={twMerge(buttonGreenClassName, 'flex self-end')}>Save</SubmitButton>
-    </FormAction>
+    </Form>
   );
 };

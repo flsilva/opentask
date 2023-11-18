@@ -2,20 +2,17 @@
 
 import 'client-only';
 import { AlertDialog } from '@/modules/shared/dialog/AlertDialog';
-import { ErrorList } from '@/modules/shared/errors/ErrorList';
-import { ServerResponse } from '@/modules/shared/data-access/ServerResponse';
-import { FormAction } from '@/modules/shared/form/FormAction';
-import { deleteProject, ProjectDto } from './ProjectsRepository';
+import { Form } from '@/modules/shared/form/Form';
+import { FormErrorList } from '@/modules/shared/form/FormErrorList';
+import { deleteProject } from './ProjectsRepository';
 
 export interface DeleteProjectAlertDialogProps {
-  readonly onFormSubmitted: (response: ServerResponse<ProjectDto | undefined> | undefined) => void;
   readonly onOpenChange: (open: boolean) => void;
   readonly projectId: string;
   readonly projectName: string;
 }
 
 export const DeleteProjectAlertDialog = ({
-  onFormSubmitted,
   onOpenChange,
   projectId,
   projectName,
@@ -25,15 +22,11 @@ export const DeleteProjectAlertDialog = ({
       defaultOpen
       confirmButtonLabel="Delete"
       renderBodyWrapper={(children: React.ReactNode) => (
-        <FormAction action={deleteProject} onFormSubmitted={onFormSubmitted}>
-          {({ response }) => (
-            <>
-              <input type="hidden" name="id" value={projectId} />
-              {children}
-              {response && response.errors && <ErrorList errors={response.errors} />}
-            </>
-          )}
-        </FormAction>
+        <Form action={deleteProject}>
+          <input type="hidden" name="id" value={projectId} />
+          {children}
+          <FormErrorList />
+        </Form>
       )}
       dialogCopy={
         <span>

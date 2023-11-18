@@ -13,6 +13,7 @@ import {
   createServerErrorResponse,
   createServerSuccessResponse,
 } from '@/modules//shared/data-access/ServerResponse';
+import { revalidatePath } from 'next/cache';
 
 export type CreateProjectDto = z.infer<typeof createProjectSchema>;
 
@@ -73,21 +74,23 @@ export const deleteProject = async (
     return createServerErrorResponse(validation.error);
   }
 
+  let result;
+
   try {
     const { id } = validation.data;
     const { id: authorId } = await getServerSideUser();
 
-    const result = await prisma.project.delete({
+    result = await prisma.project.delete({
       where: { id, authorId },
     });
-
-    return createServerSuccessResponse(result);
   } catch (error) {
     console.error(error);
 
     // return a friendly error message instead of the (unknown) real one.
     return createServerErrorResponse(genericAwareOfInternalErrorMessage);
   }
+
+  redirect('/app/today');
 };
 
 export const getProjects = async ({ isArchived }: { isArchived?: boolean } = {}) => {

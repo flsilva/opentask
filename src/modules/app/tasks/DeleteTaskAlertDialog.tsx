@@ -1,11 +1,11 @@
 'use client';
 
 import { AlertDialog } from '@/modules/shared/dialog/AlertDialog';
-import { ErrorList } from '@/modules/shared/errors/ErrorList';
-import { FormAction } from '@/modules/shared/form/FormAction';
-import { deleteTask } from './TasksRepository';
+import { Form } from '@/modules/shared/form/Form';
+import { FormErrorList } from '@/modules/shared/form/FormErrorList';
 import { RouterAction } from '@/modules/shared/router/RouterActions';
 import { useRouterAction } from '@/modules/shared/router/useRouterAction';
+import { deleteTask } from './TasksRepository';
 
 export interface DeleteTaskAlertDialogProps {
   readonly onOpenChange?: (open: boolean) => void;
@@ -43,15 +43,11 @@ export const DeleteTaskAlertDialog = ({
       onOpenChange={onOpenChange}
       onConfirmHandler="submit"
       renderBodyWrapper={(children: React.ReactNode) => (
-        <FormAction action={deleteTask} onFormSubmitted={onFormSubmitted}>
-          {({ response }) => (
-            <>
-              <input type="hidden" name="id" value={id} />
-              {children}
-              {response && response.errors && <ErrorList errors={response.errors} />}
-            </>
-          )}
-        </FormAction>
+        <Form action={deleteTask} onFormSubmitted={onFormSubmitted}>
+          <input type="hidden" name="id" value={id} />
+          {children}
+          <FormErrorList />
+        </Form>
       )}
       trigger={trigger}
     />

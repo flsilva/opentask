@@ -57,32 +57,33 @@ export interface ProjectMutationDropdownProps {
 }
 
 export const ProjectMutationDropdown = ({ project }: ProjectMutationDropdownProps) => {
+  console.log('ProjectMutationDropdown() - project: ', project);
   const router = useRouter();
   const [alertDialog, setAlertDialog] = useState<React.ReactNode | null>(null);
 
+  /*
+   * When the updateProject() Server Action redirect() on a successful mutation,
+   * we need to close this dialog. When I tried to do this on a onFormSubmitted() passed to <Form>,
+   * I got the React' "bad setState()" error printed below, so I came up with this
+   * solution that works but doesn't feel good. I'd love to solve this in a better way.
+   *
+   * I don't want to add a route for each action, e.g., /app/projects/[projectId]/archive, etc.
+   * That doesn't feel good either, and what if we don't want to show a confirmation dialog?
+   * We'd have to deal with this issue anyway.
+   *
+   * Warning: Cannot update a component (`ProjectMutationDropdown`) while rendering
+   * a different component (`Form`). To locate the bad setState() call inside `Form`,
+   * follow the stack trace as described in https://reactjs.org/link/setstate-in-render
+   */
+  const [_project, _setProject] = useState<ProjectDto>(project);
+  if (_project && _project !== project) {
+    _setProject(project);
+    setAlertDialog(null);
+  }
+  /**/
+
   const onCloseMutationDialog = () => {
     setAlertDialog(null);
-  };
-
-  const onArchiveUnarchiveFormSubmitted = (
-    response: ServerResponse<ProjectDto | undefined> | undefined,
-  ) => {
-    if (!response || response.errors) return;
-
-    onCloseMutationDialog();
-
-    // router.refresh() is necessary to refetch and rerender mutated data.
-    router.refresh();
-  };
-
-  const onDeleteFormSubmitted = (response: ServerResponse<ProjectDto | undefined> | undefined) => {
-    if (!response || response.errors) return;
-
-    router.push('/app/today');
-    onCloseMutationDialog();
-
-    // router.refresh() is necessary to refetch and rerender mutated data.
-    router.refresh();
   };
 
   const onArchiveUnarchiveProject = (
@@ -95,7 +96,6 @@ export const ProjectMutationDropdown = ({ project }: ProjectMutationDropdownProp
         onOpenChange={(open: boolean) => {
           if (!open) onCloseMutationDialog();
         }}
-        onFormSubmitted={onArchiveUnarchiveFormSubmitted}
         projectId={project.id}
         projectName={project.name}
       />,
@@ -108,7 +108,6 @@ export const ProjectMutationDropdown = ({ project }: ProjectMutationDropdownProp
         onOpenChange={(open: boolean) => {
           if (!open) onCloseMutationDialog();
         }}
-        onFormSubmitted={onDeleteFormSubmitted}
         projectId={project.id}
         projectName={project.name}
       />,
