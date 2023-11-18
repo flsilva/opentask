@@ -3,6 +3,7 @@
 import 'client-only';
 import { useState } from 'react';
 import { useFormState } from 'react-dom';
+import { ServerError } from '@/modules/shared/data-access/ServerResponse';
 
 export interface useFormProps<ServerResponse> {
   readonly action: (
@@ -12,7 +13,7 @@ export interface useFormProps<ServerResponse> {
   readonly onFormSubmitted?: (response: ServerResponse | undefined) => void;
 }
 
-export const useForm = <ServerResponse>({
+export const useForm = <ServerResponse extends { readonly errors?: Array<ServerError> }>({
   action,
   onFormSubmitted,
 }: useFormProps<ServerResponse>): [

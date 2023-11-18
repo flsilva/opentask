@@ -1,11 +1,10 @@
 'use client';
 
 import 'client-only';
-import { useState } from 'react';
-import { useFormState } from 'react-dom';
 import { ClassNamePropsOptional } from '@/modules/shared/ClassNameProps';
-import { ServerError } from '../data-access/ServerResponse';
+import { ServerError } from '@/modules/shared/data-access/ServerResponse';
 import { FormErrorProvider } from './FormErrorProvider';
+import { useForm } from './useForm';
 
 export interface FormChildrenProps<ServerResponse> {
   readonly response: ServerResponse | undefined;
@@ -30,25 +29,14 @@ export const Form = <ServerResponse extends { readonly errors?: Array<ServerErro
   formRef,
   onFormSubmitted,
 }: FormProps<ServerResponse>) => {
-  const [serverResponse, setServerResponse] = useState<ServerResponse | undefined>(undefined);
-  const [_serverResponse, formAction] = useFormState<ServerResponse | undefined, FormData>(
-    action,
-    undefined,
-  );
-
-  if (serverResponse !== _serverResponse) {
-    setServerResponse(_serverResponse);
-    if (onFormSubmitted) {
-      onFormSubmitted(_serverResponse);
-    }
-  }
+  const [serverResponse, formAction] = useForm({ action, onFormSubmitted });
 
   const _children =
-    typeof children === 'function' ? children({ response: _serverResponse }) : children;
+    typeof children === 'function' ? children({ response: serverResponse }) : children;
 
   return (
     <form action={formAction} {...(className && { className })} {...(formRef && { ref: formRef })}>
-      <FormErrorProvider errors={_serverResponse?.errors}>{_children}</FormErrorProvider>
+      <FormErrorProvider errors={serverResponse?.errors}>{_children}</FormErrorProvider>
     </form>
   );
 };
