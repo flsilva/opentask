@@ -14,6 +14,7 @@ import {
 import { genericAwareOfInternalErrorMessage } from '@/modules/app/shared/errors/errorMessages';
 import { TaskStatus } from './TaskStatus';
 import { ProjectStatus } from '../projects/ProjectStatus';
+import { zonedTimeToUtc } from 'date-fns-tz';
 
 export type CreateTaskDto = z.infer<typeof createTaskSchema>;
 
@@ -141,13 +142,18 @@ export const getTasks = async ({
   }
 
   try {
-    const { id: authorId } = await getServerSideUser();
+    const { id: authorId, timeZone } = await getServerSideUser();
 
     const result = await prisma.task.findMany({
       where: {
         authorId,
-        ...(dueBy && { dueDate: { lte: endOfDay(dueBy) } }),
-        ...(dueOn && { dueDate: { gte: startOfDay(dueOn), lte: endOfDay(dueOn) } }),
+        ...(dueBy && { dueDate: { lte: zonedTimeToUtc(endOfDay(dueBy), timeZone) } }),
+        ...(dueOn && {
+          dueDate: {
+            gte: zonedTimeToUtc(startOfDay(dueOn), timeZone),
+            lte: zonedTimeToUtc(endOfDay(dueOn), timeZone),
+          },
+        }),
         ...(only && { isCompleted: only === TaskStatus.Complete }),
         ...(byProject && { projectId: byProject }),
         ...(onlyProject && {
