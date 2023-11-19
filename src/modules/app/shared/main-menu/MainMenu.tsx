@@ -1,17 +1,24 @@
 import { Suspense } from 'react';
 import Link from 'next/link';
+import { twMerge } from 'tailwind-merge';
 import { PlusSignalIcon } from '@/modules/shared/icons/PlusSignalIcon';
 import { ProjectList } from '@/modules/app/projects/ProjectList';
 import { ProjectListSkeleton } from '@/modules/app/projects/ProjectListSkeleton';
 import { ProjectStatus } from '@/modules/app/projects/ProjectStatus';
 import { MainMenuItem } from './MainMenuItem';
+import { ClassNamePropsOptional } from '@/modules/shared/ClassNameProps';
 
-export const MainMenu = () => {
+export const MainMenu = ({ className }: ClassNamePropsOptional) => {
   const activeClassName = 'bg-gray-200';
   const noProjects = <p className="pl-9 pt-4 text-sm font-medium text-gray-600">No projects</p>;
 
   return (
-    <nav className="flex flex-col h-full w-full lg:w-80 overflow-y-auto overflow-x-hidden bg-gray-50 px-4 py-4">
+    <nav
+      className={twMerge(
+        'flex flex-col h-full w-full lg:w-80 px-4 py-4 bg-gray-50 rounded-lg lg:rounded-none overflow-y-auto overflow-x-hidden',
+        className,
+      )}
+    >
       <MainMenuItem
         activeClassName={activeClassName}
         href="/app/today"
