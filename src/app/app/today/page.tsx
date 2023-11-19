@@ -14,14 +14,14 @@ export default function TodayPage() {
     <>
       <TodayPageHeader />
       <Suspense fallback={<TaskListSkeleton className="mt-3" ssrOnly="Loading tasks..." />}>
-        <TaskList dueBy={subDays(endOfDay(new Date()), 1)} only={TaskStatus.Incomplete}>
+        <TaskList dueBy={subDays(new Date(), 1)} only={TaskStatus.Incomplete}>
           {({ list: listOverdue, tasks: tasksOverdue }) => (
             <>
               {tasksOverdue.length > 0 && <p className="mb-4 text-xs font-semibold">Overdue</p>}
               {listOverdue}
               {tasksOverdue.length > 0 && <p className="mt-8 mb-4 text-xs font-semibold">Today</p>}
 
-              <TaskList dueOn={endOfDay(new Date())} only={TaskStatus.Incomplete}>
+              <TaskList dueOn={new Date()} only={TaskStatus.Incomplete}>
                 {({ list: listDueToday, tasks: tasksDueToday }) => (
                   <>
                     {listDueToday}
@@ -39,7 +39,7 @@ export default function TodayPage() {
         <AddTask containerClassName="my-8">
           <TaskForm
             className="rounded-md bg-gray-100 px-2 py-6 sm:px-6 mt-4"
-            defaultDueDate={startOfDay(new Date())}
+            defaultDueDate={new Date()}
             projectsSelect={<TaskProjectsSelect />}
             startOnEditingMode
           />

@@ -8,7 +8,6 @@ import { CalendarMonthIcon } from '@/modules/shared/icons/CalendarMonthIcon';
 import { XIcon } from '@/modules/shared/icons/XIcon';
 import { formatTaskDueDate } from './formatTaskDueDate';
 import { Dialog } from '@/modules/shared/dialog/Dialog';
-import { format } from 'date-fns';
 
 export interface TaskDueDatePickerProps {
   readonly defaultDate?: Date | undefined;
@@ -25,6 +24,8 @@ export const TaskDueDatePicker = ({ defaultDate, name, onChange }: TaskDueDatePi
   }, [defaultDate]);
 
   const handleChange = (date: Date | undefined) => {
+    date?.setHours(new Date().getHours());
+    date?.setMinutes(new Date().getMinutes());
     setSelectedDate(date);
     onChange(date);
     setIsDialogOpen(false);

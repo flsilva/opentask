@@ -55,7 +55,10 @@ export const TaskListItem = ({
             <div className="flex mt-2">
               <CalendarEventIcon className="fill-gray-400" width="0.875rem" height="0.875rem" />
               <p className="text-xs text-gray-400 ml-1">
-                {formatTaskDueDate(utcToZonedTime(dueDate, timeZone), new Date())}
+                {formatTaskDueDate(
+                  utcToZonedTime(dueDate, timeZone),
+                  utcToZonedTime(new Date(), timeZone),
+                )}
               </p>
             </div>
           )}

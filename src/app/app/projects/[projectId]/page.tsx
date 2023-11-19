@@ -16,7 +16,7 @@ interface ProjectPageProps {
 export default function ProjectPage({ params: { projectId } }: ProjectPageProps) {
   return (
     <>
-      <Suspense fallback={<ProjectPageSkeleton className="mt-4" ssrOnly="Loading project..." />}>
+      <Suspense fallback={<ProjectPageSkeleton className="mt-8" ssrOnly="Loading project..." />}>
         <ProjectPageHeader id={projectId} />
         <NoTasksInProject id={projectId} />
         <TaskList byProject={projectId} only={TaskStatus.Incomplete} />
