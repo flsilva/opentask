@@ -12,21 +12,21 @@ export const mapPojectsToSelectItems = (projects: Array<ProjectDto>): Array<Sele
 type ProjectsSelectProps = Omit<SelectProps, 'items'>;
 
 export const ProjectsSelect = async ({ defaultValue, onValueChange }: ProjectsSelectProps) => {
-  const { data: projects, errors } = await getProjects();
+  const { data: projects, errors } = await getProjects({ isArchived: false });
 
   if (errors) return <ErrorList errors={errors} />;
   if (!projects)
     return <ErrorList errors={[{ message: 'There was an error trying to load your Projects.' }]} />;
 
   /*
-   * A ternary inside a ternary? I knnow, bad idea.
+   * A ternary inside a ternary? I know, bad idea.
    * But this one looks totally fine to me.
    */
   const _defaultValue = defaultValue
     ? defaultValue
     : projects && projects.length > 0
-    ? projects[0].id
-    : undefined;
+      ? projects[0].id
+      : undefined;
   /**/
 
   return (
