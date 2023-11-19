@@ -33,7 +33,7 @@ export default async function AppLayout({
             <MainMenu />
           </div>
           <div className="w-full overflow-y-auto overflow-x-hidden md:flex">
-            <div className="flex w-full max-w-[24rem] flex-col px-4 md:max-w-[38rem] md:pl-8 lg:max-w-[60rem] xl:pl-36  2xl:pl-60">
+            <div className="flex w-full flex-col px-4 md:max-w-[38rem] md:pl-8 lg:max-w-[60rem] xl:pl-36  2xl:pl-60">
               <div className="pb-16">
                 {children}
                 {dialog}
