@@ -11,7 +11,7 @@ export default function ArchivedProjectsPage() {
   return (
     <>
       <ProjectsPageHeader archived={true} />
-      <Suspense fallback={<ProjectListSkeleton className="max-w-[20rem]" />}>
+      <Suspense fallback={<ProjectListSkeleton ssrOnly="Loading projects..." />}>
         <ProjectList empty={empty} itemClassName="pl-2" only={ProjectStatus.Archived} />
       </Suspense>
     </>

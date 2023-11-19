@@ -13,7 +13,7 @@ export default function TodayPage() {
   return (
     <>
       <TodayPageHeader />
-      <Suspense fallback={<TaskListSkeleton className="mt-3 max-w-[80%]" />}>
+      <Suspense fallback={<TaskListSkeleton className="mt-3" ssrOnly="Loading tasks..." />}>
         <TaskList dueBy={subDays(endOfDay(new Date()), 1)} only={TaskStatus.Incomplete}>
           {({ list: listOverdue, tasks: tasksOverdue }) => (
             <>

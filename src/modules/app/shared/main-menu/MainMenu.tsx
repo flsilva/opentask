@@ -31,7 +31,11 @@ export const MainMenu = () => {
           <PlusSignalIcon className="fill-gray-600" />
         </Link>
       </div>
-      <Suspense fallback={<ProjectListSkeleton className="mt-3 pl-9 max-w-[95%]" />}>
+      <Suspense
+        fallback={
+          <ProjectListSkeleton className="mt-3 pl-9 max-w-[95%]" ssrOnly="Loading projects..." />
+        }
+      >
         <ProjectList
           activeItemClassName={activeClassName}
           empty={noProjects}
