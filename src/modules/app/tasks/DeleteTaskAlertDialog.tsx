@@ -39,7 +39,7 @@ export const DeleteTaskAlertDialog = async ({
                 Are you sure you want to delete <span className="font-semibold">{task.name}</span>?
               </span>
             }
-            onConfirmHandler="submit"
+            onConfirm="submit"
           />
           <FormErrorList />
         </Form>

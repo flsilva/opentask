@@ -34,7 +34,7 @@ export const ArchiveProjectAlertDialog = ({
                 <span className="font-semibold">{projectName}</span>?
               </span>
             }
-            onConfirmHandler="submit"
+            onConfirm="submit"
           />
           <FormErrorList />
         </Form>

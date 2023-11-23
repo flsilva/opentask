@@ -30,7 +30,7 @@ export const DeleteProjectAlertDialog = ({
                 ?
               </span>
             }
-            onConfirmHandler="submit"
+            onConfirm="submit"
           />
           <FormErrorList />
         </Form>

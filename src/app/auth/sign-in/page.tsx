@@ -53,7 +53,7 @@ export default async function SignInPage() {
   const baseUrl = process.env.NEXT_PUBLIC_URL;
   const redirectTo = `${baseUrl}/auth/callback`;
 
-  const signInWithEmailHandler = async (formData: FormData) => {
+  const onSignInWithEmail = async (formData: FormData) => {
     'use server';
     const email = String(formData.get('email'));
     const supabase = createServerActionClient<Database>({ cookies });
@@ -119,7 +119,7 @@ export default async function SignInPage() {
               <p className="mx-4 flex-shrink text-gray-400">Or</p>
               <div className="flex-grow border-t border-gray-200"></div>
             </div>
-            <form action={signInWithEmailHandler}>
+            <form action={onSignInWithEmail}>
               <input
                 id="email"
                 name="email"

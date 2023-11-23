@@ -21,7 +21,7 @@ export interface AlertDialogBodyProps {
   readonly confirmButtonLabel: string;
   readonly confirmButtonLabelSubmitting?: React.ReactNode;
   readonly message: string | React.ReactNode;
-  readonly onConfirmHandler: (() => void) | 'submit';
+  readonly onConfirm: (() => void) | 'submit';
 }
 
 export const AlertDialogBody = ({
@@ -29,10 +29,10 @@ export const AlertDialogBody = ({
   confirmButtonLabel,
   confirmButtonLabelSubmitting,
   message,
-  onConfirmHandler,
+  onConfirm,
 }: AlertDialogBodyProps) => {
   const submitButton =
-    onConfirmHandler === 'submit' ? (
+    onConfirm === 'submit' ? (
       <AlertDialogPrimitive.Action asChild>
         <SubmitButton className={buttonGreenClassName} submitting={confirmButtonLabelSubmitting}>
           {confirmButtonLabel}
@@ -40,7 +40,7 @@ export const AlertDialogBody = ({
       </AlertDialogPrimitive.Action>
     ) : (
       <AlertDialogPrimitive.Action asChild>
-        <button type="button" className={buttonGreenClassName} onClick={onConfirmHandler}>
+        <button type="button" className={buttonGreenClassName} onClick={onConfirm}>
           {confirmButtonLabel}
         </button>
       </AlertDialogPrimitive.Action>

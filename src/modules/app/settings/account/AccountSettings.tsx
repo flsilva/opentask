@@ -25,7 +25,7 @@ export const AccountSettings = () => {
                   Are you sure you want to delete you account and all data associated to it?
                 </span>
               }
-              onConfirmHandler="submit"
+              onConfirm="submit"
             />
             <FormErrorList />
           </Form>
