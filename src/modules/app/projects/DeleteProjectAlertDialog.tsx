@@ -1,7 +1,7 @@
 'use client';
 
 import 'client-only';
-import { AlertDialog } from '@/modules/shared/dialog/AlertDialog';
+import { AlertDialog, AlertDialogBody } from '@/modules/shared/dialog/AlertDialog';
 import { Form } from '@/modules/shared/form/Form';
 import { FormErrorList } from '@/modules/shared/form/FormErrorList';
 import { deleteProject } from './ProjectsRepository';
@@ -19,23 +19,25 @@ export const DeleteProjectAlertDialog = ({
 }: DeleteProjectAlertDialogProps) => {
   return (
     <AlertDialog
-      defaultOpen
-      confirmButtonLabel="Delete"
-      renderBodyWrapper={(children: React.ReactNode) => (
+      body={
         <Form action={deleteProject}>
           <input type="hidden" name="id" value={projectId} />
-          {children}
+          <AlertDialogBody
+            confirmButtonLabel="Delete"
+            message={
+              <span>
+                Are you sure you want to delete <span className="font-semibold">{projectName}</span>
+                ?
+              </span>
+            }
+            onConfirmHandler="submit"
+          />
           <FormErrorList />
         </Form>
-      )}
-      dialogCopy={
-        <span>
-          Are you sure you want to delete <span className="font-semibold">{projectName}</span>?
-        </span>
       }
-      dialogTitle="Delete Project"
-      onConfirmHandler="submit"
+      defaultOpen
       onOpenChange={onOpenChange}
+      title="Delete Project"
     />
   );
 };

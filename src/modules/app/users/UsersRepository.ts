@@ -36,10 +36,10 @@ export const deleteUserAccount = async (
       user: { id },
     } = await getUserSession());
   } catch (error) {
-    // LOG ERROR HERE
+    console.error(error);
 
-    // We want to return the real error (the session has probably expired).
-    return createServerErrorResponse(error);
+    // return the real error (the session has probably expired).
+    return createServerErrorResponse<undefined>(error);
   }
 
   try {
@@ -48,10 +48,10 @@ export const deleteUserAccount = async (
     await supabase.auth.signOut();
     return createServerSuccessResponse(undefined);
   } catch (error) {
-    // LOG ERROR HERE
+    console.error(error);
 
-    // We want to return a friendly error message instead of the (unknown) real one.
-    return createServerErrorResponse(genericAwareOfInternalErrorMessage);
+    // return a friendly error message instead of the (unknown) real one.
+    return createServerErrorResponse<undefined>(genericAwareOfInternalErrorMessage);
   }
 };
 
@@ -143,7 +143,7 @@ export const updateTimeZone = async (timeZone: string) => {
   } catch (error) {
     console.error(error);
 
-    // We want to return a friendly error message instead of the (unknown) real one.
+    // return a friendly error message instead of the (unknown) real one.
     return createServerErrorResponse(genericAwareOfInternalErrorMessage);
   }
 };

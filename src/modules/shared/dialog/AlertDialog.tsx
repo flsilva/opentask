@@ -16,33 +16,68 @@ import {
   visibleOverlayClassNames,
 } from './Dialog';
 
-export interface AlertDialogProps {
-  readonly defaultOpen?: boolean;
+export interface AlertDialogBodyProps {
   readonly cancelButtonLabel?: string;
   readonly confirmButtonLabel: string;
   readonly confirmButtonLabelSubmitting?: React.ReactNode;
-  readonly dialogCopy: string | React.ReactNode;
-  readonly dialogTitle: string | React.ReactNode;
+  readonly message: string | React.ReactNode;
   readonly onConfirmHandler: (() => void) | 'submit';
+}
+
+export const AlertDialogBody = ({
+  cancelButtonLabel = 'Cancel',
+  confirmButtonLabel,
+  confirmButtonLabelSubmitting,
+  message,
+  onConfirmHandler,
+}: AlertDialogBodyProps) => {
+  const submitButton =
+    onConfirmHandler === 'submit' ? (
+      <AlertDialogPrimitive.Action asChild>
+        <SubmitButton className={buttonGreenClassName} submitting={confirmButtonLabelSubmitting}>
+          {confirmButtonLabel}
+        </SubmitButton>
+      </AlertDialogPrimitive.Action>
+    ) : (
+      <AlertDialogPrimitive.Action asChild>
+        <button type="button" className={buttonGreenClassName} onClick={onConfirmHandler}>
+          {confirmButtonLabel}
+        </button>
+      </AlertDialogPrimitive.Action>
+    );
+
+  return (
+    <div className="flex flex-col">
+      <AlertDialogPrimitive.Description className="mt-6">
+        {message}
+      </AlertDialogPrimitive.Description>
+      <div className="mt-12 flex justify-end gap-4">
+        <AlertDialogPrimitive.Cancel className={buttonWhiteClassName}>
+          {cancelButtonLabel}
+        </AlertDialogPrimitive.Cancel>
+        {submitButton}
+      </div>
+    </div>
+  );
+};
+
+export interface AlertDialogProps {
+  readonly body: React.ReactNode;
+  readonly defaultOpen?: boolean;
   readonly onOpenChange?: (open: boolean) => void;
   readonly open?: boolean;
-  readonly renderBodyWrapper?: (children: React.ReactNode) => React.ReactNode;
   readonly routerActionOnClose?: RouterAction;
+  readonly title: string | React.ReactNode;
   readonly trigger?: React.ReactNode;
 }
 
 export const AlertDialog = ({
-  cancelButtonLabel = 'Cancel',
-  confirmButtonLabel,
-  confirmButtonLabelSubmitting,
+  body,
   defaultOpen,
-  dialogCopy,
-  dialogTitle,
-  onConfirmHandler,
   onOpenChange,
   open,
-  renderBodyWrapper,
   routerActionOnClose,
+  title,
   trigger,
 }: AlertDialogProps) => {
   const [isOpen, setIsOpen] = useState(open || defaultOpen);
@@ -61,40 +96,6 @@ export const AlertDialog = ({
     }
   };
 
-  const submitButton =
-    onConfirmHandler === 'submit' ? (
-      <AlertDialogPrimitive.Action asChild>
-        <SubmitButton className={buttonGreenClassName} submitting={confirmButtonLabelSubmitting}>
-          {confirmButtonLabel}
-        </SubmitButton>
-      </AlertDialogPrimitive.Action>
-    ) : (
-      <AlertDialogPrimitive.Action asChild>
-        <button type="button" className={buttonGreenClassName} onClick={onConfirmHandler}>
-          {confirmButtonLabel}
-        </button>
-      </AlertDialogPrimitive.Action>
-    );
-
-  const dialogBody = (
-    <div className="flex flex-col">
-      <AlertDialogPrimitive.Description className="mt-6">
-        {dialogCopy}
-      </AlertDialogPrimitive.Description>
-      <div className="mt-12 flex justify-end gap-4">
-        <AlertDialogPrimitive.Cancel className={buttonWhiteClassName}>
-          {cancelButtonLabel}
-        </AlertDialogPrimitive.Cancel>
-        {submitButton}
-      </div>
-    </div>
-  );
-
-  let bodyWrapper;
-  if (renderBodyWrapper) {
-    bodyWrapper = renderBodyWrapper(dialogBody);
-  }
-
   return (
     <AlertDialogPrimitive.Root
       defaultOpen={defaultOpen}
@@ -108,10 +109,8 @@ export const AlertDialog = ({
           <div className={visibleOverlayClassNames} aria-hidden="true" />
           <div className="flex fixed inset-0 md:items-center z-50">
             <AlertDialogPrimitive.Content className={dialogContentClassNames}>
-              <AlertDialogPrimitive.Title className="text-xl">
-                {dialogTitle}
-              </AlertDialogPrimitive.Title>
-              {bodyWrapper ? bodyWrapper : dialogBody}
+              <AlertDialogPrimitive.Title className="text-xl">{title}</AlertDialogPrimitive.Title>
+              {body}
             </AlertDialogPrimitive.Content>
           </div>
         </AlertDialogPrimitive.Overlay>

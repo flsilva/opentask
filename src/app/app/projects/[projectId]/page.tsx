@@ -7,7 +7,6 @@ import { AddTask } from '@/modules/app/tasks/AddTask';
 import { TaskList } from '@/modules/app/tasks/TaskList';
 import { TaskStatus } from '@/modules/app/tasks/TaskStatus';
 import { TaskForm } from '@/modules/app/tasks/TaskForm';
-import { TaskProjectsSelect } from '@/modules/app/tasks/TaskProjectsSelect';
 
 interface ProjectPageProps {
   readonly params: { readonly projectId: string };
@@ -23,7 +22,7 @@ export default function ProjectPage({ params: { projectId } }: ProjectPageProps)
         <AddTask containerClassName="my-8" projectId={projectId}>
           <TaskForm
             className="rounded-md bg-gray-100 px-2 py-6 sm:px-6 mt-4"
-            projectsSelect={<TaskProjectsSelect defaultValue={projectId} />}
+            projectId={projectId}
             startOnEditingMode
           />
         </AddTask>

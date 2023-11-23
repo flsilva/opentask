@@ -4,9 +4,9 @@ export interface ServerError {
   readonly message: string;
 }
 
-export interface ServerResponse<Response> {
+export interface ServerResponse<ResponseData> {
   readonly errors?: Array<ServerError>;
-  readonly data?: Response;
+  readonly data?: ResponseData;
 }
 
 /*
@@ -29,7 +29,9 @@ export const extractZodErrors = (error: ZodError) => {
 };
 /**/
 
-export const createServerErrorResponse = (error: any): ServerResponse<undefined> => {
+export const createServerErrorResponse = <ResponseData>(
+  error: any,
+): ServerResponse<ResponseData> => {
   if (typeof error === 'string') {
     return { errors: [{ message: error }] };
   } else if (error && Array.isArray(error.issues)) {
@@ -42,6 +44,6 @@ export const createServerErrorResponse = (error: any): ServerResponse<undefined>
   }
 };
 
-export const createServerSuccessResponse = <Response>(
-  data: Response,
-): ServerResponse<Response> => ({ data });
+export const createServerSuccessResponse = <ResponseData>(
+  data: ResponseData,
+): ServerResponse<ResponseData> => ({ data });

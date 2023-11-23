@@ -15,6 +15,8 @@ import { genericAwareOfInternalErrorMessage } from '@/modules/app/shared/errors/
 import { TaskStatus } from './TaskStatus';
 import { ProjectStatus } from '../projects/ProjectStatus';
 import { zonedTimeToUtc } from 'date-fns-tz';
+import { revalidatePath, revalidateTag } from 'next/cache';
+import { redirect } from 'next/navigation';
 
 export type CreateTaskDto = z.infer<typeof createTaskSchema>;
 
@@ -22,8 +24,32 @@ export type UpdateTaskDto = z.infer<typeof updateTaskSchema>;
 
 export type TaskDto = CreateTaskDto & { id: string };
 
+/*
+ * Flavio Silva on Nov. 20th, 2023:
+ *
+ * We ca pass anything to revalidateTag(), and even revalidatePath, and it purges the cache
+ * and re-renders routes, resulting in the expected UI update.
+ *
+ * But there's a bug when we use revalidateTag (or revalidatePath) from a Intercepting Route.
+ * That can be seen when editing tasks, which happens in the "/app/tasks/[taskId]" route,
+ * rendered from either "src/app/app/@dialog/tasks/(.)tasks/[taskId]/page.tsx" or
+ * "src/app/app/tasks/[taskId]/page.tsx", and calls the updateTask Server Action of this file.
+ *
+ * Nothing happens after submitting forms from that Intercepting Route.
+ * Server and Client components don't get update, neither useFormStatus() nor useFormState()
+ * are updated, they don't re-render with the result of the Server Action, and so
+ * we cannot have a callback to update the UI accordingly, since we stay in the same route
+ * when updating tasks.
+ *
+ * The app hangs in a "submitting" state, waiting for this Server Action result. If we refresh
+ * the browser, the updated task is indeed updated, so the Server Action works. And I could verify
+ * that createServerSuccessResponse() is called as expected with the correct "result" argument.
+ *
+ * It seems to be a Next.js bug with Intercepting Routes, but I have to try to reproduce it
+ * to make sure it's not a bug in my code, and in that case I'll open an issue in Next.js repo.
+ */
 export const createTask = async (
-  prevResponse: ServerResponse<TaskDto | undefined> | undefined,
+  prevResponse: ServerResponse<TaskDto> | undefined,
   formData: FormData,
 ) => {
   const validation = createTaskSchema.safeParse(Object.fromEntries(formData));
@@ -32,7 +58,7 @@ export const createTask = async (
     console.error(validation.error);
 
     // We want to return Zod validation errors.
-    return createServerErrorResponse(validation.error);
+    return createServerErrorResponse<TaskDto>(validation.error);
   }
 
   try {
@@ -50,50 +76,26 @@ export const createTask = async (
     });
 
     /*
-     * Flavio Silva on Nov. 18th, 2023:
+     * We create tasks from "/app/today" and from "/app/projects/[projectId]" routes,
+     * which aren't Intercepting Routes, so we can use revalidateTag() to purge the cache.
      *
-     * The revalidateTag('tasks') below works when this Server Action is triggered from
-     * the <TaskForm> component that is rendered as part of the "/app/projects/[projectId]"
-     * and "/app/today" regular routes. The cache is purged (even though this is the only place
-     * I'm using the 'tasks' tag), and Server and Client components re-render and re-fetch data,
-     * updating the UI accordingly.
-     *
-     * But there's a bug when it's triggered from the <TaskForm> component that is rendered
-     * as part of the "/app/tasks/new" route, which is an Intercepting Route rendered on
-     * small screens (it can be tested by rezising the desktop browser). That route maps to the
-     * following filesystem page: "/app/app/@dialog/(.)tasks/new/page.tsx".
-     *
-     * Curiously, if we are at that route and refresh the browser, we render the non-dialog version
-     * of it, mapped to the following filesystem page: "/app/app/tasks/new/page.tsx". And the bug
-     * also happens there.
-     *
-     * The bug is that Client Components never receive the result of this Server Action, i.e.,
-     * neither useFormStatus() nor useFormState() are updated, they don't re-render,
-     * and so the onFormSubmitted() of <TaskForm> is never called. The app hangs waiting for
-     * this Server Action result. If we refresh the browser, the created task is there, so
-     * this Server Action works. And I verified that createServerSuccessResponse() function
-     * is called as expected with the correct "result" argument.
-     *
-     * Because of that bug, the revalidateTag('tasks') below is commented out,
-     * and I'm using "router.refresh()" in <TaskForm>'s onFormSubmitted() to re-fetch and re-render
-     * components as a workaround it.
-     *
-     * The fact that it works on regular routes but not on Intercepting Routes makes me think
-     * that the problem is related to Intercepting Routes.
+     * revalidateTag() currently clears the entire client-side router cache
+     * regardless of the tag used:
+     * https://github.com/vercel/next.js/issues/57914#issuecomment-1803819065
      */
-    // revalidateTag('tasks');
+    revalidateTag('tasks');
     /**/
     return createServerSuccessResponse(result);
   } catch (error) {
     console.error(error);
 
-    // We want to return a friendly error message instead of the (unknown) real one.
-    return createServerErrorResponse(genericAwareOfInternalErrorMessage);
+    // return a friendly error message instead of the (unknown) real one.
+    return createServerErrorResponse<TaskDto>(genericAwareOfInternalErrorMessage);
   }
 };
 
 export const deleteTask = async (
-  prevResponse: ServerResponse<TaskDto | undefined> | undefined,
+  prevResponse: ServerResponse<TaskDto> | undefined,
   formData: FormData,
 ) => {
   const validation = deleteTaskSchema.safeParse(Object.fromEntries(formData));
@@ -101,8 +103,8 @@ export const deleteTask = async (
   if (!validation.success) {
     console.error(validation.error);
 
-    // We want to return Zod validation errors.
-    return createServerErrorResponse(validation.error);
+    // return Zod validation errors.
+    return createServerErrorResponse<TaskDto>(validation.error);
   }
 
   try {
@@ -117,8 +119,8 @@ export const deleteTask = async (
   } catch (error) {
     console.error(error);
 
-    // We want to return a friendly error message instead of the (unknown) real one.
-    return createServerErrorResponse(genericAwareOfInternalErrorMessage);
+    // return a friendly error message instead of the (unknown) real one.
+    return createServerErrorResponse<TaskDto>(genericAwareOfInternalErrorMessage);
   }
 };
 
@@ -167,8 +169,8 @@ export const getTasks = async ({
   } catch (error) {
     console.error(error);
 
-    // We want to return a friendly error message instead of the (unknown) real one.
-    return createServerErrorResponse(genericAwareOfInternalErrorMessage);
+    // return a friendly error message instead of the (unknown) real one.
+    return createServerErrorResponse<TaskDto[]>(genericAwareOfInternalErrorMessage);
   }
 };
 
@@ -187,13 +189,13 @@ export const getTaskById = async (id: string) => {
   } catch (error) {
     console.error(error);
 
-    // We want to return a friendly error message instead of the (unknown) real one.
-    return createServerErrorResponse(genericAwareOfInternalErrorMessage);
+    // return a friendly error message instead of the (unknown) real one.
+    return createServerErrorResponse<TaskDto>(genericAwareOfInternalErrorMessage);
   }
 };
 
 export const updateTask = async (
-  prevResponse: ServerResponse<TaskDto | undefined> | undefined,
+  prevResponse: ServerResponse<TaskDto> | undefined,
   formData: FormData,
 ) => {
   const validation = updateTaskSchema.safeParse(Object.fromEntries(formData));
@@ -201,8 +203,8 @@ export const updateTask = async (
   if (!validation.success) {
     console.error(validation.error);
 
-    // We want to return Zod validation errors.
-    return createServerErrorResponse(validation.error);
+    // return Zod validation errors.
+    return createServerErrorResponse<TaskDto>(validation.error);
   }
 
   try {
@@ -213,15 +215,28 @@ export const updateTask = async (
       where: { id, authorId },
       data: {
         ...data,
-        ...(dueDate && { dueDate: dueDate.toISOString() }),
+        /*
+         * We pass dueDate as null when the user clears the datepicker to remove a due date.
+         */
+        ...(dueDate !== undefined && { dueDate: dueDate ? dueDate.toISOString() : dueDate }),
+        /**/
       },
     });
 
+    /*
+     * Unfortunately we can't use revalidatePath() and revalidateTag(), they break the app
+     * when used from Intercepting Routes.
+     *
+     * Bug report:
+     * https://github.com/vercel/next.js/issues/58772
+     */
+    // revalidateTag('tasks');
+    /**/
     return createServerSuccessResponse(result);
   } catch (error) {
     console.error(error);
 
-    // We want to return a friendly error message instead of the (unknown) real one.
-    return createServerErrorResponse(genericAwareOfInternalErrorMessage);
+    // return a friendly error message instead of the (unknown) real one.
+    return createServerErrorResponse<TaskDto>(genericAwareOfInternalErrorMessage);
   }
 };

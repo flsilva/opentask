@@ -3,13 +3,13 @@ import { ProjectDto, getProjects } from '@/modules/app/projects/ProjectsReposito
 import { Select, SelectItemProps, SelectProps } from '@/modules/shared/controls/select/Select';
 import { ErrorList } from '@/modules/shared/errors/ErrorList';
 
+export type ProjectsSelectProps = Omit<SelectProps, 'items'>;
+
 export const mapPojectsToSelectItems = (projects: Array<ProjectDto>): Array<SelectItemProps> =>
   projects.map((project) => ({
     value: project.id,
     children: project.name,
   }));
-
-type ProjectsSelectProps = Omit<SelectProps, 'items'>;
 
 export const ProjectsSelect = async ({ defaultValue, onValueChange }: ProjectsSelectProps) => {
   const { data: projects, errors } = await getProjects({ isArchived: false });
@@ -19,8 +19,7 @@ export const ProjectsSelect = async ({ defaultValue, onValueChange }: ProjectsSe
     return <ErrorList errors={[{ message: 'There was an error trying to load your Projects.' }]} />;
 
   /*
-   * A ternary inside a ternary? I know, bad idea.
-   * But this one looks totally fine to me.
+   * This ternary inside a ternary looks totally fine to me.
    */
   const _defaultValue = defaultValue
     ? defaultValue

@@ -1,8 +1,8 @@
 'use client';
 
 import 'client-only';
-import { Fragment, cloneElement, isValidElement, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { Fragment } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useWindowSize } from 'usehooks-ts';
 import { Transition } from '@headlessui/react';
 import { twMerge } from 'tailwind-merge';
@@ -10,7 +10,6 @@ import { ClassNamePropsOptional } from '@/modules/shared/ClassNameProps';
 import { buttonLinkClassName } from '@/modules/shared/controls/button/buttonClassName';
 import { PlusSignalIcon } from '@/modules/shared/icons/PlusSignalIcon';
 import { ChildrenProps } from '@/modules/shared/ChildrenProps';
-import { TaskFormProps } from './TaskForm';
 
 export interface AddTaskProps extends ChildrenProps, ClassNamePropsOptional {
   readonly containerClassName?: string;
@@ -19,30 +18,25 @@ export interface AddTaskProps extends ChildrenProps, ClassNamePropsOptional {
 
 export const AddTask = ({ children, containerClassName, className, projectId }: AddTaskProps) => {
   const router = useRouter();
-  const [isAddingTask, setIsAddingTask] = useState(false);
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const { width } = useWindowSize();
 
+  const isAddingTask = () => searchParams.get('newTask') !== null;
+
   const onAddTask = () => {
-    const projectIdQuery = projectId ? `?projectId=${projectId}` : '';
-    if (width < 768) {
-      router.push(`/app/tasks/new${projectIdQuery}`);
+    if (width >= 768) {
+      if (!isAddingTask()) router.replace(`${pathname}?newTask=true`);
     } else {
-      setIsAddingTask(true);
+      const projectIdQuery = projectId ? `?projectId=${projectId}` : '';
+      router.push(`/app/tasks/new${projectIdQuery}`);
     }
   };
-
-  const onCancel = () => {
-    setIsAddingTask(false);
-  };
-
-  const cloneChildren = isValidElement(children)
-    ? cloneElement(children as React.ReactElement<TaskFormProps>, { onCancel })
-    : null;
 
   return (
     <div {...(containerClassName && { className: containerClassName })}>
       <Transition
-        show={!isAddingTask}
+        show={!isAddingTask()}
         as={Fragment}
         enter="ease-out duration-300"
         enterFrom="opacity-0 -translate-y-[50px]"
@@ -63,20 +57,18 @@ export const AddTask = ({ children, containerClassName, className, projectId }: 
           Add task
         </button>
       </Transition>
-      {width >= 768 && (
-        <Transition
-          show={isAddingTask}
-          as="div"
-          enter="ease-out duration-300"
-          enterFrom="opacity-0 translate-y-[50px]"
-          enterTo="opacity-100 translate-y-0"
-          leave="ease-in duration-200"
-          leaveFrom="opacity-100 translate-y-0"
-          leaveTo="opacity-0 translate-y-[50px]"
-        >
-          {cloneChildren}
-        </Transition>
-      )}
+      <Transition
+        show={isAddingTask()}
+        as="div"
+        enter="ease-out duration-300"
+        enterFrom="opacity-0 translate-y-[50px]"
+        enterTo="opacity-100 translate-y-0"
+        leave="ease-in duration-200"
+        leaveFrom="opacity-100 translate-y-0"
+        leaveTo="opacity-0 translate-y-[50px]"
+      >
+        {children}
+      </Transition>
     </div>
   );
 };

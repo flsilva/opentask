@@ -1,5 +1,5 @@
-import Link from 'next/link';
 import '../globals.css';
+import Link from 'next/link';
 import { Logo } from '@/modules/shared/logos/Logo';
 import { Footer } from '@/modules/marketing/shared/Footer';
 

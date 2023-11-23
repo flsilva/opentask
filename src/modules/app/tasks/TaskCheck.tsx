@@ -13,9 +13,21 @@ export interface TaskCheckProps extends ClassNamePropsOptional {
   readonly isCompleted: boolean | null | undefined;
   readonly onClick?: (response: ServerResponse<TaskDto | undefined>) => void;
   readonly size: TaskCheckSize;
-  readonly taskId: string;
+  readonly taskId?: string;
 }
 
+/*
+ * Flavio Silva on Nov. 22:
+ *
+ * revalidatePath() and revalidateTag() break the app when used in Intercepting Routes:
+ *
+ * GitHub issue:
+ * https://github.com/vercel/next.js/issues/58772
+ *
+ * So I made TaskCheck a Client Component to be able to use router.refresh() after updating the task,
+ * but it turns out router.refresh() doesn't work either on Intercepting Routes, as described below.
+ *
+ */
 export const TaskCheck = ({ className, isCompleted, onClick, size, taskId }: TaskCheckProps) => {
   const router = useRouter();
 
@@ -29,19 +41,22 @@ export const TaskCheck = ({ className, isCompleted, onClick, size, taskId }: Tas
     const response = await updateTask(undefined, formData);
 
     /*
-     * Flavio Silva on Oct. 27:
+     * Flavio Silva on Nov. 22:
      * The following router.refresh() works when we're completing / undoing tasks in a task list,
-     * but it doesn't work as expected whe we're showing a task on a Dialog,
-     * and so in a Intercepting Router, and complete it.
-     * The Server Component of the page segment does rerender (TaskInterceptingPage) and
-     * refetches the task, but the Client Component that it hands the task object to (<TaskForm>) doesn't rerender.
-     * And the same is true for TaskPage, which is a normal page, and <TaskForm>.
+     * but it doesn't work as expected when we're completing a task in a Dialog in the
+     * Intercepting Route "app/tasks/[taskId]".
+     * The Server Component of the page segment does rerender (TaskDialogPage) and
+     * refetches the updated task, the <TaskForm> Server Component does rerender, but
+     * Client Components don't rerender.
+     *
+     * GitHub issue:
+     * https://github.com/vercel/next.js/issues/51310
      */
     // router.refresh() is necessary to refetch and rerender mutated data.
     router.refresh();
 
     /*
-     * This is a workaround for this issue, so <TaskForm> can update itself
+     * This is a workaround for this issue, so <TaskFormTextFields> can update itself
      * according to the updated isCompleted data.
      */
     if (onClick) onClick(response);

@@ -1,6 +1,7 @@
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
+import { twMerge } from 'tailwind-merge';
 import {
   createServerActionClient,
   createServerComponentClient,
@@ -16,7 +17,6 @@ import { GitHubLogoIcon } from '@/modules/shared/icons/GitHubLogoIcon';
 import { GoogleLogoIcon } from '@/modules/shared/icons/GoogleLogoIcon';
 import { LinkedInInLogoIcon } from '@/modules/shared/icons/LinkedInInLogoIcon';
 import { XLogoIcon } from '@/modules/shared/icons/XLogoIcon';
-import { twMerge } from 'tailwind-merge';
 
 export type Provider = 'github' | 'google' | 'linkedin' | 'twitter';
 

@@ -2,13 +2,12 @@
 
 import 'client-only';
 import { useContext } from 'react';
-import { ServerError } from '@/modules/shared/data-access/ServerResponse';
 import { ErrorList } from '@/modules/shared/errors/ErrorList';
-import { FormErrorContext } from './FormErrorProvider';
+import { FormContext } from './Form';
 
 export const FormErrorList = () => {
-  const errors: Array<ServerError> | undefined = useContext(FormErrorContext);
-  if (!errors) return null;
+  const { response } = useContext(FormContext);
+  if (!response || !response.errors) return null;
 
-  return <ErrorList errors={errors} />;
+  return <ErrorList errors={response.errors} />;
 };

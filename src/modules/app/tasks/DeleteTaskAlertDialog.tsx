@@ -1,54 +1,52 @@
-'use client';
-
-import { AlertDialog } from '@/modules/shared/dialog/AlertDialog';
+import 'server-only';
+import { notFound } from 'next/navigation';
+import { AlertDialog, AlertDialogBody } from '@/modules/shared/dialog/AlertDialog';
+import { ErrorList } from '@/modules/shared/errors/ErrorList';
 import { Form } from '@/modules/shared/form/Form';
 import { FormErrorList } from '@/modules/shared/form/FormErrorList';
 import { RouterAction } from '@/modules/shared/router/RouterActions';
-import { useRouterAction } from '@/modules/shared/router/useRouterAction';
-import { deleteTask } from './TasksRepository';
+import { deleteTask, getTaskById } from './TasksRepository';
 
 export interface DeleteTaskAlertDialogProps {
   readonly onOpenChange?: (open: boolean) => void;
   readonly open?: boolean;
   readonly id: string;
-  readonly name: string;
-  readonly routerActionOnSuccess: RouterAction;
+  readonly routerActionOnSubmitSuccess: RouterAction;
   readonly trigger?: React.ReactNode;
 }
 
-export const DeleteTaskAlertDialog = ({
+export const DeleteTaskAlertDialog = async ({
   id,
-  name,
   open,
   onOpenChange,
-  routerActionOnSuccess,
+  routerActionOnSubmitSuccess,
   trigger,
 }: DeleteTaskAlertDialogProps) => {
-  const routerAction = useRouterAction(routerActionOnSuccess);
+  const { data: task, errors: taskErrors } = await getTaskById(id);
 
-  const onFormSubmitted = () => {
-    routerAction();
-  };
+  if (taskErrors) return <ErrorList errors={taskErrors} />;
+  if (!task) notFound();
 
   return (
     <AlertDialog
-      open={open}
-      confirmButtonLabel="Delete"
-      dialogCopy={
-        <span>
-          Are you sure you want to delete <span className="font-semibold">{name}</span>?
-        </span>
-      }
-      dialogTitle="Delete Task"
-      onOpenChange={onOpenChange}
-      onConfirmHandler="submit"
-      renderBodyWrapper={(children: React.ReactNode) => (
-        <Form action={deleteTask} onFormSubmitted={onFormSubmitted}>
+      body={
+        <Form action={deleteTask} routerActionOnSubmitSuccess={routerActionOnSubmitSuccess}>
           <input type="hidden" name="id" value={id} />
-          {children}
+          <AlertDialogBody
+            confirmButtonLabel="Delete"
+            message={
+              <span>
+                Are you sure you want to delete <span className="font-semibold">{task.name}</span>?
+              </span>
+            }
+            onConfirmHandler="submit"
+          />
           <FormErrorList />
         </Form>
-      )}
+      }
+      open={open}
+      onOpenChange={onOpenChange}
+      title="Delete Task"
       trigger={trigger}
     />
   );

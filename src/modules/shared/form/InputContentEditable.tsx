@@ -1,24 +1,28 @@
 'use client';
 
 import 'client-only';
-import { forwardRef, useCallback, useState } from 'react';
+import { forwardRef, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import ContentEditable from 'react-contenteditable';
 import { ClassNamePropsOptional } from '@/modules/shared/ClassNameProps';
 import { useKeyboardEvent } from '@/modules/shared/utils/useKeyboardEvent';
+import { FormContext } from './Form';
 
 export interface InputContentEditableProps extends ClassNamePropsOptional {
-  readonly defaultValue?: string;
+  readonly autoFocus?: boolean;
+  readonly defaultValue?: string | null;
   readonly name?: string;
   readonly onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
   readonly onFocus?: (event: React.FocusEvent<HTMLInputElement>) => void;
   readonly onKeyDown?: (event: KeyboardEvent) => void;
   readonly placeholder?: string;
   readonly placeholderClassName?: string;
+  readonly submitOnEnter?: boolean;
 }
 
 export const InputContentEditable = forwardRef<HTMLInputElement, InputContentEditableProps>(
   (
     {
+      autoFocus,
       className,
       defaultValue,
       name,
@@ -27,11 +31,18 @@ export const InputContentEditable = forwardRef<HTMLInputElement, InputContentEdi
       onKeyDown,
       placeholder,
       placeholderClassName,
+      submitOnEnter,
     },
     ref,
   ) => {
-    const [content, setContent] = useState(defaultValue ? defaultValue : placeholder || '');
+    const [content, setContent] = useState(defaultValue || placeholder || '');
     const [isEditingContent, setIsEditingContent] = useState(false);
+    const _ref = useRef<HTMLInputElement>(null);
+    const { formRef } = useContext(FormContext);
+
+    useEffect(() => {
+      if (autoFocus) _ref.current?.focus();
+    }, [autoFocus]);
 
     const _onFocus = (event: React.FocusEvent<HTMLInputElement>) => {
       setIsEditingContent(true);
@@ -65,8 +76,12 @@ export const InputContentEditable = forwardRef<HTMLInputElement, InputContentEdi
       (event: KeyboardEvent) => {
         if (!isEditingContent) return;
         if (onKeyDown) onKeyDown(event);
+        if (submitOnEnter && event.key === 'Enter') {
+          event.preventDefault();
+          formRef?.current?.requestSubmit();
+        }
       },
-      [isEditingContent, onKeyDown],
+      [formRef, isEditingContent, onKeyDown, submitOnEnter],
     );
 
     useKeyboardEvent('keydown', [{ key: '*', listener: _onKeyDown }]);
@@ -77,7 +92,7 @@ export const InputContentEditable = forwardRef<HTMLInputElement, InputContentEdi
         <ContentEditable
           className={content === placeholder ? placeholderClassName : className}
           html={content}
-          innerRef={ref as React.RefObject<HTMLElement>}
+          innerRef={(ref as React.RefObject<HTMLElement>) ?? _ref}
           onBlur={_onBlur}
           onFocus={_onFocus}
           onChange={onChange}

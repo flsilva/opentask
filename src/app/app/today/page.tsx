@@ -1,10 +1,9 @@
 import 'server-only';
 import { Suspense } from 'react';
-import { endOfDay, startOfDay, subDays } from 'date-fns';
+import { subDays } from 'date-fns';
 import { AddTask } from '@/modules/app/tasks/AddTask';
 import { TaskList } from '@/modules/app/tasks/TaskList';
 import { TaskForm } from '@/modules/app/tasks/TaskForm';
-import { TaskProjectsSelect } from '@/modules/app/tasks/TaskProjectsSelect';
 import { TaskStatus } from '@/modules/app/tasks/TaskStatus';
 import { TodayPageHeader } from '@/modules/app/today/TodayPageHeader';
 import { TaskListSkeleton } from '@/modules/app/tasks/TaskListSkeleton';
@@ -40,7 +39,6 @@ export default function TodayPage() {
           <TaskForm
             className="rounded-md bg-gray-100 px-2 py-6 sm:px-6 mt-4"
             defaultDueDate={new Date()}
-            projectsSelect={<TaskProjectsSelect />}
             startOnEditingMode
           />
         </AddTask>

@@ -1,7 +1,7 @@
 'use client';
 
 import 'client-only';
-import { AlertDialog } from '@/modules/shared/dialog/AlertDialog';
+import { AlertDialog, AlertDialogBody } from '@/modules/shared/dialog/AlertDialog';
 import { Form } from '@/modules/shared/form/Form';
 import { FormErrorList } from '@/modules/shared/form/FormErrorList';
 import { ProjectMutationAction } from './ProjectMutationDropdown';
@@ -22,25 +22,26 @@ export const ArchiveProjectAlertDialog = ({
 }: ArchiveProjectAlertDialogProps) => {
   return (
     <AlertDialog
-      defaultOpen
-      confirmButtonLabel={action}
-      renderBodyWrapper={(children: React.ReactNode) => (
+      body={
         <Form action={updateProject}>
           <input type="hidden" name="id" value={projectId} />
           <input type="hidden" name="isArchived" value={action === 'Archive' ? 'on' : 'off'} />
-          {children}
+          <AlertDialogBody
+            confirmButtonLabel={action}
+            message={
+              <span>
+                Are you sure you want to {action.toLowerCase()}{' '}
+                <span className="font-semibold">{projectName}</span>?
+              </span>
+            }
+            onConfirmHandler="submit"
+          />
           <FormErrorList />
         </Form>
-      )}
-      dialogCopy={
-        <span>
-          Are you sure you want to {action.toLowerCase()}{' '}
-          <span className="font-semibold">{projectName}</span>?
-        </span>
       }
-      dialogTitle={`${action} Project`}
-      onConfirmHandler="submit"
+      defaultOpen
       onOpenChange={onOpenChange}
+      title={`${action} Project`}
     />
   );
 };
