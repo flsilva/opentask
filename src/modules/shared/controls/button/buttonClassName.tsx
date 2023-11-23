@@ -9,7 +9,7 @@ export const buttonCommonClassName =
 
 export const buttonGreenClassName = `${buttonCommonClassName} shadow-sm px-3.5 py-2.5 bg-green-600 text-white [&:not(:disabled)]:hover:bg-green-500 disabled:cursor-not-allowed`;
 
-export const buttonRedClassName = `${buttonCommonClassName} shadow-sm px-3.5 py-2.5 border border-red-600 bg-white text-red-600 bg-gray-50 disabled:cursor-not-allowed`;
+export const buttonRedClassName = `${buttonCommonClassName} shadow-sm px-3.5 py-2.5 border border-red-600 bg-white text-red-600 [&:not(:disabled)]:hover:bg-gray-50 disabled:cursor-not-allowed`;
 
 export const buttonWhiteClassName = `${buttonCommonClassName} shadow-sm px-3.5 py-2.5 border bg-white text-gray-700 [&:not(:disabled)]:hover:bg-gray-50 disabled:cursor-not-allowed`;
 
