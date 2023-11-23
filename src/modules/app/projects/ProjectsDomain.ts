@@ -22,10 +22,11 @@ const nameSchema = z
 export const createProjectSchema = z.object({
   name: nameSchema,
   description: z.string().max(500).optional().nullable(),
-  isArchived: z
-    .enum(['on', 'off'])
-    .transform((value) => value === 'on')
-    .optional(),
+  archivedAt: z
+    .literal('')
+    .transform(() => undefined)
+    .or(z.literal('null').transform(() => null))
+    .or(z.coerce.date().optional().nullable()),
 });
 
 export const updateProjectSchema = createProjectSchema.extend({

@@ -28,14 +28,14 @@ model Project {
   id            String    @id @db.VarChar(32)
   name          String    @db.VarChar(500)
   description   String?   @db.VarChar(2000)
-  isArchived    Boolean   @default(false)
+  archivedAt    DateTime?
   author        User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId      String    @db.Uuid
   tasks         Task[]
   createdAt     DateTime  @default(now())
   updatedAt     DateTime? @updatedAt
 
-  @@index([isArchived, authorId])
+  @@index([archivedAt, authorId])
 }
 
 model Task {

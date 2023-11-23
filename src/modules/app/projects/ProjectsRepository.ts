@@ -95,8 +95,8 @@ export const getProjects = async ({ isArchived }: { isArchived?: boolean } = {})
     const { id: authorId } = await getServerSideUser();
 
     const result = await prisma.project.findMany({
-      where: { authorId, isArchived },
-      orderBy: { createdAt: 'asc' },
+      where: { authorId, archivedAt: isArchived ? { not: null } : null },
+      orderBy: isArchived ? { archivedAt: 'desc' } : { createdAt: 'asc' },
     });
     return createServerSuccessResponse(result);
   } catch (error) {

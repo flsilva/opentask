@@ -138,9 +138,9 @@ export const ProjectMutationDropdown = ({ project }: ProjectMutationDropdownProp
     menuItems
       .filter(
         (item) =>
-          (item.action !== ProjectMutationAction.Archive || !project.isArchived) &&
-          (item.action !== ProjectMutationAction.Edit || !project.isArchived) &&
-          (item.action !== ProjectMutationAction.Unarchive || project.isArchived),
+          (item.action !== ProjectMutationAction.Archive || !project.archivedAt) &&
+          (item.action !== ProjectMutationAction.Edit || !project.archivedAt) &&
+          (item.action !== ProjectMutationAction.Unarchive || project.archivedAt),
       )
       .map((item) => (
         <Menu.Item key={item.action} as={Fragment}>

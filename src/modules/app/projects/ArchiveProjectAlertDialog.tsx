@@ -25,7 +25,11 @@ export const ArchiveProjectAlertDialog = ({
       body={
         <Form action={updateProject}>
           <input type="hidden" name="id" value={projectId} />
-          <input type="hidden" name="isArchived" value={action === 'Archive' ? 'on' : 'off'} />
+          <input
+            type="hidden"
+            name="archivedAt"
+            value={action === ProjectMutationAction.Archive ? new Date().toString() : 'null'}
+          />
           <AlertDialogBody
             confirmButtonLabel={action}
             message={

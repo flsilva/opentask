@@ -23,7 +23,7 @@ export const ProjectPageHeader = async ({ id }: ProjectPageHeaderProps) => {
       {project.description && (
         <p className="block whitespace-pre-line text-sm mb-8">{project.description}</p>
       )}
-      {project.isArchived && (
+      {project.archivedAt && (
         <FeedbackBox className="mb-8">
           <p className="block">This project is archived.</p>
         </FeedbackBox>

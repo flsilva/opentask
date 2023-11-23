@@ -187,7 +187,7 @@ export const getTasks = async ({
         ...(only && { completedAt: only === TaskStatus.Completed ? { not: null } : null }),
         ...(byProject && { projectId: byProject }),
         ...(onlyProject && {
-          project: { is: { isArchived: onlyProject === ProjectStatus.Archived } },
+          project: { archivedAt: onlyProject === ProjectStatus.Archived ? { not: null } : null },
         }),
       },
       orderBy: orderByQuery,
