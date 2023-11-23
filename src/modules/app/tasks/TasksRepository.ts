@@ -1,7 +1,9 @@
 'use server';
 
+import { revalidateTag } from 'next/cache';
 import { z } from 'zod';
 import { endOfDay, startOfDay } from 'date-fns';
+import { zonedTimeToUtc } from 'date-fns-tz';
 import { cuid2 } from '@/modules/shared/data-access/cuid2';
 import { prisma } from '@/modules/shared/data-access/prisma';
 import { getServerSideUser } from '@/modules/app/users/UsersRepository';
@@ -12,11 +14,9 @@ import {
   createServerSuccessResponse,
 } from '@/modules/shared/data-access/ServerResponse';
 import { genericAwareOfInternalErrorMessage } from '@/modules/app/shared/errors/errorMessages';
+import { ProjectStatus } from '@/modules/app/projects/ProjectStatus';
 import { TaskStatus } from './TaskStatus';
-import { ProjectStatus } from '../projects/ProjectStatus';
-import { zonedTimeToUtc } from 'date-fns-tz';
-import { revalidatePath, revalidateTag } from 'next/cache';
-import { redirect } from 'next/navigation';
+import { TaskOrderBy } from './TaskOrderBy';
 
 export type CreateTaskDto = z.infer<typeof createTaskSchema>;
 
@@ -124,12 +124,13 @@ export const deleteTask = async (
   }
 };
 
-export interface GetTasksProps {
+export interface GetTasksParams {
   readonly byProject?: string;
   readonly dueBy?: Date;
   readonly dueOn?: Date;
   readonly only?: TaskStatus;
   readonly onlyProject?: ProjectStatus;
+  readonly orderBy?: TaskOrderBy;
 }
 
 export const getTasks = async ({
@@ -138,13 +139,40 @@ export const getTasks = async ({
   dueOn,
   only,
   onlyProject,
-}: GetTasksProps = {}) => {
+  orderBy,
+}: GetTasksParams = {}) => {
   if (dueBy && dueOn) {
     throw new Error('getTasks(): Only dueBy or dueOn arguments can be provided.');
   }
 
   try {
     const { id: authorId, timeZone } = await getServerSideUser();
+
+    /*
+     * Sensible default: order completed tasks by completedAt desc.
+     */
+    let _orderBy = orderBy;
+    if (!_orderBy && only === TaskStatus.Completed) _orderBy = TaskOrderBy.CompletedAtDesc;
+    /**/
+
+    let orderByQuery: { completedAt: 'asc' | 'desc' } | { createdAt: 'asc' | 'desc' };
+    switch (_orderBy) {
+      case TaskOrderBy.CompletedAtAsc:
+        orderByQuery = { completedAt: 'asc' };
+        break;
+      case TaskOrderBy.CompletedAtDesc:
+        orderByQuery = { completedAt: 'desc' };
+        break;
+      case TaskOrderBy.CreatedAtAsc:
+        orderByQuery = { createdAt: 'asc' };
+        break;
+      case TaskOrderBy.CreatedAtDesc:
+        orderByQuery = { createdAt: 'desc' };
+        break;
+      default:
+        orderByQuery = { createdAt: 'asc' };
+        break;
+    }
 
     const result = await prisma.task.findMany({
       where: {
@@ -156,13 +184,13 @@ export const getTasks = async ({
             lte: zonedTimeToUtc(endOfDay(dueOn), timeZone),
           },
         }),
-        ...(only && { isCompleted: only === TaskStatus.Complete }),
+        ...(only && { completedAt: only === TaskStatus.Completed ? { not: null } : null }),
         ...(byProject && { projectId: byProject }),
         ...(onlyProject && {
           project: { is: { isArchived: onlyProject === ProjectStatus.Archived } },
         }),
       },
-      orderBy: { createdAt: 'asc' },
+      orderBy: orderByQuery,
     });
 
     return createServerSuccessResponse(result);

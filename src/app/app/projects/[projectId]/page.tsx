@@ -7,6 +7,7 @@ import { AddTask } from '@/modules/app/tasks/AddTask';
 import { TaskList } from '@/modules/app/tasks/TaskList';
 import { TaskStatus } from '@/modules/app/tasks/TaskStatus';
 import { TaskForm } from '@/modules/app/tasks/TaskForm';
+import { TaskOrderBy } from '@/modules/app/tasks/TaskOrderBy';
 
 interface ProjectPageProps {
   readonly params: { readonly projectId: string };
@@ -26,7 +27,7 @@ export default function ProjectPage({ params: { projectId } }: ProjectPageProps)
             startOnEditingMode
           />
         </AddTask>
-        <TaskList byProject={projectId} only={TaskStatus.Complete} />
+        <TaskList byProject={projectId} only={TaskStatus.Completed} />
       </Suspense>
     </>
   );

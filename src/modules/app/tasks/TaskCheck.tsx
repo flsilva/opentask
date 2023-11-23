@@ -10,7 +10,7 @@ import { TaskDto, updateTask } from './TasksRepository';
 import { TaskCheckSize } from './TaskCheckSize';
 
 export interface TaskCheckProps extends ClassNamePropsOptional {
-  readonly isCompleted: boolean | null | undefined;
+  readonly completedAt: Date | null | undefined;
   readonly onClick?: (response: ServerResponse<TaskDto | undefined>) => void;
   readonly size: TaskCheckSize;
   readonly taskId?: string;
@@ -28,7 +28,7 @@ export interface TaskCheckProps extends ClassNamePropsOptional {
  * but it turns out router.refresh() doesn't work either on Intercepting Routes, as described below.
  *
  */
-export const TaskCheck = ({ className, isCompleted, onClick, size, taskId }: TaskCheckProps) => {
+export const TaskCheck = ({ className, completedAt, onClick, size, taskId }: TaskCheckProps) => {
   const router = useRouter();
 
   const onCheckClick = async () => {
@@ -36,7 +36,7 @@ export const TaskCheck = ({ className, isCompleted, onClick, size, taskId }: Tas
 
     const formData = new FormData();
     formData.append('id', taskId);
-    formData.append('isCompleted', isCompleted ? 'off' : 'on');
+    formData.append('completedAt', completedAt ? 'null' : new Date().toString());
 
     const response = await updateTask(undefined, formData);
 
@@ -57,7 +57,7 @@ export const TaskCheck = ({ className, isCompleted, onClick, size, taskId }: Tas
 
     /*
      * This is a workaround for this issue, so <TaskFormTextFields> can update itself
-     * according to the updated isCompleted data.
+     * according to the updated completedAt data.
      */
     if (onClick) onClick(response);
     /**/
@@ -76,7 +76,7 @@ export const TaskCheck = ({ className, isCompleted, onClick, size, taskId }: Tas
           className={twJoin(
             'absolute fill-gray-500',
             size === TaskCheckSize.Medium ? 'w-5 h-5' : 'w-7 h-7',
-            !isCompleted && 'hidden group-hover:block',
+            !completedAt && 'hidden group-hover:block',
           )}
         />
       </div>

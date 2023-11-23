@@ -50,7 +50,6 @@ export const createProject = async (
         id: cuid2(),
       },
     });
-    await new Promise((resolve) => setTimeout(resolve, 3000));
   } catch (error) {
     console.error(error);
 

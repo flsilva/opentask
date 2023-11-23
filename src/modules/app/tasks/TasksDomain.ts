@@ -26,17 +26,16 @@ const projectIdSchema = z
   })
   .cuid2({ message: 'The project id associated with the task must be a valid cuid2 string.' });
 
+const dateOptionalSchema = z
+  .literal('')
+  .transform(() => undefined)
+  .or(z.literal('null').transform(() => null))
+  .or(z.coerce.date().optional().nullable());
+
 export const createTaskSchema = z.object({
+  completedAt: dateOptionalSchema,
   description: z.string().max(500).optional().nullable(),
-  dueDate: z
-    .literal('')
-    .transform(() => undefined)
-    .or(z.literal('null').transform(() => null))
-    .or(z.coerce.date().optional().nullable()),
-  isCompleted: z
-    .enum(['on', 'off'])
-    .transform((value) => value === 'on')
-    .optional(),
+  dueDate: dateOptionalSchema,
   name: nameSchema,
   projectId: projectIdSchema,
 });

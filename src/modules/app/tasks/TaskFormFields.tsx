@@ -130,7 +130,7 @@ export const TaskFormFields = ({
 
   const inputNameBaseClassName = twMerge(
     inputNameAndDescriptionClassName,
-    _task && _task.isCompleted && 'line-through',
+    _task && _task.completedAt && 'line-through',
     taskNameClassName,
   );
 
@@ -148,10 +148,10 @@ export const TaskFormFields = ({
         {_task && (
           <TaskCheck
             className="mt-2"
-            taskId={_task.id}
-            isCompleted={_task && _task.isCompleted}
+            completedAt={_task && _task.completedAt}
             onClick={onTaskCheckClick}
             size={TaskCheckSize.Large}
+            taskId={_task.id}
           />
         )}
         <div className={twMerge('flex flex-col grow', className)}>
