@@ -1,42 +1,17 @@
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
-import { twMerge } from 'tailwind-merge';
-import {
-  createServerActionClient,
-  createServerComponentClient,
-} from '@supabase/auth-helpers-nextjs';
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Database } from '@/lib/database.types';
-import {
-  buttonGreenClassName,
-  buttonWhiteClassName,
-} from '@/modules/shared//controls/button/buttonClassName';
+import { buttonGreenClassName } from '@/modules/shared//controls/button/buttonClassName';
 import { SubmitButton } from '@/modules/shared/controls/button/SubmitButton';
-import { ChildrenProps } from '@/modules/shared/ChildrenProps';
 import { GitHubLogoIcon } from '@/modules/shared/icons/GitHubLogoIcon';
 import { GoogleLogoIcon } from '@/modules/shared/icons/GoogleLogoIcon';
 import { LinkedInInLogoIcon } from '@/modules/shared/icons/LinkedInInLogoIcon';
 import { XLogoIcon } from '@/modules/shared/icons/XLogoIcon';
-
-export type Provider = 'github' | 'google' | 'linkedin' | 'twitter';
-
-interface OAuthProviderButtonProps extends ChildrenProps {
-  readonly action: (formData: FormData) => void;
-  readonly provider: Provider;
-}
-
-const OAuthProviderButton = ({ action, children, provider }: OAuthProviderButtonProps) => (
-  <form action={action}>
-    <input type="hidden" name="provider" value={provider} />
-    <SubmitButton
-      className={twMerge(buttonWhiteClassName, 'mt-4 w-full')}
-      labelClassName="gap-2"
-      spinnerClassName="border-green-600 border-b-white"
-    >
-      {children}
-    </SubmitButton>
-  </form>
-);
+import { OAuthProviderButton } from '@/modules/shared/controls/button/OAuthProviderButton';
+import { signInWithEmail, signInWithOAuth } from '@/modules/auth/Auth';
+import { OAuthProvider } from '@/modules/auth/OAuthProvider';
 
 export default async function SignInPage() {
   /*
@@ -50,76 +25,34 @@ export default async function SignInPage() {
   if (session) redirect('/app/onboarding');
   /**/
 
-  const baseUrl = process.env.NEXT_PUBLIC_URL;
-  const redirectTo = `${baseUrl}/auth/callback`;
-
-  const onSignInWithEmail = async (formData: FormData) => {
-    'use server';
-    const email = String(formData.get('email'));
-    const supabase = createServerActionClient<Database>({ cookies });
-
-    const { error } = await supabase.auth.signInWithOtp({
-      email,
-      options: {
-        emailRedirectTo: redirectTo,
-      },
-    });
-
-    if (error) {
-      console.error(error);
-      throw new Error('There was an error trying to sign you in.');
-    } else {
-      redirect(`/auth/sign-in/check-email-link?email=${email}`);
-    }
-  };
-
-  const signInWithOAuth = async (formData: FormData) => {
-    'use server';
-    const provider = String(formData.get('provider')) as Provider;
-    const supabase = createServerActionClient<Database>({ cookies });
-
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider,
-      options: {
-        redirectTo,
-      },
-    });
-
-    if (error || typeof data.url !== 'string') {
-      throw new Error('There was an error trying to sign you in.');
-    } else {
-      redirect(data.url);
-    }
-  };
-
   return (
     <div className="pb-24">
       <h2 className="mb-9 mt-12 text-center text-xl font-semibold text-gray-900">Sign in</h2>
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <OAuthProviderButton action={signInWithOAuth} provider="google">
+        <OAuthProviderButton action={signInWithOAuth} provider={OAuthProvider.Google}>
           <GoogleLogoIcon />
           Continue with Google
         </OAuthProviderButton>
-        <OAuthProviderButton action={signInWithOAuth} provider="github">
+        <OAuthProviderButton action={signInWithOAuth} provider={OAuthProvider.Github}>
           <GitHubLogoIcon width="1rem" height="1rem" className="fill-black" />
           Continue with GitHub
         </OAuthProviderButton>
-        <OAuthProviderButton action={signInWithOAuth} provider="twitter">
+        <OAuthProviderButton action={signInWithOAuth} provider={OAuthProvider.Twitter}>
           <XLogoIcon width="1rem" height="1rem" className="fill-black" />
           Continue with X
         </OAuthProviderButton>
-        <OAuthProviderButton action={signInWithOAuth} provider="linkedin">
+        <OAuthProviderButton action={signInWithOAuth} provider={OAuthProvider.Linkedin}>
           <LinkedInInLogoIcon />
           Continue with LinkedIn
         </OAuthProviderButton>
-        {baseUrl !== 'https://opentask.app' && (
+        {process.env.NEXT_PUBLIC_URL !== 'https://opentask.app' && (
           <>
             <div className="relative flex items-center py-6">
               <div className="flex-grow border-t border-gray-200"></div>
               <p className="mx-4 flex-shrink text-gray-400">Or</p>
               <div className="flex-grow border-t border-gray-200"></div>
             </div>
-            <form action={onSignInWithEmail}>
+            <form action={signInWithEmail}>
               <input
                 id="email"
                 name="email"
