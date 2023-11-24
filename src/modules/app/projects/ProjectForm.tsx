@@ -19,7 +19,7 @@ export const ProjectForm = async ({ className, projectId }: ProjectFormProps) =>
   let project: ProjectDto | undefined | null;
   let errors: Array<ServerError> | undefined;
 
-  if (projectId) ({ data: project, errors } = await getProjectById({ id: projectId }));
+  if (projectId) ({ data: project, errors } = await getProjectById(projectId));
   if (errors) return <ErrorList errors={errors} />;
   if (projectId && !project) notFound();
 

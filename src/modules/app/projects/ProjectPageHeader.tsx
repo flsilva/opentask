@@ -9,7 +9,7 @@ export interface ProjectPageHeaderProps {
 }
 
 export const ProjectPageHeader = async ({ id }: ProjectPageHeaderProps) => {
-  const { data: project, errors } = await getProjectById({ id });
+  const { data: project, errors } = await getProjectById(id);
 
   if (errors) return <ErrorList errors={errors} />;
   if (!project) return notFound();

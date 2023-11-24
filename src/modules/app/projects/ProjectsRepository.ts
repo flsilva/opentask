@@ -107,7 +107,7 @@ export const getProjects = async ({ isArchived }: { isArchived?: boolean } = {})
   }
 };
 
-export const getProjectById = async ({ id }: { id: string }) => {
+export const getProjectById = async (id: string) => {
   try {
     const { id: authorId } = await getServerSideUser();
 
