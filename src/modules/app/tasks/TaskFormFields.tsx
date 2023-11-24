@@ -1,7 +1,7 @@
 'use client';
 
 import 'client-only';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { twJoin, twMerge } from 'tailwind-merge';
 import { ClassNamePropsOptional } from '@/modules/shared/ClassNameProps';
@@ -56,10 +56,16 @@ export const TaskFormFields = ({
 }: TaskFormFieldsProps) => {
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const canUseRevalidateTag = pathname === '/app/today' || pathname.startsWith('/app/projects/');
   const [keyToRerenderFields, setKeyToRerenderFields] = useState(cuid2());
   const [isOnEditingMode, setIsOnEditingMode] = useState(startOnEditingMode);
   const { subscribeToOnSubmitted, unsubscribeToOnSubmitted } = useContext(FormContext);
+
+  let _defaultDueDate = defaultDueDate;
+  if (!_defaultDueDate && searchParams.get('defaultDueDate') === 'today') {
+    _defaultDueDate = new Date();
+  }
 
   /*
    * This _task and _setTask() logic, alongside the useEffect() below, is only necessary because
@@ -192,7 +198,7 @@ export const TaskFormFields = ({
       </div>
       <div className="mt-12 flex flex-col sm:flex-row">
         <TaskDueDatePicker
-          defaultDate={_task?.dueDate ?? defaultDueDate}
+          defaultDate={_task?.dueDate ?? _defaultDueDate}
           name="dueDate"
           onChange={onDueDateChange}
           taskId={_task?.id}

@@ -13,10 +13,17 @@ import { ChildrenProps } from '@/modules/shared/ChildrenProps';
 
 export interface AddTaskProps extends ChildrenProps, ClassNamePropsOptional {
   readonly containerClassName?: string;
+  readonly defaultDueDate?: 'today';
   readonly projectId?: string;
 }
 
-export const AddTask = ({ children, containerClassName, className, projectId }: AddTaskProps) => {
+export const AddTask = ({
+  children,
+  className,
+  containerClassName,
+  defaultDueDate,
+  projectId,
+}: AddTaskProps) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -26,10 +33,12 @@ export const AddTask = ({ children, containerClassName, className, projectId }: 
 
   const onAddTask = () => {
     if (width >= 768) {
-      if (!isAddingTask()) router.replace(`${pathname}?newTask=true`);
+      router.replace(`${pathname}?newTask=true`);
     } else {
-      const projectIdQuery = projectId ? `?projectId=${projectId}` : '';
-      router.push(`/app/tasks/new${projectIdQuery}`);
+      const newTaskSearchParams = new URLSearchParams();
+      if (defaultDueDate === 'today') newTaskSearchParams.set('defaultDueDate', 'today');
+      if (projectId) newTaskSearchParams.set('projectId', projectId);
+      router.push(`/app/tasks/new?${newTaskSearchParams.toString()}`);
     }
   };
 

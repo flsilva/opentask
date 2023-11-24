@@ -44,7 +44,7 @@ export default function TodayPage() {
             </>
           )}
         </TaskList>
-        <AddTask containerClassName="my-8">
+        <AddTask containerClassName="my-8" defaultDueDate="today">
           <TaskForm
             className="rounded-md bg-gray-100 px-2 py-6 sm:px-6 mt-4"
             defaultDueDate={new Date()}
