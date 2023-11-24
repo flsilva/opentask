@@ -34,6 +34,11 @@ export interface TaskFormFieldsProps extends ClassNamePropsOptional {
  * but due to Next.js bug that prevent using revalidateTag, revalidatePath, and router.refresh()
  * from Intercepting Routes, we need to workaround it with a Client Component and added complexity.
  *
+ * We add an <input type="hidden" name="revalidateTagValue" value="tasks" /> to the form
+ * only when we're visiting the regular routes "/app/today" and "app/projects/[projectId]"
+ * for the Server Action to call revalidateTag when we're creating tasks on those routes.
+ * We cannot call revalidateTag (nor revalidatePath or router.refresh) from Intercepting Routes.
+ *
  * GitHub issues:
  *
  * https://github.com/vercel/next.js/issues/58772
@@ -51,14 +56,17 @@ export const TaskFormFields = ({
 }: TaskFormFieldsProps) => {
   const router = useRouter();
   const pathname = usePathname();
+  const canUseRevalidateTag = pathname === '/app/today' || pathname.startsWith('/app/projects/');
   const [keyToRerenderFields, setKeyToRerenderFields] = useState(cuid2());
   const [isOnEditingMode, setIsOnEditingMode] = useState(startOnEditingMode);
   const { subscribeToOnSubmitted, unsubscribeToOnSubmitted } = useContext(FormContext);
 
   /*
-   * This _task and _setTask(), alongside the useEffect() below, is only necessary because
-   * neither revalidateTag(), revalidatePath(), nor router.refresh() don'work on Intercepting Routes.
-   * So we need to workaround it by maintaining a local task object and updating it manually.
+   * This _task and _setTask() logic, alongside the useEffect() below, is only necessary because
+   * neither revalidateTag(), revalidatePath(), nor router.refresh() work on Intercepting Routes.
+   * So we need to work around it by maintaining a local task object and keepinmg it updated.
+   * If we could use revalidateTag() then this Client Component would rerender with the updated
+   * task object coming from the <TaskForm> Server Component.
    */
   const [_task, _setTask] = useState(task);
 
@@ -79,17 +87,8 @@ export const TaskFormFields = ({
     if (_task) setIsOnEditingMode(false);
     /**/
 
-    /*
-     * We want to reset dueDate when creating tasks from the Project page
-     * (when defaultDueDate === undefined).
-     * But we want to keep the dueDate when creating tasks from the Today page
-     * (when defaultDueDate === today).
-     */
-    if (!defaultDueDate) setDueDate(undefined);
-    /**/
-
     setKeyToRerenderFields(cuid2());
-  }, [defaultDueDate, _task]);
+  }, [_task]);
 
   useEffect(() => {
     if (!subscribeToOnSubmitted || !unsubscribeToOnSubmitted) return;
@@ -117,8 +116,6 @@ export const TaskFormFields = ({
   }, [subscribeToOnSubmitted, unsubscribeToOnSubmitted, resetForm, _task]);
   /**/
 
-  const [dueDate, setDueDate] = useState<Date | undefined>(_task?.dueDate ?? defaultDueDate);
-
   const onNameDescriptionFocus = (event: React.FocusEvent<HTMLInputElement>) => {
     setIsOnEditingMode(true);
   };
@@ -144,6 +141,7 @@ export const TaskFormFields = ({
 
   return (
     <div className="flex flex-col" key={keyToRerenderFields}>
+      {canUseRevalidateTag && <input type="hidden" name="revalidateTagValue" value="tasks" />}
       <div className="flex">
         {_task && (
           <TaskCheck
@@ -194,7 +192,7 @@ export const TaskFormFields = ({
       </div>
       <div className="mt-12 flex flex-col sm:flex-row">
         <TaskDueDatePicker
-          defaultDate={dueDate}
+          defaultDate={_task?.dueDate ?? defaultDueDate}
           name="dueDate"
           onChange={onDueDateChange}
           taskId={_task?.id}

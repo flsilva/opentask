@@ -52,7 +52,8 @@ export const createTask = async (
   prevResponse: ServerResponse<TaskDto> | undefined,
   formData: FormData,
 ) => {
-  const validation = createTaskSchema.safeParse(Object.fromEntries(formData));
+  const { revalidateTagValue, ...taskData } = Object.fromEntries(formData);
+  const validation = createTaskSchema.safeParse(taskData);
 
   if (!validation.success) {
     console.error(validation.error);
@@ -76,14 +77,13 @@ export const createTask = async (
     });
 
     /*
-     * We create tasks from "/app/today" and from "/app/projects/[projectId]" routes,
-     * which aren't Intercepting Routes, so we can use revalidateTag() to purge the cache.
+     * Check <TaskFormFields> to see why we need revalidateTagValue.
      *
      * revalidateTag() currently clears the entire client-side router cache
      * regardless of the tag used:
      * https://github.com/vercel/next.js/issues/57914#issuecomment-1803819065
      */
-    revalidateTag('tasks');
+    if (revalidateTagValue) revalidateTag(String(revalidateTagValue));
     /**/
     return createServerSuccessResponse(result);
   } catch (error) {
