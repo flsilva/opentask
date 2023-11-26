@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { HamburgerMenuIcon } from '@/modules/shared/icon/HamburgerMenuIcon';
 import { XIcon } from '@/modules/shared/icon/XIcon';
-import { Logo } from '@/modules/shared/logos/Logo';
+import { Logo } from '@/modules/shared/logo/Logo';
 import { MainMenu } from './MainMenu';
 import { MainMenuMobile } from './MainMenuMobile';
 

@@ -1,6 +1,6 @@
 import '../globals.css';
 import Link from 'next/link';
-import { Logo } from '@/modules/shared/logos/Logo';
+import { Logo } from '@/modules/shared/logo/Logo';
 import { Footer } from '@/modules/marketing/shared/Footer';
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
