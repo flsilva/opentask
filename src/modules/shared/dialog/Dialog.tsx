@@ -4,7 +4,7 @@ import { useState } from 'react';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 import { twJoin, twMerge } from 'tailwind-merge';
 import { ChildrenProps } from '@/modules/shared/ChildrenProps';
-import { XIcon } from '@/modules/shared/icons/XIcon';
+import { XIcon } from '@/modules/shared/icon/XIcon';
 import { RouterAction } from '@/modules/shared/router/RouterActions';
 import { useRouterAction } from '@/modules/shared/router/useRouterAction';
 

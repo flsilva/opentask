@@ -6,8 +6,8 @@ import { DayPicker, DayPickerSingleProps } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
 import { ServerResponse } from '@/modules/shared/data-access/ServerResponse';
 import { Dialog } from '@/modules/shared/dialog/Dialog';
-import { CalendarMonthIcon } from '@/modules/shared/icons/CalendarMonthIcon';
-import { XIcon } from '@/modules/shared/icons/XIcon';
+import { CalendarMonthIcon } from '@/modules/shared/icon/CalendarMonthIcon';
+import { XIcon } from '@/modules/shared/icon/XIcon';
 import { formatTaskDueDate } from './formatTaskDueDate';
 import { TaskDto, updateTask } from './TasksRepository';
 

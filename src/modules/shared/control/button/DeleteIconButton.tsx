@@ -1,7 +1,7 @@
 'use client';
 
 import { twMerge } from 'tailwind-merge';
-import { DeleteIcon } from '../../icons/DeleteIcon';
+import { DeleteIcon } from '../../icon/DeleteIcon';
 import { forwardRef } from 'react';
 
 export interface DeleteIconButtonProps

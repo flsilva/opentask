@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { GitHubLogoIcon } from '@/modules/shared/icons/GitHubLogoIcon';
+import { GitHubLogoIcon } from '@/modules/shared/icon/GitHubLogoIcon';
 
 export const Footer = () => {
   return (

@@ -1,7 +1,7 @@
 'use client';
 
 import 'client-only';
-import { HamburgerMenuIcon } from '@/modules/shared/icons/HamburgerMenuIcon';
+import { HamburgerMenuIcon } from '@/modules/shared/icon/HamburgerMenuIcon';
 import { Logo } from '@/modules/shared/logos/Logo';
 import { SettingsMenu } from '@/modules/app/settings/SettingsMenu';
 import { useRouter } from 'next/navigation';

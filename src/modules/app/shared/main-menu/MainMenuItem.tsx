@@ -5,8 +5,8 @@ import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
 import { ClassNamePropsOptional } from '@/modules/shared/ClassNameProps';
 import { useIsPathActive } from '@/modules/shared/router/useIsPathActive';
-import { CalendarTodayIcon } from '@/modules/shared/icons/CalendarTodayIcon';
-import { ProjectsIcon } from '@/modules/shared/icons/ProjectsIcon';
+import { CalendarTodayIcon } from '@/modules/shared/icon/CalendarTodayIcon';
+import { ProjectsIcon } from '@/modules/shared/icon/ProjectsIcon';
 
 export interface MainMenuItemProps extends ClassNamePropsOptional {
   readonly activeClassName?: string;

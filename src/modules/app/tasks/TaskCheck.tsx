@@ -4,7 +4,7 @@ import 'client-only';
 import { useRouter } from 'next/navigation';
 import { twJoin, twMerge } from 'tailwind-merge';
 import { ClassNamePropsOptional } from '@/modules/shared/ClassNameProps';
-import { CheckIcon } from '@/modules/shared/icons/CheckIcon';
+import { CheckIcon } from '@/modules/shared/icon/CheckIcon';
 import { ServerResponse } from '@/modules/shared/data-access/ServerResponse';
 import { TaskDto, updateTask } from './TasksRepository';
 import { TaskCheckSize } from './TaskCheckSize';

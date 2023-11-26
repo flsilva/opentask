@@ -8,7 +8,7 @@ import { Transition } from '@headlessui/react';
 import { twMerge } from 'tailwind-merge';
 import { ClassNamePropsOptional } from '@/modules/shared/ClassNameProps';
 import { buttonLinkClassName } from '@/modules/shared/control/button/buttonClassName';
-import { PlusSignalIcon } from '@/modules/shared/icons/PlusSignalIcon';
+import { PlusSignalIcon } from '@/modules/shared/icon/PlusSignalIcon';
 import { ChildrenProps } from '@/modules/shared/ChildrenProps';
 
 export interface AddTaskProps extends ChildrenProps, ClassNamePropsOptional {

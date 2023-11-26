@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { sanitize } from 'isomorphic-dompurify';
 import { utcToZonedTime } from 'date-fns-tz';
-import { CalendarEventIcon } from '@/modules/shared/icons/CalendarEventIcon';
+import { CalendarEventIcon } from '@/modules/shared/icon/CalendarEventIcon';
 import { ClassNamePropsOptional } from '@/modules/shared/ClassNameProps';
 import { TaskCheck } from './TaskCheck';
 import { TaskCheckSize } from './TaskCheckSize';

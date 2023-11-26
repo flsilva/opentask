@@ -1,7 +1,7 @@
 import { twMerge } from 'tailwind-merge';
 import { ChildrenProps } from '@/modules/shared/ChildrenProps';
 import { ClassNamePropsOptional } from '@/modules/shared/ClassNameProps';
-import { WarningIcon } from '@/modules/shared/icons/WarningIcon';
+import { WarningIcon } from '@/modules/shared/icon/WarningIcon';
 
 interface WarningFeedbackProps extends ChildrenProps, ClassNamePropsOptional {}
 

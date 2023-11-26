@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
-import { PlusSignalIcon } from '@/modules/shared/icons/PlusSignalIcon';
+import { PlusSignalIcon } from '@/modules/shared/icon/PlusSignalIcon';
 import { ProjectList } from '@/modules/app/projects/ProjectList';
 import { ProjectListSkeleton } from '@/modules/app/projects/ProjectListSkeleton';
 import { ProjectStatus } from '@/modules/app/projects/ProjectStatus';

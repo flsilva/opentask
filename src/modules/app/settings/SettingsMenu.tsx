@@ -5,9 +5,9 @@ import { Menu } from '@headlessui/react';
 import { useRouter } from 'next/navigation';
 import { twJoin } from 'tailwind-merge';
 import { DropdownMenu } from '@/modules/shared/control/dropdown/DropdownMenu';
-import { PersonIcon } from '@/modules/shared/icons/PersonIcon';
-import { SettingsIcon } from '@/modules/shared/icons/SettingsIcon';
-import { LogoutIcon } from '@/modules/shared/icons/LogoutIcon';
+import { PersonIcon } from '@/modules/shared/icon/PersonIcon';
+import { SettingsIcon } from '@/modules/shared/icon/SettingsIcon';
+import { LogoutIcon } from '@/modules/shared/icon/LogoutIcon';
 import { UserContext } from '@/modules/app/users/UserProvider';
 import { signOut } from '@/modules/app/users/UsersRepository';
 

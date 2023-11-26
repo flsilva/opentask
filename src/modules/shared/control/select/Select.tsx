@@ -4,9 +4,9 @@ import 'client-only';
 import { forwardRef } from 'react';
 import * as SelectPrimitive from '@radix-ui/react-select';
 import { twMerge } from 'tailwind-merge';
-import { ExpandMoreIcon } from '@/modules/shared/icons/ExpandMoreIcon';
-import { ExpandLessIcon } from '@/modules/shared/icons/ExpandLessIcon';
-import { CheckIcon } from '@/modules/shared/icons/CheckIcon';
+import { ExpandMoreIcon } from '@/modules/shared/icon/ExpandMoreIcon';
+import { ExpandLessIcon } from '@/modules/shared/icon/ExpandLessIcon';
+import { CheckIcon } from '@/modules/shared/icon/CheckIcon';
 
 export interface SelectItemProps extends SelectPrimitive.SelectItemProps {
   readonly value: string;
