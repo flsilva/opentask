@@ -1,11 +1,11 @@
 import { twMerge } from 'tailwind-merge';
 import { ChildrenProps } from '@/modules/shared/ChildrenProps';
 import { ClassNamePropsOptional } from '@/modules/shared/ClassNameProps';
-import { FeedbackIcon } from '@/modules/shared/icons/FeedbackIcon';
+import { WarningIcon } from '@/modules/shared/icons/WarningIcon';
 
-interface FeedbackBoxProps extends ChildrenProps, ClassNamePropsOptional {}
+interface WarningFeedbackProps extends ChildrenProps, ClassNamePropsOptional {}
 
-export const FeedbackBox = ({ children, className }: FeedbackBoxProps) => (
+export const WarningFeedback = ({ children, className }: WarningFeedbackProps) => (
   <div
     className={twMerge(
       'flex flex-col bg-orange-50 p-6 rounded-2xl border border-[rgb(229, 231, 235)]',
@@ -13,7 +13,7 @@ export const FeedbackBox = ({ children, className }: FeedbackBoxProps) => (
     )}
   >
     <h3>
-      <FeedbackIcon className="fill-orange-700" />
+      <WarningIcon className="fill-orange-700" />
     </h3>
     <div className="flex mt-6 text-sm whitespace-pre-line">{children}</div>
   </div>

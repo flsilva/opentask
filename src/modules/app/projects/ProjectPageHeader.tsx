@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import { getProjectById } from './ProjectsRepository';
 import { ProjectMutationDropdown } from './ProjectMutationDropdown';
-import { FeedbackBox } from '@/modules/shared/box/FeedbackBox';
+import { WarningFeedback } from '@/modules/shared/feedback/WarningFeedback';
 import { ErrorList } from '@/modules/shared/errors/ErrorList';
 
 export interface ProjectPageHeaderProps {
@@ -24,9 +24,9 @@ export const ProjectPageHeader = async ({ id }: ProjectPageHeaderProps) => {
         <p className="block whitespace-pre-line text-sm mb-8">{project.description}</p>
       )}
       {project.archivedAt && (
-        <FeedbackBox className="mb-8">
+        <WarningFeedback className="mb-8">
           <p className="block">This project is archived.</p>
-        </FeedbackBox>
+        </WarningFeedback>
       )}
     </div>
   );
