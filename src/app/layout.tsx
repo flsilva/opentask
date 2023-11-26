@@ -1,7 +1,7 @@
 import './globals.css';
 import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
-import { GaNextScriptNavigation } from '@/modules/shared/utils/ga';
+import { GaNextScriptNavigation } from '@/modules/shared/ga/ga';
 import { InstallPwaProvider } from '@/modules/shared/pwa/InstallPwaProvider';
 
 export const viewport: Viewport = {
