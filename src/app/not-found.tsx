@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Logo } from '@/modules/shared/logos/Logo';
-import { buttonGreenClassName } from '@/modules/shared/controls/button/buttonClassName';
+import { buttonGreenClassName } from '@/modules/shared/control/button/buttonClassName';
 
 export default function NotFound() {
   return (

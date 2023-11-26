@@ -8,8 +8,8 @@ import { ClassNamePropsOptional } from '@/modules/shared/ClassNameProps';
 import {
   buttonGreenClassName,
   buttonWhiteClassName,
-} from '@/modules/shared/controls/button/buttonClassName';
-import { SubmitButton } from '@/modules/shared/controls/button/SubmitButton';
+} from '@/modules/shared/control/button/buttonClassName';
+import { SubmitButton } from '@/modules/shared/control/button/SubmitButton';
 import { cuid2 } from '@/modules/shared/data-access/cuid2';
 import { ServerResponse } from '@/modules/shared/data-access/ServerResponse';
 import { InputContentEditable } from '@/modules/shared/form/InputContentEditable';

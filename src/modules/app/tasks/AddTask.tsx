@@ -7,7 +7,7 @@ import { useWindowSize } from 'usehooks-ts';
 import { Transition } from '@headlessui/react';
 import { twMerge } from 'tailwind-merge';
 import { ClassNamePropsOptional } from '@/modules/shared/ClassNameProps';
-import { buttonLinkClassName } from '@/modules/shared/controls/button/buttonClassName';
+import { buttonLinkClassName } from '@/modules/shared/control/button/buttonClassName';
 import { PlusSignalIcon } from '@/modules/shared/icons/PlusSignalIcon';
 import { ChildrenProps } from '@/modules/shared/ChildrenProps';
 

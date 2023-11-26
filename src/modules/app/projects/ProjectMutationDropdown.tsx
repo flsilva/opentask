@@ -5,7 +5,7 @@ import { Fragment, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Menu } from '@headlessui/react';
 import { twJoin } from 'tailwind-merge';
-import { DropdownMenu } from '@/modules/shared/controls/dropdown/DropdownMenu';
+import { DropdownMenu } from '@/modules/shared/control/dropdown/DropdownMenu';
 import { MoreHorizontalIcon } from '@/modules/shared/icons/MoreHorizontalIcon';
 import { ArchiveIcon } from '@/modules/shared/icons/ArchiveIcon';
 import { DeleteIcon } from '@/modules/shared/icons/DeleteIcon';

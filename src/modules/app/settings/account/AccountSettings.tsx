@@ -1,6 +1,6 @@
 import 'server-only';
 import { twMerge } from 'tailwind-merge';
-import { buttonRedClassName } from '@/modules/shared/controls/button/buttonClassName';
+import { buttonRedClassName } from '@/modules/shared/control/button/buttonClassName';
 import { AlertDialog, AlertDialogBody } from '@/modules/shared/dialog/AlertDialog';
 import { Form } from '@/modules/shared/form/Form';
 import { FormErrorList } from '@/modules/shared/form/FormErrorList';

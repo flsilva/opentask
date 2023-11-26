@@ -1,6 +1,6 @@
 import 'server-only';
 import { ProjectDto, getProjects } from '@/modules/app/projects/ProjectsRepository';
-import { Select, SelectItemProps, SelectProps } from '@/modules/shared/controls/select/Select';
+import { Select, SelectItemProps, SelectProps } from '@/modules/shared/control/select/Select';
 import { ErrorList } from '@/modules/shared/errors/ErrorList';
 
 export type ProjectsSelectProps = Omit<SelectProps, 'items'>;

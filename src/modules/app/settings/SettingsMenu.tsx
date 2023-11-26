@@ -4,7 +4,7 @@ import { Fragment, useContext } from 'react';
 import { Menu } from '@headlessui/react';
 import { useRouter } from 'next/navigation';
 import { twJoin } from 'tailwind-merge';
-import { DropdownMenu } from '@/modules/shared/controls/dropdown/DropdownMenu';
+import { DropdownMenu } from '@/modules/shared/control/dropdown/DropdownMenu';
 import { PersonIcon } from '@/modules/shared/icons/PersonIcon';
 import { SettingsIcon } from '@/modules/shared/icons/SettingsIcon';
 import { LogoutIcon } from '@/modules/shared/icons/LogoutIcon';

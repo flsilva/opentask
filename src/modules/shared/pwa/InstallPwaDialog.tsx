@@ -4,7 +4,7 @@ import 'client-only';
 import { useContext, useEffect, useState } from 'react';
 import { UAParser } from 'ua-parser-js';
 import { twMerge } from 'tailwind-merge';
-import { buttonGreenClassName } from '@/modules/shared/controls/button/buttonClassName';
+import { buttonGreenClassName } from '@/modules/shared/control/button/buttonClassName';
 import { IOSAddIcon } from '@/modules/shared/icons/IOSAddIcon';
 import { IOSShareIcon } from '@/modules/shared/icons/IOSShareIcon';
 import { Dialog } from '@/modules/shared/dialog/Dialog';

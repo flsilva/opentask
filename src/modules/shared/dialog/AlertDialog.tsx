@@ -6,8 +6,8 @@ import { twMerge } from 'tailwind-merge';
 import {
   buttonGreenClassName,
   buttonWhiteClassName,
-} from '@/modules/shared/controls/button/buttonClassName';
-import { SubmitButton } from '@/modules/shared/controls/button/SubmitButton';
+} from '@/modules/shared/control/button/buttonClassName';
+import { SubmitButton } from '@/modules/shared/control/button/SubmitButton';
 import { RouterAction } from '@/modules/shared/router/RouterActions';
 import { useRouterAction } from '@/modules/shared/router/useRouterAction';
 import {

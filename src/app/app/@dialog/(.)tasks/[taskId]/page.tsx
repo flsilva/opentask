@@ -1,6 +1,6 @@
 import 'server-only';
 import { Suspense } from 'react';
-import { DeleteIconButton } from '@/modules/shared/controls/button/DeleteIconButton';
+import { DeleteIconButton } from '@/modules/shared/control/button/DeleteIconButton';
 import { Dialog } from '@/modules/shared/dialog/Dialog';
 import { RouterActions } from '@/modules/shared/router/RouterActions';
 import { DeleteTaskAlertDialog } from '@/modules/app/tasks/DeleteTaskAlertDialog';
