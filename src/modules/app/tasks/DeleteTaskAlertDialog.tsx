@@ -1,7 +1,7 @@
 import 'server-only';
 import { notFound } from 'next/navigation';
 import { AlertDialog, AlertDialogBody } from '@/modules/shared/dialog/AlertDialog';
-import { ErrorList } from '@/modules/shared/errors/ErrorList';
+import { ErrorList } from '@/modules/shared/error/ErrorList';
 import { Form } from '@/modules/shared/form/Form';
 import { FormErrorList } from '@/modules/shared/form/FormErrorList';
 import { RouterAction } from '@/modules/shared/router/RouterActions';

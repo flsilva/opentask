@@ -1,4 +1,4 @@
-import { ErrorList } from '@/modules/shared/errors/ErrorList';
+import { ErrorList } from '@/modules/shared/error/ErrorList';
 import { getTasks } from '@/modules/app/tasks/TasksRepository';
 
 interface NoTasksInProjectProps {

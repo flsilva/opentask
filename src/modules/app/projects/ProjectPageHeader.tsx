@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import { getProjectById } from './ProjectsRepository';
 import { ProjectMutationDropdown } from './ProjectMutationDropdown';
 import { WarningFeedback } from '@/modules/shared/feedback/WarningFeedback';
-import { ErrorList } from '@/modules/shared/errors/ErrorList';
+import { ErrorList } from '@/modules/shared/error/ErrorList';
 
 export interface ProjectPageHeaderProps {
   readonly id: string;

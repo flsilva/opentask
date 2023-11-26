@@ -6,7 +6,7 @@ import { buttonGreenClassName } from '@/modules/shared/control/button/buttonClas
 import { SubmitButton } from '@/modules/shared/control/button/SubmitButton';
 import { inputTextClassName } from '@/modules/shared/control/input/inputTextClassName';
 import { ServerError } from '@/modules/shared/data-access/ServerResponse';
-import { ErrorList } from '@/modules/shared/errors/ErrorList';
+import { ErrorList } from '@/modules/shared/error/ErrorList';
 import { Form } from '@/modules/shared/form/Form';
 import { FormErrorList } from '@/modules/shared/form/FormErrorList';
 import { ProjectDto, createProject, getProjectById, updateProject } from './ProjectsRepository';

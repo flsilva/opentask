@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { twMerge } from 'tailwind-merge';
 import { buttonGreenClassName } from '@/modules/shared/control/button/buttonClassName';
-import { ErrorList } from '@/modules/shared/errors/ErrorList';
+import { ErrorList } from '@/modules/shared/error/ErrorList';
 import { getProjects } from '@/modules/app/projects/ProjectsRepository';
 
 export default async function OnboardingPage() {

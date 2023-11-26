@@ -6,7 +6,7 @@ import { ClassNamePropsOptional } from '@/modules/shared/ClassNameProps';
 import { getServerSideUser } from '@/modules/app/users/UsersRepository';
 import { GetTasksParams, TaskDto, getTasks } from './TasksRepository';
 import { TaskListItem } from './TaskListItem';
-import { ErrorList } from '@/modules/shared/errors/ErrorList';
+import { ErrorList } from '@/modules/shared/error/ErrorList';
 
 export interface TaskListProps extends GetTasksParams, ClassNamePropsOptional {
   readonly children?: ({

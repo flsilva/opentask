@@ -3,7 +3,7 @@
 import 'server-only';
 import { twMerge } from 'tailwind-merge';
 import { ClassNamePropsOptional } from '@/modules/shared/ClassNameProps';
-import { ErrorList } from '@/modules/shared/errors/ErrorList';
+import { ErrorList } from '@/modules/shared/error/ErrorList';
 import { ProjectListItem } from './ProjectListItem';
 import { ProjectStatus } from './ProjectStatus';
 import { getProjects } from './ProjectsRepository';

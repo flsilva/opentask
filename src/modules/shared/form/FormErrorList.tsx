@@ -2,7 +2,7 @@
 
 import 'client-only';
 import { useContext } from 'react';
-import { ErrorList } from '@/modules/shared/errors/ErrorList';
+import { ErrorList } from '@/modules/shared/error/ErrorList';
 import { FormContext } from './Form';
 
 export const FormErrorList = () => {

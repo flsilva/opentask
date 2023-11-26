@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import { twMerge } from 'tailwind-merge';
 import { ClassNamePropsOptional } from '@/modules/shared/ClassNameProps';
 import { ServerError } from '@/modules/shared/data-access/ServerResponse';
-import { ErrorList } from '@/modules/shared/errors/ErrorList';
+import { ErrorList } from '@/modules/shared/error/ErrorList';
 import { Form } from '@/modules/shared/form/Form';
 import { FormErrorList } from '@/modules/shared/form/FormErrorList';
 import { ProjectsSelect } from '@/modules/app/projects/ProjectsSelect';

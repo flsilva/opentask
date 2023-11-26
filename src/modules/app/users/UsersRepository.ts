@@ -12,7 +12,7 @@ import {
   createServerErrorResponse,
   createServerSuccessResponse,
 } from '@/modules/shared/data-access/ServerResponse';
-import { genericAwareOfInternalErrorMessage } from '@/modules/app/shared/errors/errorMessages';
+import { genericAwareOfInternalErrorMessage } from '@/modules/app/shared/error/errorMessages';
 
 export interface UserDto {
   readonly email: string;

@@ -10,7 +10,7 @@ import {
   createServerErrorResponse,
   createServerSuccessResponse,
 } from '@/modules//shared/data-access/ServerResponse';
-import { genericAwareOfInternalErrorMessage } from '@/modules/app//shared/errors/errorMessages';
+import { genericAwareOfInternalErrorMessage } from '@/modules/app//shared/error/errorMessages';
 import { getServerSideUser } from '@/modules/app/users/UsersRepository';
 import { createProjectSchema, deleteProjectSchema, updateProjectSchema } from './ProjectsDomain';
 
