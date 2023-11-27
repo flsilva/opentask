@@ -3,38 +3,17 @@
 import 'client-only';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
+import { ChildrenProps } from '@/modules/shared/ChildrenProps';
 import { ClassNamePropsOptional } from '@/modules/shared/ClassNameProps';
 import { useIsPathActive } from '@/modules/shared/router/useIsPathActive';
-import { CalendarTodayIcon } from '@/modules/shared/icon/CalendarTodayIcon';
-import { ProjectsIcon } from '@/modules/shared/icon/ProjectsIcon';
 
-export interface MainMenuLinkProps extends ClassNamePropsOptional {
+export interface MainMenuLinkProps extends ChildrenProps, ClassNamePropsOptional {
   readonly activeClassName?: string;
   readonly href: string;
-  readonly icon: string;
-  readonly label: string;
 }
 
-const getIcon = (icon: string) => {
-  switch (icon) {
-    case 'CalendarTodayIcon':
-      return CalendarTodayIcon;
-    case 'ProjectsIcon':
-      return ProjectsIcon;
-    default:
-      return null;
-  }
-};
-
-export const MainMenuLink = ({
-  activeClassName,
-  className,
-  href,
-  icon,
-  label,
-}: MainMenuLinkProps) => {
+export const MainMenuLink = ({ activeClassName, children, className, href }: MainMenuLinkProps) => {
   const isActive = useIsPathActive(href);
-  const IconComponent = getIcon(icon);
 
   return (
     <Link
@@ -45,8 +24,7 @@ export const MainMenuLink = ({
         isActive && activeClassName,
       )}
     >
-      {IconComponent && <IconComponent className="fill-gray-600" />}
-      {label}
+      {children}
     </Link>
   );
 };

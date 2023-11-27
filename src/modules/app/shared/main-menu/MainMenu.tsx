@@ -7,6 +7,8 @@ import { ProjectListSkeleton } from '@/modules/app/projects/ProjectListSkeleton'
 import { ProjectStatus } from '@/modules/app/projects/ProjectStatus';
 import { MainMenuLink } from './MainMenuLink';
 import { ClassNamePropsOptional } from '@/modules/shared/ClassNameProps';
+import { CalendarTodayIcon } from '@/modules/shared/icon/CalendarTodayIcon';
+import { ProjectsIcon } from '@/modules/shared/icon/ProjectsIcon';
 
 export const MainMenu = ({ className }: ClassNamePropsOptional) => {
   const activeClassName = 'bg-gray-200';
@@ -20,20 +22,19 @@ export const MainMenu = ({ className }: ClassNamePropsOptional) => {
         className,
       )}
     >
-      <MainMenuLink
-        activeClassName={activeClassName}
-        href="/app/today"
-        icon="CalendarTodayIcon"
-        label="Today"
-      />
-      <div className="mt-4 flex justify-between">
+      <MainMenuLink activeClassName={activeClassName} href="/app/today">
+        <CalendarTodayIcon className="fill-gray-600" />
+        Today
+      </MainMenuLink>
+      <div className="flex justify-between mt-4">
         <MainMenuLink
           activeClassName={activeClassName}
           className="grow"
           href="/app/projects/active"
-          icon="ProjectsIcon"
-          label="Projects"
-        />
+        >
+          <ProjectsIcon className="fill-gray-600" />
+          Projects
+        </MainMenuLink>
         <Link href="/app/projects/new" className="rounded-md p-2 text-gray-700 hover:bg-gray-200">
           <span className="sr-only">Open menu</span>
           <PlusSignalIcon className="fill-gray-600" />
