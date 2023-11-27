@@ -1,8 +1,5 @@
-import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
-import { Database } from '@/lib/database.types';
 import { buttonGreenClassName } from '@/modules/shared//control/button/buttonClassName';
 import { SubmitButton } from '@/modules/shared/control/button/SubmitButton';
 import { GitHubLogoIcon } from '@/modules/shared/icon/GitHubLogoIcon';
@@ -12,17 +9,14 @@ import { XLogoIcon } from '@/modules/shared/icon/XLogoIcon';
 import { OAuthProviderButton } from '@/modules/shared/control/button/OAuthProviderButton';
 import { signInWithEmail, signInWithOAuth } from '@/modules/auth/Auth';
 import { OAuthProvider } from '@/modules/auth/OAuthProvider';
+import { isUserAuthenticated } from '@/modules/app/users/UsersRepository';
 
 export default async function SignInPage() {
   /*
-   * Redirect users to the app if they're signed in.
+   * Redirect authenticated users to the app.
    */
-  const supabase = createServerComponentClient<Database>({ cookies });
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-
-  if (session) redirect('/app/onboarding');
+  const isAuthenticated = await isUserAuthenticated();
+  if (isAuthenticated) redirect('/app/onboarding');
   /**/
 
   return (

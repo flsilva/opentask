@@ -61,15 +61,9 @@ const getUserSession = async () => {
     data: { session },
   } = await supabase.auth.getSession();
 
-  if (
-    session === null ||
-    session === undefined ||
-    session.user === null ||
-    session.user === undefined ||
-    typeof session.user.id !== 'string' ||
-    session.user.id === ''
-  )
+  if (!session || !session.user || typeof session.user.id !== 'string' || session.user.id === '') {
     throw new Error('Your session has expired. Please sign in again.');
+  }
 
   return session;
 };
@@ -113,6 +107,17 @@ export const getServerSideUser = async () => {
   return userDto;
 };
 /**/
+
+export const isUserAuthenticated = async () => {
+  let isAuthenticated = true;
+  try {
+    await getUserSession();
+  } catch {
+    isAuthenticated = false;
+  }
+
+  return isAuthenticated;
+};
 
 export const signOut = async () => {
   try {

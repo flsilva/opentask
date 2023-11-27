@@ -1,17 +1,20 @@
+'use client';
+
+import 'client-only';
 import { Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import { twMerge } from 'tailwind-merge';
+import { ChildrenProps } from '@/modules/shared/ChildrenProps';
 import { ClassNamePropsOptional } from '@/modules/shared/ClassNameProps';
 
-export interface DropdownMenuProps extends ClassNamePropsOptional {
-  readonly items: React.ReactNode;
+export interface DropdownMenuProps extends ChildrenProps, ClassNamePropsOptional {
   readonly itemsClassName?: string;
   readonly menuButton: React.ReactNode;
 }
 
 export const DropdownMenu = ({
+  children,
   className,
-  items,
   itemsClassName,
   menuButton,
 }: DropdownMenuProps) => {
@@ -34,7 +37,7 @@ export const DropdownMenu = ({
               itemsClassName,
             )}
           >
-            <div className="px-1 py-1 ">{items}</div>
+            <div className="px-1 py-1 ">{children}</div>
           </Menu.Items>
         </Transition>
       </Menu>

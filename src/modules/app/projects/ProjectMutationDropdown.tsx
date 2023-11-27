@@ -166,14 +166,15 @@ export const ProjectMutationDropdown = ({ project }: ProjectMutationDropdownProp
     <>
       <div className="relative [&>div]:flex">
         <DropdownMenu
-          items={getDropdownItems()}
           itemsClassName="absolute top-10 right-0 max-h-48 w-56"
           menuButton={
             <Menu.Button className="flex items-center justify-center">
               <MoreHorizontalIcon className=" hover:fill-green-500" />
             </Menu.Button>
           }
-        />
+        >
+          {getDropdownItems()}
+        </DropdownMenu>
       </div>
       {alertDialog}
     </>
