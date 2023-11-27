@@ -22,7 +22,11 @@ export default async function MarketingLayout({ children }: { children: React.Re
     <>
       <div className="flex flex-1 flex-col bg-white">
         <Header />
-        {children}
+        <div className="relative px-6 lg:px-8">
+          <div className="mx-auto max-w-2xl">
+            <div className="text-center mb-20">{children}</div>
+          </div>
+        </div>
       </div>
       <Footer />
     </>
