@@ -19,6 +19,7 @@ export const MainMenu = ({ className }: ClassNamePropsOptional) => {
       className={twMerge(
         'flex flex-col h-full w-full overflow-y-auto overflow-x-hidden',
         'lg:w-80 px-4 py-4 bg-gray-50 rounded-lg lg:rounded-none',
+        'focus:outline-0 focus:ring-0 focus:outline-transparent focus:shadow-none',
         className,
       )}
     >
