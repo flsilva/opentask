@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { HamburgerMenuIcon } from '@/modules/shared/icon/HamburgerMenuIcon';
 import { Logo } from '@/modules/shared/logo/Logo';
 import { SettingsMenu } from '@/modules/app/settings/SettingsMenu';
-import { getUser } from '../users/UsersRepository';
+import { getUser } from '@/modules/app/users/UsersRepository';
 
 export const Header = async () => {
   const user = await getUser();
