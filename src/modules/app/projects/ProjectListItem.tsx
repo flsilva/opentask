@@ -20,11 +20,12 @@ export const ProjectListItem = ({
   id,
   name,
 }: ProjectListItemProps) => {
-  const isActive = useIsPathActive(href.replace(':projectId', id));
+  const _href = href.replace(':projectId', id);
+  const isActive = useIsPathActive(_href);
 
   return (
     <Link
-      href={href.replace(':projectId', id)}
+      href={_href}
       className={twMerge(
         'flex grow items-center rounded-none lg:rounded-md py-2.5 text-base lg:text-sm text-gray-600 hover:bg-gray-200 border-b lg:border-b-0',
         className,
