@@ -5,7 +5,7 @@ import { PlusSignalIcon } from '@/modules/shared/icon/PlusSignalIcon';
 import { ProjectList } from '@/modules/app/projects/ProjectList';
 import { ProjectListSkeleton } from '@/modules/app/projects/ProjectListSkeleton';
 import { ProjectStatus } from '@/modules/app/projects/ProjectStatus';
-import { MainMenuItem } from './MainMenuItem';
+import { MainMenuLink } from './MainMenuLink';
 import { ClassNamePropsOptional } from '@/modules/shared/ClassNameProps';
 
 export const MainMenu = ({ className }: ClassNamePropsOptional) => {
@@ -15,18 +15,19 @@ export const MainMenu = ({ className }: ClassNamePropsOptional) => {
   return (
     <nav
       className={twMerge(
-        'flex flex-col h-full w-full lg:w-80 px-4 py-4 bg-gray-50 rounded-lg lg:rounded-none overflow-y-auto overflow-x-hidden',
+        'flex flex-col h-full w-full overflow-y-auto overflow-x-hidden',
+        'lg:w-80 px-4 py-4 bg-gray-50 rounded-lg lg:rounded-none',
         className,
       )}
     >
-      <MainMenuItem
+      <MainMenuLink
         activeClassName={activeClassName}
         href="/app/today"
         icon="CalendarTodayIcon"
         label="Today"
       />
       <div className="mt-4 flex justify-between">
-        <MainMenuItem
+        <MainMenuLink
           activeClassName={activeClassName}
           className="grow"
           href="/app/projects/active"

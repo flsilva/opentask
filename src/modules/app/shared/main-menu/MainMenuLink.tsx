@@ -8,7 +8,7 @@ import { useIsPathActive } from '@/modules/shared/router/useIsPathActive';
 import { CalendarTodayIcon } from '@/modules/shared/icon/CalendarTodayIcon';
 import { ProjectsIcon } from '@/modules/shared/icon/ProjectsIcon';
 
-export interface MainMenuItemProps extends ClassNamePropsOptional {
+export interface MainMenuLinkProps extends ClassNamePropsOptional {
   readonly activeClassName?: string;
   readonly href: string;
   readonly icon: string;
@@ -26,13 +26,13 @@ const getIcon = (icon: string) => {
   }
 };
 
-export const MainMenuItem = ({
+export const MainMenuLink = ({
   activeClassName,
   className,
   href,
   icon,
   label,
-}: MainMenuItemProps) => {
+}: MainMenuLinkProps) => {
   const isActive = useIsPathActive(href);
   const IconComponent = getIcon(icon);
 
