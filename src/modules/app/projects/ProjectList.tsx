@@ -41,18 +41,16 @@ export const ProjectList = async ({
 
   return (
     <nav className={twMerge('flex flex-col w-full', className)}>
-      {projects &&
-        projects.length > 0 &&
-        projects.map(({ id, name }) => (
-          <ProjectListItem
-            activeClassName={activeItemClassName}
-            href={itemHref || '/app/projects/:projectId'}
-            className={itemClassName}
-            id={id}
-            key={id}
-            name={name}
-          />
-        ))}
+      {projects.map(({ id, name }) => (
+        <ProjectListItem
+          activeClassName={activeItemClassName}
+          href={itemHref || '/app/projects/:projectId'}
+          className={itemClassName}
+          id={id}
+          key={id}
+          name={name}
+        />
+      ))}
     </nav>
   );
 };
