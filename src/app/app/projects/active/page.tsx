@@ -3,7 +3,6 @@ import { Suspense } from 'react';
 import { ProjectList } from '@/features/app/projects/ui/ProjectList';
 import { ProjectListSkeleton } from '@/features/app/projects/ui/ProjectListSkeleton';
 import { ProjectsPageHeader } from '@/features/app/projects/ui/ProjectsPageHeader';
-import { ProjectStatus } from '@/features/app/projects/data-access/ProjectStatus';
 
 export default function ActiveProjectsPage() {
   const empty = <p className="text-sm font-medium text-gray-600">No active projects.</p>;
@@ -12,7 +11,7 @@ export default function ActiveProjectsPage() {
     <>
       <ProjectsPageHeader archived={false} />
       <Suspense fallback={<ProjectListSkeleton ssrOnly="Loading projects..." />}>
-        <ProjectList empty={empty} itemClassName="pl-2" only={ProjectStatus.Active} />
+        <ProjectList empty={empty} itemClassName="pl-2" only="active" />
       </Suspense>
     </>
   );

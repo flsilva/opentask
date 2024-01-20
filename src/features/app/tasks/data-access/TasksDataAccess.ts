@@ -14,9 +14,6 @@ import {
   createServerSuccessResponse,
 } from '@/features/shared/data-access/ServerResponse';
 import { genericAwareOfInternalErrorMessage } from '@/features/shared/ui/error/errorMessages';
-import { ProjectStatus } from '@/features/app/projects/data-access/ProjectStatus';
-import { TaskStatus } from './TaskStatus';
-import { TaskOrderBy } from './TaskOrderBy';
 
 export type CreateTaskDto = z.infer<typeof createTaskSchema>;
 
@@ -128,9 +125,9 @@ export interface GetTasksParams {
   readonly byProject?: string;
   readonly dueBy?: Date;
   readonly dueOn?: Date;
-  readonly only?: TaskStatus;
-  readonly onlyProject?: ProjectStatus;
-  readonly orderBy?: TaskOrderBy;
+  readonly only?: 'completed' | 'incomplete';
+  readonly onlyProject?: 'active' | 'archived';
+  readonly orderBy?: 'completedAtAsc' | 'completedAtDesc' | 'createdAtAsc' | 'createdAtDesc';
 }
 
 export const getTasks = async ({
@@ -152,21 +149,21 @@ export const getTasks = async ({
      * Sensible default: order completed tasks by completedAt desc.
      */
     let _orderBy = orderBy;
-    if (!_orderBy && only === TaskStatus.Completed) _orderBy = TaskOrderBy.CompletedAtDesc;
+    if (!_orderBy && only === 'completed') _orderBy = 'completedAtDesc';
     /**/
 
     let orderByQuery: { completedAt: 'asc' | 'desc' } | { createdAt: 'asc' | 'desc' };
     switch (_orderBy) {
-      case TaskOrderBy.CompletedAtAsc:
+      case 'completedAtAsc':
         orderByQuery = { completedAt: 'asc' };
         break;
-      case TaskOrderBy.CompletedAtDesc:
+      case 'completedAtDesc':
         orderByQuery = { completedAt: 'desc' };
         break;
-      case TaskOrderBy.CreatedAtAsc:
+      case 'createdAtAsc':
         orderByQuery = { createdAt: 'asc' };
         break;
-      case TaskOrderBy.CreatedAtDesc:
+      case 'createdAtDesc':
         orderByQuery = { createdAt: 'desc' };
         break;
       default:
@@ -184,10 +181,10 @@ export const getTasks = async ({
             lte: zonedTimeToUtc(endOfDay(dueOn), timeZone),
           },
         }),
-        ...(only && { completedAt: only === TaskStatus.Completed ? { not: null } : null }),
+        ...(only && { completedAt: only === 'completed' ? { not: null } : null }),
         ...(byProject && { projectId: byProject }),
         ...(onlyProject && {
-          project: { archivedAt: onlyProject === ProjectStatus.Archived ? { not: null } : null },
+          project: { archivedAt: onlyProject === 'archived' ? { not: null } : null },
         }),
       },
       orderBy: orderByQuery,

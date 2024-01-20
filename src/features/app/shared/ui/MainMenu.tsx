@@ -4,7 +4,6 @@ import { twMerge } from 'tailwind-merge';
 import { PlusSignalIcon } from '@/features/shared/ui/icon/PlusSignalIcon';
 import { ProjectList } from '@/features/app/projects/ui/ProjectList';
 import { ProjectListSkeleton } from '@/features/app/projects/ui/ProjectListSkeleton';
-import { ProjectStatus } from '@/features/app/projects/data-access/ProjectStatus';
 import { MainMenuLink } from './MainMenuLink';
 import { ClassNamePropsOptional } from '@/features/shared/ui/ClassNameProps';
 import { CalendarTodayIcon } from '@/features/shared/ui/icon/CalendarTodayIcon';
@@ -50,7 +49,7 @@ export const MainMenu = ({ className }: ClassNamePropsOptional) => {
           activeItemClassName={activeClassName}
           empty={noProjects}
           itemClassName="pl-9"
-          only={ProjectStatus.Active}
+          only="active"
         />
       </Suspense>
     </nav>

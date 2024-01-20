@@ -5,7 +5,6 @@ import { twMerge } from 'tailwind-merge';
 import { ClassNamePropsOptional } from '@/features/shared/ui/ClassNameProps';
 import { ErrorList } from '@/features/shared/ui/error/ErrorList';
 import { ProjectListItem } from './ProjectListItem';
-import { ProjectStatus } from '../data-access/ProjectStatus';
 import { getProjects } from '../data-access/ProjectsDataAccess';
 
 interface ProjectListProps extends ClassNamePropsOptional {
@@ -14,7 +13,7 @@ interface ProjectListProps extends ClassNamePropsOptional {
   readonly empty?: React.ReactNode;
   readonly itemClassName?: string;
   readonly itemHref?: string;
-  readonly only?: ProjectStatus;
+  readonly only?: 'active' | 'archived';
 }
 
 /*
@@ -33,7 +32,7 @@ export const ProjectList = async ({
   only,
 }: ProjectListProps) => {
   const { data: projects, errors } = await getProjects({
-    ...(only && { isArchived: only === ProjectStatus.Archived }),
+    ...(only && { isArchived: only === 'archived' }),
   });
 
   if (errors) return <ErrorList errors={errors} />;

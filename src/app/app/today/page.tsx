@@ -4,32 +4,22 @@ import { subDays } from 'date-fns';
 import { AddTask } from '@/features/app/tasks/ui/AddTask';
 import { TaskList } from '@/features/app/tasks/ui/TaskList';
 import { TaskForm } from '@/features/app/tasks/ui/TaskForm';
-import { TaskStatus } from '@/features/app/tasks/data-access/TaskStatus';
 import { TodayPageHeader } from '@/features/app/today/ui/TodayPageHeader';
 import { TaskListSkeleton } from '@/features/app/tasks/ui/TaskListSkeleton';
-import { ProjectStatus } from '@/features/app/projects/data-access/ProjectStatus';
 
 export default function TodayPage() {
   return (
     <>
       <TodayPageHeader />
       <Suspense fallback={<TaskListSkeleton className="mt-3" ssrOnly="Loading tasks..." />}>
-        <TaskList
-          dueBy={subDays(new Date(), 1)}
-          only={TaskStatus.Incomplete}
-          onlyProject={ProjectStatus.Active}
-        >
+        <TaskList dueBy={subDays(new Date(), 1)} only="incomplete" onlyProject="active">
           {({ list: listOverdue, tasks: tasksOverdue }) => (
             <>
               {tasksOverdue.length > 0 && <p className="mb-4 text-xs font-semibold">Overdue</p>}
               {listOverdue}
               {tasksOverdue.length > 0 && <p className="mt-8 mb-4 text-xs font-semibold">Today</p>}
 
-              <TaskList
-                dueOn={new Date()}
-                only={TaskStatus.Incomplete}
-                onlyProject={ProjectStatus.Active}
-              >
+              <TaskList dueOn={new Date()} only="incomplete" onlyProject="active">
                 {({ list: listDueToday, tasks: tasksDueToday }) => (
                   <>
                     {listDueToday}
