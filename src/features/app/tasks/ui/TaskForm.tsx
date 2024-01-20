@@ -1,4 +1,5 @@
 import 'server-only';
+import { Suspense } from 'react';
 import { notFound } from 'next/navigation';
 import { twMerge } from 'tailwind-merge';
 import { ClassNamePropsOptional } from '@/features/shared/ui/ClassNameProps';
@@ -55,21 +56,23 @@ export const TaskForm = async ({
       className={twMerge('flex flex-col w-full', className)}
     >
       {task && <input type="hidden" name="id" value={task.id} />}
-      <TaskFormFields
-        defaultDueDate={defaultDueDate}
-        projectsSelect={
-          <ProjectsSelect
-            ariaLabel="Projects"
-            defaultValue={projectId ?? task?.projectId}
-            name="projectId"
-            onValueChange={updateTaskProject}
-            placeholder="Select a Project"
-          />
-        }
-        startOnEditingMode={startOnEditingMode}
-        task={task}
-        taskNameClassName={taskNameClassName}
-      />
+      <Suspense>
+        <TaskFormFields
+          defaultDueDate={defaultDueDate}
+          projectsSelect={
+            <ProjectsSelect
+              ariaLabel="Projects"
+              defaultValue={projectId ?? task?.projectId}
+              name="projectId"
+              onValueChange={updateTaskProject}
+              placeholder="Select a Project"
+            />
+          }
+          startOnEditingMode={startOnEditingMode}
+          task={task}
+          taskNameClassName={taskNameClassName}
+        />
+      </Suspense>
       <FormErrorList />
     </Form>
   );

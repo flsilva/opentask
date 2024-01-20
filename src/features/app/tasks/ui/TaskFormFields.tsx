@@ -2,7 +2,7 @@
 
 import 'client-only';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { twJoin, twMerge } from 'tailwind-merge';
 import { ClassNamePropsOptional } from '@/features/shared/ui/ClassNameProps';
 import {
