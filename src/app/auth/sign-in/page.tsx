@@ -1,15 +1,15 @@
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
-import { buttonGreenClassName } from '@/modules/shared//control/button/buttonClassName';
-import { SubmitButton } from '@/modules/shared/control/button/SubmitButton';
-import { GitHubLogoIcon } from '@/modules/shared/icon/GitHubLogoIcon';
-import { GoogleLogoIcon } from '@/modules/shared/icon/GoogleLogoIcon';
-import { LinkedInInLogoIcon } from '@/modules/shared/icon/LinkedInInLogoIcon';
-import { XLogoIcon } from '@/modules/shared/icon/XLogoIcon';
-import { OAuthProviderButton } from '@/modules/shared/control/button/OAuthProviderButton';
-import { signInWithEmail, signInWithOAuth } from '@/modules/auth/Auth';
-import { OAuthProvider } from '@/modules/auth/OAuthProvider';
-import { isUserAuthenticated } from '@/modules/app/users/UsersRepository';
+import { buttonGreenClassName } from '@/features/shared/ui/control/button/buttonClassName';
+import { SubmitButton } from '@/features/shared/ui/control/button/SubmitButton';
+import { GitHubLogoIcon } from '@/features/shared/ui/icon/GitHubLogoIcon';
+import { GoogleLogoIcon } from '@/features/shared/ui/icon/GoogleLogoIcon';
+import { LinkedInInLogoIcon } from '@/features/shared/ui/icon/LinkedInInLogoIcon';
+import { XLogoIcon } from '@/features/shared/ui/icon/XLogoIcon';
+import { OAuthProviderButton } from '@/features/shared/ui/control/button/OAuthProviderButton';
+import { signInWithEmail, signInWithOAuth } from '@/features/auth/data-access/AuthDataAccess';
+import { OAuthProvider } from '@/features/auth/data-access/OAuthProvider';
+import { isUserAuthenticated } from '@/features/app/users/data-access/UsersDataAccess';
 
 export default async function SignInPage() {
   /*

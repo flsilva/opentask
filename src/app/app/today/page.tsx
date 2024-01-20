@@ -1,13 +1,13 @@
 import 'server-only';
 import { Suspense } from 'react';
 import { subDays } from 'date-fns';
-import { AddTask } from '@/modules/app/tasks/AddTask';
-import { TaskList } from '@/modules/app/tasks/TaskList';
-import { TaskForm } from '@/modules/app/tasks/TaskForm';
-import { TaskStatus } from '@/modules/app/tasks/TaskStatus';
-import { TodayPageHeader } from '@/modules/app/today/TodayPageHeader';
-import { TaskListSkeleton } from '@/modules/app/tasks/TaskListSkeleton';
-import { ProjectStatus } from '@/modules/app/projects/ProjectStatus';
+import { AddTask } from '@/features/app/tasks/ui/AddTask';
+import { TaskList } from '@/features/app/tasks/ui/TaskList';
+import { TaskForm } from '@/features/app/tasks/ui/TaskForm';
+import { TaskStatus } from '@/features/app/tasks/data-access/TaskStatus';
+import { TodayPageHeader } from '@/features/app/today/ui/TodayPageHeader';
+import { TaskListSkeleton } from '@/features/app/tasks/ui/TaskListSkeleton';
+import { ProjectStatus } from '@/features/app/projects/data-access/ProjectStatus';
 
 export default function TodayPage() {
   return (

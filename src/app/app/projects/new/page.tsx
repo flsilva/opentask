@@ -1,5 +1,5 @@
 import 'server-only';
-import { ProjectForm } from '@/modules/app/projects/ProjectForm';
+import { ProjectForm } from '@/features/app/projects/ui/ProjectForm';
 
 export default function NewProjectPage() {
   return (

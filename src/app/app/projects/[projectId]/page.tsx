@@ -1,12 +1,12 @@
 import 'server-only';
 import { Suspense } from 'react';
-import { NoTasksInProject } from '@/modules/app/projects/NoTasksInProject';
-import { ProjectPageHeader } from '@/modules/app/projects/ProjectPageHeader';
-import { ProjectPageSkeleton } from '@/modules/app/projects/ProjectPageSkeleton';
-import { AddTask } from '@/modules/app/tasks/AddTask';
-import { TaskList } from '@/modules/app/tasks/TaskList';
-import { TaskStatus } from '@/modules/app/tasks/TaskStatus';
-import { TaskForm } from '@/modules/app/tasks/TaskForm';
+import { NoTasksInProject } from '@/features/app/projects/ui/NoTasksInProject';
+import { ProjectPageHeader } from '@/features/app/projects/ui/ProjectPageHeader';
+import { ProjectPageSkeleton } from '@/features/app/projects/ui/ProjectPageSkeleton';
+import { AddTask } from '@/features/app/tasks/ui/AddTask';
+import { TaskList } from '@/features/app/tasks/ui/TaskList';
+import { TaskStatus } from '@/features/app/tasks/data-access/TaskStatus';
+import { TaskForm } from '@/features/app/tasks/ui/TaskForm';
 
 interface ProjectPageProps {
   readonly params: { readonly projectId: string };

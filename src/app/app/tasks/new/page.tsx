@@ -1,5 +1,5 @@
 import 'server-only';
-import { TaskForm } from '@/modules/app/tasks/TaskForm';
+import { TaskForm } from '@/features/app/tasks/ui/TaskForm';
 
 interface NewTaskPageProps {
   readonly searchParams: { readonly projectId: string };

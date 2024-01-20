@@ -1,7 +1,7 @@
 import 'server-only';
-import { ProjectForm } from '@/modules/app/projects/ProjectForm';
-import { Dialog } from '@/modules/shared/dialog/Dialog';
-import { RouterActions } from '@/modules/shared/router/RouterActions';
+import { ProjectForm } from '@/features/app/projects/ui/ProjectForm';
+import { Dialog } from '@/features/shared/ui/dialog/Dialog';
+import { RouterActions } from '@/features/shared/routing/RouterActions';
 
 export default function NewProjectDialogPage() {
   return (

@@ -1,9 +1,9 @@
 import { redirect } from 'next/navigation';
-import { Header } from '@/modules/app/shared/Header';
-import { MainMenu } from '@/modules/app/shared/main-menu/MainMenu';
-import { InstallPwaDialog } from '@/modules/shared/pwa/InstallPwaDialog';
-import { UpdateUserTimeZone } from '@/modules/app/users/UpdateUserTimeZone';
-import { isUserAuthenticated } from '@/modules/app/users/UsersRepository';
+import { Header } from '@/features/app/shared/ui/Header';
+import { MainMenu } from '@/features/app/shared/ui/MainMenu';
+import { InstallPwaDialog } from '@/features/shared/ui/pwa/InstallPwaDialog';
+import { UpdateUserTimeZone } from '@/features/app/users/ui/UpdateUserTimeZone';
+import { isUserAuthenticated } from '@/features/app/users/data-access/UsersDataAccess';
 
 export default async function AppLayout({
   children,

@@ -1,7 +1,7 @@
 import 'server-only';
-import { Dialog } from '@/modules/shared/dialog/Dialog';
-import { RouterActions } from '@/modules/shared/router/RouterActions';
-import { AccountSettings } from '@/modules/app/settings/account/AccountSettings';
+import { Dialog } from '@/features/shared/ui/dialog/Dialog';
+import { RouterActions } from '@/features/shared/routing/RouterActions';
+import { AccountSettings } from '@/features/app/settings/account/ui/AccountSettings';
 
 export default function AccountSettingsDialogPage() {
   return (

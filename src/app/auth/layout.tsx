@@ -1,7 +1,7 @@
 import '../globals.css';
 import Link from 'next/link';
-import { Logo } from '@/modules/shared/logo/Logo';
-import { Footer } from '@/modules/marketing/shared/Footer';
+import { Logo } from '@/features/shared/ui/logo/Logo';
+import { Footer } from '@/features/marketing/shared/ui/Footer';
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (

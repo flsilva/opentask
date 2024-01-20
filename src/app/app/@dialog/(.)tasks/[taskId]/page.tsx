@@ -1,11 +1,11 @@
 import 'server-only';
 import { Suspense } from 'react';
-import { DeleteIconButton } from '@/modules/shared/control/button/DeleteIconButton';
-import { Dialog } from '@/modules/shared/dialog/Dialog';
-import { RouterActions } from '@/modules/shared/router/RouterActions';
-import { DeleteTaskAlertDialog } from '@/modules/app/tasks/DeleteTaskAlertDialog';
-import { TaskForm } from '@/modules/app/tasks/TaskForm';
-import { TaskFormSkeletonSkeleton } from '@/modules/app/tasks/TaskFormSkeleton';
+import { DeleteIconButton } from '@/features/shared/ui/control/button/DeleteIconButton';
+import { Dialog } from '@/features/shared/ui/dialog/Dialog';
+import { RouterActions } from '@/features/shared/routing/RouterActions';
+import { DeleteTaskAlertDialog } from '@/features/app/tasks/ui/DeleteTaskAlertDialog';
+import { TaskForm } from '@/features/app/tasks/ui/TaskForm';
+import { TaskFormSkeletonSkeleton } from '@/features/app/tasks/ui/TaskFormSkeleton';
 
 interface TaskDialogPageProps {
   readonly params: { readonly taskId: string };

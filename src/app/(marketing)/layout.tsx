@@ -1,8 +1,8 @@
 import '../globals.css';
 import { redirect } from 'next/navigation';
-import { Header } from '@/modules/marketing/shared/Header';
-import { Footer } from '@/modules/marketing/shared/Footer';
-import { isUserAuthenticated } from '@/modules/app/users/UsersRepository';
+import { Header } from '@/features/marketing/shared/ui/Header';
+import { Footer } from '@/features/marketing/shared/ui/Footer';
+import { isUserAuthenticated } from '@/features/app/users/data-access/UsersDataAccess';
 
 export default async function MarketingLayout({ children }: { children: React.ReactNode }) {
   /*

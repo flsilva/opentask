@@ -1,9 +1,9 @@
 import 'server-only';
 import { Suspense } from 'react';
-import { Dialog } from '@/modules/shared/dialog/Dialog';
-import { RouterActions } from '@/modules/shared/router/RouterActions';
-import { ProjectForm } from '@/modules/app/projects/ProjectForm';
-import { ProjectFormSkeleton } from '@/modules/app/projects/ProjectFormSkeleton';
+import { Dialog } from '@/features/shared/ui/dialog/Dialog';
+import { RouterActions } from '@/features/shared/routing/RouterActions';
+import { ProjectForm } from '@/features/app/projects/ui/ProjectForm';
+import { ProjectFormSkeleton } from '@/features/app/projects/ui/ProjectFormSkeleton';
 
 interface EditProjectDialogPageProps {
   readonly params: { readonly projectId: string };

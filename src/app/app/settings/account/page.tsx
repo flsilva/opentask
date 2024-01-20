@@ -1,5 +1,5 @@
 import 'server-only';
-import { AccountSettings } from '@/modules/app/settings/account/AccountSettings';
+import { AccountSettings } from '@/features/app/settings/account/ui/AccountSettings';
 
 export default function AccountSettingsPage() {
   return (

@@ -1,10 +1,10 @@
 import 'server-only';
 import Image from 'next/image';
 import Link from 'next/link';
-import { buttonGreenClassName } from '@/modules/shared/control/button/buttonClassName';
-import { HeroCopy } from '@/modules/marketing/shared/HeroCopy';
-import { HeroHeading } from '@/modules/marketing/shared/HeroHeading';
-import { ShowContentTransition } from '@/modules/marketing/shared/ShowContentTransition';
+import { buttonGreenClassName } from '@/features/shared/ui/control/button/buttonClassName';
+import { HeroCopy } from '@/features/marketing/shared/ui/HeroCopy';
+import { HeroHeading } from '@/features/marketing/shared/ui/HeroHeading';
+import { ShowContentTransition } from '@/features/marketing/shared/ui/ShowContentTransition';
 
 export default function FeaturesPage() {
   return (

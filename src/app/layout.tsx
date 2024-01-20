@@ -1,8 +1,8 @@
 import './globals.css';
 import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
-import { GaNextScriptNavigation } from '@/modules/shared/ga/ga';
-import { InstallPwaProvider } from '@/modules/shared/pwa/InstallPwaProvider';
+import { GaNextScriptNavigation } from '@/features/shared/routing/GoogleAnalytics';
+import { InstallPwaProvider } from '@/features/shared/ui/pwa/InstallPwaProvider';
 
 export const viewport: Viewport = {
   colorScheme: 'only light',

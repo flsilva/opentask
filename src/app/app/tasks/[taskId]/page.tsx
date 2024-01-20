@@ -1,7 +1,7 @@
 import 'server-only';
 import { Suspense } from 'react';
-import { TaskForm } from '@/modules/app/tasks/TaskForm';
-import { TaskFormSkeletonSkeleton } from '@/modules/app/tasks/TaskFormSkeleton';
+import { TaskForm } from '@/features/app/tasks/ui/TaskForm';
+import { TaskFormSkeletonSkeleton } from '@/features/app/tasks/ui/TaskFormSkeleton';
 
 interface TaskPageProps {
   readonly params: { readonly taskId: string };

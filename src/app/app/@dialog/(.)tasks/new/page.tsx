@@ -1,7 +1,7 @@
 import 'server-only';
-import { Dialog } from '@/modules/shared/dialog/Dialog';
-import { RouterActions } from '@/modules/shared/router/RouterActions';
-import { TaskForm } from '@/modules/app/tasks/TaskForm';
+import { Dialog } from '@/features/shared/ui/dialog/Dialog';
+import { RouterActions } from '@/features/shared/routing/RouterActions';
+import { TaskForm } from '@/features/app/tasks/ui/TaskForm';
 
 interface NewTaskDialogPageProps {
   readonly searchParams: { readonly projectId: string };

@@ -2,9 +2,9 @@ import 'server-only';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { twMerge } from 'tailwind-merge';
-import { buttonGreenClassName } from '@/modules/shared/control/button/buttonClassName';
-import { ErrorList } from '@/modules/shared/error/ErrorList';
-import { getProjects } from '@/modules/app/projects/ProjectsRepository';
+import { buttonGreenClassName } from '@/features/shared/ui/control/button/buttonClassName';
+import { ErrorList } from '@/features/shared/ui/error/ErrorList';
+import { getProjects } from '@/features/app/projects/data-access/ProjectsDataAccess';
 
 export default async function OnboardingPage() {
   const { data: projects, errors } = await getProjects();

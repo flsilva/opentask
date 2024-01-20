@@ -1,7 +1,7 @@
 import 'server-only';
-import { Dialog } from '@/modules/shared/dialog/Dialog';
-import { MainMenu } from '@/modules/app/shared/main-menu/MainMenu';
-import { RouterActions } from '@/modules/shared/router/RouterActions';
+import { Dialog } from '@/features/shared/ui/dialog/Dialog';
+import { MainMenu } from '@/features/app/shared/ui/MainMenu';
+import { RouterActions } from '@/features/shared/routing/RouterActions';
 
 export default function MainMenuDialogPage() {
   return (

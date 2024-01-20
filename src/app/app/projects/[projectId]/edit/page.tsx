@@ -1,7 +1,7 @@
 import 'server-only';
 import { Suspense } from 'react';
-import { ProjectForm } from '@/modules/app/projects/ProjectForm';
-import { ProjectFormSkeleton } from '@/modules/app/projects/ProjectFormSkeleton';
+import { ProjectForm } from '@/features/app/projects/ui/ProjectForm';
+import { ProjectFormSkeleton } from '@/features/app/projects/ui/ProjectFormSkeleton';
 
 interface EditProjectPageProps {
   readonly params: { readonly projectId: string };
