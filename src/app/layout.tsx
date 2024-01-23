@@ -44,14 +44,14 @@ export const metadata: Metadata = {
     description: 'Free and Open Source Task Manager.',
     siteName: 'OpenTask',
     url: 'https://opentask.app',
-    images: [{ url: 'https://opentask.app/logo-text-512x512.png' }],
+    images: [{ url: 'https://opentask.app/tweet-card.png' }],
   },
   twitter: {
     card: 'summary',
     site: 'https://opentask.app',
     title: 'OpenTask',
     description: 'Free and Open Source Task Manager.',
-    images: [{ url: 'https://opentask.app/logo-text-512x512.png' }],
+    images: [{ url: 'https://opentask.app/tweet-card.png' }],
     creator: '@flsilva7',
   },
   icons: {
