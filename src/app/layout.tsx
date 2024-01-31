@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     images: [{ url: 'https://opentask.app/tweet-card.png' }],
   },
   twitter: {
-    card: 'summary',
+    card: 'summary_large_image',
     site: 'https://opentask.app',
     title: 'OpenTask',
     description: 'Free and Open Source Task Manager.',
