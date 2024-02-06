@@ -64,7 +64,7 @@ export const Form = <ResponseData,>({
 
   const subscribeToOnSubmitted = useCallback(
     (key: string, callback: (response: ServerResponse<ResponseData> | undefined) => void) => {
-      // I think it's fine to mutate it here.
+      // It's fine to mutate it here.
       onSubmittedListeners[key] = callback;
     },
     [onSubmittedListeners],
@@ -72,7 +72,7 @@ export const Form = <ResponseData,>({
 
   const unsubscribeToOnSubmitted = useCallback(
     (key: string) => {
-      // I think it's fine to mutate it here.
+      // It's fine to mutate it here.
       delete onSubmittedListeners[key];
     },
     [onSubmittedListeners],
@@ -97,7 +97,7 @@ export const Form = <ResponseData,>({
 
   const subscribeToOnReset = useCallback(
     (key: string, callback: () => void) => {
-      // I think it's fine to mutate it here.
+      // It's fine to mutate it here.
       onResetListeners[key] = callback;
     },
     [onResetListeners],
@@ -105,7 +105,7 @@ export const Form = <ResponseData,>({
 
   const unsubscribeToOnReset = useCallback(
     (key: string) => {
-      // I think it's fine to mutate it here.
+      // It's fine to mutate it here.
       delete onResetListeners[key];
     },
     [onResetListeners],

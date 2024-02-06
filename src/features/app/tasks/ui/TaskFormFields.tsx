@@ -31,19 +31,26 @@ export interface TaskFormFieldsProps extends ClassNamePropsOptional {
  * Flavio Silva on Nov. 22:
  *
  * <TaskFormFields> was supposed to be much simpler, maybe it wouldn't be necessary at all,
- * but due to Next.js bug that prevent using revalidateTag, revalidatePath, and router.refresh()
- * from Intercepting Routes, we need to workaround it with a Client Component and added complexity.
+ * but due to a Next.js bug that prevents using revalidateTag, revalidatePath, and router.refresh()
+ * from Intercepting Routes, we need to work around it with a Client Component and added complexity.
  *
  * We add an <input type="hidden" name="revalidateTagValue" value="tasks" /> to the form
- * only when we're visiting the regular routes "/app/today" and "app/projects/[projectId]"
- * for the Server Action to call revalidateTag when we're creating tasks on those routes.
- * We cannot call revalidateTag (nor revalidatePath or router.refresh) from Intercepting Routes.
+ * only when we're visiting the standard routes "/app/today" and "app/projects/[projectId]"
+ * for the Server Action to call revalidateTag() when we're creating tasks on those routes.
+ *
+ * We cannot call revalidateTag(), revalidatePath(), and router.refresh() from Intercepting Routes.
  *
  * GitHub issues:
  *
- * https://github.com/vercel/next.js/issues/58772
+ * https://github.com/vercel/next.js/issues/60950
  *
- * https://github.com/vercel/next.js/issues/54723
+ * https://github.com/vercel/next.js/issues/60814
+ *
+ * https://github.com/vercel/next.js/issues/60844
+ *
+ * https://github.com/vercel/next.js/issues/51310
+ *
+ * https://github.com/vercel/next.js/issues/51714
  *
  */
 export const TaskFormFields = ({

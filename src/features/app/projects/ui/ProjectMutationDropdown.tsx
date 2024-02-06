@@ -62,11 +62,12 @@ export const ProjectMutationDropdown = ({ project }: ProjectMutationDropdownProp
   /*
    * When the updateProject() Server Action redirect() on a successful mutation,
    * we need to close this dialog. When I tried to do this on a onFormSubmitted() passed to <Form>,
-   * I got the React' "bad setState()" error printed below, so I came up with this
+   * I got the React' "bad setState()" error printed below. To avoid that error, I came up with this
    * solution that works but doesn't feel good. I'd love to solve this in a better way.
    *
    * I don't want to add a route for each action, e.g., /app/projects/[projectId]/archive, etc.
-   * That doesn't feel good either, and what if we don't want to show a confirmation dialog?
+   * That doesn't feel good either, adding these dialogs in the browser history,
+   * and what if we don't want to show a confirmation dialog at all?
    * We'd have to deal with this issue anyway.
    *
    * Warning: Cannot update a component (`ProjectMutationDropdown`) while rendering

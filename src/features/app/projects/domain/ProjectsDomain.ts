@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 /*
- * Nullable fields for ease of compatibility with prisma results.
+ * Nullable fields for easier compatibility with Prisma results.
  */
 
 const idSchema = z

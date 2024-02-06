@@ -45,8 +45,7 @@ export const TaskForm = async ({
     const { errors } = await updateTask(undefined, formData);
 
     if (errors) {
-      // TODO: Display error on a toast?
-      // It's already logged on the server-side.
+      // TODO: Display error (in a toast?)
     }
   };
 

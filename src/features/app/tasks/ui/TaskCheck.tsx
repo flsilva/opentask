@@ -47,7 +47,7 @@ export const TaskCheck = ({ className, completedAt, onClick, size, taskId }: Tas
      * Intercepting Route "app/tasks/[taskId]".
      * The Server Component of the page segment does rerender (TaskDialogPage) and
      * refetches the updated task, the <TaskForm> Server Component does rerender, but
-     * Client Components don't rerender.
+     * Client Components don't rerender. I saw this behavior in Next.js 13.5.x.
      *
      * GitHub issue:
      * https://github.com/vercel/next.js/issues/51310

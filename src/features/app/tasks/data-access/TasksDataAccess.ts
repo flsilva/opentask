@@ -24,7 +24,7 @@ export type TaskDto = CreateTaskDto & { id: string };
 /*
  * Flavio Silva on Nov. 20th, 2023:
  *
- * We ca pass anything to revalidateTag(), and even revalidatePath, and it purges the cache
+ * We can pass anything to revalidateTag() and revalidatePath, and it purges the cache
  * and re-renders routes, resulting in the expected UI update.
  *
  * But there's a bug when we use revalidateTag (or revalidatePath) from a Intercepting Route.
