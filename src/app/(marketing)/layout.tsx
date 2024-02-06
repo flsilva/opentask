@@ -2,7 +2,7 @@ import '../globals.css';
 import { Header } from '@/features/marketing/shared/ui/Header';
 import { Footer } from '@/features/marketing/shared/ui/Footer';
 
-export default async function MarketingLayout({ children }: { children: React.ReactNode }) {
+export default function MarketingLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <div className="flex flex-1 flex-col bg-white">
