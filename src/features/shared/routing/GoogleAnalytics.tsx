@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
 import Script from 'next/script';
 
-export const gaPageWiew = (id: string, url: string) => {
+export const gaPageView = (id: string, url: string) => {
   if (!window.gtag) return;
   window.gtag('config', id, {
     page_path: url,
@@ -30,7 +30,7 @@ export const useGaNextNavigation = ({ gaId }: GaNextNavigationProps) => {
 
   useEffect(() => {
     const url = `${pathname}${searchParams.toString() !== '' ? `?${searchParams}` : ''}`;
-    gaPageWiew(gaId, url);
+    gaPageView(gaId, url);
   }, [gaId, pathname, searchParams]);
 };
 
