@@ -1,4 +1,3 @@
-import 'server-only';
 import { AccountSettings } from '@/features/app/settings/account/ui/AccountSettings';
 
 export default function AccountSettingsPage() {

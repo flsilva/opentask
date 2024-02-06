@@ -1,4 +1,3 @@
-import 'server-only';
 import { Suspense } from 'react';
 import { ProjectList } from '@/features/app/projects/ui/ProjectList';
 import { ProjectListSkeleton } from '@/features/app/projects/ui/ProjectListSkeleton';

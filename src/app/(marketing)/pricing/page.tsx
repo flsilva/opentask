@@ -1,4 +1,3 @@
-import 'server-only';
 import Link from 'next/link';
 import { buttonGreenClassName } from '@/features/shared/ui/control/button/buttonClassName';
 import { HeroCopy } from '@/features/marketing/shared/ui/HeroCopy';

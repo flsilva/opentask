@@ -1,4 +1,3 @@
-import 'server-only';
 import { Suspense } from 'react';
 import { ProjectForm } from '@/features/app/projects/ui/ProjectForm';
 import { ProjectFormSkeleton } from '@/features/app/projects/ui/ProjectFormSkeleton';

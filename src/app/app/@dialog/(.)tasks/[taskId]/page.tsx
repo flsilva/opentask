@@ -1,4 +1,3 @@
-import 'server-only';
 import { Suspense } from 'react';
 import { DeleteIconButton } from '@/features/shared/ui/control/button/DeleteIconButton';
 import { Dialog } from '@/features/shared/ui/dialog/Dialog';
@@ -22,9 +21,15 @@ export default function TaskDialogPage({ params: { taskId } }: TaskDialogPagePro
 
   /*
    * Flavio Silva on Nov. 22:
-   * We must use RouterActions.BackAndRefresh to force a call to router.refresh() from the
-   * "app/today"  or "app/projects/[projectId]" page due to a bug described in the
-   * <TaskFormTextFields> and <TaskCheck> components.
+   * We have to use RouterActions.BackAndRefresh to force a call to router.refresh(),
+   * after navigating back to the previous route, which is NOT an Intercepting Route.
+   *
+   * We need that because we cannot call revalidatePath() or revalidateTag() from
+   * Parallel Routes or Intercepting Routes like this one, due to a few well known
+   * App Router bugs I describe and link to in <TaskFormTextFields> and <TaskCheck> components.
+   *
+   * So if we go back without calling router.refresh(), updates we make in tasks
+   * using <TaskForm> will not be reflected in the UI.
    */
   return (
     <Dialog

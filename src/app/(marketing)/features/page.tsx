@@ -1,4 +1,3 @@
-import 'server-only';
 import Image from 'next/image';
 import Link from 'next/link';
 import { buttonGreenClassName } from '@/features/shared/ui/control/button/buttonClassName';

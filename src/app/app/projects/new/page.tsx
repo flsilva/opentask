@@ -1,4 +1,3 @@
-import 'server-only';
 import { ProjectForm } from '@/features/app/projects/ui/ProjectForm';
 
 export default function NewProjectPage() {

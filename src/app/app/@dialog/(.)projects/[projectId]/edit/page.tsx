@@ -1,4 +1,3 @@
-import 'server-only';
 import { Suspense } from 'react';
 import { Dialog } from '@/features/shared/ui/dialog/Dialog';
 import { RouterActions } from '@/features/shared/routing/RouterActions';

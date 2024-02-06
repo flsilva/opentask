@@ -1,4 +1,3 @@
-import 'server-only';
 import { TaskForm } from '@/features/app/tasks/ui/TaskForm';
 
 interface NewTaskPageProps {

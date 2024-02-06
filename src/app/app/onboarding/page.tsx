@@ -1,4 +1,3 @@
-import 'server-only';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { twMerge } from 'tailwind-merge';
