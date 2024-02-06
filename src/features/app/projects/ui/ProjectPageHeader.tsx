@@ -1,8 +1,11 @@
+'use server';
+
+import 'server-only';
 import { notFound } from 'next/navigation';
+import { ErrorList } from '@/features/shared/ui/error/ErrorList';
+import { WarningFeedback } from '@/features/shared/ui/feedback/WarningFeedback';
 import { getProjectById } from '../data-access/ProjectsDataAccess';
 import { ProjectMutationDropdown } from './ProjectMutationDropdown';
-import { WarningFeedback } from '@/features/shared/ui/feedback/WarningFeedback';
-import { ErrorList } from '@/features/shared/ui/error/ErrorList';
 
 export interface ProjectPageHeaderProps {
   readonly id: string;

@@ -1,3 +1,5 @@
+'use server';
+
 import 'server-only';
 import { ProjectDto, getProjects } from '@/features/app/projects/data-access/ProjectsDataAccess';
 import { Select, SelectItemProps, SelectProps } from '@/features/shared/ui/control/select/Select';
@@ -19,7 +21,7 @@ export const ProjectsSelect = async ({ defaultValue, onValueChange }: ProjectsSe
     return <ErrorList errors={[{ message: 'There was an error trying to load your Projects.' }]} />;
 
   /*
-   * This ternary inside a ternary looks totally fine to me.
+   * This ternary inside a ternary looks fine to me.
    */
   const _defaultValue = defaultValue
     ? defaultValue

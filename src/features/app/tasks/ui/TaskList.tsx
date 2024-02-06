@@ -1,4 +1,4 @@
-'use server-;';
+'use server';
 
 import 'server-only';
 import { twMerge } from 'tailwind-merge';
@@ -20,9 +20,9 @@ export interface TaskListProps extends GetTasksParams, ClassNamePropsOptional {
 
 /*
  * I'm suppressing the following TypeScript error that seems to be an issue
- * with async functions:
+ * with React types for async components:
  *
- * "Type is referenced directly or indirectly in the fulfillment callback of its own 'then' method.ts(1062)""
+ * "Type is referenced directly or indirectly in the fulfillment callback of its own 'then' method.ts(1062)"
  */
 // @ts-ignore
 export const TaskList = async ({ children, className, ...rest }: TaskListProps) => {

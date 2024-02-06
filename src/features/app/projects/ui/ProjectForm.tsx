@@ -1,3 +1,5 @@
+'use server';
+
 import 'server-only';
 import { notFound } from 'next/navigation';
 import { twMerge } from 'tailwind-merge';
