@@ -18,5 +18,5 @@ export async function GET(request: NextRequest) {
   }
 
   // URL to redirect to after sign in process completes
-  return NextResponse.redirect(`${requestUrl.origin}/app/onboarding`);
+  return NextResponse.redirect(`${requestUrl.origin}/app/today`);
 }

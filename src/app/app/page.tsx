@@ -1,6 +1,5 @@
-import 'server-only';
 import { redirect } from 'next/navigation';
 
 export default function AppPage() {
-  redirect('/app/onboarding');
+  redirect('/app/today');
 }

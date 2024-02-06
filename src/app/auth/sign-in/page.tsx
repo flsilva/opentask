@@ -16,7 +16,7 @@ export default async function SignInPage() {
    * Redirect authenticated users to the app.
    */
   const isAuthenticated = await isUserAuthenticated();
-  if (isAuthenticated) redirect('/app/onboarding');
+  if (isAuthenticated) redirect('/app/today');
   /**/
 
   return (
