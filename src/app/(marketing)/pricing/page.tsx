@@ -7,7 +7,7 @@ import { ShowContentTransition } from '@/features/marketing/shared/ui/ShowConten
 export default function PricingPage() {
   return (
     <ShowContentTransition>
-      <div className="pt-16 sm:pt-32 lg:pt-38">
+      <div className="pt-20 sm:pt-36 lg:pt-32">
         <HeroHeading>
           Free
           <br />

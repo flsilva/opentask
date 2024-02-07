@@ -20,8 +20,8 @@ export default async function SignInPage() {
   /**/
 
   return (
-    <div className="pb-24">
-      <h2 className="mb-9 mt-12 text-center text-xl font-semibold text-gray-900">Sign in</h2>
+    <div className="pb-20">
+      <h2 className="mb-9 mt-8 text-center text-xl font-semibold text-gray-900">Sign in</h2>
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <OAuthProviderButton action={signInWithOAuth} provider={OAuthProvider.Google}>
           <GoogleLogoIcon />

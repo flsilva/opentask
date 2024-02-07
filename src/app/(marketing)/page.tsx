@@ -7,7 +7,7 @@ import { ShowContentTransition } from '@/features/marketing/shared/ui/ShowConten
 export default function LandingPage() {
   return (
     <ShowContentTransition>
-      <div className="pt-24 sm:pt-36 lg:pt-42">
+      <div className="pt-20 sm:pt-36 lg:pt-32">
         <HeroHeading>
           Free and Open Source <br />
           <span className="text-green-700">Task Manager</span>

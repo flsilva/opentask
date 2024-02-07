@@ -8,7 +8,7 @@ import { ShowContentTransition } from '@/features/marketing/shared/ui/ShowConten
 export default function FeaturesPage() {
   return (
     <ShowContentTransition>
-      <div className="pt-24 sm:pt-36 lg:pt-42">
+      <div className="pt-20 sm:pt-36 lg:pt-32">
         <HeroHeading>
           Capture Everything <br />
           <span className="text-green-700">Free Your Mind</span>
