@@ -1,8 +1,7 @@
 import './globals.css';
-import { Suspense } from 'react';
 import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
-import { GaNextScriptNavigation } from '@/features/shared/routing/GoogleAnalytics';
+import { GoogleTagManager } from '@next/third-parties/google';
 import { InstallPwaProvider } from '@/features/shared/ui/pwa/InstallPwaProvider';
 
 export const viewport: Viewport = {
@@ -149,9 +148,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className="h-full antialiased">
       <body className={`${inter.className} flex flex-col h-full`}>
         <InstallPwaProvider>{children}</InstallPwaProvider>
-        <Suspense>
-          <GaNextScriptNavigation gaId="G-C6TYTB01NE" />
-        </Suspense>
+        <GoogleTagManager gtmId="GTM-MGWRXKWC" />
       </body>
     </html>
   );
