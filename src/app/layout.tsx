@@ -13,16 +13,16 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://opentask.app'),
+  metadataBase: new URL('https://www.opentask.app'),
   title: 'OpenTask',
   description: 'Free and Open Source Task Manager.',
   applicationName: 'OpenTask',
-  manifest: 'https://opentask.app/manifest.json',
-  authors: [{ name: 'Flavio Silva', url: 'https://flsilva.com' }],
+  manifest: 'https://www.opentask.app/manifest.json',
+  authors: [{ name: 'Flavio Silva', url: 'https://www.flsilva.com' }],
   creator: 'Flavio Silva',
-  publisher: 'https://flsilva.com',
+  publisher: 'https://www.flsilva.com',
   formatDetection: { telephone: false },
-  alternates: { canonical: 'https://opentask.app' },
+  alternates: { canonical: 'https://www.opentask.app' },
   generator: 'Next.js',
   keywords: [
     'open',
@@ -42,15 +42,15 @@ export const metadata: Metadata = {
     title: 'OpenTask',
     description: 'Free and Open Source Task Manager.',
     siteName: 'OpenTask',
-    url: 'https://opentask.app',
-    images: [{ url: 'https://opentask.app/tweet-card.png' }],
+    url: 'https://www.opentask.app',
+    images: [{ url: 'https://www.opentask.app/tweet-card.png' }],
   },
   twitter: {
     card: 'summary_large_image',
-    site: 'https://opentask.app',
+    site: 'https://www.opentask.app',
     title: 'OpenTask',
     description: 'Free and Open Source Task Manager.',
-    images: [{ url: 'https://opentask.app/tweet-card.png' }],
+    images: [{ url: 'https://www.opentask.app/tweet-card.png' }],
     creator: '@flsilva7',
   },
   icons: {
