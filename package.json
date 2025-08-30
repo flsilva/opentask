@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "engines": {
-    "node": "18.18.2",
-    "npm": "9.8.1"
+    "node": "22.19.0",
+    "npm": "10.8.2"
   },
-  "packageManager": "npm@9.8.1",
+  "packageManager": "npm@10.8.2",
   "scripts": {
     "dev": "next dev",
     "build": "prisma generate && next build",
